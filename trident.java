@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
 
 class MenuListeners implements ItemListener {
   @Override
@@ -25,6 +26,8 @@ class Trident {
       frame.setSize(800, 550);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setLayout(new BorderLayout());
+      ImageIcon ic = new ImageIcon("raw\\trident.png");
+      frame.setIconImage(ic.getImage());
 
       JMenuBar mb = new JMenuBar();
       {
@@ -67,9 +70,17 @@ class Trident {
       editor.setLineWrap(true);
       editor.setFont(new Font("Consolas", 12, 12));
       editor.setTabSize(4);
+
+      JPanel statusBar = new JPanel();
+      JLabel status = new JLabel("Ready");
+      statusBar.setSize(30, 2500);
+      statusBar.setLayout(new GridLayout(1, 4, 2, 2));
+      statusBar.add(status);
+
       frame.getContentPane().add(mb, BorderLayout.NORTH);
       frame.getContentPane().add(scrollBar, BorderLayout.EAST); // Not visible
       frame.getContentPane().add(editor, BorderLayout.CENTER);
+      frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
       frame.setVisible(true);
     } catch (Exception e) {
       System.err.println("Unexpected crash...");

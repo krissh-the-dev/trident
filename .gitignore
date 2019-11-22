@@ -23,5 +23,6 @@
 hs_err_pid*
 
 # environment directories
-
+*.project
+*.project.sublime-workspace
 *.vscode
