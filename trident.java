@@ -9,6 +9,7 @@ import javax.swing.filechooser.*;
 class Trident {
   protected static JTextArea editor;
   public static JLabel status;
+  protected static JFrame frame;
 
   public static void main(String[] args) {
     try {
@@ -17,7 +18,7 @@ class Trident {
       } catch (Exception themeError) {
         System.err.println("Error theming the application.");
       }
-      final JFrame frame = new JFrame();
+      frame = new JFrame();
       final String AppName = "Trident Text Editor";
       MenuActionListener mml = new MenuActionListener();
       frame.setTitle(AppName);
@@ -79,6 +80,15 @@ class Trident {
         }
 
         JMenu about = new JMenu("About");
+        {
+          JMenuItem AboutTrident = new JMenuItem("About Trident");
+          about.add(AboutTrident);
+          AboutTrident.addActionListener(mml);
+
+          JMenuItem visit = new JMenuItem("Visit our site");
+          about.add(visit);
+
+        }
 
         mb.add(fileMenu);
         mb.add(editMenu);
@@ -144,6 +154,15 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       } catch (IOException ioe) {
         status.setText("Error opening file.");
       }
+      break;
+
+    case "About Trident":
+      JDialog aboutDialog = new JDialog(frame, "Trident v1.0");
+      JLabel l1 = new JLabel("Trident Text Editor");
+      aboutDialog.add(l1);
+      aboutDialog.setSize(300, 200);
+      aboutDialog.setVisible(true);
+      break;
     }
   }
 
