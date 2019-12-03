@@ -3,6 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 
+/*
 class MenuListeners implements ItemListener {
   @Override
   public void actionPerformed(ItemEvent ie) {
@@ -11,6 +12,7 @@ class MenuListeners implements ItemListener {
     // }
   }
 }
+*/
 
 class Trident {
   public static void main(String[] args) {
@@ -24,6 +26,7 @@ class Trident {
       final String AppName = "Trident Text Editor";
       frame.setTitle(AppName);
       frame.setSize(800, 550);
+      frame.setResizable(true);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setLayout(new BorderLayout());
       ImageIcon ic = new ImageIcon("raw\\trident.png");
@@ -57,17 +60,32 @@ class Trident {
           editMenu.add(Paste);
         }
 
+        JMenu formatMenu = new JMenu("Format");
+        {
+          JCheckBox wwrap = new JCheckBox("Word wrap");
+          formatMenu.add(wwrap);
+          JMenuItem fontOptions = new JMenuItem("Fonts");
+          formatMenu.add(fontOptions);
+          JMenuItem themes = new JMenuItem("Themes");
+          formatMenu.add(themes);
+          JMenuItem settings = new JMenuItem("Settings");
+          formatMenu.add(settings);
+        }
+
         JMenu about = new JMenu("About");
 
         mb.add(fileMenu);
         mb.add(editMenu);
+        mb.add(formatMenu);
         mb.add(about);
       }
 
       JTextArea editor = new JTextArea();
-      JScrollPane scrollBar = new JScrollPane(editor);
+      JScrollPane scrollBar = new JScrollPane(editor, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+          JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-      editor.setLineWrap(true);
+      // WILL BE MADE CONFIGURABLE
+      editor.setLineWrap(false);
       editor.setFont(new Font("Consolas", 12, 12));
       editor.setTabSize(4);
 
@@ -78,10 +96,14 @@ class Trident {
       statusBar.add(status);
 
       frame.getContentPane().add(mb, BorderLayout.NORTH);
-      frame.getContentPane().add(scrollBar, BorderLayout.EAST); // Not visible
-      frame.getContentPane().add(editor, BorderLayout.CENTER);
+      frame.getContentPane().add(scrollBar, BorderLayout.CENTER);
       frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
       frame.setVisible(true);
+
+      /* Working area */
+
+      // File file = new File(filename);
+
     } catch (Exception e) {
       System.err.println("Unexpected crash...");
       System.exit(0);
