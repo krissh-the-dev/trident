@@ -1,20 +1,15 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.io.*;
-
-/*
-class MenuListeners implements ItemListener {
-  @Override
-  public void actionPerformed(ItemEvent ie) {
-    // switch (ie.getSource().getName()) {
-
-    // }
-  }
-}
-*/
+import javax.swing.filechooser.*;
 
 class Trident {
+  protected static JTextArea editor;
+  public static JLabel status;
+
   public static void main(String[] args) {
     try {
       try {
@@ -24,6 +19,7 @@ class Trident {
       }
       final JFrame frame = new JFrame();
       final String AppName = "Trident Text Editor";
+      MenuActionListener mml = new MenuActionListener();
       frame.setTitle(AppName);
       frame.setSize(800, 550);
       frame.setResizable(true);
@@ -36,18 +32,27 @@ class Trident {
       {
         JMenu fileMenu = new JMenu("File");
         {
+          fileMenu.setMnemonic(KeyEvent.VK_F);
           JMenuItem newFile = new JMenuItem("New");
           fileMenu.add(newFile);
+          newFile.addActionListener(mml);
+
           JMenuItem OpenFile = new JMenuItem("Open");
           fileMenu.add(OpenFile);
+          OpenFile.addActionListener(mml);
+
           JMenuItem SaveFile = new JMenuItem("Save");
           fileMenu.add(SaveFile);
+          SaveFile.addActionListener(mml);
+
           JMenuItem CloseFile = new JMenuItem("Close");
           fileMenu.add(CloseFile);
+          CloseFile.addActionListener(mml);
         }
 
         JMenu editMenu = new JMenu("Edit");
         {
+          editMenu.setMnemonic(KeyEvent.VK_E);
           JMenuItem Undo = new JMenuItem("Undo");
           editMenu.add(Undo);
           JMenuItem Redo = new JMenuItem("Redo");
@@ -62,7 +67,8 @@ class Trident {
 
         JMenu formatMenu = new JMenu("Format");
         {
-          JCheckBox wwrap = new JCheckBox("Word wrap");
+          formatMenu.setMnemonic(KeyEvent.VK_O);
+          JMenuItem wwrap = new JMenuItem("Word wrap");
           formatMenu.add(wwrap);
           JMenuItem fontOptions = new JMenuItem("Fonts");
           formatMenu.add(fontOptions);
@@ -80,7 +86,7 @@ class Trident {
         mb.add(about);
       }
 
-      JTextArea editor = new JTextArea();
+      editor = new JTextArea();
       JScrollPane scrollBar = new JScrollPane(editor, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -90,7 +96,7 @@ class Trident {
       editor.setTabSize(4);
 
       JPanel statusBar = new JPanel();
-      JLabel status = new JLabel("Ready");
+      status = new JLabel("Ready");
       statusBar.setSize(30, 2500);
       statusBar.setLayout(new GridLayout(1, 4, 2, 2));
       statusBar.add(status);
@@ -108,5 +114,51 @@ class Trident {
       System.err.println("Unexpected crash...");
       System.exit(0);
     }
+  }
+}
+
+class MenuActionListener extends Trident implements ActionListener, MenuListener {
+  public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
+    case "New":
+      editor.setText("");
+      break;
+    case "Open":
+      String path = "temp/tempFile";
+      JFileChooser bb = new JFileChooser(FileSystemView.getFileSystemView());
+      int bbd = bb.showOpenDialog(null);
+
+      if (bbd == JFileChooser.APPROVE_OPTION) {
+        path = bb.getSelectedFile().getAbsolutePath();
+      }
+
+      try {
+        File OpenedFile = new File(path);
+        FileReader fr = new FileReader(OpenedFile);
+        BufferedReader br = new BufferedReader(fr);
+        String contents = "";
+        for (String line = br.readLine(); line != null; line = br.readLine()) {
+          contents += line + System.lineSeparator();
+        }
+        editor.setText(contents);
+      } catch (IOException ioe) {
+        status.setText("Error opening file.");
+      }
+    }
+  }
+
+  @Override
+  public void menuSelected(MenuEvent me) {
+
+  }
+
+  @Override
+  public void menuDeselected(MenuEvent me) {
+
+  }
+
+  @Override
+  public void menuCanceled(MenuEvent me) {
+
   }
 }
