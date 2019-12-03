@@ -151,6 +151,10 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
           contents += line + System.lineSeparator();
         }
         editor.setText(contents);
+        contents = null;
+        fr.close();
+        br.close();
+        System.gc();
       } catch (IOException ioe) {
         status.setText("Error opening file.");
       }
