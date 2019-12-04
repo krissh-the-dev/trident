@@ -165,6 +165,23 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
     }
   }
 
+  public void FileSaver(String filepath) {
+    try {
+      File f1 = new File(filepath);
+      if (!f1.exists()) {
+        f1.createNewFile();
+      }
+      String contents = editor.getText();
+      FileWriter fileWritter = new FileWriter(f1, false);
+      BufferedWriter bw = new BufferedWriter(fileWritter);
+      bw.write(contents);
+      bw.close();
+      status.setText("File saved successfully.");
+    } catch (IOException ioe) {
+      status.setText("Error saving the file.");
+    }
+  }
+
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
     case "New":
@@ -186,7 +203,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       break;
 
     case "Save":
-
+      FileSaver(path);
       break;
     case "Exit":
       status.setText("Exiting Trident...");
