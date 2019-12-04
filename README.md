@@ -5,12 +5,17 @@ What's new:
  << Will be added when stable channel is open >>
 
 Current features:
- * Opens file
+ * Opens files
  * Keyboard shortcuts to menus
  * File is editable, but save option not implemented yet.
- * New command that clears everything
+ * New command that opens tempfile
  * An alpha About section
+ * Saves file
 
 Coming soon:
  * Save dialog
  * Word wrap controlling
+
+LTF:
+ - File->Rename
+ - File->Close
