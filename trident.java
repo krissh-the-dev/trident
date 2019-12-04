@@ -1,18 +1,30 @@
+
+// AWT ELEMENTS
 import java.awt.*;
 import java.awt.event.*;
+
+// SWING ELEMENTS
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
-import java.io.*;
 import javax.swing.filechooser.*;
+
+// IO ELEMENTS
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 class Trident {
   protected static JTextArea editor;
   public static JLabel status;
   protected static JFrame frame;
-  public static String path = "temp/tempfile";
+  public static String path = System.getProperty("java.io.tmpdir") + "Unsaved file";
   public static Boolean warned;
 
   public static void main(String[] args) {
@@ -25,7 +37,7 @@ class Trident {
       frame = new JFrame();
       MenuActionListener mml = new MenuActionListener();
       warned = false;
-      frame.setTitle("Trident Text Editor - " + path);
+      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       frame.setSize(800, 550);
       frame.setResizable(true);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,16 +143,8 @@ class Trident {
       /* Working area */
 
       File file = new File(path);
-
-      /*
-       * for (int inc = 1; file.exists(); inc++) { path += inc; } no need as of now
-       */
-
-      if (file.createNewFile())
-        status.setText("Working with temporary file.");
-      else
-        status.setText("Editing existing temporary file.");
-
+      file.createNewFile();
+      status.setText("Working with temporary file.");
     } catch (Exception e) {
       System.err.println("Unexpected crash...");
       e.printStackTrace();
@@ -193,13 +197,13 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
     switch (e.getActionCommand()) {
     case "New":
       editor.setText("");
-      path = "temp/tempfile";
+      path = System.getProperty("java.io.tmpdir") + "Unsaved file";
       FileOpenener(path);
       status.setText("Editing temporary file.");
+      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       break;
 
     case "Open":
-      path = "temp/tempfile";
       JFileChooser bb = new JFileChooser(FileSystemView.getFileSystemView());
       int bbd = bb.showOpenDialog(null);
 
@@ -207,14 +211,14 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
         path = bb.getSelectedFile().getAbsolutePath();
       }
       FileOpenener(path);
-      frame.setTitle("Trident Text Editor - " + path);
+      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
 
       break;
 
     case "Save":
-      if (path != "temp/tempfile") {
+      if (path != System.getProperty("java.io.tmpdir") + "Unsaved file") {
         FileSaver(path);
-        frame.setTitle("Trident Text Editor - " + path);
+        frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
         break;
       }
 
@@ -228,7 +232,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       } else
         status.setText("File is not saved.");
 
-      frame.setTitle("Trident Text Editor - " + path);
+      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       break;
 
     case "Exit":
@@ -241,7 +245,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       System.exit(0);
 
     case "About Trident":
-      JDialog aboutDialog = new JDialog(frame, "Trident v1.0");
+      JDialog aboutDialog = new JDialog(frame, "About Trident");
       JLabel l1 = new JLabel("Trident Text Editor");
       aboutDialog.add(l1);
       aboutDialog.setSize(300, 200);
@@ -268,7 +272,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
 
 class ChangeListener extends Trident implements DocumentListener {
   private static void warn() {
-    if (!warned) {
+    if (!warned && !(path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file"))) {
       warned = true;
       frame.setTitle(frame.getTitle() + " - Unsaved");
     }
