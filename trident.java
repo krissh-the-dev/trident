@@ -10,6 +10,7 @@ class Trident {
   protected static JTextArea editor;
   public static JLabel status;
   protected static JFrame frame;
+  public static String path = "temp/tempFile";
 
   public static void main(String[] args) {
     try {
@@ -19,9 +20,8 @@ class Trident {
         System.err.println("Error theming the application.");
       }
       frame = new JFrame();
-      final String AppName = "Trident Text Editor";
       MenuActionListener mml = new MenuActionListener();
-      frame.setTitle(AppName);
+      frame.setTitle("Trident Text Editor - " + path);
       frame.setSize(800, 550);
       frame.setResizable(true);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -134,7 +134,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       editor.setText("");
       break;
     case "Open":
-      String path = "temp/tempFile";
+      path = "temp/tempFile";
       JFileChooser bb = new JFileChooser(FileSystemView.getFileSystemView());
       int bbd = bb.showOpenDialog(null);
 
@@ -150,6 +150,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
         for (String line = br.readLine(); line != null; line = br.readLine()) {
           contents += line + System.lineSeparator();
         }
+        frame.setTitle("Trident Text Editor - " + path);
         editor.setText(contents);
         contents = null;
         fr.close();
