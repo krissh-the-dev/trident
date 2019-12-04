@@ -118,10 +118,21 @@ class Trident {
 
       /* Working area */
 
-      // File file = new File(filename);
+      File file = new File(path);
+      for (int inc = 1; file.exists(); inc++) {
+        path += inc;
+      }
+
+      // there is some problem
+
+      if (file.createNewFile())
+        status.setText("Working with temporary file.");
+      else
+        status.setText("Unable to create temporary file. Save the file to avoid loss of progress.");
 
     } catch (Exception e) {
       System.err.println("Unexpected crash...");
+      e.printStackTrace();
       System.exit(0);
     }
   }
