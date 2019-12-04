@@ -3,6 +3,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 import java.io.*;
 import javax.swing.filechooser.*;
 
@@ -11,6 +13,7 @@ class Trident {
   public static JLabel status;
   protected static JFrame frame;
   public static String path = "temp/tempfile";
+  public static Boolean warned;
 
   public static void main(String[] args) {
     try {
@@ -21,6 +24,7 @@ class Trident {
       }
       frame = new JFrame();
       MenuActionListener mml = new MenuActionListener();
+      warned = false;
       frame.setTitle("Trident Text Editor - " + path);
       frame.setSize(800, 550);
       frame.setResizable(true);
@@ -106,6 +110,8 @@ class Trident {
       JScrollPane scrollBar = new JScrollPane(editor, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+      editor.getDocument().addDocumentListener(new ChangeListener());
+
       // WILL BE MADE CONFIGURABLE
       editor.setLineWrap(false);
       editor.setFont(new Font("Consolas", 12, 12));
@@ -155,6 +161,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       }
       editor.setText(contents);
       status.setText("Editing existing file.");
+      warned = false;
       contents = null;
       fr.close();
       br.close();
@@ -176,6 +183,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       bw.write(contents);
       bw.close();
       status.setText("File saved successfully.");
+      warned = false;
     } catch (IOException ioe) {
       status.setText("Error saving the file.");
     }
@@ -255,5 +263,26 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
   @Override
   public void menuCanceled(MenuEvent me) {
 
+  }
+}
+
+class ChangeListener extends Trident implements DocumentListener {
+  private static void warn() {
+    if (!warned) {
+      warned = true;
+      frame.setTitle(frame.getTitle() + " - Unsaved");
+    }
+  }
+
+  public void changedUpdate(DocumentEvent e) {
+    warn();
+  }
+
+  public void removeUpdate(DocumentEvent e) {
+    warn();
+  }
+
+  public void insertUpdate(DocumentEvent e) {
+    warn();
   }
 }
