@@ -11,10 +11,11 @@ Current features:
  * New command that opens tempfile
  * An alpha About section
  * Saves file
+ * Save as dialog
 
 Coming soon:
- * Save dialog
  * Word wrap controlling
+ * Editing options
 
 LTF:
  - File->Rename

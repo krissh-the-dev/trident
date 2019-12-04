@@ -48,7 +48,7 @@ class Trident {
 
           JMenuItem SaveAs = new JMenuItem("Save As");
           fileMenu.add(SaveAs);
-          SaveFile.addActionListener(mml);
+          SaveAs.addActionListener(mml);
 
           JMenuItem Exit = new JMenuItem("Exit");
           fileMenu.add(Exit);
@@ -153,7 +153,6 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       for (String line = br.readLine(); line != null; line = br.readLine()) {
         contents += line + System.lineSeparator();
       }
-      frame.setTitle("Trident Text Editor - " + filepath);
       editor.setText(contents);
       status.setText("Editing existing file.");
       contents = null;
@@ -200,11 +199,30 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
         path = bb.getSelectedFile().getAbsolutePath();
       }
       FileOpenener(path);
+      frame.setTitle("Trident Text Editor - " + path);
+
       break;
 
     case "Save":
-      FileSaver(path);
+      if (path != "temp/tempfile") {
+        FileSaver(path);
+        frame.setTitle("Trident Text Editor - " + path);
+        break;
+      }
+
+    case "Save As":
+      JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+      int r = j.showSaveDialog(null);
+
+      if (r == JFileChooser.APPROVE_OPTION) {
+        path = (j.getSelectedFile().getAbsolutePath());
+        FileSaver(path);
+      } else
+        status.setText("File is not saved.");
+
+      frame.setTitle("Trident Text Editor - " + path);
       break;
+
     case "Exit":
       status.setText("Exiting Trident...");
       try {
