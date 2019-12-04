@@ -133,7 +133,7 @@ class Trident {
       if (file.createNewFile())
         status.setText("Working with temporary file.");
       else
-        status.setText("Unable to create temporary file. Save the file to avoid loss of progress.");
+        status.setText("Editing existing temporary file.");
 
     } catch (Exception e) {
       System.err.println("Unexpected crash...");
@@ -144,11 +144,36 @@ class Trident {
 }
 
 class MenuActionListener extends Trident implements ActionListener, MenuListener {
+  public void FileOpenener(String filepath) {
+    try {
+      File OpenedFile = new File(filepath);
+      FileReader fr = new FileReader(OpenedFile);
+      BufferedReader br = new BufferedReader(fr);
+      String contents = "";
+      for (String line = br.readLine(); line != null; line = br.readLine()) {
+        contents += line + System.lineSeparator();
+      }
+      frame.setTitle("Trident Text Editor - " + filepath);
+      editor.setText(contents);
+      status.setText("Editing existing file.");
+      contents = null;
+      fr.close();
+      br.close();
+      System.gc();
+    } catch (IOException ioe) {
+      status.setText("Error opening file.");
+    }
+  }
+
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
     case "New":
       editor.setText("");
+      path = "temp/tempfile";
+      FileOpenener(path);
+      status.setText("Editing temporary file.");
       break;
+
     case "Open":
       path = "temp/tempFile";
       JFileChooser bb = new JFileChooser(FileSystemView.getFileSystemView());
@@ -157,25 +182,10 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       if (bbd == JFileChooser.APPROVE_OPTION) {
         path = bb.getSelectedFile().getAbsolutePath();
       }
-
-      try {
-        File OpenedFile = new File(path);
-        FileReader fr = new FileReader(OpenedFile);
-        BufferedReader br = new BufferedReader(fr);
-        String contents = "";
-        for (String line = br.readLine(); line != null; line = br.readLine()) {
-          contents += line + System.lineSeparator();
-        }
-        frame.setTitle("Trident Text Editor - " + path);
-        editor.setText(contents);
-        contents = null;
-        fr.close();
-        br.close();
-        System.gc();
-      } catch (IOException ioe) {
-        status.setText("Error opening file.");
-      }
+      FileOpenener(path);
       break;
+
+    case "Save":
 
     case "Exit":
       status.setText("Exiting Trident...");
