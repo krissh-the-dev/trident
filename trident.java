@@ -10,7 +10,7 @@ class Trident {
   protected static JTextArea editor;
   public static JLabel status;
   protected static JFrame frame;
-  public static String path = "temp/tempFile";
+  public static String path = "temp/tempfile";
 
   public static void main(String[] args) {
     try {
@@ -175,7 +175,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       break;
 
     case "Open":
-      path = "temp/tempFile";
+      path = "temp/tempfile";
       JFileChooser bb = new JFileChooser(FileSystemView.getFileSystemView());
       int bbd = bb.showOpenDialog(null);
 
@@ -187,6 +187,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
 
     case "Save":
 
+      break;
     case "Exit":
       status.setText("Exiting Trident...");
       try {
