@@ -46,9 +46,13 @@ class Trident {
           fileMenu.add(SaveFile);
           SaveFile.addActionListener(mml);
 
-          JMenuItem CloseFile = new JMenuItem("Close");
-          fileMenu.add(CloseFile);
-          CloseFile.addActionListener(mml);
+          JMenuItem SaveAs = new JMenuItem("Save As");
+          fileMenu.add(SaveAs);
+          SaveFile.addActionListener(mml);
+
+          JMenuItem Exit = new JMenuItem("Exit");
+          fileMenu.add(Exit);
+          Exit.addActionListener(mml);
         }
 
         JMenu editMenu = new JMenu("Edit");
@@ -88,6 +92,8 @@ class Trident {
           JMenuItem visit = new JMenuItem("Visit our site");
           about.add(visit);
 
+          JMenuItem help = new JMenuItem("Help");
+          about.add(help);
         }
 
         mb.add(fileMenu);
@@ -119,11 +125,10 @@ class Trident {
       /* Working area */
 
       File file = new File(path);
-      for (int inc = 1; file.exists(); inc++) {
-        path += inc;
-      }
 
-      // there is some problem
+      /*
+       * for (int inc = 1; file.exists(); inc++) { path += inc; } no need as of now
+       */
 
       if (file.createNewFile())
         status.setText("Working with temporary file.");
@@ -171,6 +176,15 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
         status.setText("Error opening file.");
       }
       break;
+
+    case "Exit":
+      status.setText("Exiting Trident...");
+      try {
+        Thread.sleep(100);
+      } catch (InterruptedException ie) {
+        status.setText("Could not exit. Use Task Manager to kill the process.");
+      }
+      System.exit(0);
 
     case "About Trident":
       JDialog aboutDialog = new JDialog(frame, "Trident v1.0");
