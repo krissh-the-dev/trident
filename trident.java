@@ -214,7 +214,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
     }
   }
 
-  public void FileSaver(String filepath) {
+  public void FileSaver(String filepath) { // ! Running twice for no reason
     try {
       File f1 = new File(filepath);
       if (!f1.exists()) {
@@ -244,11 +244,11 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       break;
 
     case "Open":
-      JFileChooser bb = new JFileChooser(FileSystemView.getFileSystemView());
-      int bbd = bb.showOpenDialog(null);
+      JFileChooser openDialog = new JFileChooser(FileSystemView.getFileSystemView());
+      int command = openDialog.showOpenDialog(null);
 
-      if (bbd == JFileChooser.APPROVE_OPTION) {
-        path = bb.getSelectedFile().getAbsolutePath();
+      if (command == JFileChooser.APPROVE_OPTION) {
+        path = openDialog.getSelectedFile().getAbsolutePath();
       }
       FileOpenener(path);
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
@@ -263,11 +263,11 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       }
 
     case "Save As":
-      JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-      int r = j.showSaveDialog(null);
+      JFileChooser saveAsDialog = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+      command = saveAsDialog.showSaveDialog(null);
 
-      if (r == JFileChooser.APPROVE_OPTION) {
-        path = (j.getSelectedFile().getAbsolutePath());
+      if (command == JFileChooser.APPROVE_OPTION) {
+        path = (saveAsDialog.getSelectedFile().getAbsolutePath());
         FileSaver(path);
       } else
         status1.setText("File is not saved.");
