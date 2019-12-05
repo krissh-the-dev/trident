@@ -277,6 +277,7 @@ class FileMenuListener extends Trident implements ActionListener {
       path = System.getProperty("java.io.tmpdir") + "Unsaved file";
       FileOpenener(path);
       status1.setText("Editing temporary file.");
+      status2.setText("Unsaved");
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       break;
 
@@ -359,10 +360,12 @@ class AboutMenuListener extends Trident implements ActionListener {
 
 class ChangeListener extends Trident implements DocumentListener {
   private static void warn() {
-    if (!warned && !(path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file"))) {
-      warned = true;
+    if (!warned) {
       status2.setText("Unsaved");
-      frame.setTitle(frame.getTitle() + " - Unsaved");
+      if (!(path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file"))) {
+        warned = true;
+        frame.setTitle(frame.getTitle() + " - Unsaved");
+      }
     }
   }
 
