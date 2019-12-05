@@ -1,24 +1,26 @@
 
 // * AWT ELEMENTS
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 // * CLIPBOARD ELEMENTS AND UNDO HANDLERS
-import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Clipboard;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.UndoManager;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 
 // * SWING ELEMENTS
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.filechooser.*;
@@ -34,17 +36,18 @@ import java.nio.file.Paths;
 
 class Trident {
   protected static JTextArea textarea;
+  protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
   public static String fileType;
-  protected static JFrame frame;
   public static String path = System.getProperty("java.io.tmpdir") + "Unsaved file";
   public static String uitheme;
   public static Boolean warned;
-  public static Clipboard clipboard;
+  public static JMenuBar mb;
+  public static JScrollPane editor;
+  public static String configFilePath;
 
   // * HINTS
   // TODO: to be used with cut copy paste
-  // clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
   // clipboard.setContents(Transferable contents, ClipboardOwner owner);
   // textarea.cut(), .copy(), .paste();
 
@@ -59,6 +62,30 @@ class Trident {
     return (extension.toUpperCase() + " File");
   }
 
+  public static void applyTheme() {
+    try {
+      uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will read from file
+      UIManager.setLookAndFeel(uitheme);
+    } catch (Exception themeError) {
+      System.err.println("Error theming the application.");
+    }
+  }
+
+  public static boolean applyConfigs() {
+    // * Default configs
+    // TODO: These will be configurable by the user
+    textarea.setLineWrap(false);
+    textarea.setFont(new Font("Consolas", 14, 14));
+    textarea.setTabSize(4);
+    textarea.setBorder(new EmptyBorder(2, 2, 0, 0));
+    mb.setBackground(Color.WHITE);
+    editor.setBackground(Color.WHITE);
+    textarea.setBackground(Color.WHITE);
+    textarea.setSelectedTextColor(Color.WHITE);
+    textarea.setSelectionColor(new Color(23, 135, 227));
+    return true;
+  }
+
   public static void main(String[] args) {
     try {
       // * Local Variable declarations
@@ -70,17 +97,13 @@ class Trident {
       // * Global variable inits
       {
         warned = false;
-        fileType = "File";
+        fileType = " File";
         textarea = new JTextArea();
-        uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+        mb = new JMenuBar();
+        configFilePath = "configurations.json";
       }
 
-      // * Theming
-      try {
-        UIManager.setLookAndFeel(uitheme);
-      } catch (Exception themeError) {
-        System.err.println("Error theming the application.");
-      }
+      applyTheme();
 
       // * Frame Setup
       {
@@ -95,7 +118,6 @@ class Trident {
       }
 
       // * Menu Bar Setup
-      JMenuBar mb = new JMenuBar();
       {
         JMenu fileMenu = new JMenu("File");
         {
@@ -141,8 +163,10 @@ class Trident {
             editMenu.add(ClipMenu);
             JMenuItem ShowClipboard = new JMenuItem("Show Contents");
             ClipMenu.add(ShowClipboard);
+            ShowClipboard.addActionListener(eml);
             JMenuItem EraseClipboard = new JMenuItem("Erase Contents");
             ClipMenu.add(EraseClipboard);
+            EraseClipboard.addActionListener(eml);
           }
         }
 
@@ -180,23 +204,12 @@ class Trident {
       } // * Menu bar setup ends here
 
       // * Text Area setup
-      JScrollPane editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+      editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
       {
         textarea.getDocument().addDocumentListener(new ChangeListener());
         // textarea.setComponentPopupMenu() // TODO: Add popup menu
         editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
-      }
-
-      // * Default configs
-      // TODO: These will be configurable by the user
-      {
-        textarea.setLineWrap(false);
-        textarea.setFont(new Font("Consolas", 14, 14));
-        textarea.setTabSize(4);
-        textarea.setSelectedTextColor(Color.WHITE);
-        textarea.setSelectionColor(new Color(23, 135, 227));
-        textarea.setBorder(new EmptyBorder(2, 2, 0, 0));
       }
 
       // * Status bar setup
@@ -219,6 +232,10 @@ class Trident {
         frame.getContentPane().add(mb, BorderLayout.NORTH);
         frame.getContentPane().add(editor, BorderLayout.CENTER);
         frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
+
+        // * Theming
+        applyConfigs();
+
         frame.setVisible(true);
       } // * Status bar setup ends here
 
@@ -226,6 +243,7 @@ class Trident {
       File file = new File(path);
       file.createNewFile();
       status1.setText("Working with temporary file.");
+
     } catch (IOException ioe) {
       status1.setText("Create a new file.");
       JOptionPane.showMessageDialog(new JFrame(),
@@ -340,6 +358,21 @@ class FileMenuListener extends Trident implements ActionListener {
 
 class EditMenuListener extends Trident implements ActionListener {
   public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
+    case "Show Contents":
+      Clipboard clipboard;
+      try {
+        clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        System.out.println(clipboard.getData(DataFlavor.stringFlavor));
+      } catch (UnsupportedFlavorException ufe) {
+        System.err.println("UFE");
+      } catch (IOException ioe) {
+        System.err.println("IOE");
+      }
+      break;
+    case "Erase Contents":
+
+    }
   }
 }
 
