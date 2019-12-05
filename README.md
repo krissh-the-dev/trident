@@ -1,22 +1,34 @@
 # Trident Text Editor
-A new classical text editor
+A new classical powerful text editor made with Java Swing package and passion!
 
-What's new:
- << Will be added when stable channel is open >>
+## What's new:
+ * Will be added from next beta release
 
-Current features:
- * Opens files
- * Keyboard shortcuts to menus
- * File is editable, but save option not implemented yet.
- * New command that opens tempfile
- * An alpha About section
- * Saves file
- * Save as dialog
+## Current features:
+ * Opens, edits, saves any file
+ * Working Cut, Copy, Paste options on Edit menu and Working area context menu
+ * Working Undo, Redo options
+ * Options to View and Erase clipboard contents
+ * Key Board Shortcuts and Mnemonics
+ * About Section
+ * Improved status bar with File saved status and File type
+ * A Clean and Neat User Interface
+ * Unsaved file confirmation on File -> Exit
+ * New HD Icon
 
-Coming soon:
- * Word wrap controlling
- * Editing options
+## Bugs:
+ * Save function loops twice
+ * Stupidly opens all kinds of files
+ * Meaningless Cut, Copy option when no text is selected
+ * Meaningless Paste option when clipboard is empty
+ * Show Clipboard Contents Dialog layout glitches
 
-LTF:
+## Coming soon:
+ * Configurations and/ or Settings
+ * Themes
+ * About file
+
+### LTF:
  - File->Rename
+ - File->Delete
  - File->Close
