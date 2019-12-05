@@ -8,14 +8,10 @@ import java.awt.event.KeyEvent;
 // * CLIPBOARD ELEMENTS AND UNDO HANDLERS
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Clipboard;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import java.awt.datatransfer.DataFlavor;
-import javax.swing.undo.UndoManager;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
 // * SWING ELEMENTS
@@ -480,7 +476,7 @@ class EditMenuListener extends Trident implements ActionListener {
     } catch (CannotRedoException redoErr) {
       status1.setText("Redo could not be done.");
     } catch (CannotUndoException undoErr) {
-      status1.setText("Redo could not be done.");
+      status1.setText("Undo could not be done.");
     } catch (HeadlessException noHead) {
     } catch (Exception oopsErr) {
     }
