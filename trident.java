@@ -404,7 +404,8 @@ class EditMenuListener extends Trident implements ActionListener {
       }
       break;
     case "Erase Contents":
-
+      Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(""), null);
+      break;
     }
   }
 }
