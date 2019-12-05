@@ -1,9 +1,9 @@
 
-// AWT ELEMENTS
+// * AWT ELEMENTS
 import java.awt.*;
 import java.awt.event.*;
 
-// SWING ELEMENTS
+// * SWING ELEMENTS
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.MenuEvent;
@@ -12,7 +12,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.filechooser.*;
 
-// IO ELEMENTS
+// * IO ELEMENTS
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -27,28 +27,42 @@ class Trident {
   public static String fileType;
   protected static JFrame frame;
   public static String path = System.getProperty("java.io.tmpdir") + "Unsaved file";
+  public static String uitheme;
   public static Boolean warned;
 
   public static void main(String[] args) {
     try {
+      // * Local Variable declarations
+      MenuActionListener mml = new MenuActionListener();
+
+      // * Global variable inits
+      {
+        warned = false;
+        fileType = "Unknown file";
+        textarea = new JTextArea();
+        uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+      }
+
+      // * Theming
       try {
-        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        UIManager.setLookAndFeel(uitheme);
       } catch (Exception themeError) {
         System.err.println("Error theming the application.");
       }
-      frame = new JFrame();
-      MenuActionListener mml = new MenuActionListener();
-      warned = false;
-      fileType = "Unknown";
 
-      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
-      frame.setSize(800, 550);
-      frame.setResizable(true);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setLayout(new BorderLayout());
-      ImageIcon ic = new ImageIcon("raw\\trident.png");
-      frame.setIconImage(ic.getImage());
+      // * Frame Setup
+      {
+        frame = new JFrame();
+        frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
+        frame.setSize(800, 550);
+        frame.setResizable(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        ImageIcon ic = new ImageIcon("raw\\trident.png");
+        frame.setIconImage(ic.getImage());
+      }
 
+      // * Menu Bar Setup
       JMenuBar mb = new JMenuBar();
       {
         JMenu fileMenu = new JMenu("File");
@@ -120,45 +134,55 @@ class Trident {
         mb.add(editMenu);
         mb.add(formatMenu);
         mb.add(about);
-      }
+      } // * Menu bar setup ends here
 
-      textarea = new JTextArea();
+      // * Text Area setup
       JScrollPane editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+      {
+        textarea.getDocument().addDocumentListener(new ChangeListener());
+        editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
+      }
 
-      textarea.getDocument().addDocumentListener(new ChangeListener());
-      editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
-
-      // WILL BE MADE CONFIGURABLE
-      textarea.setLineWrap(false);
-      textarea.setFont(new Font("Consolas", 12, 12));
-      textarea.setTabSize(4);
-
+      // * Default configs
+      // TODO: These will be configurable by the user
+      {
+        textarea.setLineWrap(false);
+        textarea.setFont(new Font("Consolas", 12, 12));
+        textarea.setTabSize(4);
+      }
+      // * Status bar setup
       JPanel statusBar = new JPanel();
-      status1 = new JLabel("Ready");
-      status2 = new JLabel("Unsaved");
-      status3 = new JLabel(fileType);
-      status4 = new JLabel("Satus Area 4");
+      {
+        status1 = new JLabel("Ready");
+        status2 = new JLabel("Unsaved");
+        status3 = new JLabel(fileType);
+        status4 = new JLabel("Satus Area 4");
 
-      statusBar.setSize(30, 2500);
-      statusBar.setBorder(new EmptyBorder(2, 3, 2, 2));
-      statusBar.setLayout(new GridLayout(1, 4, 2, 2));
-      statusBar.setBackground(Color.LIGHT_GRAY);
-      statusBar.add(status1);
-      statusBar.add(status2);
-      statusBar.add(status3);
-      statusBar.add(status4);
+        statusBar.setSize(30, 2500);
+        statusBar.setBorder(new EmptyBorder(2, 3, 2, 2));
+        statusBar.setLayout(new GridLayout(1, 4, 2, 2));
+        statusBar.setBackground(Color.LIGHT_GRAY);
+        statusBar.add(status1);
+        statusBar.add(status2);
+        statusBar.add(status3);
+        statusBar.add(status4);
 
-      frame.getContentPane().add(mb, BorderLayout.NORTH);
-      frame.getContentPane().add(editor, BorderLayout.CENTER);
-      frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
-      frame.setVisible(true);
+        frame.getContentPane().add(mb, BorderLayout.NORTH);
+        frame.getContentPane().add(editor, BorderLayout.CENTER);
+        frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
+        frame.setVisible(true);
+      } // * Status bar setup ends here
 
-      /* Working area */
-
+      // * Temporary file setup
       File file = new File(path);
       file.createNewFile();
       status1.setText("Working with temporary file.");
+    } catch (IOException ioe) {
+      status1.setText("Create a new file.");
+      JOptionPane.showMessageDialog(new JFrame(),
+          "There was an error creating the temporary file. Create new file or Open an existing file to continue working.",
+          "File Operation Error.", JOptionPane.ERROR_MESSAGE);
     } catch (Exception e) {
       System.err.println("Unexpected crash...");
       e.printStackTrace();
@@ -232,7 +256,7 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       break;
 
     case "Save":
-      if (path != System.getProperty("java.io.tmpdir") + "Unsaved file") {
+      if (!path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file")) {
         FileSaver(path);
         frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
         break;
