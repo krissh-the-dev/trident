@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 // SWING ELEMENTS
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.event.DocumentListener;
@@ -21,8 +22,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 class Trident {
-  protected static JTextArea editor;
-  public static JLabel status;
+  protected static JTextArea textarea;
+  public static JLabel status1, status2, status3, status4;
+  public static String fileType;
   protected static JFrame frame;
   public static String path = System.getProperty("java.io.tmpdir") + "Unsaved file";
   public static Boolean warned;
@@ -37,6 +39,8 @@ class Trident {
       frame = new JFrame();
       MenuActionListener mml = new MenuActionListener();
       warned = false;
+      fileType = "Unknown";
+
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       frame.setSize(800, 550);
       frame.setResizable(true);
@@ -118,25 +122,35 @@ class Trident {
         mb.add(about);
       }
 
-      editor = new JTextArea();
-      JScrollPane scrollBar = new JScrollPane(editor, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+      textarea = new JTextArea();
+      JScrollPane editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-      editor.getDocument().addDocumentListener(new ChangeListener());
+      textarea.getDocument().addDocumentListener(new ChangeListener());
+      editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
 
       // WILL BE MADE CONFIGURABLE
-      editor.setLineWrap(false);
-      editor.setFont(new Font("Consolas", 12, 12));
-      editor.setTabSize(4);
+      textarea.setLineWrap(false);
+      textarea.setFont(new Font("Consolas", 12, 12));
+      textarea.setTabSize(4);
 
       JPanel statusBar = new JPanel();
-      status = new JLabel("Ready");
+      status1 = new JLabel("Ready");
+      status2 = new JLabel("Unsaved");
+      status3 = new JLabel(fileType);
+      status4 = new JLabel("Satus Area 4");
+
       statusBar.setSize(30, 2500);
+      statusBar.setBorder(new EmptyBorder(2, 3, 2, 2));
       statusBar.setLayout(new GridLayout(1, 4, 2, 2));
-      statusBar.add(status);
+      statusBar.setBackground(Color.LIGHT_GRAY);
+      statusBar.add(status1);
+      statusBar.add(status2);
+      statusBar.add(status3);
+      statusBar.add(status4);
 
       frame.getContentPane().add(mb, BorderLayout.NORTH);
-      frame.getContentPane().add(scrollBar, BorderLayout.CENTER);
+      frame.getContentPane().add(editor, BorderLayout.CENTER);
       frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
       frame.setVisible(true);
 
@@ -144,7 +158,7 @@ class Trident {
 
       File file = new File(path);
       file.createNewFile();
-      status.setText("Working with temporary file.");
+      status1.setText("Working with temporary file.");
     } catch (Exception e) {
       System.err.println("Unexpected crash...");
       e.printStackTrace();
@@ -163,15 +177,16 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       for (String line = br.readLine(); line != null; line = br.readLine()) {
         contents += line + System.lineSeparator();
       }
-      editor.setText(contents);
-      status.setText("Editing existing file.");
+      textarea.setText(contents);
+      status1.setText("Editing existing file.");
       warned = false;
+      status2.setText("Saved");
       contents = null;
       fr.close();
       br.close();
       System.gc();
     } catch (IOException ioe) {
-      status.setText("Error opening file.");
+      status1.setText("Error opening file.");
     }
   }
 
@@ -181,25 +196,26 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       if (!f1.exists()) {
         f1.createNewFile();
       }
-      String contents = editor.getText();
+      String contents = textarea.getText();
       FileWriter fileWritter = new FileWriter(f1, false);
       BufferedWriter bw = new BufferedWriter(fileWritter);
       bw.write(contents);
       bw.close();
-      status.setText("File saved successfully.");
+      status1.setText("File saved successfully.");
       warned = false;
+      status2.setText("Saved");
     } catch (IOException ioe) {
-      status.setText("Error saving the file.");
+      status1.setText("Error saving the file.");
     }
   }
 
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
     case "New":
-      editor.setText("");
+      textarea.setText("");
       path = System.getProperty("java.io.tmpdir") + "Unsaved file";
       FileOpenener(path);
-      status.setText("Editing temporary file.");
+      status1.setText("Editing temporary file.");
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       break;
 
@@ -230,17 +246,17 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
         path = (j.getSelectedFile().getAbsolutePath());
         FileSaver(path);
       } else
-        status.setText("File is not saved.");
+        status1.setText("File is not saved.");
 
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       break;
 
     case "Exit":
-      status.setText("Exiting Trident...");
+      status1.setText("Exiting Trident...");
       try {
         Thread.sleep(100);
       } catch (InterruptedException ie) {
-        status.setText("Could not exit. Use Task Manager to kill the process.");
+        status1.setText("Could not exit. Use Task Manager to kill the process.");
       }
       System.exit(0);
 
@@ -274,6 +290,7 @@ class ChangeListener extends Trident implements DocumentListener {
   private static void warn() {
     if (!warned && !(path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file"))) {
       warned = true;
+      status2.setText("Unsaved");
       frame.setTitle(frame.getTitle() + " - Unsaved");
     }
   }
