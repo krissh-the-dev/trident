@@ -282,7 +282,8 @@ class FileMenuListener extends Trident implements ActionListener {
     }
   }
 
-  public void FileSaver(String filepath) { // ! Running twice for no reason
+  // ! Running twice for no reason
+  public void FileSaver(String filepath) {
     try {
       File f1 = new File(filepath);
       if (!f1.exists()) {
@@ -303,6 +304,7 @@ class FileMenuListener extends Trident implements ActionListener {
   }
 
   public void actionPerformed(ActionEvent e) {
+    Boolean exitNow = false;
     switch (e.getActionCommand()) {
     case "New":
       textarea.setText("");
@@ -324,10 +326,30 @@ class FileMenuListener extends Trident implements ActionListener {
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       break;
 
+    case "Exit":
+      status1.setText("Exiting Trident...");
+      exitNow = true;
+      if (warned) {
+        int opt = JOptionPane.showConfirmDialog(new JFrame("Exiting..."),
+            "There are some unsaved changes in the file. Do you want to save the changes?");
+        if (opt == JOptionPane.YES_OPTION) {
+          // doing nothing :P - it'll continue to save as there is no break
+        } else if (opt == JOptionPane.NO_OPTION) {
+          System.exit(0);
+        } else if (opt == JOptionPane.CANCEL_OPTION) {
+          break;
+        }
+      } else {
+        System.exit(0);
+      }
+
     case "Save":
       if (!path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file")) {
         FileSaver(path);
         frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
+        if (exitNow) {
+          System.exit(0);
+        }
         break;
       }
 
@@ -342,16 +364,10 @@ class FileMenuListener extends Trident implements ActionListener {
         status1.setText("File is not saved.");
 
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
-      break;
-
-    case "Exit":
-      status1.setText("Exiting Trident...");
-      try {
-        Thread.sleep(100);
-      } catch (InterruptedException ie) {
-        status1.setText("Could not exit. Use Task Manager to kill the process.");
+      if (exitNow) {
+        System.exit(0);
       }
-      System.exit(0);
+      break;
     }
   }
 }
@@ -362,6 +378,7 @@ class EditMenuListener extends Trident implements ActionListener {
     case "Show Contents":
       Clipboard clipboard;
       try {
+        // ! Size of text area is improper
         clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         JDialog cbviewer = new JDialog();
         cbviewer.setSize(300, 400);
@@ -406,6 +423,7 @@ class AboutMenuListener extends Trident implements ActionListener {
       icon.setSize(50, 50);
       JLabel l1 = new JLabel(
           "<html> <center><h2> <br/>Trident Text Editor</h2> <br/> Version 0.0.3 <br/>ALPHA<br/> <a href=\"https://github.com/KrishnaMoorthy12/trident\">View Source Code - GitHub</a></center> </html>");
+      // ! Link is not clickable
       infoPanel.setBorder(new EmptyBorder(10, 5, 5, 5));
       infoPanel.add(icon);
       infoPanel.add(l1);
@@ -422,8 +440,8 @@ class ChangeListener extends Trident implements DocumentListener {
   private static void warn() {
     if (!warned) {
       status2.setText("Unsaved");
+      warned = true;
       if (!(path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file"))) {
-        warned = true;
         frame.setTitle(frame.getTitle() + " - Unsaved");
       }
     }
