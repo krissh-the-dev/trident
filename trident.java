@@ -48,6 +48,17 @@ class Trident {
   // clipboard.setContents(Transferable contents, ClipboardOwner owner);
   // textarea.cut(), .copy(), .paste();
 
+  public static String fileTypeParser(String fileName) {
+    String extension = "";
+
+    int i = fileName.lastIndexOf('.');
+    if (i > 0) {
+      extension = fileName.substring(i + 1);
+    }
+
+    return (extension.toUpperCase() + " File");
+  }
+
   public static void main(String[] args) {
     try {
       // * Local Variable declarations
@@ -59,7 +70,7 @@ class Trident {
       // * Global variable inits
       {
         warned = false;
-        fileType = "Unknown file type";
+        fileType = "File";
         textarea = new JTextArea();
         uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
       }
@@ -242,6 +253,8 @@ class FileMenuListener extends Trident implements ActionListener {
       status1.setText("Editing existing file.");
       warned = false;
       status2.setText("Saved");
+      status3.setText(fileTypeParser(Paths.get(path).getFileName().toString()));
+
       contents = null;
       fr.close();
       br.close();
@@ -265,6 +278,7 @@ class FileMenuListener extends Trident implements ActionListener {
       status1.setText("File saved successfully.");
       warned = false;
       status2.setText("Saved");
+      status3.setText(fileTypeParser(Paths.get(path).getFileName().toString()));
     } catch (IOException ioe) {
       status1.setText("Error saving the file.");
     }
@@ -290,7 +304,6 @@ class FileMenuListener extends Trident implements ActionListener {
 
       FileOpenener(path);
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
-
       break;
 
     case "Save":
