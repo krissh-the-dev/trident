@@ -160,6 +160,9 @@ class Trident {
           editMenu.add(Cut);
           JMenuItem Paste = new JMenuItem("Paste");
           editMenu.add(Paste);
+          Copy.addActionListener(eml);
+          Cut.addActionListener(eml);
+          Paste.addActionListener(eml);
 
           JMenu ClipMenu = new JMenu("Clipboard");
           editMenu.add(ClipMenu);
@@ -242,10 +245,14 @@ class Trident {
       {
         JMenuItem Copy = new JMenuItem("Copy");
         editorMenu.add(Copy);
+        Copy.addActionListener(eml);
         JMenuItem Cut = new JMenuItem("Cut");
         editorMenu.add(Cut);
+        Cut.addActionListener(eml);
         JMenuItem Paste = new JMenuItem("Paste");
         editorMenu.add(Paste);
+        Paste.addActionListener(eml);
+
       }
 
       // * Text Area setup
@@ -253,7 +260,7 @@ class Trident {
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
       {
         textarea.getDocument().addDocumentListener(new ChangeListener());
-        textarea.setComponentPopupMenu(editorMenu); // TODO: Add popup menu
+        textarea.setComponentPopupMenu(editorMenu);
         editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
       }
 
@@ -451,6 +458,13 @@ class EditMenuListener extends Trident implements ActionListener {
     case "Erase Contents":
       Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(""), null);
       break;
+    case "Cut":
+      textarea.cut();
+      break;
+    case "Copy":
+      textarea.copy();
+    case "Paste":
+      textarea.paste();
     }
   }
 }
