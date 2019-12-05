@@ -305,70 +305,72 @@ class FileMenuListener extends Trident implements ActionListener {
 
   public void actionPerformed(ActionEvent e) {
     Boolean exitNow = false;
-    switch (e.getActionCommand()) {
-    case "New":
-      textarea.setText("");
-      path = System.getProperty("java.io.tmpdir") + "Unsaved file";
-      FileOpenener(path);
-      status1.setText("Editing temporary file.");
-      status2.setText("Unsaved");
-      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
-      break;
+    try {
+      switch (e.getActionCommand()) {
+      case "New":
+        textarea.setText("");
+        path = System.getProperty("java.io.tmpdir") + "Unsaved file";
+        FileOpenener(path);
+        status1.setText("Editing temporary file.");
+        status2.setText("Unsaved");
+        frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
+        break;
 
-    case "Open":
-      JFileChooser openDialog = new JFileChooser(FileSystemView.getFileSystemView());
-      int command = openDialog.showOpenDialog(null);
+      case "Open":
+        JFileChooser openDialog = new JFileChooser(FileSystemView.getFileSystemView());
+        int command = openDialog.showOpenDialog(null);
 
-      if (command == JFileChooser.APPROVE_OPTION)
-        path = openDialog.getSelectedFile().getAbsolutePath();
+        if (command == JFileChooser.APPROVE_OPTION)
+          path = openDialog.getSelectedFile().getAbsolutePath();
 
-      FileOpenener(path);
-      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
-      break;
+        FileOpenener(path);
+        frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
+        break;
 
-    case "Exit":
-      status1.setText("Exiting Trident...");
-      exitNow = true;
-      if (warned) {
-        int opt = JOptionPane.showConfirmDialog(new JFrame("Exiting..."),
-            "There are some unsaved changes in the file. Do you want to save the changes?");
-        if (opt == JOptionPane.YES_OPTION) {
-          // doing nothing :P - it'll continue to save as there is no break
-        } else if (opt == JOptionPane.NO_OPTION) {
+      case "Exit":
+        status1.setText("Exiting Trident...");
+        exitNow = true;
+        if (warned) {
+          int opt = JOptionPane.showConfirmDialog(new JFrame("Exiting..."),
+              "There are some unsaved changes in the file. Do you want to save the changes?");
+          if (opt == JOptionPane.YES_OPTION) {
+            // doing nothing :P - it'll continue to save as there is no break
+          } else if (opt == JOptionPane.NO_OPTION) {
+            System.exit(0);
+          } else if (opt == JOptionPane.CANCEL_OPTION) {
+            break;
+          }
+        } else {
           System.exit(0);
-        } else if (opt == JOptionPane.CANCEL_OPTION) {
+        }
+
+      case "Save":
+        if (!path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file")) {
+          FileSaver(path);
+          frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
           break;
         }
-      } else {
-        System.exit(0);
-      }
 
-    case "Save":
-      if (!path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file")) {
-        FileSaver(path);
+      case "Save As":
+        JFileChooser saveAsDialog = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        command = saveAsDialog.showSaveDialog(null);
+
+        if (command == JFileChooser.APPROVE_OPTION) {
+          path = (saveAsDialog.getSelectedFile().getAbsolutePath());
+          FileSaver(path);
+        } else
+          status1.setText("File is not saved.");
+
         frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
-        if (exitNow) {
-          System.exit(0);
-        }
         break;
       }
-
-    case "Save As":
-      JFileChooser saveAsDialog = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-      command = saveAsDialog.showSaveDialog(null);
-
-      if (command == JFileChooser.APPROVE_OPTION) {
-        path = (saveAsDialog.getSelectedFile().getAbsolutePath());
-        FileSaver(path);
-      } else
-        status1.setText("File is not saved.");
-
-      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
+    } catch (Exception exp) {
+    } finally {
       if (exitNow) {
         System.exit(0);
       }
-      break;
     }
+
   }
 }
 
