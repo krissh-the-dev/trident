@@ -3,9 +3,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 // * CLIPBOARD ELEMENTS AND UNDO HANDLERS
 import java.awt.datatransfer.Clipboard;
@@ -14,19 +12,18 @@ import java.awt.datatransfer.Clipboard;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import java.awt.datatransfer.DataFlavor;
+import javax.swing.undo.UndoManager;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
 // * SWING ELEMENTS
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.MenuEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.filechooser.*;
-import javax.swing.text.Highlighter;
 
 // * IO ELEMENTS
 import java.io.File;
@@ -48,6 +45,7 @@ class Trident {
   public static JMenuBar mb;
   public static JScrollPane editor;
   public static String configFilePath;
+  public static UndoManager undoManager;
 
   // * HINTS
   // TODO: to be used with cut copy paste
@@ -160,8 +158,10 @@ class Trident {
           editMenu.add(Cut);
           JMenuItem Paste = new JMenuItem("Paste");
           editMenu.add(Paste);
-          Copy.addActionListener(eml);
+          Undo.addActionListener(eml);
+          Redo.addActionListener(eml);
           Cut.addActionListener(eml);
+          Copy.addActionListener(eml);
           Paste.addActionListener(eml);
 
           JMenu ClipMenu = new JMenu("Clipboard");
@@ -263,6 +263,8 @@ class Trident {
         textarea.setComponentPopupMenu(editorMenu);
         editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
       }
+      undoManager = new UndoManager();
+      textarea.getDocument().addUndoableEditListener(undoManager);
 
       // * Status bar setup
       JPanel statusBar = new JPanel();
@@ -428,43 +430,59 @@ class FileMenuListener extends Trident implements ActionListener {
 
 class EditMenuListener extends Trident implements ActionListener {
   public void actionPerformed(ActionEvent e) {
-    switch (e.getActionCommand()) {
-    case "Show Contents":
-      Clipboard clipboard;
-      try {
-        // ! Size of text area is improper
-        clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        JDialog cbviewer = new JDialog();
-        cbviewer.setSize(300, 400);
-        cbviewer.setTitle("Clipboard Viewer");
-        JPanel TextViewer = new JPanel();
-        JTextArea cta = new JTextArea(clipboard.getData(DataFlavor.stringFlavor).toString());
-        JScrollPane spv = new JScrollPane(cta, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        spv.setBorder(new EmptyBorder(-1, 0, -1, 0));
-        cta.setSize(300, 400);
-        spv.setSize(300, 400);
-        TextViewer.setLayout(new FlowLayout());
-        cbviewer.setLayout(new BorderLayout());
-        TextViewer.add(spv);
-        cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
-        cbviewer.setVisible(true);
-      } catch (UnsupportedFlavorException ufe) {
-        System.err.println("UFE");
-      } catch (IOException ioe) {
-        System.err.println("IOE");
+    try {
+      switch (e.getActionCommand()) {
+      case "Show Contents":
+        Clipboard clipboard;
+        try {
+          // ! Size of text area is improper
+          clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+          JDialog cbviewer = new JDialog();
+          cbviewer.setSize(300, 400);
+          cbviewer.setTitle("Clipboard Viewer");
+          JPanel TextViewer = new JPanel();
+          JTextArea cta = new JTextArea(clipboard.getData(DataFlavor.stringFlavor).toString());
+          JScrollPane spv = new JScrollPane(cta, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+              JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+          spv.setBorder(new EmptyBorder(-1, 0, -1, 0));
+          cta.setSize(300, 400);
+          spv.setSize(300, 400);
+          TextViewer.setLayout(new FlowLayout());
+          cbviewer.setLayout(new BorderLayout());
+          TextViewer.add(spv);
+          cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
+          cbviewer.setVisible(true);
+        } catch (UnsupportedFlavorException ufe) {
+          System.err.println("UFE");
+        } catch (IOException ioe) {
+          System.err.println("IOE");
+        }
+        break;
+      case "Erase Contents":
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(""), null);
+        break;
+      case "Cut":
+        textarea.cut();
+        break;
+      case "Copy":
+        textarea.copy();
+        break;
+      case "Paste":
+        textarea.paste();
+        break;
+      case "Undo":
+        undoManager.undo();
+        break;
+      case "Redo":
+        undoManager.redo();
+        break;
       }
-      break;
-    case "Erase Contents":
-      Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(""), null);
-      break;
-    case "Cut":
-      textarea.cut();
-      break;
-    case "Copy":
-      textarea.copy();
-    case "Paste":
-      textarea.paste();
+    } catch (CannotRedoException redoErr) {
+      status1.setText("Redo could not be done.");
+    } catch (CannotUndoException undoErr) {
+      status1.setText("Redo could not be done.");
+    } catch (HeadlessException noHead) {
+    } catch (Exception oopsErr) {
     }
   }
 }
