@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 // * SWING ELEMENTS
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -107,8 +108,6 @@ class Trident {
         JMenu formatMenu = new JMenu("Format");
         {
           formatMenu.setMnemonic(KeyEvent.VK_O);
-          JMenuItem wwrap = new JMenuItem("Word wrap");
-          formatMenu.add(wwrap);
           JMenuItem fontOptions = new JMenuItem("Fonts");
           formatMenu.add(fontOptions);
           JMenuItem themes = new JMenuItem("Themes");
@@ -119,15 +118,18 @@ class Trident {
 
         JMenu about = new JMenu("About");
         {
-          JMenuItem AboutTrident = new JMenuItem("About Trident");
-          about.add(AboutTrident);
-          AboutTrident.addActionListener(mml);
+          JMenuItem AboutFile = new JMenuItem("About File");
+          about.add(AboutFile);
 
           JMenuItem visit = new JMenuItem("Visit our site");
           about.add(visit);
 
           JMenuItem help = new JMenuItem("Help");
           about.add(help);
+
+          JMenuItem AboutTrident = new JMenuItem("About Trident");
+          about.add(AboutTrident);
+          AboutTrident.addActionListener(mml);
         }
 
         mb.add(fileMenu);
@@ -141,6 +143,7 @@ class Trident {
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
       {
         textarea.getDocument().addDocumentListener(new ChangeListener());
+        // textarea.setComponentPopupMenu() // TODO: Add popup menu
         editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
       }
 
@@ -148,9 +151,13 @@ class Trident {
       // TODO: These will be configurable by the user
       {
         textarea.setLineWrap(false);
-        textarea.setFont(new Font("Consolas", 12, 12));
+        textarea.setFont(new Font("Consolas", 14, 14));
         textarea.setTabSize(4);
+        textarea.setSelectedTextColor(Color.WHITE);
+        textarea.setSelectionColor(new Color(23, 135, 227));
+        textarea.setBorder(new EmptyBorder(2, 2, 0, 0));
       }
+
       // * Status bar setup
       JPanel statusBar = new JPanel();
       {
