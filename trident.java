@@ -246,13 +246,6 @@ class Trident {
         editorMenu.add(Cut);
         JMenuItem Paste = new JMenuItem("Paste");
         editorMenu.add(Paste);
-        if (textarea.getSelectedText() == null) {
-          Copy.setEnabled(false);
-          Cut.setEnabled(false);
-        }
-        if ((Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor).toString()).equals("")) {
-          Paste.setEnabled(false);
-        }
       }
 
       // * Text Area setup
@@ -260,7 +253,7 @@ class Trident {
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
       {
         textarea.getDocument().addDocumentListener(new ChangeListener());
-        // textarea.setComponentPopupMenu() // TODO: Add popup menu
+        textarea.setComponentPopupMenu(editorMenu); // TODO: Add popup menu
         editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
       }
 
