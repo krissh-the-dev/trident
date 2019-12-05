@@ -51,7 +51,10 @@ class Trident {
   public static void main(String[] args) {
     try {
       // * Local Variable declarations
-      MenuActionListener mml = new MenuActionListener();
+      FileMenuListener fml = new FileMenuListener();
+      EditMenuListener eml = new EditMenuListener();
+      FormatMenuListener oml = new FormatMenuListener();
+      AboutMenuListener aml = new AboutMenuListener();
 
       // * Global variable inits
       {
@@ -88,23 +91,24 @@ class Trident {
           fileMenu.setMnemonic(KeyEvent.VK_F);
           JMenuItem newFile = new JMenuItem("New");
           fileMenu.add(newFile);
-          newFile.addActionListener(mml);
+          newFile.addActionListener(fml);
 
           JMenuItem OpenFile = new JMenuItem("Open");
           fileMenu.add(OpenFile);
-          OpenFile.addActionListener(mml);
+          OpenFile.addActionListener(fml);
 
           JMenuItem SaveFile = new JMenuItem("Save");
+          SaveFile.setMnemonic(KeyEvent.VK_S);
           fileMenu.add(SaveFile);
-          SaveFile.addActionListener(mml);
+          SaveFile.addActionListener(fml);
 
           JMenuItem SaveAs = new JMenuItem("Save As");
           fileMenu.add(SaveAs);
-          SaveAs.addActionListener(mml);
+          SaveAs.addActionListener(fml);
 
           JMenuItem Exit = new JMenuItem("Exit");
           fileMenu.add(Exit);
-          Exit.addActionListener(mml);
+          Exit.addActionListener(fml);
         }
 
         JMenu editMenu = new JMenu("Edit");
@@ -124,9 +128,9 @@ class Trident {
           JMenu ClipMenu = new JMenu("Clipboard");
           {
             editMenu.add(ClipMenu);
-            JMenuItem ShowClipboard = new JMenuItem("Show Clipboard");
+            JMenuItem ShowClipboard = new JMenuItem("Show Contents");
             ClipMenu.add(ShowClipboard);
-            JMenuItem EraseClipboard = new JMenuItem("Erase Clipboard");
+            JMenuItem EraseClipboard = new JMenuItem("Erase Contents");
             ClipMenu.add(EraseClipboard);
           }
         }
@@ -155,7 +159,7 @@ class Trident {
 
           JMenuItem AboutTrident = new JMenuItem("About Trident");
           about.add(AboutTrident);
-          AboutTrident.addActionListener(mml);
+          AboutTrident.addActionListener(aml);
         }
 
         mb.add(fileMenu);
@@ -224,7 +228,7 @@ class Trident {
   }
 }
 
-class MenuActionListener extends Trident implements ActionListener, MenuListener {
+class FileMenuListener extends Trident implements ActionListener {
   public void FileOpenener(String filepath) {
     try {
       File OpenedFile = new File(filepath);
@@ -280,9 +284,9 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
       JFileChooser openDialog = new JFileChooser(FileSystemView.getFileSystemView());
       int command = openDialog.showOpenDialog(null);
 
-      if (command == JFileChooser.APPROVE_OPTION) {
+      if (command == JFileChooser.APPROVE_OPTION)
         path = openDialog.getSelectedFile().getAbsolutePath();
-      }
+
       FileOpenener(path);
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
 
@@ -316,30 +320,40 @@ class MenuActionListener extends Trident implements ActionListener, MenuListener
         status1.setText("Could not exit. Use Task Manager to kill the process.");
       }
       System.exit(0);
+    }
+  }
+}
 
+class EditMenuListener extends Trident implements ActionListener {
+  public void actionPerformed(ActionEvent e) {
+  }
+}
+
+class FormatMenuListener extends Trident implements ActionListener {
+  public void actionPerformed(ActionEvent e) {
+  }
+}
+
+class AboutMenuListener extends Trident implements ActionListener {
+  public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
     case "About Trident":
       JDialog aboutDialog = new JDialog(frame, "About Trident");
-      JLabel l1 = new JLabel("Trident Text Editor");
-      aboutDialog.add(l1);
-      aboutDialog.setSize(300, 200);
+      JPanel infoPanel = new JPanel();
+      ImageIcon ic = new ImageIcon("raw\\trident_logo.png");
+      JLabel icon = new JLabel(ic);
+      icon.setSize(50, 50);
+      JLabel l1 = new JLabel(
+          "<html> <center><h2> <br/>Trident Text Editor</h2> <br/> Version 0.0.3 <br/>ALPHA<br/> <a href=\"https://github.com/KrishnaMoorthy12/trident\">View Source Code - GitHub</a></center> </html>");
+      infoPanel.setBorder(new EmptyBorder(10, 5, 5, 5));
+      infoPanel.add(icon);
+      infoPanel.add(l1);
+      aboutDialog.add(infoPanel);
+      aboutDialog.setSize(350, 500);
+      aboutDialog.setResizable(false);
       aboutDialog.setVisible(true);
       break;
     }
-  }
-
-  @Override
-  public void menuSelected(MenuEvent me) {
-
-  }
-
-  @Override
-  public void menuDeselected(MenuEvent me) {
-
-  }
-
-  @Override
-  public void menuCanceled(MenuEvent me) {
-
   }
 }
 
