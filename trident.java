@@ -1,7 +1,17 @@
 
 // * AWT ELEMENTS
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
 import java.awt.event.*;
+
+// * CLIPBOARD ELEMENTS AND UNDO HANDLERS
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Clipboard;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.UndoManager;
 
 // * SWING ELEMENTS
 import javax.swing.*;
@@ -30,6 +40,13 @@ class Trident {
   public static String path = System.getProperty("java.io.tmpdir") + "Unsaved file";
   public static String uitheme;
   public static Boolean warned;
+  public static Clipboard clipboard;
+
+  // * HINTS
+  // TODO: to be used with cut copy paste
+  // clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+  // clipboard.setContents(Transferable contents, ClipboardOwner owner);
+  // textarea.cut(), .copy(), .paste();
 
   public static void main(String[] args) {
     try {
@@ -39,7 +56,7 @@ class Trident {
       // * Global variable inits
       {
         warned = false;
-        fileType = "Unknown file";
+        fileType = "Unknown file type";
         textarea = new JTextArea();
         uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
       }
@@ -103,6 +120,15 @@ class Trident {
           editMenu.add(Cut);
           JMenuItem Paste = new JMenuItem("Paste");
           editMenu.add(Paste);
+
+          JMenu ClipMenu = new JMenu("Clipboard");
+          {
+            editMenu.add(ClipMenu);
+            JMenuItem ShowClipboard = new JMenuItem("Show Clipboard");
+            ClipMenu.add(ShowClipboard);
+            JMenuItem EraseClipboard = new JMenuItem("Erase Clipboard");
+            ClipMenu.add(EraseClipboard);
+          }
         }
 
         JMenu formatMenu = new JMenu("Format");
