@@ -43,11 +43,6 @@ class Trident {
   public static String configFilePath;
   public static UndoManager undoManager;
 
-  // * HINTS
-  // TODO: to be used with cut copy paste
-  // clipboard.setContents(Transferable contents, ClipboardOwner owner);
-  // textarea.cut(), .copy(), .paste();
-
   public static String fileTypeParser(String fileName) {
     String extension = "";
 
@@ -120,15 +115,17 @@ class Trident {
         {
           fileMenu.setMnemonic(KeyEvent.VK_F);
           JMenuItem newFile = new JMenuItem("New");
+          newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
           fileMenu.add(newFile);
           newFile.addActionListener(fml);
 
           JMenuItem OpenFile = new JMenuItem("Open");
+          OpenFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
           fileMenu.add(OpenFile);
           OpenFile.addActionListener(fml);
 
           JMenuItem SaveFile = new JMenuItem("Save");
-          SaveFile.setMnemonic(KeyEvent.VK_S);
+          SaveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
           fileMenu.add(SaveFile);
           SaveFile.addActionListener(fml);
 
@@ -137,6 +134,7 @@ class Trident {
           SaveAs.addActionListener(fml);
 
           JMenuItem Exit = new JMenuItem("Exit");
+          Exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
           fileMenu.add(Exit);
           Exit.addActionListener(fml);
         }
@@ -145,14 +143,19 @@ class Trident {
         {
           editMenu.setMnemonic(KeyEvent.VK_E);
           JMenuItem Undo = new JMenuItem("Undo");
+          Undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
           editMenu.add(Undo);
           JMenuItem Redo = new JMenuItem("Redo");
+          Redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
           editMenu.add(Redo);
           JMenuItem Copy = new JMenuItem("Copy");
+          Copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
           editMenu.add(Copy);
           JMenuItem Cut = new JMenuItem("Cut");
+          Cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
           editMenu.add(Cut);
           JMenuItem Paste = new JMenuItem("Paste");
+          Paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
           editMenu.add(Paste);
           Undo.addActionListener(eml);
           Redo.addActionListener(eml);
@@ -468,9 +471,11 @@ class EditMenuListener extends Trident implements ActionListener {
         break;
       case "Undo":
         undoManager.undo();
+        status1.setText("Ready");
         break;
       case "Redo":
         undoManager.redo();
+        status1.setText("Ready");
         break;
       }
     } catch (CannotRedoException redoErr) {
