@@ -3,7 +3,9 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 // * CLIPBOARD ELEMENTS AND UNDO HANDLERS
 import java.awt.datatransfer.Clipboard;
@@ -24,6 +26,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.filechooser.*;
+import javax.swing.text.Highlighter;
 
 // * IO ELEMENTS
 import java.io.File;
@@ -159,15 +162,46 @@ class Trident {
           editMenu.add(Paste);
 
           JMenu ClipMenu = new JMenu("Clipboard");
-          {
-            editMenu.add(ClipMenu);
-            JMenuItem ShowClipboard = new JMenuItem("Show Contents");
-            ClipMenu.add(ShowClipboard);
-            ShowClipboard.addActionListener(eml);
-            JMenuItem EraseClipboard = new JMenuItem("Erase Contents");
-            ClipMenu.add(EraseClipboard);
-            EraseClipboard.addActionListener(eml);
-          }
+          editMenu.add(ClipMenu);
+          JMenuItem ShowClipboard = new JMenuItem("Show Contents");
+          ClipMenu.add(ShowClipboard);
+          ShowClipboard.addActionListener(eml);
+          JMenuItem EraseClipboard = new JMenuItem("Erase Contents");
+          ClipMenu.add(EraseClipboard);
+          EraseClipboard.addActionListener(eml);
+
+          // ! NOT WORKING PROPERLY
+          /*
+           * editMenu.addMouseListener(new MouseListener() { public void
+           * mouseEntered(MouseEvent me) { try { if (textarea.getSelectedText() == null) {
+           * Copy.setEnabled(false); Cut.setEnabled(false); } if
+           * ((Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.
+           * stringFlavor).toString()) .equals("") ||
+           * Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.
+           * stringFlavor) == null) { Paste.setEnabled(false);
+           * ShowClipboard.setEnabled(false); EraseClipboard.setEnabled(false); } } catch
+           * (Exception some) { } }
+           *
+           * @Override public void mouseClicked(java.awt.event.MouseEvent e) { // TODO
+           * Auto-generated method stub
+           *
+           * }
+           *
+           * @Override public void mousePressed(java.awt.event.MouseEvent e) { // TODO
+           * Auto-generated method stub
+           *
+           * }
+           *
+           * @Override public void mouseReleased(java.awt.event.MouseEvent e) { // TODO
+           * Auto-generated method stub
+           *
+           * }
+           *
+           * @Override public void mouseExited(java.awt.event.MouseEvent e) { // TODO
+           * Auto-generated method stub
+           *
+           * } });
+           */
         }
 
         JMenu formatMenu = new JMenu("Format");
@@ -202,6 +236,24 @@ class Trident {
         mb.add(formatMenu);
         mb.add(about);
       } // * Menu bar setup ends here
+
+      // * Pop up menu for text area
+      JPopupMenu editorMenu = new JPopupMenu();
+      {
+        JMenuItem Copy = new JMenuItem("Copy");
+        editorMenu.add(Copy);
+        JMenuItem Cut = new JMenuItem("Cut");
+        editorMenu.add(Cut);
+        JMenuItem Paste = new JMenuItem("Paste");
+        editorMenu.add(Paste);
+        if (textarea.getSelectedText() == null) {
+          Copy.setEnabled(false);
+          Cut.setEnabled(false);
+        }
+        if ((Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor).toString()).equals("")) {
+          Paste.setEnabled(false);
+        }
+      }
 
       // * Text Area setup
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
