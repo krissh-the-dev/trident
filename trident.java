@@ -363,7 +363,21 @@ class EditMenuListener extends Trident implements ActionListener {
       Clipboard clipboard;
       try {
         clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        System.out.println(clipboard.getData(DataFlavor.stringFlavor));
+        JDialog cbviewer = new JDialog();
+        cbviewer.setSize(300, 400);
+        cbviewer.setTitle("Clipboard Viewer");
+        JPanel TextViewer = new JPanel();
+        JTextArea cta = new JTextArea(clipboard.getData(DataFlavor.stringFlavor).toString());
+        JScrollPane spv = new JScrollPane(cta, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        spv.setBorder(new EmptyBorder(-1, 0, -1, 0));
+        cta.setSize(300, 400);
+        spv.setSize(300, 400);
+        TextViewer.setLayout(new FlowLayout());
+        cbviewer.setLayout(new BorderLayout());
+        TextViewer.add(spv);
+        cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
+        cbviewer.setVisible(true);
       } catch (UnsupportedFlavorException ufe) {
         System.err.println("UFE");
       } catch (IOException ioe) {
