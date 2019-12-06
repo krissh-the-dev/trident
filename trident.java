@@ -32,6 +32,7 @@ import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Date;
 
 class Trident {
   protected static JTextArea textarea;
@@ -533,6 +534,7 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
         jsonViewer.getDocument().addDocumentListener(new DocumentListener() {
           private void saveSettings() {
             try {
+              // ! Huge delay in editor since we're writing file for every single change
               String jsonContents = jsonViewer.getText();
               File jsonFile = new File("configurations.json");
               FileWriter fileWritter = new FileWriter(jsonFile, false);
@@ -602,6 +604,36 @@ class AboutMenuListener extends Trident implements ActionListener {
       aboutDialog.setVisible(true);
       break;
     case "About File":
+      String fileName = Paths.get(path).getFileName().toString();
+      JDialog aboutFileDialog = new JDialog(frame, "About " + fileName);
+      JLabel filenameProperty = new JLabel(fileName);
+      JLabel fileLocationProperty = new JLabel(path);
+      JLabel fileTypeProperty = new JLabel(fileTypeParser(path));
+      JPanel leftPane = new JPanel();
+      JPanel rightPane = new JPanel();
+      leftPane.setLayout(new GridLayout(5, 1, 2, 2));
+      rightPane.setLayout(new GridLayout(5, 1, 2, 2));
+      aboutFileDialog.setLayout(new FlowLayout());
+
+      File theFile = new File(path);
+      JLabel fileSizeProperty = new JLabel((theFile.length() / 1024) + "KB (" + theFile.length() + " B)");
+      JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified()) + "");
+
+      leftPane.add(new JLabel("File Name   ", SwingConstants.RIGHT));
+      rightPane.add(filenameProperty);
+      leftPane.add(new JLabel("File Location   ", SwingConstants.RIGHT));
+      rightPane.add(fileLocationProperty);
+      leftPane.add(new JLabel("File Type   ", SwingConstants.RIGHT));
+      rightPane.add(fileTypeProperty);
+      leftPane.add(new JLabel("File Size   ", SwingConstants.RIGHT));
+      rightPane.add(fileSizeProperty);
+      leftPane.add(new JLabel("Last modified   ", SwingConstants.RIGHT));
+      rightPane.add(lastModifiedProperty);
+      aboutFileDialog.add(leftPane);
+      aboutFileDialog.add(rightPane);
+      aboutFileDialog.setSize(450, 130);
+      aboutFileDialog.setResizable(false);
+      aboutFileDialog.setVisible(true);
       break;
     case "Visit our site":
       break;
