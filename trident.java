@@ -372,19 +372,45 @@ class FileMenuListener extends Trident implements ActionListener {
     }
   }
 
+  public int warningDialog() {
+    // ! When OptionPane is closed using 'X' button, invokes FileSaver()
+    int opt = JOptionPane.showConfirmDialog(frame,
+        "There are some unsaved changes in the file. Do you want to save the changes and continue?",
+        "Warning: Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+    if (opt == JOptionPane.YES_OPTION) {
+      FileSaver(path);
+    }
+    return opt;
+  }
+
   public void actionPerformed(ActionEvent e) {
     try {
       switch (e.getActionCommand()) {
       case "New":
+        if (warned) {
+          int opt = warningDialog();
+          if (opt == JOptionPane.CANCEL_OPTION) {
+            status1.setText("Ready.");
+            break;
+          }
+        }
         textarea.setText("");
         path = System.getProperty("java.io.tmpdir") + "New File";
         status1.setText("Ready.");
         status2.setText("Unsaved");
+        status3.setText(" File");
         frame.setTitle("Trident Text Editor - New File");
         warned = false;
         break;
 
       case "Open":
+        if (warned) {
+          int opt = warningDialog();
+          if (opt == JOptionPane.CANCEL_OPTION) {
+            status1.setText("Ready.");
+            break;
+          }
+        }
         FileOpenener();
         frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
         break;
@@ -392,12 +418,8 @@ class FileMenuListener extends Trident implements ActionListener {
       case "Exit":
         status1.setText("Exiting Trident...");
         if (warned) {
-          int opt = JOptionPane.showConfirmDialog(new JFrame("Exiting..."),
-              "There are some unsaved changes in the file. Do you want to save the changes?");
-          if (opt == JOptionPane.YES_OPTION) {
-            FileSaver(path);
-            break;
-          } else if (opt == JOptionPane.NO_OPTION) {
+          int opt = warningDialog();
+          if (opt == JOptionPane.NO_OPTION) {
             System.exit(0);
           } else if (opt == JOptionPane.CANCEL_OPTION) {
             status1.setText("Ready.");
