@@ -204,6 +204,10 @@ class Trident {
           Run.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_DOWN_MASK));
           runMenu.add(Run);
           Run.addActionListener(rml);
+          JMenuItem CRun = new JMenuItem("Compile and Run");
+          CRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_DOWN_MASK));
+          runMenu.add(CRun);
+          Run.addActionListener(rml);
           JMenuItem console = new JMenuItem("Open Console");
           runMenu.add(console);
           console.addActionListener(rml);
@@ -493,6 +497,8 @@ class RunMenuListener extends Trident implements ActionListener {
     case "Compile":
       break;
     case "Run":
+      break;
+    case "Compile and Run":
       break;
     case "Open Console":
       break;
