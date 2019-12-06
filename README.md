@@ -17,11 +17,9 @@ A new classical powerful text editor made with Java Swing package and passion!
  * New HD Icon
 
 ## Bugs:
- * Save function loops twice
  * Stupidly opens all kinds of files
  * Meaningless Cut, Copy option when no text is selected
  * Meaningless Paste option when clipboard is empty
- * Show Clipboard Contents Dialog layout glitches
 
 ## Coming soon:
  * Configurations and/ or Settings

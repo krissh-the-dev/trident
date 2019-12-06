@@ -18,8 +18,11 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.filechooser.*;
+import javax.swing.text.BadLocationException;
 
 // * IO ELEMENTS
 import java.io.File;
@@ -96,6 +99,7 @@ class Trident {
         path = System.getProperty("java.io.tmpdir") + "New File";
       }
 
+      // * Themeing
       applyTheme();
 
       // * Frame Setup
@@ -226,12 +230,14 @@ class Trident {
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
       {
-        textarea.getDocument().addDocumentListener(new ChangeListener());
+        ChangeListener textAreaListeners = new ChangeListener();
+        textarea.getDocument().addDocumentListener(textAreaListeners);
         textarea.setComponentPopupMenu(editorMenu);
         editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
+        textarea.addCaretListener(textAreaListeners);
+        undoManager = new UndoManager();
+        textarea.getDocument().addUndoableEditListener(undoManager);
       }
-      undoManager = new UndoManager();
-      textarea.getDocument().addUndoableEditListener(undoManager);
 
       // * Status bar setup
       JPanel statusBar = new JPanel();
@@ -239,7 +245,7 @@ class Trident {
         status1 = new JLabel("Ready");
         status2 = new JLabel("Unsaved");
         status3 = new JLabel(fileType);
-        status4 = new JLabel("Satus Area 4");
+        status4 = new JLabel("Line: 1   Offset: 0");
 
         statusBar.setSize(30, 2500);
         statusBar.setBorder(new EmptyBorder(2, 3, 2, 2));
@@ -249,16 +255,15 @@ class Trident {
         statusBar.add(status2);
         statusBar.add(status3);
         statusBar.add(status4);
-
-        frame.getContentPane().add(mb, BorderLayout.NORTH);
-        frame.getContentPane().add(editor, BorderLayout.CENTER);
-        frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
-
-        // * Theming
-        applyConfigs();
-
-        frame.setVisible(true);
       } // * Status bar setup ends here
+
+      // * Apply settings
+      applyConfigs();
+
+      frame.getContentPane().add(mb, BorderLayout.NORTH);
+      frame.getContentPane().add(editor, BorderLayout.CENTER);
+      frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
+      frame.setVisible(true);
 
     } catch (Exception e) {
       System.err.println("Unexpected crash...");
@@ -470,13 +475,25 @@ class AboutMenuListener extends Trident implements ActionListener {
   }
 }
 
-class ChangeListener extends Trident implements DocumentListener {
+class ChangeListener extends Trident implements DocumentListener, CaretListener {
   private static void warn() {
     if (!warned) {
       status2.setText("Unsaved");
       warned = true;
       frame.setTitle(frame.getTitle() + " - Unsaved");
     }
+  }
+
+  public void caretUpdate(CaretEvent ce) {
+    try {
+
+      int offset = textarea.getCaretPosition();
+      int line = textarea.getLineOfOffset(offset) + 1;
+      status4.setText("Line: " + line + "   Offset: " + (offset + 1));
+    } catch (BadLocationException badexp) {
+      status4.setText("Aw snap!");
+    }
+
   }
 
   public void changedUpdate(DocumentEvent e) {
