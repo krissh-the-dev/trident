@@ -516,7 +516,7 @@ class AboutMenuListener extends Trident implements ActionListener {
       JLabel icon = new JLabel(ic);
       icon.setSize(50, 50);
       JLabel l1 = new JLabel(
-          "<html> <center><h2> <br/>Trident Text Editor</h2> <br/> Version 0.0.3 <br/>ALPHA<br/> <a href=\"https://github.com/KrishnaMoorthy12/trident\">View Source Code - GitHub</a></center> </html>");
+          "<html> <center><h2> <br/>Trident Text Editor</h2> <br/> Version 0.0.4 <br/>ALPHA<br/> <a href=\"https://github.com/KrishnaMoorthy12/trident\">View Source Code - GitHub</a></center> </html>");
       // ! Link is not clickable
       infoPanel.setBorder(new EmptyBorder(10, 5, 5, 5));
       infoPanel.add(icon);

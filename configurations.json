@@ -1,0 +1,8 @@
+{
+"uitheme": "com.sun.java.swing.plaf.windows.WindowsLookAndFeel",
+"wordWrap": false,
+"fontFamily": "Consolas",
+"fontSize": 14,
+"tabSize": 4,
+"margin": [2,2,0,0]
+}

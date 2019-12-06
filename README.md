@@ -14,6 +14,7 @@ A new classical powerful text editor made with Java Swing package and passion!
  * Improved status bar with File saved status and File type
  * A Clean and Neat User Interface
  * Unsaved file confirmation on File -> Exit
+ * Line Number in the status bar
  * New HD Icon
 
 ## Bugs:
