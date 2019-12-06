@@ -66,7 +66,7 @@ class Trident {
 
   public static void applyTheme() {
     try {
-      uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will read from file
+      uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will be read from file
       UIManager.setLookAndFeel(uitheme);
     } catch (Exception themeError) {
       System.err.println("Error theming the application.");
@@ -240,7 +240,7 @@ class Trident {
 
         about = new JMenu("About");
         {
-          JMenuItem AboutFile = new JMenuItem("About File");
+          JMenuItem AboutFile = new JMenuItem("File Properties");
           AboutFile.addActionListener(aml);
           about.add(AboutFile);
 
@@ -596,10 +596,13 @@ class RunMenuListener extends Trident implements ActionListener {
     switch (e.getActionCommand()) {
     case "Compile":
       break;
+
     case "Run":
       break;
+
     case "Compile and Run":
       break;
+
     case "Open Console":
       break;
     }
@@ -610,13 +613,14 @@ class AboutMenuListener extends Trident implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
     case "About Trident":
+      // TODO: Add link to version.config
       JDialog aboutDialog = new JDialog(frame, "About Trident");
       JPanel infoPanel = new JPanel();
       ImageIcon ic = new ImageIcon("raw\\trident_logo.png");
       JLabel icon = new JLabel(ic);
       icon.setSize(50, 50);
       JLabel l1 = new JLabel(
-          "<html> <center><h2> <br/>Trident Text Editor</h2> <br/> Version 0.0.4 <br/>ALPHA<br/> <a href=\"https://github.com/KrishnaMoorthy12/trident\">View Source Code - GitHub</a></center> </html>");
+          "<html> <center><h2> <br/>Trident Text Editor</h2> <br/> Version 0.0.5 <br/>ALPHA<br/> <a href=\"https://github.com/KrishnaMoorthy12/trident\">View Source Code - GitHub</a></center> </html>");
       // ! Link is not clickable
       infoPanel.setBorder(new EmptyBorder(10, 5, 5, 5));
       infoPanel.add(icon);
@@ -626,9 +630,10 @@ class AboutMenuListener extends Trident implements ActionListener {
       aboutDialog.setResizable(false);
       aboutDialog.setVisible(true);
       break;
-    case "About File":
+
+    case "File Properties":
       String fileName = Paths.get(path).getFileName().toString();
-      JDialog aboutFileDialog = new JDialog(frame, "About " + fileName);
+      JDialog aboutFileDialog = new JDialog(frame, "File Properties");
       JLabel filenameProperty = new JLabel(fileName);
       JLabel fileLocationProperty = new JLabel(path);
       JLabel fileTypeProperty = new JLabel(fileTypeParser(path));
@@ -658,10 +663,13 @@ class AboutMenuListener extends Trident implements ActionListener {
       aboutFileDialog.setResizable(false);
       aboutFileDialog.setVisible(true);
       break;
+
     case "Visit our site":
       break;
+
     case "Help":
       break;
+
     case "Updates":
       break;
     }

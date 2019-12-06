@@ -11,9 +11,10 @@ A new classical powerful text editor made with Java Swing package and passion!
  * Options to View and Erase clipboard contents
  * Key Board Shortcuts and Mnemonics
  * About Section
+ * File Properties
  * Improved status bar with File saved status and File type
  * A Clean and Neat User Interface
- * Unsaved file confirmation on File -> Exit
+ * Improved Unsaved file confirmation on File -> New, Open and Exit
  * Line Number in the status bar
  * New HD Icon
 
@@ -21,13 +22,18 @@ A new classical powerful text editor made with Java Swing package and passion!
  * Stupidly opens all kinds of files
  * Meaningless Cut, Copy option when no text is selected
  * Meaningless Paste option when clipboard is empty
+ * About Trident -> View Source is unclickable
+ * Huge delay in editing json
+ * Many bugs with 'X' [Window Close] button
 
 ## Coming soon:
- * Configurations and/ or Settings
- * Themes
- * About file
+ * Compile, Run features
+ * Working Configurations (Json - Source link)
+ * Some under the hood changes
+ * Beta release
 
 ### LTF:
  - File->Rename
  - File->Delete
  - File->Close
+ - UI for Settings and other Format menu options
