@@ -87,6 +87,7 @@ class Trident {
       FileMenuListener fml = new FileMenuListener();
       EditMenuListener eml = new EditMenuListener();
       FormatMenuListener oml = new FormatMenuListener();
+      RunMenuListener rml = new RunMenuListener();
       AboutMenuListener aml = new AboutMenuListener();
 
       // * Global variable inits
@@ -183,31 +184,58 @@ class Trident {
           formatMenu.setMnemonic(KeyEvent.VK_O);
           JMenuItem fontOptions = new JMenuItem("Fonts");
           formatMenu.add(fontOptions);
+          fontOptions.addActionListener(oml);
           JMenuItem themes = new JMenuItem("Themes");
+          themes.addActionListener(oml);
           formatMenu.add(themes);
           JMenuItem settings = new JMenuItem("Settings");
+          settings.addActionListener(oml);
           formatMenu.add(settings);
+        }
+
+        JMenu runMenu = new JMenu("Run");
+        {
+          runMenu.setMnemonic(KeyEvent.VK_R);
+          JMenuItem Compile = new JMenuItem("Compile");
+          Compile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_DOWN_MASK));
+          runMenu.add(Compile);
+          Compile.addActionListener(rml);
+          JMenuItem Run = new JMenuItem("Run");
+          Run.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_DOWN_MASK));
+          runMenu.add(Run);
+          Run.addActionListener(rml);
+          JMenuItem console = new JMenuItem("Open Console");
+          runMenu.add(console);
+          console.addActionListener(rml);
         }
 
         JMenu about = new JMenu("About");
         {
           JMenuItem AboutFile = new JMenuItem("About File");
+          AboutFile.addActionListener(aml);
           about.add(AboutFile);
 
           JMenuItem visit = new JMenuItem("Visit our site");
+          visit.addActionListener(aml);
           about.add(visit);
 
           JMenuItem help = new JMenuItem("Help");
+          help.addActionListener(aml);
           about.add(help);
 
           JMenuItem AboutTrident = new JMenuItem("About Trident");
           about.add(AboutTrident);
           AboutTrident.addActionListener(aml);
+
+          JMenuItem updates = new JMenuItem("Updates");
+          about.add(updates);
+          updates.addActionListener(aml);
         }
 
         mb.add(fileMenu);
         mb.add(editMenu);
         mb.add(formatMenu);
+        mb.add(runMenu);
         mb.add(about);
       } // * Menu bar setup ends here
 
@@ -448,6 +476,27 @@ class EditMenuListener extends Trident implements ActionListener {
 
 class FormatMenuListener extends Trident implements ActionListener {
   public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
+    case "Fonts":
+      break;
+    case "Themes":
+      break;
+    case "Settings":
+      break;
+    }
+  }
+}
+
+class RunMenuListener extends Trident implements ActionListener {
+  public void actionPerformed(ActionEvent e) {
+    switch (e.getActionCommand()) {
+    case "Compile":
+      break;
+    case "Run":
+      break;
+    case "Open Console":
+      break;
+    }
   }
 }
 
@@ -470,6 +519,14 @@ class AboutMenuListener extends Trident implements ActionListener {
       aboutDialog.setSize(350, 500);
       aboutDialog.setResizable(false);
       aboutDialog.setVisible(true);
+      break;
+    case "About File":
+      break;
+    case "Visit our site":
+      break;
+    case "Help":
+      break;
+    case "Updates":
       break;
     }
   }
