@@ -35,7 +35,7 @@ class Trident {
   protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
   public static String fileType;
-  public static String path = System.getProperty("java.io.tmpdir") + "Unsaved file";
+  public static String path;
   public static String uitheme;
   public static Boolean warned;
   public static JMenuBar mb;
@@ -93,6 +93,7 @@ class Trident {
         textarea = new JTextArea();
         mb = new JMenuBar();
         configFilePath = "configurations.json";
+        path = System.getProperty("java.io.tmpdir") + "New File";
       }
 
       applyTheme();
@@ -171,39 +172,6 @@ class Trident {
           JMenuItem EraseClipboard = new JMenuItem("Erase Contents");
           ClipMenu.add(EraseClipboard);
           EraseClipboard.addActionListener(eml);
-
-          // ! NOT WORKING PROPERLY
-          /*
-           * editMenu.addMouseListener(new MouseListener() { public void
-           * mouseEntered(MouseEvent me) { try { if (textarea.getSelectedText() == null) {
-           * Copy.setEnabled(false); Cut.setEnabled(false); } if
-           * ((Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.
-           * stringFlavor).toString()) .equals("") ||
-           * Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.
-           * stringFlavor) == null) { Paste.setEnabled(false);
-           * ShowClipboard.setEnabled(false); EraseClipboard.setEnabled(false); } } catch
-           * (Exception some) { } }
-           *
-           * @Override public void mouseClicked(java.awt.event.MouseEvent e) { // TODO
-           * Auto-generated method stub
-           *
-           * }
-           *
-           * @Override public void mousePressed(java.awt.event.MouseEvent e) { // TODO
-           * Auto-generated method stub
-           *
-           * }
-           *
-           * @Override public void mouseReleased(java.awt.event.MouseEvent e) { // TODO
-           * Auto-generated method stub
-           *
-           * }
-           *
-           * @Override public void mouseExited(java.awt.event.MouseEvent e) { // TODO
-           * Auto-generated method stub
-           *
-           * } });
-           */
         }
 
         JMenu formatMenu = new JMenu("Format");
@@ -292,16 +260,6 @@ class Trident {
         frame.setVisible(true);
       } // * Status bar setup ends here
 
-      // * Temporary file setup
-      File file = new File(path);
-      file.createNewFile();
-      status1.setText("Working with temporary file.");
-
-    } catch (IOException ioe) {
-      status1.setText("Create a new file.");
-      JOptionPane.showMessageDialog(new JFrame(),
-          "There was an error creating the temporary file. Create new file or Open an existing file to continue working.",
-          "File Operation Error.", JOptionPane.ERROR_MESSAGE);
     } catch (Exception e) {
       System.err.println("Unexpected crash...");
       e.printStackTrace();
@@ -362,11 +320,10 @@ class FileMenuListener extends Trident implements ActionListener {
       switch (e.getActionCommand()) {
       case "New":
         textarea.setText("");
-        path = System.getProperty("java.io.tmpdir") + "Unsaved file";
-        FileOpenener(path);
+        path = System.getProperty("java.io.tmpdir") + "New File";
         status1.setText("Editing temporary file.");
         status2.setText("Unsaved");
-        frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
+        frame.setTitle("Trident Text Editor - New File");
         break;
 
       case "Open":
@@ -384,6 +341,9 @@ class FileMenuListener extends Trident implements ActionListener {
         status1.setText("Exiting Trident...");
         exitNow = true;
         if (warned) {
+          if (frame.getTitle().equals("Trident Text Editor - New File")) {
+            System.exit(0);
+          }
           int opt = JOptionPane.showConfirmDialog(new JFrame("Exiting..."),
               "There are some unsaved changes in the file. Do you want to save the changes?");
           if (opt == JOptionPane.YES_OPTION) {
@@ -391,6 +351,7 @@ class FileMenuListener extends Trident implements ActionListener {
           } else if (opt == JOptionPane.NO_OPTION) {
             System.exit(0);
           } else if (opt == JOptionPane.CANCEL_OPTION) {
+            exitNow = false;
             break;
           }
         } else {
@@ -398,7 +359,7 @@ class FileMenuListener extends Trident implements ActionListener {
         }
 
       case "Save":
-        if (!path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file")) {
+        if (!path.equals(System.getProperty("java.io.tmpdir") + "New File")) {
           FileSaver(path);
           frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
           break;
@@ -522,9 +483,7 @@ class ChangeListener extends Trident implements DocumentListener {
     if (!warned) {
       status2.setText("Unsaved");
       warned = true;
-      if (!(path.equals(System.getProperty("java.io.tmpdir") + "Unsaved file"))) {
-        frame.setTitle(frame.getTitle() + " - Unsaved");
-      }
+      frame.setTitle(frame.getTitle() + " - Unsaved");
     }
   }
 
