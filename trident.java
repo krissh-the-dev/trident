@@ -500,14 +500,67 @@ class EditMenuListener extends Trident implements ActionListener {
   }
 }
 
-class FormatMenuListener extends Trident implements ActionListener {
+class FormatMenuListener extends FileMenuListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
     case "Fonts":
-      break;
+      // break;
     case "Themes":
-      break;
+      // break;
     case "Settings":
+      try {
+        JDialog jsonEditor = new JDialog();
+        jsonEditor.setSize(450, 350);
+        jsonEditor.setTitle("Style Editor");
+        JPanel TextViewer = new JPanel();
+        File jsonFile = new File("configurations.json");
+        FileReader fr = new FileReader(jsonFile);
+        BufferedReader br = new BufferedReader(fr);
+        String jsonContents = "";
+        for (String line = br.readLine(); line != null; line = br.readLine()) {
+          jsonContents += line + System.lineSeparator();
+        }
+        fr.close();
+        br.close();
+        JTextArea jsonViewer = new JTextArea(jsonContents);
+        JScrollPane jsonScrollController = new JScrollPane(jsonViewer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jsonScrollController.setBorder(new EmptyBorder(-1, 0, -1, 0));
+        TextViewer.setLayout(new GridLayout(1, 1, 1, 1));
+        jsonEditor.setLayout(new BorderLayout());
+        TextViewer.add(jsonScrollController);
+        jsonEditor.getContentPane().add(TextViewer, BorderLayout.CENTER);
+        jsonViewer.getDocument().addDocumentListener(new DocumentListener() {
+          private void saveSettings() {
+            try {
+              String jsonContents = jsonViewer.getText();
+              File jsonFile = new File("configurations.json");
+              FileWriter fileWritter = new FileWriter(jsonFile, false);
+              BufferedWriter bw = new BufferedWriter(fileWritter);
+              bw.write(jsonContents);
+              Thread.sleep(1000);
+              bw.close();
+            } catch (IOException fIoException) {
+            } catch (InterruptedException fInterruptedException) {
+            }
+          }
+
+          public void changedUpdate(DocumentEvent e) {
+            saveSettings();
+          }
+
+          public void removeUpdate(DocumentEvent e) {
+            saveSettings();
+          }
+
+          public void insertUpdate(DocumentEvent e) {
+            saveSettings();
+          }
+        });
+        jsonEditor.setVisible(true);
+      } catch (IOException ioe) {
+        System.err.println("IOE");
+      }
       break;
     }
   }
