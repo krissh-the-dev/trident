@@ -78,14 +78,6 @@ class Trident {
     return true;
   }
 
-  public static void warn() {
-    if (!warned) {
-      status2.setText("Unsaved");
-      warned = true;
-      frame.setTitle(frame.getTitle() + " - Unsaved");
-    }
-  }
-
   public static void main(String[] args) {
     try {
       // * Local Variable declarations
@@ -294,9 +286,9 @@ class FileMenuListener extends Trident implements ActionListener {
       }
       textarea.setText(contents);
       status1.setText("Editing existing file.");
-      warned = false;
       status2.setText("Saved");
       status3.setText(fileTypeParser(Paths.get(path).getFileName().toString()));
+      warned = false;
 
       contents = null;
       fr.close();
@@ -320,8 +312,9 @@ class FileMenuListener extends Trident implements ActionListener {
         BufferedWriter bw = new BufferedWriter(fileWritter);
         bw.write(contents);
         bw.close();
-        status1.setText("File saved successfully.");
         warned = false;
+        frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
+        status1.setText("File saved successfully.");
         status2.setText("Saved");
         status3.setText(fileTypeParser(Paths.get(path).getFileName().toString()));
       } else
@@ -338,9 +331,7 @@ class FileMenuListener extends Trident implements ActionListener {
     if (command == JFileChooser.APPROVE_OPTION) {
       path = (saveAsDialog.getSelectedFile().getAbsolutePath());
       FileSaver(path);
-    }
-    if (command == JFileChooser.CANCEL_OPTION) {
-      warn();
+    } else if (command == JFileChooser.CANCEL_OPTION) {
       status1.setText("File is not saved.");
     }
   }
@@ -383,12 +374,10 @@ class FileMenuListener extends Trident implements ActionListener {
 
       case "Save":
         FileSaver(path);
-        frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
         break;
 
       case "Save As":
         FileSaveAs();
-        frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
         break;
       }
     } catch (Exception exp) {
@@ -487,6 +476,14 @@ class AboutMenuListener extends Trident implements ActionListener {
 }
 
 class ChangeListener extends Trident implements DocumentListener {
+  private static void warn() {
+    if (!warned) {
+      status2.setText("Unsaved");
+      warned = true;
+      frame.setTitle(frame.getTitle() + " - Unsaved");
+    }
+  }
+
   public void changedUpdate(DocumentEvent e) {
     warn();
   }
