@@ -390,19 +390,16 @@ class EditMenuListener extends Trident implements ActionListener {
       case "Show Contents":
         Clipboard clipboard;
         try {
-          // ! Size of text area is improper
           clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
           JDialog cbviewer = new JDialog();
-          cbviewer.setSize(300, 400);
+          cbviewer.setSize(450, 350);
           cbviewer.setTitle("Clipboard Viewer");
           JPanel TextViewer = new JPanel();
           JTextArea cta = new JTextArea(clipboard.getData(DataFlavor.stringFlavor).toString());
           JScrollPane spv = new JScrollPane(cta, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
               JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
           spv.setBorder(new EmptyBorder(-1, 0, -1, 0));
-          cta.setSize(300, 400);
-          spv.setSize(300, 400);
-          TextViewer.setLayout(new FlowLayout());
+          TextViewer.setLayout(new GridLayout(1, 1, 1, 1));
           cbviewer.setLayout(new BorderLayout());
           TextViewer.add(spv);
           cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
