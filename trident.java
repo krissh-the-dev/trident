@@ -44,6 +44,12 @@ class Trident {
   public static Boolean warned;
   public static JMenuBar mb;
   public static JScrollPane editor;
+  public static JPanel statusBar;
+  public static JMenu fileMenu;
+  public static JMenu editMenu;
+  public static JMenu formatMenu;
+  public static JMenu runMenu;
+  public static JMenu about;
   public static String configFilePath;
   public static UndoManager undoManager;
 
@@ -70,15 +76,33 @@ class Trident {
   public static boolean applyConfigs() {
     // * Default configs
     // TODO: These will be configurable by the user
+
     textarea.setLineWrap(false);
-    textarea.setFont(new Font("Consolas", 14, 14));
+    textarea.setFont(new Font("Consolas", Font.PLAIN, 14));
     textarea.setTabSize(4);
-    textarea.setBorder(new EmptyBorder(2, 2, 0, 0));
-    mb.setBackground(Color.WHITE);
-    editor.setBackground(Color.WHITE);
-    textarea.setBackground(Color.WHITE);
-    textarea.setSelectedTextColor(Color.WHITE);
+    textarea.setBorder(new EmptyBorder(4, 4, 0, 0));
+
+    editor.setBackground(Color.white);
+    textarea.setBackground(Color.white);
+    textarea.setForeground(Color.black);
+    textarea.setCaretColor(Color.black);
+    textarea.setSelectedTextColor(Color.white);
     textarea.setSelectionColor(new Color(23, 135, 227));
+
+    statusBar.setBackground(Color.LIGHT_GRAY);
+    status1.setForeground(Color.BLACK);
+    status2.setForeground(Color.BLACK);
+    status3.setForeground(Color.BLACK);
+    status4.setForeground(Color.BLACK);
+
+    mb.setBackground(Color.white);
+    mb.setForeground(Color.black);
+    fileMenu.setForeground(Color.DARK_GRAY);
+    editMenu.setForeground(Color.DARK_GRAY);
+    formatMenu.setForeground(Color.DARK_GRAY);
+    runMenu.setForeground(Color.DARK_GRAY);
+    about.setForeground(Color.DARK_GRAY);
+
     return true;
   }
 
@@ -118,7 +142,7 @@ class Trident {
 
       // * Menu Bar Setup
       {
-        JMenu fileMenu = new JMenu("File");
+        fileMenu = new JMenu("File");
         {
           fileMenu.setMnemonic(KeyEvent.VK_F);
           JMenuItem newFile = new JMenuItem("New");
@@ -146,7 +170,7 @@ class Trident {
           Exit.addActionListener(fml);
         }
 
-        JMenu editMenu = new JMenu("Edit");
+        editMenu = new JMenu("Edit");
         {
           editMenu.setMnemonic(KeyEvent.VK_E);
           JMenuItem Undo = new JMenuItem("Undo");
@@ -180,7 +204,7 @@ class Trident {
           EraseClipboard.addActionListener(eml);
         }
 
-        JMenu formatMenu = new JMenu("Format");
+        formatMenu = new JMenu("Format");
         {
           formatMenu.setMnemonic(KeyEvent.VK_O);
           JMenuItem fontOptions = new JMenuItem("Fonts");
@@ -194,7 +218,7 @@ class Trident {
           formatMenu.add(settings);
         }
 
-        JMenu runMenu = new JMenu("Run");
+        runMenu = new JMenu("Run");
         {
           runMenu.setMnemonic(KeyEvent.VK_R);
           JMenuItem Compile = new JMenuItem("Compile");
@@ -214,7 +238,7 @@ class Trident {
           console.addActionListener(rml);
         }
 
-        JMenu about = new JMenu("About");
+        about = new JMenu("About");
         {
           JMenuItem AboutFile = new JMenuItem("About File");
           AboutFile.addActionListener(aml);
@@ -273,17 +297,16 @@ class Trident {
       }
 
       // * Status bar setup
-      JPanel statusBar = new JPanel();
+      statusBar = new JPanel();
       {
         status1 = new JLabel("Ready");
         status2 = new JLabel("Unsaved");
         status3 = new JLabel(fileType);
-        status4 = new JLabel("Line: 1   Offset: 0");
+        status4 = new JLabel("Line: 1   Offset: 1");
 
         statusBar.setSize(30, 2500);
         statusBar.setBorder(new EmptyBorder(2, 3, 2, 2));
         statusBar.setLayout(new GridLayout(1, 4, 2, 2));
-        statusBar.setBackground(Color.LIGHT_GRAY);
         statusBar.add(status1);
         statusBar.add(status2);
         statusBar.add(status3);
