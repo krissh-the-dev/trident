@@ -78,6 +78,14 @@ class Trident {
     return true;
   }
 
+  public static void warn() {
+    if (!warned) {
+      status2.setText("Unsaved");
+      warned = true;
+      frame.setTitle(frame.getTitle() + " - Unsaved");
+    }
+  }
+
   public static void main(String[] args) {
     try {
       // * Local Variable declarations
@@ -269,9 +277,15 @@ class Trident {
 }
 
 class FileMenuListener extends Trident implements ActionListener {
-  public void FileOpenener(String filepath) {
+  public void FileOpenener() {
     try {
-      File OpenedFile = new File(filepath);
+      JFileChooser openDialog = new JFileChooser(FileSystemView.getFileSystemView());
+      int command = openDialog.showOpenDialog(null);
+
+      if (command == JFileChooser.APPROVE_OPTION)
+        path = openDialog.getSelectedFile().getAbsolutePath();
+
+      File OpenedFile = new File(path);
       FileReader fr = new FileReader(OpenedFile);
       BufferedReader br = new BufferedReader(fr);
       String contents = "";
@@ -296,26 +310,42 @@ class FileMenuListener extends Trident implements ActionListener {
   // ! Running twice for no reason
   public void FileSaver(String filepath) {
     try {
-      File f1 = new File(filepath);
-      if (!f1.exists()) {
-        f1.createNewFile();
-      }
-      String contents = textarea.getText();
-      FileWriter fileWritter = new FileWriter(f1, false);
-      BufferedWriter bw = new BufferedWriter(fileWritter);
-      bw.write(contents);
-      bw.close();
-      status1.setText("File saved successfully.");
-      warned = false;
-      status2.setText("Saved");
-      status3.setText(fileTypeParser(Paths.get(path).getFileName().toString()));
+      if (!path.equals(System.getProperty("java.io.tmpdir") + "New File")) {
+        File f1 = new File(filepath);
+        if (!f1.exists()) {
+          f1.createNewFile();
+        }
+        String contents = textarea.getText();
+        FileWriter fileWritter = new FileWriter(f1, false);
+        BufferedWriter bw = new BufferedWriter(fileWritter);
+        bw.write(contents);
+        bw.close();
+        status1.setText("File saved successfully.");
+        warned = false;
+        status2.setText("Saved");
+        status3.setText(fileTypeParser(Paths.get(path).getFileName().toString()));
+      } else
+        FileSaveAs();
     } catch (IOException ioe) {
       status1.setText("Error saving the file.");
     }
   }
 
+  public void FileSaveAs() {
+    JFileChooser saveAsDialog = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+    int command = saveAsDialog.showSaveDialog(null);
+
+    if (command == JFileChooser.APPROVE_OPTION) {
+      path = (saveAsDialog.getSelectedFile().getAbsolutePath());
+      FileSaver(path);
+    }
+    if (command == JFileChooser.CANCEL_OPTION) {
+      warn();
+      status1.setText("File is not saved.");
+    }
+  }
+
   public void actionPerformed(ActionEvent e) {
-    Boolean exitNow = false;
     try {
       switch (e.getActionCommand()) {
       case "New":
@@ -327,19 +357,12 @@ class FileMenuListener extends Trident implements ActionListener {
         break;
 
       case "Open":
-        JFileChooser openDialog = new JFileChooser(FileSystemView.getFileSystemView());
-        int command = openDialog.showOpenDialog(null);
-
-        if (command == JFileChooser.APPROVE_OPTION)
-          path = openDialog.getSelectedFile().getAbsolutePath();
-
-        FileOpenener(path);
+        FileOpenener();
         frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
         break;
 
       case "Exit":
         status1.setText("Exiting Trident...");
-        exitNow = true;
         if (warned) {
           if (frame.getTitle().equals("Trident Text Editor - New File")) {
             System.exit(0);
@@ -347,11 +370,11 @@ class FileMenuListener extends Trident implements ActionListener {
           int opt = JOptionPane.showConfirmDialog(new JFrame("Exiting..."),
               "There are some unsaved changes in the file. Do you want to save the changes?");
           if (opt == JOptionPane.YES_OPTION) {
-            // doing nothing :P - it'll continue to save as there is no break
+            FileSaver(path);
+            break;
           } else if (opt == JOptionPane.NO_OPTION) {
             System.exit(0);
           } else if (opt == JOptionPane.CANCEL_OPTION) {
-            exitNow = false;
             break;
           }
         } else {
@@ -359,32 +382,17 @@ class FileMenuListener extends Trident implements ActionListener {
         }
 
       case "Save":
-        if (!path.equals(System.getProperty("java.io.tmpdir") + "New File")) {
-          FileSaver(path);
-          frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
-          break;
-        }
+        FileSaver(path);
+        frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
+        break;
 
       case "Save As":
-        JFileChooser saveAsDialog = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        command = saveAsDialog.showSaveDialog(null);
-
-        if (command == JFileChooser.APPROVE_OPTION) {
-          path = (saveAsDialog.getSelectedFile().getAbsolutePath());
-          FileSaver(path);
-        } else
-          status1.setText("File is not saved.");
-
+        FileSaveAs();
         frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
         break;
       }
     } catch (Exception exp) {
-    } finally {
-      if (exitNow) {
-        System.exit(0);
-      }
     }
-
   }
 }
 
@@ -479,14 +487,6 @@ class AboutMenuListener extends Trident implements ActionListener {
 }
 
 class ChangeListener extends Trident implements DocumentListener {
-  private static void warn() {
-    if (!warned) {
-      status2.setText("Unsaved");
-      warned = true;
-      frame.setTitle(frame.getTitle() + " - Unsaved");
-    }
-  }
-
   public void changedUpdate(DocumentEvent e) {
     warn();
   }
