@@ -299,7 +299,6 @@ class FileMenuListener extends Trident implements ActionListener {
     }
   }
 
-  // ! Running twice for no reason
   public void FileSaver(String filepath) {
     try {
       if (!path.equals(System.getProperty("java.io.tmpdir") + "New File")) {
@@ -342,9 +341,10 @@ class FileMenuListener extends Trident implements ActionListener {
       case "New":
         textarea.setText("");
         path = System.getProperty("java.io.tmpdir") + "New File";
-        status1.setText("Editing temporary file.");
+        status1.setText("Ready.");
         status2.setText("Unsaved");
         frame.setTitle("Trident Text Editor - New File");
+        warned = false;
         break;
 
       case "Open":
@@ -355,9 +355,6 @@ class FileMenuListener extends Trident implements ActionListener {
       case "Exit":
         status1.setText("Exiting Trident...");
         if (warned) {
-          if (frame.getTitle().equals("Trident Text Editor - New File")) {
-            System.exit(0);
-          }
           int opt = JOptionPane.showConfirmDialog(new JFrame("Exiting..."),
               "There are some unsaved changes in the file. Do you want to save the changes?");
           if (opt == JOptionPane.YES_OPTION) {
@@ -366,6 +363,7 @@ class FileMenuListener extends Trident implements ActionListener {
           } else if (opt == JOptionPane.NO_OPTION) {
             System.exit(0);
           } else if (opt == JOptionPane.CANCEL_OPTION) {
+            status1.setText("Ready.");
             break;
           }
         } else {
