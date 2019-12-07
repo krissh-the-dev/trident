@@ -255,8 +255,8 @@ class Trident {
       // < Format Menu
 
       // > Run Menu
-      runMenu = new JMenu("Run");
-      runMenu.setMnemonic(KeyEvent.VK_R);
+      runMenu = new JMenu("Tools");
+      runMenu.setMnemonic(KeyEvent.VK_T);
       Compile = new JMenuItem("Compile");
       Compile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_DOWN_MASK));
       runMenu.add(Compile);
@@ -268,7 +268,7 @@ class Trident {
       CRun = new JMenuItem("Compile and Run");
       CRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_DOWN_MASK));
       runMenu.add(CRun);
-      Run.addActionListener(rml);
+      CRun.addActionListener(rml);
       console = new JMenuItem("Open Console");
       runMenu.add(console);
       console.addActionListener(rml);
@@ -653,18 +653,53 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
 }
 
 class RunMenuListener extends Trident implements ActionListener {
+  class UnsupportedOperatingSystemException extends Exception {
+    @Override
+    public String toString() {
+      return "Your Operating System is not supported.";
+    }
+  }
+
+  public int checkOS() {
+    String operatingSystem = System.getProperty("os.name").toLowerCase();
+    if (operatingSystem.contains("windows")) {
+      return 1;
+    } else if (operatingSystem.contains("linux")) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+
+  public void shellCommandRunner(int os, String command) {
+    try {
+      if (os == 1) {
+        String[] processArgs = new String[] { "cmd.exe", "/c", command };
+        Process proc = new ProcessBuilder(processArgs).start();
+      } else if (os == 2) {
+        String[] processArgs = new String[] { "/bin/bash", "-c", command };
+        Process proc = new ProcessBuilder(processArgs).start();
+      } else
+        throw new UnsupportedOperatingSystemException();
+    } catch (Exception uos) {
+      ErrorDialog(14, new UnsupportedOperatingSystemException());
+      System.err.println(uos);
+    }
+  }
+
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
     case "Compile":
-      break;
+      // break;
 
     case "Run":
-      break;
+      // break;
 
     case "Compile and Run":
-      break;
+      // break;
 
     case "Open Console":
+      shellCommandRunner(checkOS(), "start");
       break;
     }
   }
@@ -672,81 +707,89 @@ class RunMenuListener extends Trident implements ActionListener {
 
 class AboutMenuListener extends Trident implements ActionListener {
   public void actionPerformed(ActionEvent e) {
-    switch (e.getActionCommand()) {
-    case "About Trident":
-      // TODO: Add link to version.config
-      // ! Improper Layout
-      JDialog aboutDialog = new JDialog(frame, "About Trident");
-      JPanel infoPanel = new JPanel();
-      ImageIcon ic = new ImageIcon("raw\\trident_logo.png");
-      JLabel icon = new JLabel(ic);
-      icon.setSize(50, 50);
-      JLabel l1 = new JLabel(
-          "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 0.0.7 <br/>ALPHA<br/><h4></html>");
-      JLabel l2 = new JLabel(
-          "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:blue; border:2px solid blue; padding: 5px;}</style><h3>View Source Code - GitHub</h3></html>");
-      l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
-      l2.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent me) {
-          try {
-            Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident"));
-          } catch (Exception e) {
-            System.err.println(e);
+    try {
+      switch (e.getActionCommand()) {
+      case "About Trident":
+        // TODO: Add link to version.config
+        JDialog aboutDialog = new JDialog(frame, "About Trident");
+        JPanel infoPanel = new JPanel();
+        ImageIcon ic = new ImageIcon("raw\\trident_logo.png");
+        JLabel icon = new JLabel(ic);
+        icon.setSize(50, 50);
+        JLabel l1 = new JLabel(
+            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 0.0.7 <br/>ALPHA<br/><h4></html>");
+        JLabel l2 = new JLabel(
+            "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:blue; border:2px solid blue; padding: 5px;}</style><h3>View Source Code - GitHub</h3></html>");
+        l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        l2.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent me) {
+            try {
+              Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident"));
+            } catch (Exception e) {
+              try {
+                throw e;
+              } catch (Exception e1) {
+                e1.printStackTrace();
+              }
+            }
           }
-        }
-      });
-      infoPanel.add(icon);
-      infoPanel.add(l1);
-      infoPanel.add(l2);
-      l2.setBounds(120, 400, 50, 10);
-      aboutDialog.add(infoPanel);
-      aboutDialog.setSize(350, 500);
-      aboutDialog.setResizable(false);
-      aboutDialog.setVisible(true);
-      break;
+        });
 
-    case "File Properties":
-      String fileName = Paths.get(path).getFileName().toString();
-      JDialog aboutFileDialog = new JDialog(frame, "File Properties");
-      JLabel filenameProperty = new JLabel(fileName);
-      JLabel fileLocationProperty = new JLabel(path);
-      JLabel fileTypeProperty = new JLabel(fileTypeParser(path));
-      JPanel leftPane = new JPanel();
-      JPanel rightPane = new JPanel();
-      leftPane.setLayout(new GridLayout(5, 1, 2, 2));
-      rightPane.setLayout(new GridLayout(5, 1, 2, 2));
-      aboutFileDialog.setLayout(new FlowLayout());
+        infoPanel.add(icon);
+        infoPanel.add(l1);
+        infoPanel.add(l2);
+        l2.setBounds(120, 400, 50, 10);
+        aboutDialog.add(infoPanel);
+        aboutDialog.setSize(350, 500);
+        aboutDialog.setResizable(false);
+        aboutDialog.setVisible(true);
+        break;
 
-      File theFile = new File(path);
-      JLabel fileSizeProperty = new JLabel((theFile.length() / 1024) + "KB (" + theFile.length() + " B)");
-      JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified()) + "");
+      case "File Properties":
+        String fileName = Paths.get(path).getFileName().toString();
+        JDialog aboutFileDialog = new JDialog(frame, "File Properties");
+        JLabel filenameProperty = new JLabel(fileName);
+        JLabel fileLocationProperty = new JLabel(path);
+        JLabel fileTypeProperty = new JLabel(fileTypeParser(path));
+        JPanel leftPane = new JPanel();
+        JPanel rightPane = new JPanel();
+        leftPane.setLayout(new GridLayout(5, 1, 2, 2));
+        rightPane.setLayout(new GridLayout(5, 1, 2, 2));
+        aboutFileDialog.setLayout(new FlowLayout());
 
-      leftPane.add(new JLabel("File Name   ", SwingConstants.RIGHT));
-      rightPane.add(filenameProperty);
-      leftPane.add(new JLabel("File Location   ", SwingConstants.RIGHT));
-      rightPane.add(fileLocationProperty);
-      leftPane.add(new JLabel("File Type   ", SwingConstants.RIGHT));
-      rightPane.add(fileTypeProperty);
-      leftPane.add(new JLabel("File Size   ", SwingConstants.RIGHT));
-      rightPane.add(fileSizeProperty);
-      leftPane.add(new JLabel("Last modified   ", SwingConstants.RIGHT));
-      rightPane.add(lastModifiedProperty);
-      aboutFileDialog.add(leftPane);
-      aboutFileDialog.add(rightPane);
-      aboutFileDialog.setSize(450, 130);
-      aboutFileDialog.setResizable(false);
-      aboutFileDialog.setVisible(true);
-      break;
+        File theFile = new File(path);
+        JLabel fileSizeProperty = new JLabel((theFile.length() / 1024) + "KB (" + theFile.length() + " B)");
+        JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified()) + "");
 
-    case "Visit our site":
-      break;
+        leftPane.add(new JLabel("File Name   ", SwingConstants.RIGHT));
+        rightPane.add(filenameProperty);
+        leftPane.add(new JLabel("File Location   ", SwingConstants.RIGHT));
+        rightPane.add(fileLocationProperty);
+        leftPane.add(new JLabel("File Type   ", SwingConstants.RIGHT));
+        rightPane.add(fileTypeProperty);
+        leftPane.add(new JLabel("File Size   ", SwingConstants.RIGHT));
+        rightPane.add(fileSizeProperty);
+        leftPane.add(new JLabel("Last modified   ", SwingConstants.RIGHT));
+        rightPane.add(lastModifiedProperty);
+        aboutFileDialog.add(leftPane);
+        aboutFileDialog.add(rightPane);
+        aboutFileDialog.setSize(450, 130);
+        aboutFileDialog.setResizable(false);
+        aboutFileDialog.setVisible(true);
+        break;
 
-    case "Help":
-      break;
+      case "Visit our site":
+        break;
 
-    case "Updates":
-      break;
+      case "Help":
+        break;
+
+      case "Updates":
+        break;
+      }
+    } catch (Exception exc) {
+      ErrorDialog(14, exc);
     }
   }
 }

@@ -25,6 +25,7 @@ A new classical powerful text editor made with Java Swing package and passion!
  * Meaningless Cut, Copy option when no text is selected
  * Meaningless Paste option when clipboard is empty
  * About Trident - improper layout
+ * Wrong line number after opening file
 
 ## Coming soon:
  * Compile, Run features
