@@ -59,20 +59,17 @@ class Trident {
   protected static JTextArea textarea;
   protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
-  public static String fileType;
-  public static String path;
-  public static String uitheme;
+  public static String fileType, path, uitheme, configFilePath;
   public static Boolean warned;
   public static JMenuBar mb;
   public static JScrollPane editor;
   public static JPanel statusBar;
-  public static JMenu fileMenu;
-  public static JMenu editMenu;
-  public static JMenu formatMenu;
-  public static JMenu runMenu;
-  public static JMenu about;
-  public static String configFilePath;
+  public static JMenu fileMenu, editMenu, formatMenu, runMenu, about;
+  public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, pCopy, pCut, pPaste,
+      ShowClipboard, EraseClipboard, fontOptions, themes, settings, Compile, Run, CRun, console, AboutFile, visit, help,
+      AboutTrident, updates;
   public static UndoManager undoManager;
+  public static JPopupMenu editorMenu;
 
   public static String fileTypeParser(String fileName) {
     String extension = "";
@@ -129,7 +126,7 @@ class Trident {
 
   public static void main(String[] args) {
     try {
-      // * Local Variable declarations
+      // * Listener Variable declarations
       FileMenuListener fml = new FileMenuListener();
       EditMenuListener eml = new EditMenuListener();
       FormatMenuListener oml = new FormatMenuListener();
@@ -137,202 +134,204 @@ class Trident {
       AboutMenuListener aml = new AboutMenuListener();
 
       // * Global variable inits
-      {
-        warned = false;
-        fileType = " File";
-        textarea = new JTextArea();
-        mb = new JMenuBar();
-        configFilePath = "configurations.json";
-        path = System.getProperty("java.io.tmpdir") + "New File";
-      }
+      warned = false;
+      fileType = " File";
+      textarea = new JTextArea();
+      mb = new JMenuBar();
+      configFilePath = "configurations.json";
+      path = System.getProperty("java.io.tmpdir") + "New File";
 
       // * Themeing
       applyTheme();
 
       // * Frame Setup
-      {
-        frame = new JFrame();
-        frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
-        frame.setSize(800, 550);
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        ImageIcon ic = new ImageIcon("raw\\trident.png");
-        frame.setIconImage(ic.getImage());
-      }
+      frame = new JFrame();
+      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
+      frame.setSize(800, 550);
+      frame.setResizable(true);
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setLayout(new BorderLayout());
+      ImageIcon ic = new ImageIcon("raw\\trident.png");
+      frame.setIconImage(ic.getImage());
 
       // * Menu Bar Setup
-      {
-        fileMenu = new JMenu("File");
-        {
-          fileMenu.setMnemonic(KeyEvent.VK_F);
-          JMenuItem newFile = new JMenuItem("New");
-          newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-          fileMenu.add(newFile);
-          newFile.addActionListener(fml);
+      // > File Menu
+      fileMenu = new JMenu("File");
+      fileMenu.setMnemonic(KeyEvent.VK_F);
+      newFile = new JMenuItem("New");
+      newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      fileMenu.add(newFile);
+      newFile.addActionListener(fml);
 
-          JMenuItem OpenFile = new JMenuItem("Open");
-          OpenFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-          fileMenu.add(OpenFile);
-          OpenFile.addActionListener(fml);
+      OpenFile = new JMenuItem("Open");
+      OpenFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      fileMenu.add(OpenFile);
+      OpenFile.addActionListener(fml);
 
-          JMenuItem SaveFile = new JMenuItem("Save");
-          SaveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-          fileMenu.add(SaveFile);
-          SaveFile.addActionListener(fml);
+      SaveFile = new JMenuItem("Save");
+      SaveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      fileMenu.add(SaveFile);
+      SaveFile.addActionListener(fml);
 
-          JMenuItem SaveAs = new JMenuItem("Save As");
-          fileMenu.add(SaveAs);
-          SaveAs.addActionListener(fml);
+      SaveAs = new JMenuItem("Save As");
+      fileMenu.add(SaveAs);
+      SaveAs.addActionListener(fml);
 
-          JMenuItem Exit = new JMenuItem("Exit");
-          Exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-          fileMenu.add(Exit);
-          Exit.addActionListener(fml);
-        }
+      Exit = new JMenuItem("Exit");
+      Exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      fileMenu.add(Exit);
+      Exit.addActionListener(fml);
+      // > File Menu
 
-        editMenu = new JMenu("Edit");
-        {
-          editMenu.setMnemonic(KeyEvent.VK_E);
-          JMenuItem Undo = new JMenuItem("Undo");
-          Undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-          editMenu.add(Undo);
-          JMenuItem Redo = new JMenuItem("Redo");
-          Redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-          editMenu.add(Redo);
-          JMenuItem Copy = new JMenuItem("Copy");
-          Copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-          editMenu.add(Copy);
-          JMenuItem Cut = new JMenuItem("Cut");
-          Cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-          editMenu.add(Cut);
-          JMenuItem Paste = new JMenuItem("Paste");
-          Paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-          editMenu.add(Paste);
-          Undo.addActionListener(eml);
-          Redo.addActionListener(eml);
-          Cut.addActionListener(eml);
-          Copy.addActionListener(eml);
-          Paste.addActionListener(eml);
+      // > Edit Menu
+      editMenu = new JMenu("Edit");
+      editMenu.setMnemonic(KeyEvent.VK_E);
+      Undo = new JMenuItem("Undo");
+      Undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      Undo.addActionListener(eml);
+      editMenu.add(Undo);
 
-          JMenu ClipMenu = new JMenu("Clipboard");
-          editMenu.add(ClipMenu);
-          JMenuItem ShowClipboard = new JMenuItem("Show Contents");
-          ClipMenu.add(ShowClipboard);
-          ShowClipboard.addActionListener(eml);
-          JMenuItem EraseClipboard = new JMenuItem("Erase Contents");
-          ClipMenu.add(EraseClipboard);
-          EraseClipboard.addActionListener(eml);
-        }
+      Redo = new JMenuItem("Redo");
+      Redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      Redo.addActionListener(eml);
+      editMenu.add(Redo);
 
-        formatMenu = new JMenu("Format");
-        {
-          formatMenu.setMnemonic(KeyEvent.VK_O);
-          JMenuItem fontOptions = new JMenuItem("Fonts");
-          formatMenu.add(fontOptions);
-          fontOptions.addActionListener(oml);
-          JMenuItem themes = new JMenuItem("Themes");
-          themes.addActionListener(oml);
-          formatMenu.add(themes);
-          JMenuItem settings = new JMenuItem("Settings");
-          settings.addActionListener(oml);
-          formatMenu.add(settings);
-        }
+      Copy = new JMenuItem("Copy");
+      Copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      Copy.addActionListener(eml);
+      editMenu.add(Copy);
 
-        runMenu = new JMenu("Run");
-        {
-          runMenu.setMnemonic(KeyEvent.VK_R);
-          JMenuItem Compile = new JMenuItem("Compile");
-          Compile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_DOWN_MASK));
-          runMenu.add(Compile);
-          Compile.addActionListener(rml);
-          JMenuItem Run = new JMenuItem("Run");
-          Run.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_DOWN_MASK));
-          runMenu.add(Run);
-          Run.addActionListener(rml);
-          JMenuItem CRun = new JMenuItem("Compile and Run");
-          CRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_DOWN_MASK));
-          runMenu.add(CRun);
-          Run.addActionListener(rml);
-          JMenuItem console = new JMenuItem("Open Console");
-          runMenu.add(console);
-          console.addActionListener(rml);
-        }
+      Cut = new JMenuItem("Cut");
+      Cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      Cut.addActionListener(eml);
+      editMenu.add(Cut);
 
-        about = new JMenu("About");
-        {
-          JMenuItem AboutFile = new JMenuItem("File Properties");
-          AboutFile.addActionListener(aml);
-          about.add(AboutFile);
+      Paste = new JMenuItem("Paste");
+      Paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      editMenu.add(Paste);
+      Paste.addActionListener(eml);
 
-          JMenuItem visit = new JMenuItem("Visit our site");
-          visit.addActionListener(aml);
-          about.add(visit);
+      JMenu ClipMenu = new JMenu("Clipboard");
+      editMenu.add(ClipMenu);
+      ShowClipboard = new JMenuItem("Show Contents");
+      ClipMenu.add(ShowClipboard);
+      ShowClipboard.addActionListener(eml);
+      EraseClipboard = new JMenuItem("Erase Contents");
+      ClipMenu.add(EraseClipboard);
+      EraseClipboard.addActionListener(eml);
 
-          JMenuItem help = new JMenuItem("Help");
-          help.addActionListener(aml);
-          about.add(help);
+      // < Edit Menu
 
-          JMenuItem AboutTrident = new JMenuItem("About Trident");
-          about.add(AboutTrident);
-          AboutTrident.addActionListener(aml);
+      // > Format Menu
+      formatMenu = new JMenu("Format");
+      formatMenu.setMnemonic(KeyEvent.VK_O);
 
-          JMenuItem updates = new JMenuItem("Updates");
-          about.add(updates);
-          updates.addActionListener(aml);
-        }
+      fontOptions = new JMenuItem("Fonts");
+      formatMenu.add(fontOptions);
+      fontOptions.addActionListener(oml);
 
-        mb.add(fileMenu);
-        mb.add(editMenu);
-        mb.add(formatMenu);
-        mb.add(runMenu);
-        mb.add(about);
-      } // * Menu bar setup ends here
+      themes = new JMenuItem("Themes");
+      themes.addActionListener(oml);
+      formatMenu.add(themes);
+
+      settings = new JMenuItem("Settings");
+      settings.addActionListener(oml);
+      formatMenu.add(settings);
+      // < Format Menu
+
+      // > Run Menu
+      runMenu = new JMenu("Run");
+      runMenu.setMnemonic(KeyEvent.VK_R);
+      Compile = new JMenuItem("Compile");
+      Compile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_DOWN_MASK));
+      runMenu.add(Compile);
+      Compile.addActionListener(rml);
+      Run = new JMenuItem("Run");
+      Run.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_DOWN_MASK));
+      runMenu.add(Run);
+      Run.addActionListener(rml);
+      CRun = new JMenuItem("Compile and Run");
+      CRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_DOWN_MASK));
+      runMenu.add(CRun);
+      Run.addActionListener(rml);
+      console = new JMenuItem("Open Console");
+      runMenu.add(console);
+      console.addActionListener(rml);
+      // < Run Menu
+
+      // > About Menu
+      about = new JMenu("About");
+      AboutFile = new JMenuItem("File Properties");
+      AboutFile.addActionListener(aml);
+      about.add(AboutFile);
+
+      visit = new JMenuItem("Visit our site");
+      visit.addActionListener(aml);
+      about.add(visit);
+
+      help = new JMenuItem("Help");
+      help.addActionListener(aml);
+      about.add(help);
+
+      AboutTrident = new JMenuItem("About Trident");
+      about.add(AboutTrident);
+      AboutTrident.addActionListener(aml);
+
+      updates = new JMenuItem("Updates");
+      about.add(updates);
+      updates.addActionListener(aml);
+      // < About Menu
+
+      mb.add(fileMenu);
+      mb.add(editMenu);
+      mb.add(formatMenu);
+      mb.add(runMenu);
+      mb.add(about);
+      // * Menu bar setup ends here
 
       // * Pop up menu for text area
-      JPopupMenu editorMenu = new JPopupMenu();
-      {
-        JMenuItem Copy = new JMenuItem("Copy");
-        editorMenu.add(Copy);
-        Copy.addActionListener(eml);
-        JMenuItem Cut = new JMenuItem("Cut");
-        editorMenu.add(Cut);
-        Cut.addActionListener(eml);
-        JMenuItem Paste = new JMenuItem("Paste");
-        editorMenu.add(Paste);
-        Paste.addActionListener(eml);
+      editorMenu = new JPopupMenu();
+      pCopy = new JMenuItem("Copy");
+      pCopy.addActionListener(eml);
+      pCut = new JMenuItem("Cut");
+      pCut.addActionListener(eml);
+      pPaste = new JMenuItem("Paste");
+      pPaste.addActionListener(eml);
 
-      }
+      editorMenu.add(pCopy);
+      editorMenu.add(pCut);
+      editorMenu.add(pPaste);
+
+      // * Uses Edit Menu items */
 
       // * Text Area setup
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-      {
-        ChangeListener textAreaListeners = new ChangeListener();
-        textarea.getDocument().addDocumentListener(textAreaListeners);
-        textarea.setComponentPopupMenu(editorMenu);
-        editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
-        textarea.addCaretListener(textAreaListeners);
-        undoManager = new UndoManager();
-        textarea.getDocument().addUndoableEditListener(undoManager);
-      }
+      ChangeListener textAreaListeners = new ChangeListener();
+      textarea.getDocument().addDocumentListener(textAreaListeners);
+      textarea.setComponentPopupMenu(editorMenu);
+      editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
+      textarea.addCaretListener(textAreaListeners);
+      undoManager = new UndoManager();
+      textarea.getDocument().addUndoableEditListener(undoManager);
+      Undo.setEnabled(false);
+      Redo.setEnabled(false);
 
       // * Status bar setup
       statusBar = new JPanel();
-      {
-        status1 = new JLabel("Ready");
-        status2 = new JLabel("Unsaved");
-        status3 = new JLabel(fileType);
-        status4 = new JLabel("Line: 1   Offset: 1");
+      status1 = new JLabel("Ready");
+      status2 = new JLabel("Unsaved");
+      status3 = new JLabel(fileType);
+      status4 = new JLabel("Line: 1   Offset: 1");
 
-        statusBar.setSize(30, 2500);
-        statusBar.setBorder(new EmptyBorder(2, 3, 2, 2));
-        statusBar.setLayout(new GridLayout(1, 4, 2, 2));
-        statusBar.add(status1);
-        statusBar.add(status2);
-        statusBar.add(status3);
-        statusBar.add(status4);
-      } // * Status bar setup ends here
+      statusBar.setSize(30, 2500);
+      statusBar.setBorder(new EmptyBorder(2, 3, 2, 2));
+      statusBar.setLayout(new GridLayout(1, 4, 2, 2));
+      statusBar.add(status1);
+      statusBar.add(status2);
+      statusBar.add(status3);
+      statusBar.add(status4);
+      // * Status bar setup ends here
 
       // * Apply settings
       applyConfigs();
@@ -371,6 +370,8 @@ class FileMenuListener extends Trident implements ActionListener {
       status2.setText("Saved");
       status3.setText(fileTypeParser(Paths.get(path).getFileName().toString()));
       warned = false;
+      Undo.setEnabled(false);
+      Redo.setEnabled(false);
 
       contents = null;
       fr.close();
@@ -400,6 +401,8 @@ class FileMenuListener extends Trident implements ActionListener {
         status3.setText(fileTypeParser(Paths.get(path).getFileName().toString()));
       } else
         FileSaveAs();
+      Undo.setEnabled(false);
+      Redo.setEnabled(false);
     } catch (IOException ioe) {
       status1.setText("Error saving the file.");
     }
@@ -446,6 +449,8 @@ class FileMenuListener extends Trident implements ActionListener {
         status3.setText(" File");
         frame.setTitle("Trident Text Editor - New File");
         warned = false;
+        Undo.setEnabled(false);
+        Redo.setEnabled(false);
         break;
 
       case "Open":
@@ -529,16 +534,20 @@ class EditMenuListener extends Trident implements ActionListener {
       case "Undo":
         undoManager.undo();
         status1.setText("Ready");
+        Redo.setEnabled(true);
         break;
       case "Redo":
         undoManager.redo();
+        Undo.setEnabled(true);
         status1.setText("Ready");
         break;
       }
     } catch (CannotRedoException redoErr) {
       status1.setText("Redo could not be done.");
+      Redo.setEnabled(false);
     } catch (CannotUndoException undoErr) {
       status1.setText("Undo could not be done.");
+      Undo.setEnabled(false);
     } catch (HeadlessException noHead) {
     } catch (Exception oopsErr) {
     }
@@ -554,6 +563,8 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
       // break;
     case "Settings":
       try {
+        // ! Lags
+        // TODO : Add Option Pane
         JDialog jsonEditor = new JDialog();
         jsonEditor.setSize(450, 350);
         jsonEditor.setTitle("Style Editor");
@@ -703,6 +714,7 @@ class ChangeListener extends Trident implements DocumentListener, CaretListener 
       status2.setText("Unsaved");
       warned = true;
       frame.setTitle(frame.getTitle() + " - Unsaved");
+      Undo.setEnabled(true);
     }
   }
 
