@@ -2,11 +2,15 @@
 // * AWT ELEMENTS
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.awt.Desktop;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 // * CLIPBOARD ELEMENTS AND UNDO HANDLERS
 import java.awt.datatransfer.Clipboard;
@@ -16,6 +20,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
@@ -24,9 +29,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Date;
 
+import javax.swing.BoxLayout;
 // * SWING ELEMENTS
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -668,17 +675,32 @@ class AboutMenuListener extends Trident implements ActionListener {
     switch (e.getActionCommand()) {
     case "About Trident":
       // TODO: Add link to version.config
+      // ! Improper Layout
       JDialog aboutDialog = new JDialog(frame, "About Trident");
       JPanel infoPanel = new JPanel();
       ImageIcon ic = new ImageIcon("raw\\trident_logo.png");
       JLabel icon = new JLabel(ic);
       icon.setSize(50, 50);
       JLabel l1 = new JLabel(
-          "<html> <center><h2> <br/>Trident Text Editor</h2> <br/> Version 0.0.5 <br/>ALPHA<br/> <a href=\"https://github.com/KrishnaMoorthy12/trident\">View Source Code - GitHub</a></center> </html>");
-      // ! Link is not clickable
+          "<html> <center><h2> <br/>Trident Text Editor</h2> <br/> Version 0.0.5 <br/>ALPHA<br/></html>");
+      JLabel l2 = new JLabel("View Source Code - GitHub");
+      l2.setForeground(Color.BLUE);
+      l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
+      l2.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent me) {
+          try {
+            Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident"));
+          } catch (Exception e) {
+            System.err.println(e);
+          }
+        }
+      });
       infoPanel.setBorder(new EmptyBorder(10, 5, 5, 5));
+      infoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
       infoPanel.add(icon);
       infoPanel.add(l1);
+      infoPanel.add(l2);
       aboutDialog.add(infoPanel);
       aboutDialog.setSize(350, 500);
       aboutDialog.setResizable(false);
