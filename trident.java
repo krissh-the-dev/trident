@@ -682,9 +682,9 @@ class AboutMenuListener extends Trident implements ActionListener {
       JLabel icon = new JLabel(ic);
       icon.setSize(50, 50);
       JLabel l1 = new JLabel(
-          "<html> <center><h2> <br/>Trident Text Editor</h2> <br/> Version 0.0.5 <br/>ALPHA<br/></html>");
-      JLabel l2 = new JLabel("View Source Code - GitHub");
-      l2.setForeground(Color.BLUE);
+          "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 0.0.7 <br/>ALPHA<br/><h4></html>");
+      JLabel l2 = new JLabel(
+          "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:blue; border:2px solid blue; padding: 5px;}</style><h3>View Source Code - GitHub</h3></html>");
       l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
       l2.addMouseListener(new MouseAdapter() {
         @Override
@@ -696,11 +696,10 @@ class AboutMenuListener extends Trident implements ActionListener {
           }
         }
       });
-      infoPanel.setBorder(new EmptyBorder(10, 5, 5, 5));
-      infoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
       infoPanel.add(icon);
       infoPanel.add(l1);
       infoPanel.add(l2);
+      l2.setBounds(120, 400, 50, 10);
       aboutDialog.add(infoPanel);
       aboutDialog.setSize(350, 500);
       aboutDialog.setResizable(false);
