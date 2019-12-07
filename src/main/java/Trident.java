@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Clipboard;
 
 // * IO ELEMENTS
 import java.io.File;
@@ -53,7 +55,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
-
 import org.json.simple.JSONObject;
 
 class Trident {
@@ -143,7 +144,7 @@ class Trident {
         fileType = " File";
         textarea = new JTextArea();
         mb = new JMenuBar();
-        configFilePath = "com\\akris\\configurations.json";
+        configFilePath = "configurations.json";
         path = System.getProperty("java.io.tmpdir") + "New File";
       }
 
@@ -158,7 +159,7 @@ class Trident {
         frame.setResizable(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        ImageIcon ic = new ImageIcon("com\\akris\\raw\\trident.png");
+        ImageIcon ic = new ImageIcon("raw\\trident.png");
         frame.setIconImage(ic.getImage());
       }
 
@@ -559,7 +560,7 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
         jsonEditor.setSize(450, 350);
         jsonEditor.setTitle("Style Editor");
         JPanel TextViewer = new JPanel();
-        File jsonFile = new File("com\\akris\\configurations.json");
+        File jsonFile = new File("configurations.json");
         FileReader fr = new FileReader(jsonFile);
         BufferedReader br = new BufferedReader(fr);
         String jsonContents = "";
@@ -581,7 +582,7 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
             try {
               // ! Huge delay in editor since we're writing file for every single change
               String jsonContents = jsonViewer.getText();
-              File jsonFile = new File("com\\akris\\configurations.json");
+              File jsonFile = new File("configurations.json");
               FileWriter fileWritter = new FileWriter(jsonFile, false);
               BufferedWriter bw = new BufferedWriter(fileWritter);
               bw.write(jsonContents);
@@ -638,7 +639,7 @@ class AboutMenuListener extends Trident implements ActionListener {
       // TODO: Add link to version.config
       JDialog aboutDialog = new JDialog(frame, "About Trident");
       JPanel infoPanel = new JPanel();
-      ImageIcon ic = new ImageIcon("com\\akris\\raw\\trident_logo.png");
+      ImageIcon ic = new ImageIcon("raw\\trident_logo.png");
       JLabel icon = new JLabel(ic);
       icon.setSize(50, 50);
       JLabel l1 = new JLabel(
