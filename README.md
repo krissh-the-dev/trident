@@ -16,6 +16,8 @@ A new classical powerful text editor made with Java Swing package and passion!
  * A Clean and Neat User Interface
  * Improved Unsaved file confirmation on File -> New, Open and Exit
  * Line Number in the status bar
+ * Responsive Undo, Redo Options
+ * Error Report Interface
  * New HD Icon
 
 ## Bugs:
@@ -23,8 +25,6 @@ A new classical powerful text editor made with Java Swing package and passion!
  * Meaningless Cut, Copy option when no text is selected
  * Meaningless Paste option when clipboard is empty
  * About Trident -> View Source is unclickable
- * Huge delay in editing json
- * Many bugs with 'X' [Window Close] button
 
 ## Coming soon:
  * Compile, Run features

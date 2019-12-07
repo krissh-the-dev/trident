@@ -436,7 +436,6 @@ class FileMenuListener extends Trident implements ActionListener {
   }
 
   public int warningDialog() {
-    // ! When OptionPane is closed using 'X' button, invokes FileSaver()
     int opt = JOptionPane.showConfirmDialog(frame,
         "There are some unsaved changes in the file. Do you want to save the changes and continue?",
         "Warning: Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -486,7 +485,7 @@ class FileMenuListener extends Trident implements ActionListener {
           int opt = warningDialog();
           if (opt == JOptionPane.NO_OPTION) {
             System.exit(0);
-          } else if (opt == JOptionPane.CANCEL_OPTION) {
+          } else {
             status1.setText("Ready.");
             break;
           }
@@ -502,7 +501,9 @@ class FileMenuListener extends Trident implements ActionListener {
         FileSaveAs();
         break;
       }
-    } catch (Exception exp) {
+    } catch (
+
+    Exception exp) {
       ErrorDialog(5, exp);
     }
   }
@@ -531,29 +532,33 @@ class EditMenuListener extends Trident implements ActionListener {
           cbviewer.setVisible(true);
         } catch (UnsupportedFlavorException ufe) {
           ErrorDialog(6, ufe);
-          System.err.println("UFE");
         } catch (IOException ioe) {
           ErrorDialog(7, ioe);
-          System.err.println("IOE");
         }
         break;
+
       case "Erase Contents":
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(""), null);
         break;
+
       case "Cut":
         textarea.cut();
         break;
+
       case "Copy":
         textarea.copy();
         break;
+
       case "Paste":
         textarea.paste();
         break;
+
       case "Undo":
         undoManager.undo();
         status1.setText("Ready");
         Redo.setEnabled(true);
         break;
+
       case "Redo":
         undoManager.redo();
         Undo.setEnabled(true);
@@ -583,7 +588,6 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
       // break;
     case "Settings":
       try {
-        // ! Lags
         // TODO : Add Option Pane
         JDialog jsonEditor = new JDialog();
         jsonEditor.setSize(450, 350);
@@ -609,8 +613,6 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
         jsonViewer.getDocument().addDocumentListener(new DocumentListener() {
           private void saveSettings() {
             try {
-              // ! Huge delay in editor since we're writing file for every single change
-              // ? Fixed
               String jsonContents = jsonViewer.getText();
               File jsonFile = new File("configurations.json");
               FileWriter fileWritter = new FileWriter(jsonFile, false);
@@ -619,8 +621,6 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
               bw.close();
             } catch (IOException fIoException) {
               ErrorDialog(10, fIoException);
-              // } catch (InterruptedException fInterruptedException) {
-              // ErrorDialog(11, fInterruptedException);
             }
           }
 
