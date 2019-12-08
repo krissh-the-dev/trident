@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.Desktop;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.image.*;
 
 // * CLIPBOARD ELEMENTS AND UNDO HANDLERS
 import java.awt.datatransfer.Clipboard;
@@ -33,7 +34,6 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Date;
 
-import javax.swing.BoxLayout;
 // * SWING ELEMENTS
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -79,12 +79,21 @@ class Trident {
   public static JPopupMenu editorMenu;
 
   public static void ErrorDialog(int code, Exception e) {
-    Object[] ops = { "OK" };
-    JOptionPane.showOptionDialog(frame,
+    Object[] ops = { "YES", "NO" };
+    int option = JOptionPane.showConfirmDialog(frame,
         "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: " + code
             + "\nERROR NAME: " + e.getClass().getName(),
-        "Aw! Snap!", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, ops, ops[0]);
-    status1.setText("Please report errors at GitHub issues.");
+        "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
+    if (option == JOptionPane.YES_OPTION) {
+      try {
+        Desktop.getDesktop().browse(java.net.URI.create("https://github.com/KrishnaMoorthy12/trident/issues/new"));
+      } catch (Exception shit) {
+        ErrorDialog(104, shit);
+      }
+      status1.setText("Thanks for your positive intent.");
+    } else {
+      status1.setText("Please report errors to help improve Trident.");
+    }
   }
 
   public static String fileTypeParser(String fileName) {
@@ -369,7 +378,7 @@ class FileMenuListener extends Trident implements ActionListener {
   public void FileOpenener() {
     try {
       JFileChooser openDialog = new JFileChooser(FileSystemView.getFileSystemView());
-      int command = openDialog.showOpenDialog(null);
+      int command = openDialog.showOpenDialog(frame);
 
       if (command == JFileChooser.APPROVE_OPTION)
         path = openDialog.getSelectedFile().getAbsolutePath();
@@ -432,7 +441,7 @@ class FileMenuListener extends Trident implements ActionListener {
 
   public void FileSaveAs() {
     JFileChooser saveAsDialog = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-    int command = saveAsDialog.showSaveDialog(null);
+    int command = saveAsDialog.showSaveDialog(frame);
 
     if (command == JFileChooser.APPROVE_OPTION) {
       path = (saveAsDialog.getSelectedFile().getAbsolutePath());
@@ -445,7 +454,8 @@ class FileMenuListener extends Trident implements ActionListener {
   public int warningDialog() {
     int opt = JOptionPane.showConfirmDialog(frame,
         "There are some unsaved changes in the file. Do you want to save the changes and continue?",
-        "Warning: Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        "Warning: Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE,
+        (new ImageIcon("raw/warning.png")));
     if (opt == JOptionPane.YES_OPTION) {
       FileSaver(path);
     }
@@ -596,9 +606,9 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
     case "Settings":
       try {
         // TODO : Add Option Pane
-        JDialog jsonEditor = new JDialog();
+        JDialog jsonEditor = new JDialog(frame, "Style Editor");
         jsonEditor.setSize(450, 350);
-        jsonEditor.setTitle("Style Editor");
+        jsonEditor.setIconImage((new ImageIcon("raw/trident.png")).getImage());
         JPanel TextViewer = new JPanel();
         File jsonFile = new File("configurations.json");
         FileReader fr = new FileReader(jsonFile);
@@ -780,12 +790,27 @@ class AboutMenuListener extends Trident implements ActionListener {
         break;
 
       case "Visit our site":
+        try {
+          Desktop.getDesktop().browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident/"));
+        } catch (Exception edc) {
+          ErrorDialog(19, edc);
+        }
         break;
 
       case "Help":
+        try {
+          Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/issues"));
+        } catch (Exception edc) {
+          ErrorDialog(19, edc);
+        }
         break;
 
       case "Updates":
+        try {
+          Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/releases"));
+        } catch (Exception edc) {
+          ErrorDialog(19, edc);
+        }
         break;
       }
     } catch (Exception exc) {
