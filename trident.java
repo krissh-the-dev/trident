@@ -790,12 +790,27 @@ class AboutMenuListener extends Trident implements ActionListener {
         break;
 
       case "Visit our site":
+        try {
+          Desktop.getDesktop().browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident/"));
+        } catch (Exception edc) {
+          ErrorDialog(19, edc);
+        }
         break;
 
       case "Help":
+        try {
+          Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/issues"));
+        } catch (Exception edc) {
+          ErrorDialog(19, edc);
+        }
         break;
 
       case "Updates":
+        try {
+          Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/releases"));
+        } catch (Exception edc) {
+          ErrorDialog(19, edc);
+        }
         break;
       }
     } catch (Exception exc) {
