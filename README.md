@@ -2,7 +2,7 @@
 A new classical powerful text editor made with Java Swing package and passion!
 
 ## What's new:
- * Will be added from next beta release
+ ### First Beta Release
 
 ## Current features:
  * Opens, edits, saves any file
@@ -18,6 +18,7 @@ A new classical powerful text editor made with Java Swing package and passion!
  * Line Number in the status bar
  * Responsive Undo, Redo Options
  * Error Report Interface
+ * Opens Console window
  * New HD Icon
 
 ## Bugs:
@@ -30,8 +31,6 @@ A new classical powerful text editor made with Java Swing package and passion!
 ## Coming soon:
  * Compile, Run features
  * Working Configurations (Json - Source link)
- * Some under the hood changes
- * Beta release
 
 ### LTF:
  - File->Rename
