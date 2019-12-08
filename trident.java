@@ -25,6 +25,8 @@ import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
+import java.lang.ProcessBuilder.Redirect;
+
 // * IO ELEMENTS
 import java.io.File;
 import java.io.FileReader;
@@ -79,7 +81,6 @@ class Trident {
   public static JPopupMenu editorMenu;
 
   public static void ErrorDialog(int code, Exception e) {
-    Object[] ops = { "YES", "NO" };
     int option = JOptionPane.showConfirmDialog(frame,
         "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: " + code
             + "\nERROR NAME: " + e.getClass().getName(),
@@ -88,7 +89,7 @@ class Trident {
       try {
         Desktop.getDesktop().browse(java.net.URI.create("https://github.com/KrishnaMoorthy12/trident/issues/new"));
       } catch (Exception shit) {
-        ErrorDialog(104, shit);
+        ErrorDialog(0, shit);
       }
       status1.setText("Thanks for your positive intent.");
     } else {
@@ -655,7 +656,9 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
         });
         jsonEditor.setVisible(true);
       } catch (IOException ioe) {
-        ErrorDialog(12, ioe);
+        ErrorDialog(11, ioe);
+      } catch (Exception unknownException) {
+        ErrorDialog(12, unknownException);
       }
       break;
     }
@@ -681,7 +684,7 @@ class RunMenuListener extends Trident implements ActionListener {
     }
   }
 
-  public void shellCommandRunner(int os, String command) {
+  public void shellCommandRunner(int os, String command) throws UnsupportedOperatingSystemException {
     try {
       if (os == 1) {
         String[] processArgs = new String[] { "cmd.exe", "/c", command };
@@ -691,26 +694,52 @@ class RunMenuListener extends Trident implements ActionListener {
         Process proc = new ProcessBuilder(processArgs).start();
       } else
         throw new UnsupportedOperatingSystemException();
+    } catch (UnsupportedOperatingSystemException unOS) {
+      throw new UnsupportedOperatingSystemException();
     } catch (Exception uos) {
-      ErrorDialog(14, new UnsupportedOperatingSystemException());
-      System.err.println(uos);
+      ErrorDialog(13, uos);
     }
   }
 
+  public void compiler() throws IOException, InterruptedException {
+    ProcessBuilder processBuilder = new ProcessBuilder("javac", path);
+    processBuilder.directory(new File("logs"));
+    File log = new File("logs/log.txt");
+    processBuilder.redirectErrorStream(true);
+    processBuilder.redirectOutput(Redirect.appendTo(log));
+    Process p = processBuilder.start();
+    p.waitFor();
+    status1.setText("Compile process ended");
+  }
+
   public void actionPerformed(ActionEvent e) {
-    switch (e.getActionCommand()) {
-    case "Compile":
-      // break;
+    try {
+      switch (e.getActionCommand()) {
+      case "Compile":
+        compiler();
+        break;
 
-    case "Run":
-      // break;
+      case "Run":
+        // runner();
+        // break;
 
-    case "Compile and Run":
-      // break;
+      case "Compile and Run":
+        compiler();
+        // runner();
+        break;
 
-    case "Open Console":
-      shellCommandRunner(checkOS(), "start");
-      break;
+      case "Open Console":
+        shellCommandRunner(checkOS(), "start");
+        break;
+      }
+    } catch (InterruptedException interruptedException) {
+      ErrorDialog(14, interruptedException);
+    } catch (IOException ioException) {
+      ErrorDialog(15, ioException);
+    } catch (UnsupportedOperatingSystemException unOs) {
+      ErrorDialog(16, unOs);
+    } catch (Exception unknownException) {
+      ErrorDialog(17, unknownException);
     }
   }
 }
@@ -790,31 +819,19 @@ class AboutMenuListener extends Trident implements ActionListener {
         break;
 
       case "Visit our site":
-        try {
-          Desktop.getDesktop().browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident/"));
-        } catch (Exception edc) {
-          ErrorDialog(19, edc);
-        }
+        Desktop.getDesktop().browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident/"));
         break;
 
       case "Help":
-        try {
-          Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/issues"));
-        } catch (Exception edc) {
-          ErrorDialog(19, edc);
-        }
+        Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/issues"));
         break;
 
       case "Updates":
-        try {
-          Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/releases"));
-        } catch (Exception edc) {
-          ErrorDialog(19, edc);
-        }
+        Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/releases"));
         break;
       }
     } catch (Exception exc) {
-      ErrorDialog(14, exc);
+      ErrorDialog(18, exc);
     }
   }
 }
@@ -831,12 +848,11 @@ class ChangeListener extends Trident implements DocumentListener, CaretListener 
 
   public void caretUpdate(CaretEvent ce) {
     try {
-
       int offset = textarea.getCaretPosition();
       int line = textarea.getLineOfOffset(offset) + 1;
       status4.setText("Line: " + line + "   Offset: " + (offset + 1));
     } catch (BadLocationException badexp) {
-      ErrorDialog(13, badexp);
+      ErrorDialog(19, badexp);
       status4.setText("Aw snap!");
     }
 
