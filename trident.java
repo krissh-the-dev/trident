@@ -83,7 +83,7 @@ class Trident {
   public static void ErrorDialog(int code, Exception e) {
     int option = JOptionPane.showConfirmDialog(frame,
         "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: " + code
-            + "\nERROR NAME: " + e.getClass().getName(),
+            + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
         "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
     if (option == JOptionPane.YES_OPTION) {
       try {
@@ -684,13 +684,13 @@ class RunMenuListener extends Trident implements ActionListener {
     }
   }
 
-  public void shellCommandRunner(int os, String command) throws UnsupportedOperatingSystemException {
+  public void openTerminal(int os) throws UnsupportedOperatingSystemException {
     try {
       if (os == 1) {
-        String[] processArgs = new String[] { "cmd.exe", "/c", command };
+        String[] processArgs = new String[] { "cmd.exe", "/c", "Start" };
         Process proc = new ProcessBuilder(processArgs).start();
       } else if (os == 2) {
-        String[] processArgs = new String[] { "/bin/bash", "-c", command };
+        String[] processArgs = new String[] { "/bin/bash", "-c", "Start" };
         Process proc = new ProcessBuilder(processArgs).start();
       } else
         throw new UnsupportedOperatingSystemException();
@@ -701,35 +701,29 @@ class RunMenuListener extends Trident implements ActionListener {
     }
   }
 
-  public void compiler() throws IOException, InterruptedException {
-    ProcessBuilder processBuilder = new ProcessBuilder("javac", path);
-    processBuilder.directory(new File("logs"));
-    File log = new File("logs/log.txt");
-    processBuilder.redirectErrorStream(true);
-    processBuilder.redirectOutput(Redirect.appendTo(log));
-    Process p = processBuilder.start();
-    p.waitFor();
-    status1.setText("Compile process ended");
-  }
-
   public void actionPerformed(ActionEvent e) {
     try {
+      TridentCompiler compiler = new TridentCompiler(path);
       switch (e.getActionCommand()) {
       case "Compile":
-        compiler();
+        compiler.compile();
+        status1.setText("Compilation ended.");
         break;
 
       case "Run":
-        // runner();
-        // break;
+        compiler.execute();
+        status1.setText("Execution ended.");
+        break;
 
       case "Compile and Run":
-        compiler();
-        // runner();
+        compiler.compile();
+        status1.setText("Compilation ended.");
+        compiler.execute();
+        status1.setText("Execution ended.");
         break;
 
       case "Open Console":
-        shellCommandRunner(checkOS(), "start");
+        openTerminal(checkOS());
         break;
       }
     } catch (InterruptedException interruptedException) {
@@ -739,6 +733,7 @@ class RunMenuListener extends Trident implements ActionListener {
     } catch (UnsupportedOperatingSystemException unOs) {
       ErrorDialog(16, unOs);
     } catch (Exception unknownException) {
+      unknownException.printStackTrace();
       ErrorDialog(17, unknownException);
     }
   }
@@ -756,7 +751,7 @@ class AboutMenuListener extends Trident implements ActionListener {
         JLabel icon = new JLabel(ic);
         icon.setSize(50, 50);
         JLabel l1 = new JLabel(
-            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 0.1.0 <br/>BETA<br/><h4></html>");
+            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 0.3.0 <br/>BETA<br/><h4></html>");
         JLabel l2 = new JLabel(
             "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:blue; border:2px solid blue; padding: 5px;}</style><h3>View Source Code - GitHub</h3></html>");
         l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
