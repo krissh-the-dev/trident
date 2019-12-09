@@ -65,14 +65,14 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 class Trident {
-  protected static JTextArea textarea, lineNumbers;
+  protected static JTextArea textarea;
   protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
   public static String fileType, path, uitheme, configFilePath;
   public static Boolean warned;
   public static JMenuBar mb;
   public static JScrollPane editor;
-  public static JPanel statusBar, mainPanel, commentPanel, othersPanel;
+  public static JPanel statusBar, commentPanel, othersPanel;
   public static JMenu fileMenu, editMenu, formatMenu, runMenu, about, ClipMenu;
   public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, pCopy, pCut, pPaste,
       ShowClipboard, EraseClipboard, fontOptions, themes, settings, Compile, Run, CRun, console, AboutFile, visit, help,
@@ -131,8 +131,6 @@ class Trident {
     textarea.setCaretColor(Color.black);
     textarea.setSelectedTextColor(Color.white);
     textarea.setSelectionColor(new Color(23, 135, 227));
-    lineNumbers.setBackground(Color.LIGHT_GRAY);
-    lineNumbers.setForeground(Color.DARK_GRAY);
 
     Color statusColor = Color.LIGHT_GRAY;
     Color statusTextColor = Color.BLACK;
@@ -183,7 +181,7 @@ class Trident {
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       frame.setSize(800, 550);
       frame.setResizable(true);
-      frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setLayout(new BorderLayout());
       ImageIcon ic = new ImageIcon("raw\\trident.png");
       frame.setIconImage(ic.getImage());
@@ -339,15 +337,7 @@ class Trident {
       // * Uses Edit Menu items */
 
       // * Text Area setup
-      mainPanel = new JPanel();
-      lineNumbers = new JTextArea();
-      mainPanel.setLayout(new BorderLayout());
-      mainPanel.add(lineNumbers, BorderLayout.WEST);
-      lineNumbers.setText("1");
-      lineNumbers.setEditable(false);
-      new LineNumberChanger().start();
-      mainPanel.add(textarea, BorderLayout.CENTER);
-      editor = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+      editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
       ChangeListener textAreaListeners = new ChangeListener();
       textarea.getDocument().addDocumentListener(textAreaListeners);
@@ -906,13 +896,5 @@ class CommentPaneListener extends Thread {
     } catch (Exception died) {
       died.printStackTrace();
     }
-  }
-}
-
-class LineNumberChanger extends Thread {
-  @Override
-  public void run() {
-    for (int i = 2; i <= Trident.textarea.getLineCount(); i++)
-      Trident.lineNumbers.setText(Trident.lineNumbers.getText() + "\n" + i);
   }
 }
