@@ -72,7 +72,7 @@ class Trident {
   public static Boolean warned;
   public static JMenuBar mb;
   public static JScrollPane editor;
-  public static JPanel statusBar;
+  public static JPanel statusBar, commentPanel, othersPanel;
   public static JMenu fileMenu, editMenu, formatMenu, runMenu, about, ClipMenu;
   public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, pCopy, pCut, pPaste,
       ShowClipboard, EraseClipboard, fontOptions, themes, settings, Compile, Run, CRun, console, AboutFile, visit, help,
@@ -80,16 +80,16 @@ class Trident {
   public static UndoManager undoManager;
   public static JPopupMenu editorMenu;
 
-  public static void ErrorDialog(int code, Exception e) {
+  public static void ErrorDialog(String code, Exception e) {
     int option = JOptionPane.showConfirmDialog(frame,
         "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: " + code
-            + "\nERROR NAME: " + e.getClass().getName(),
+            + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
         "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
     if (option == JOptionPane.YES_OPTION) {
       try {
         Desktop.getDesktop().browse(java.net.URI.create("https://github.com/KrishnaMoorthy12/trident/issues/new"));
       } catch (Exception shit) {
-        ErrorDialog(0, shit);
+        ErrorDialog("DESKTOP_UNAVAILABLE", shit);
       }
       status1.setText("Thanks for your positive intent.");
     } else {
@@ -113,7 +113,7 @@ class Trident {
       uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will be read from file
       UIManager.setLookAndFeel(uitheme);
     } catch (Exception themeError) {
-      ErrorDialog(1, themeError);
+      ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
       System.err.println("Error theming the application.");
     }
   }
@@ -132,19 +132,26 @@ class Trident {
     textarea.setSelectedTextColor(Color.white);
     textarea.setSelectionColor(new Color(23, 135, 227));
 
-    statusBar.setBackground(Color.LIGHT_GRAY);
-    status1.setForeground(Color.BLACK);
-    status2.setForeground(Color.BLACK);
-    status3.setForeground(Color.BLACK);
-    status4.setForeground(Color.BLACK);
+    Color statusColor = Color.LIGHT_GRAY;
+    Color statusTextColor = Color.BLACK;
+    statusBar.setBackground(statusColor);
+    commentPanel.setBackground(statusColor);
+    othersPanel.setBackground(statusColor);
+
+    status1.setForeground(statusTextColor);
+    status2.setForeground(statusTextColor);
+    status3.setForeground(statusTextColor);
+    status4.setForeground(statusTextColor);
 
     mb.setBackground(Color.white);
     mb.setForeground(Color.black);
-    fileMenu.setForeground(Color.DARK_GRAY);
-    editMenu.setForeground(Color.DARK_GRAY);
-    formatMenu.setForeground(Color.DARK_GRAY);
-    runMenu.setForeground(Color.DARK_GRAY);
-    about.setForeground(Color.DARK_GRAY);
+
+    Color menuColor = Color.DARK_GRAY;
+    fileMenu.setForeground(menuColor);
+    editMenu.setForeground(menuColor);
+    formatMenu.setForeground(menuColor);
+    runMenu.setForeground(menuColor);
+    about.setForeground(menuColor);
 
     return true;
   }
@@ -347,15 +354,26 @@ class Trident {
       status1 = new JLabel("Ready");
       status2 = new JLabel("Unsaved");
       status3 = new JLabel(fileType);
-      status4 = new JLabel("Line: 1   Offset: 1");
+      status4 = new JLabel("Line: 1");
+      CommentPaneListener cpl = new CommentPaneListener();
+      cpl.start();
 
       statusBar.setSize(30, 2500);
       statusBar.setBorder(new EmptyBorder(2, 3, 2, 2));
-      statusBar.setLayout(new GridLayout(1, 4, 2, 2));
-      statusBar.add(status1);
-      statusBar.add(status2);
-      statusBar.add(status3);
-      statusBar.add(status4);
+      statusBar.setLayout(new GridLayout(1, 2, 2, 2));
+
+      commentPanel = new JPanel();
+      othersPanel = new JPanel();
+      commentPanel.setLayout(new GridLayout(1, 1, 0, 0));
+      othersPanel.setLayout(new GridLayout(1, 3, 0, 0));
+
+      commentPanel.add(status1);
+      othersPanel.add(status2);
+      othersPanel.add(status3);
+      othersPanel.add(status4);
+
+      statusBar.add(commentPanel);
+      statusBar.add(othersPanel);
       // * Status bar setup ends here
 
       // * Apply settings
@@ -367,7 +385,7 @@ class Trident {
       frame.setVisible(true);
 
     } catch (Exception e) {
-      ErrorDialog(2, e);
+      ErrorDialog("MAIN_THREAD_CRASH", e);
       System.err.println("Unexpected crash...");
       e.printStackTrace();
       System.exit(0);
@@ -408,7 +426,7 @@ class FileMenuListener extends Trident implements ActionListener {
       br.close();
       System.gc();
     } catch (Exception ioe) {
-      ErrorDialog(3, ioe);
+      ErrorDialog("FILE_OPENER", ioe);
       status1.setText("Ready.");
     }
   }
@@ -434,8 +452,11 @@ class FileMenuListener extends Trident implements ActionListener {
         FileSaveAs();
       Undo.setEnabled(false);
       Redo.setEnabled(false);
-    } catch (Exception ioe) {
-      ErrorDialog(4, ioe);
+    } catch (IOException ioe) {
+      ErrorDialog("FILE_SAVE_IO", ioe);
+      status1.setText("Error saving the file.");
+    } catch (Exception unknownException) {
+      ErrorDialog("FILE_SAVE_UNKNOWN", unknownException);
       status1.setText("Error saving the file.");
     }
   }
@@ -474,8 +495,8 @@ class FileMenuListener extends Trident implements ActionListener {
             break;
           }
         }
-        textarea.setText("");
         path = System.getProperty("java.io.tmpdir") + "New File";
+        textarea.setText("");
         status1.setText("Ready.");
         status2.setText("Unsaved");
         status3.setText(" File");
@@ -519,10 +540,8 @@ class FileMenuListener extends Trident implements ActionListener {
         FileSaveAs();
         break;
       }
-    } catch (
-
-    Exception exp) {
-      ErrorDialog(5, exp);
+    } catch (Exception exp) {
+      ErrorDialog("FILE_MENU_CRASH", exp);
     }
   }
 }
@@ -549,9 +568,9 @@ class EditMenuListener extends Trident implements ActionListener {
           cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
           cbviewer.setVisible(true);
         } catch (UnsupportedFlavorException ufe) {
-          ErrorDialog(6, ufe);
+          ErrorDialog("FLAVOR_ERR", ufe);
         } catch (IOException ioe) {
-          ErrorDialog(7, ioe);
+          ErrorDialog("IOE_CLIPBOARD", ioe);
         }
         break;
 
@@ -590,156 +609,149 @@ class EditMenuListener extends Trident implements ActionListener {
       status1.setText("No more Undos available.");
       Undo.setEnabled(false);
     } catch (HeadlessException noHead) {
-      ErrorDialog(8, noHead);
+      ErrorDialog("HEADLESS_ERR", noHead);
     } catch (Exception oopsErr) {
-      ErrorDialog(9, oopsErr);
+      ErrorDialog("EDIT_MENU_CRASH", oopsErr);
     }
   }
 }
 
 class FormatMenuListener extends FileMenuListener implements ActionListener {
+  protected void SettingsEditor() {
+    try {
+      JDialog jsonEditor = new JDialog(frame, "Style Editor");
+      jsonEditor.setSize(450, 350);
+      jsonEditor.setIconImage((new ImageIcon("raw/trident.png")).getImage());
+      JPanel TextViewer = new JPanel();
+      File jsonFile = new File("configurations.json");
+      FileReader fr = new FileReader(jsonFile);
+      BufferedReader br = new BufferedReader(fr);
+      String jsonContents = "";
+      for (String line = br.readLine(); line != null; line = br.readLine()) {
+        jsonContents += line + System.lineSeparator();
+      }
+      fr.close();
+      br.close();
+      JTextArea jsonViewer = new JTextArea(jsonContents);
+      JScrollPane jsonScrollController = new JScrollPane(jsonViewer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+          JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+      jsonScrollController.setBorder(new EmptyBorder(-1, 0, -1, 0));
+      TextViewer.setLayout(new GridLayout(1, 1, 1, 1));
+      jsonEditor.setLayout(new BorderLayout());
+      TextViewer.add(jsonScrollController);
+      jsonEditor.getContentPane().add(TextViewer, BorderLayout.CENTER);
+      jsonViewer.getDocument().addDocumentListener(new DocumentListener() {
+        private void saveSettings() {
+          try {
+            String jsonContents = jsonViewer.getText();
+            File jsonFile = new File("configurations.json");
+            FileWriter fileWritter = new FileWriter(jsonFile, false);
+            BufferedWriter bw = new BufferedWriter(fileWritter);
+            bw.write(jsonContents);
+            bw.close();
+          } catch (IOException fIoException) {
+            ErrorDialog("JSON_THREAD_IO", fIoException);
+          }
+        }
+
+        public void changedUpdate(DocumentEvent e) {
+          saveSettings();
+        }
+
+        public void removeUpdate(DocumentEvent e) {
+          saveSettings();
+        }
+
+        public void insertUpdate(DocumentEvent e) {
+          saveSettings();
+        }
+      });
+      jsonEditor.setVisible(true);
+    } catch (Exception unknownException) {
+      ErrorDialog("UNKNOWN_JSON_ERR", unknownException);
+    }
+  }
+
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
     case "Fonts":
-      // break;
+      SettingsEditor();
+      break;
     case "Themes":
-      // break;
+      SettingsEditor();
+      break;
     case "Settings":
-      try {
-        // TODO : Add Option Pane
-        JDialog jsonEditor = new JDialog(frame, "Style Editor");
-        jsonEditor.setSize(450, 350);
-        jsonEditor.setIconImage((new ImageIcon("raw/trident.png")).getImage());
-        JPanel TextViewer = new JPanel();
-        File jsonFile = new File("configurations.json");
-        FileReader fr = new FileReader(jsonFile);
-        BufferedReader br = new BufferedReader(fr);
-        String jsonContents = "";
-        for (String line = br.readLine(); line != null; line = br.readLine()) {
-          jsonContents += line + System.lineSeparator();
-        }
-        fr.close();
-        br.close();
-        JTextArea jsonViewer = new JTextArea(jsonContents);
-        JScrollPane jsonScrollController = new JScrollPane(jsonViewer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        jsonScrollController.setBorder(new EmptyBorder(-1, 0, -1, 0));
-        TextViewer.setLayout(new GridLayout(1, 1, 1, 1));
-        jsonEditor.setLayout(new BorderLayout());
-        TextViewer.add(jsonScrollController);
-        jsonEditor.getContentPane().add(TextViewer, BorderLayout.CENTER);
-        jsonViewer.getDocument().addDocumentListener(new DocumentListener() {
-          private void saveSettings() {
-            try {
-              String jsonContents = jsonViewer.getText();
-              File jsonFile = new File("configurations.json");
-              FileWriter fileWritter = new FileWriter(jsonFile, false);
-              BufferedWriter bw = new BufferedWriter(fileWritter);
-              bw.write(jsonContents);
-              bw.close();
-            } catch (IOException fIoException) {
-              ErrorDialog(10, fIoException);
-            }
-          }
-
-          public void changedUpdate(DocumentEvent e) {
-            saveSettings();
-          }
-
-          public void removeUpdate(DocumentEvent e) {
-            saveSettings();
-          }
-
-          public void insertUpdate(DocumentEvent e) {
-            saveSettings();
-          }
-        });
-        jsonEditor.setVisible(true);
-      } catch (IOException ioe) {
-        ErrorDialog(11, ioe);
-      } catch (Exception unknownException) {
-        ErrorDialog(12, unknownException);
-      }
+      SettingsEditor();
       break;
     }
   }
 }
 
 class RunMenuListener extends Trident implements ActionListener {
-  class UnsupportedOperatingSystemException extends Exception {
-    @Override
-    public String toString() {
-      return "Your Operating System is not supported.";
-    }
-  }
-
-  public int checkOS() {
+  public final int checkOS() throws UnsupportedOperatingSystemException {
     String operatingSystem = System.getProperty("os.name").toLowerCase();
     if (operatingSystem.contains("windows")) {
       return 1;
     } else if (operatingSystem.contains("linux")) {
       return 2;
     } else {
-      return 3;
+      throw new UnsupportedOperatingSystemException();
     }
   }
 
-  public void shellCommandRunner(int os, String command) throws UnsupportedOperatingSystemException {
+  public final void openTerminal(int os) throws UnsupportedOperatingSystemException {
     try {
       if (os == 1) {
-        String[] processArgs = new String[] { "cmd.exe", "/c", command };
+        String[] processArgs = new String[] { "cmd.exe", "/c", "Start" };
         Process proc = new ProcessBuilder(processArgs).start();
       } else if (os == 2) {
-        String[] processArgs = new String[] { "/bin/bash", "-c", command };
+        String[] processArgs = new String[] { "/bin/bash", "-c", "Start" };
         Process proc = new ProcessBuilder(processArgs).start();
       } else
         throw new UnsupportedOperatingSystemException();
     } catch (UnsupportedOperatingSystemException unOS) {
       throw new UnsupportedOperatingSystemException();
     } catch (Exception uos) {
-      ErrorDialog(13, uos);
+      ErrorDialog("TERMINAL_ERROR", uos);
     }
-  }
-
-  public void compiler() throws IOException, InterruptedException {
-    ProcessBuilder processBuilder = new ProcessBuilder("javac", path);
-    processBuilder.directory(new File("logs"));
-    File log = new File("logs/log.txt");
-    processBuilder.redirectErrorStream(true);
-    processBuilder.redirectOutput(Redirect.appendTo(log));
-    Process p = processBuilder.start();
-    p.waitFor();
-    status1.setText("Compile process ended");
   }
 
   public void actionPerformed(ActionEvent e) {
     try {
       switch (e.getActionCommand()) {
       case "Compile":
-        compiler();
+        (new TridentCompiler(path)).compile();
+        status1.setText("Compilation ended.");
         break;
 
       case "Run":
-        // runner();
-        // break;
+        (new TridentCompiler(path)).execute();
+        status1.setText("Execution ended.");
+        break;
 
       case "Compile and Run":
-        compiler();
-        // runner();
+        TridentCompiler compiler = (new TridentCompiler(path));
+        compiler.compile();
+        status1.setText("Compilation ended.");
+        compiler.execute();
+        status1.setText("Execution ended.");
         break;
 
       case "Open Console":
-        shellCommandRunner(checkOS(), "start");
+        openTerminal(checkOS());
         break;
       }
     } catch (InterruptedException interruptedException) {
-      ErrorDialog(14, interruptedException);
+      ErrorDialog("PROCESS_BUILD_INTERRUPTED", interruptedException);
     } catch (IOException ioException) {
-      ErrorDialog(15, ioException);
+      ErrorDialog("PROCESS_BUILD_FILEIO", ioException);
     } catch (UnsupportedOperatingSystemException unOs) {
-      ErrorDialog(16, unOs);
+      ErrorDialog("OS_UNSUPPORTED", unOs);
+    } catch (UnsupportedFileException fileNS) {
+      ErrorDialog("FILE_UNSUPPORTED", fileNS);
     } catch (Exception unknownException) {
-      ErrorDialog(17, unknownException);
+      unknownException.printStackTrace();
+      ErrorDialog("TOOLS_MENU_CRASH", unknownException);
     }
   }
 }
@@ -756,7 +768,7 @@ class AboutMenuListener extends Trident implements ActionListener {
         JLabel icon = new JLabel(ic);
         icon.setSize(50, 50);
         JLabel l1 = new JLabel(
-            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 0.1.0 <br/>BETA<br/><h4></html>");
+            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 0.3.0 <br/>BETA<br/><h4></html>");
         JLabel l2 = new JLabel(
             "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:blue; border:2px solid blue; padding: 5px;}</style><h3>View Source Code - GitHub</h3></html>");
         l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -831,7 +843,7 @@ class AboutMenuListener extends Trident implements ActionListener {
         break;
       }
     } catch (Exception exc) {
-      ErrorDialog(18, exc);
+      ErrorDialog("ABOUT_MENU_CRASH", exc);
     }
   }
 }
@@ -850,9 +862,9 @@ class ChangeListener extends Trident implements DocumentListener, CaretListener 
     try {
       int offset = textarea.getCaretPosition();
       int line = textarea.getLineOfOffset(offset) + 1;
-      status4.setText("Line: " + line + "   Offset: " + (offset + 1));
+      status4.setText("Line: " + line);
     } catch (BadLocationException badexp) {
-      ErrorDialog(19, badexp);
+      ErrorDialog("CARET_LOCATION_ERR", badexp);
       status4.setText("Aw snap!");
     }
 
@@ -868,5 +880,21 @@ class ChangeListener extends Trident implements DocumentListener, CaretListener 
 
   public void insertUpdate(DocumentEvent e) {
     warn();
+  }
+}
+
+class CommentPaneListener extends Thread {
+  @Override
+  public void run() {
+    try {
+      while (true) {
+        Trident.status1.setText("Ready");
+        Thread.sleep(20000);
+      }
+    } catch (InterruptedException strangeException) {
+      Trident.ErrorDialog("STATUS_THREAD_KILLED", strangeException);
+    } catch (Exception died) {
+      died.printStackTrace();
+    }
   }
 }
