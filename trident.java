@@ -80,7 +80,7 @@ class Trident {
   public static UndoManager undoManager;
   public static JPopupMenu editorMenu;
 
-  public static void ErrorDialog(int code, Exception e) {
+  public static void ErrorDialog(String code, Exception e) {
     int option = JOptionPane.showConfirmDialog(frame,
         "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: " + code
             + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
@@ -89,7 +89,7 @@ class Trident {
       try {
         Desktop.getDesktop().browse(java.net.URI.create("https://github.com/KrishnaMoorthy12/trident/issues/new"));
       } catch (Exception shit) {
-        ErrorDialog(0, shit);
+        ErrorDialog("DESKTOP_UNAVAILABLE", shit);
       }
       status1.setText("Thanks for your positive intent.");
     } else {
@@ -113,7 +113,7 @@ class Trident {
       uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will be read from file
       UIManager.setLookAndFeel(uitheme);
     } catch (Exception themeError) {
-      ErrorDialog(1, themeError);
+      ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
       System.err.println("Error theming the application.");
     }
   }
@@ -355,6 +355,8 @@ class Trident {
       status2 = new JLabel("Unsaved");
       status3 = new JLabel(fileType);
       status4 = new JLabel("Line: 1");
+      CommentPaneListener cpl = new CommentPaneListener();
+      cpl.start();
 
       statusBar.setSize(30, 2500);
       statusBar.setBorder(new EmptyBorder(2, 3, 2, 2));
@@ -383,7 +385,7 @@ class Trident {
       frame.setVisible(true);
 
     } catch (Exception e) {
-      ErrorDialog(2, e);
+      ErrorDialog("MAIN_THREAD_CRASH", e);
       System.err.println("Unexpected crash...");
       e.printStackTrace();
       System.exit(0);
@@ -424,7 +426,7 @@ class FileMenuListener extends Trident implements ActionListener {
       br.close();
       System.gc();
     } catch (Exception ioe) {
-      ErrorDialog(3, ioe);
+      ErrorDialog("FILE_OPENER", ioe);
       status1.setText("Ready.");
     }
   }
@@ -450,8 +452,11 @@ class FileMenuListener extends Trident implements ActionListener {
         FileSaveAs();
       Undo.setEnabled(false);
       Redo.setEnabled(false);
-    } catch (Exception ioe) {
-      ErrorDialog(4, ioe);
+    } catch (IOException ioe) {
+      ErrorDialog("FILE_SAVE_IO", ioe);
+      status1.setText("Error saving the file.");
+    } catch (Exception unknownException) {
+      ErrorDialog("FILE_SAVE_UNKNOWN", unknownException);
       status1.setText("Error saving the file.");
     }
   }
@@ -535,10 +540,8 @@ class FileMenuListener extends Trident implements ActionListener {
         FileSaveAs();
         break;
       }
-    } catch (
-
-    Exception exp) {
-      ErrorDialog(5, exp);
+    } catch (Exception exp) {
+      ErrorDialog("FILE_MENU_CRASH", exp);
     }
   }
 }
@@ -565,9 +568,9 @@ class EditMenuListener extends Trident implements ActionListener {
           cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
           cbviewer.setVisible(true);
         } catch (UnsupportedFlavorException ufe) {
-          ErrorDialog(6, ufe);
+          ErrorDialog("FLAVOR_ERR", ufe);
         } catch (IOException ioe) {
-          ErrorDialog(7, ioe);
+          ErrorDialog("IOE_CLIPBOARD", ioe);
         }
         break;
 
@@ -606,9 +609,9 @@ class EditMenuListener extends Trident implements ActionListener {
       status1.setText("No more Undos available.");
       Undo.setEnabled(false);
     } catch (HeadlessException noHead) {
-      ErrorDialog(8, noHead);
+      ErrorDialog("HEADLESS_ERR", noHead);
     } catch (Exception oopsErr) {
-      ErrorDialog(9, oopsErr);
+      ErrorDialog("EDIT_MENU_CRASH", oopsErr);
     }
   }
 }
@@ -647,7 +650,7 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
             bw.write(jsonContents);
             bw.close();
           } catch (IOException fIoException) {
-            ErrorDialog(10, fIoException);
+            ErrorDialog("JSON_THREAD_IO", fIoException);
           }
         }
 
@@ -664,10 +667,8 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
         }
       });
       jsonEditor.setVisible(true);
-    } catch (IOException ioe) {
-      ErrorDialog(11, ioe);
     } catch (Exception unknownException) {
-      ErrorDialog(12, unknownException);
+      ErrorDialog("UNKNOWN_JSON_ERR", unknownException);
     }
   }
 
@@ -711,7 +712,7 @@ class RunMenuListener extends Trident implements ActionListener {
     } catch (UnsupportedOperatingSystemException unOS) {
       throw new UnsupportedOperatingSystemException();
     } catch (Exception uos) {
-      ErrorDialog(13, uos);
+      ErrorDialog("TERMINAL_ERROR", uos);
     }
   }
 
@@ -741,16 +742,16 @@ class RunMenuListener extends Trident implements ActionListener {
         break;
       }
     } catch (InterruptedException interruptedException) {
-      ErrorDialog(14, interruptedException);
+      ErrorDialog("PROCESS_BUILD_INTERRUPTED", interruptedException);
     } catch (IOException ioException) {
-      ErrorDialog(15, ioException);
+      ErrorDialog("PROCESS_BUILD_FILEIO", ioException);
     } catch (UnsupportedOperatingSystemException unOs) {
-      ErrorDialog(16, unOs);
+      ErrorDialog("OS_UNSUPPORTED", unOs);
     } catch (UnsupportedFileException fileNS) {
-      ErrorDialog(17, fileNS);
+      ErrorDialog("FILE_UNSUPPORTED", fileNS);
     } catch (Exception unknownException) {
       unknownException.printStackTrace();
-      ErrorDialog(17, unknownException);
+      ErrorDialog("TOOLS_MENU_CRASH", unknownException);
     }
   }
 }
@@ -842,7 +843,7 @@ class AboutMenuListener extends Trident implements ActionListener {
         break;
       }
     } catch (Exception exc) {
-      ErrorDialog(18, exc);
+      ErrorDialog("ABOUT_MENU_CRASH", exc);
     }
   }
 }
@@ -863,7 +864,7 @@ class ChangeListener extends Trident implements DocumentListener, CaretListener 
       int line = textarea.getLineOfOffset(offset) + 1;
       status4.setText("Line: " + line);
     } catch (BadLocationException badexp) {
-      ErrorDialog(19, badexp);
+      ErrorDialog("CARET_LOCATION_ERR", badexp);
       status4.setText("Aw snap!");
     }
 
@@ -879,5 +880,21 @@ class ChangeListener extends Trident implements DocumentListener, CaretListener 
 
   public void insertUpdate(DocumentEvent e) {
     warn();
+  }
+}
+
+class CommentPaneListener extends Thread {
+  @Override
+  public void run() {
+    try {
+      while (true) {
+        Trident.status1.setText("Ready");
+        Thread.sleep(20000);
+      }
+    } catch (InterruptedException strangeException) {
+      Trident.ErrorDialog("STATUS_THREAD_KILLED", strangeException);
+    } catch (Exception died) {
+      died.printStackTrace();
+    }
   }
 }
