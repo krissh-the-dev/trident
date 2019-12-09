@@ -8,7 +8,7 @@ public class TridentCompiler extends Trident {
   String runCommand;
   String path;
 
-  public TridentCompiler(String path) {
+  public TridentCompiler(String path) throws UnsupportedFileException {
     this.path = path;
     String languageIdentifier = fileTypeParser(path) + " File";
     switch (languageIdentifier) {
@@ -21,9 +21,7 @@ public class TridentCompiler extends Trident {
       runCommand = "java";
       break;
     default:
-      compileCommand = "javac";
-      runCommand = "java";
-      break;
+      throw new UnsupportedFileException(path);
     }
   }
 
@@ -35,7 +33,6 @@ public class TridentCompiler extends Trident {
     processBuilder.redirectOutput(Redirect.appendTo(log));
     Process p = processBuilder.start();
     p.waitFor();
-    // status1.setText("Compilation ended.");
   }
 
   public void execute() throws IOException, InterruptedException {
@@ -45,6 +42,5 @@ public class TridentCompiler extends Trident {
     processBuilder.redirectErrorStream(true);
     processBuilder.redirectOutput(Redirect.appendTo(log));
     Process p = processBuilder.start();
-    // status1.setText("Execution ended.");
   }
 }
