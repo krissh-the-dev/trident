@@ -10,13 +10,15 @@ public class TridentCompiler extends Trident {
 
   public TridentCompiler(String path) throws UnsupportedFileException {
     this.path = path;
-    String languageIdentifier = fileTypeParser(path) + " File";
+    String languageIdentifier = fileTypeParser(path);
     switch (languageIdentifier) {
     case "py File":
+    case "PY File":
       compileCommand = "python";
       runCommand = "python";
       break;
     case "java File":
+    case "JAVA File":
       compileCommand = "javac";
       runCommand = "java";
       break;

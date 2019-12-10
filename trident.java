@@ -87,7 +87,8 @@ class Trident {
         "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
     if (option == JOptionPane.YES_OPTION) {
       try {
-        Desktop.getDesktop().browse(java.net.URI.create("https://github.com/KrishnaMoorthy12/trident/issues/new"));
+        Desktop.getDesktop().browse(java.net.URI.create(
+            "https://github.com/KrishnaMoorthy12/trident/issues/new?assignees=&labels=&template=bug_report.md&title="));
       } catch (Exception shit) {
         ErrorDialog("DESKTOP_UNAVAILABLE", shit);
       }
@@ -125,7 +126,7 @@ class Trident {
         uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will be read from file
         UIManager.setLookAndFeel(uitheme);
       } else
-        return;
+        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
     } catch (Exception themeError) {
       ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
     }
@@ -184,7 +185,7 @@ class Trident {
       textarea = new JTextArea();
       mb = new JMenuBar();
       configFilePath = "configurations.json";
-      path = System.getProperty("java.io.tmpdir") + "New File";
+      path = "New File";
 
       // * Themeing
       applyTheme();
@@ -196,7 +197,7 @@ class Trident {
       frame.setResizable(true);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setLayout(new BorderLayout());
-      ImageIcon ic = new ImageIcon("raw\\trident.png");
+      ImageIcon ic = new ImageIcon("raw/trident.png");
       frame.setIconImage(ic.getImage());
 
       // * Menu Bar Setup
@@ -364,7 +365,7 @@ class Trident {
 
       // * Status bar setup
       statusBar = new JPanel();
-      status1 = new JLabel("Ready");
+      status1 = new JLabel("Ready.");
       status2 = new JLabel("Unsaved");
       status3 = new JLabel(fileType);
       status4 = new JLabel("Line: 1");
@@ -446,7 +447,7 @@ class FileMenuListener extends Trident implements ActionListener {
 
   public void FileSaver(String filepath) {
     try {
-      if (!path.equals(System.getProperty("java.io.tmpdir") + "New File")) {
+      if (!path.equals("New File")) {
         File f1 = new File(filepath);
         if (!f1.exists()) {
           f1.createNewFile();
@@ -508,7 +509,7 @@ class FileMenuListener extends Trident implements ActionListener {
             break;
           }
         }
-        path = System.getProperty("java.io.tmpdir") + "New File";
+        path = "New File";
         textarea.setText("");
         status1.setText("Ready.");
         status2.setText("Unsaved");
@@ -605,14 +606,14 @@ class EditMenuListener extends Trident implements ActionListener {
 
       case "Undo":
         undoManager.undo();
-        status1.setText("Ready");
+        status1.setText("Ready.");
         Redo.setEnabled(true);
         break;
 
       case "Redo":
         undoManager.redo();
         Undo.setEnabled(true);
-        status1.setText("Ready");
+        status1.setText("Ready.");
         break;
       }
     } catch (CannotRedoException redoErr) {
@@ -707,7 +708,7 @@ class RunMenuListener extends Trident implements ActionListener {
         String[] processArgs = new String[] { "cmd.exe", "/c", "Start" };
         Process proc = new ProcessBuilder(processArgs).start();
       } else if (os == 2) {
-        String[] processArgs = new String[] { "/bin/bash", "-c", "Start" };
+        String[] processArgs = new String[] { "bash", "-c", "Start" };
         Process proc = new ProcessBuilder(processArgs).start();
       } else
         throw new UnsupportedOperatingSystemException();
@@ -766,7 +767,7 @@ class AboutMenuListener extends Trident implements ActionListener {
         // TODO: Add link to version.config
         JDialog aboutDialog = new JDialog(frame, "About Trident");
         JPanel infoPanel = new JPanel();
-        ImageIcon ic = new ImageIcon("raw\\trident_logo.png");
+        ImageIcon ic = new ImageIcon("raw/trident_logo.png");
         JLabel icon = new JLabel(ic);
         icon.setSize(50, 50);
         JLabel l1 = new JLabel(
@@ -841,7 +842,7 @@ class AboutMenuListener extends Trident implements ActionListener {
         break;
 
       case "Updates":
-        Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/releases"));
+        Desktop.getDesktop().browse(java.net.URI.create("https://github.com/KrishnaMoorthy12/trident/releases/latest"));
         break;
       }
     } catch (Exception exc) {
@@ -890,7 +891,7 @@ class CommentPaneListener extends Thread {
   public void run() {
     try {
       while (true) {
-        Trident.status1.setText("Ready");
+        Trident.status1.setText("Ready.");
         Thread.sleep(20000);
       }
     } catch (InterruptedException strangeException) {
