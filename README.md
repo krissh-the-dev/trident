@@ -4,12 +4,8 @@ A new classical powerful text editor made with Java Swing package and passion!
 
 ## What's new
 
-* Initial stable release
-
-1. Improved Error handling
-2. Improved file Compile and Run
-3. Improved Status Bar layout
-4. Added Status Bar Comment changer thread
+* Recompiled for older version of Java Runtime Environment
+* Fixed Theme Error on Non-Windows systems
 
 ## Current features
 

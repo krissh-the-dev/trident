@@ -97,6 +97,17 @@ class Trident {
     }
   }
 
+  public static final int checkOS() throws UnsupportedOperatingSystemException {
+    String operatingSystem = System.getProperty("os.name").toLowerCase();
+    if (operatingSystem.contains("windows")) {
+      return 1;
+    } else if (operatingSystem.contains("linux")) {
+      return 2;
+    } else {
+      throw new UnsupportedOperatingSystemException();
+    }
+  }
+
   public static String fileTypeParser(String fileName) {
     String extension = "";
 
@@ -110,11 +121,13 @@ class Trident {
 
   public static void applyTheme() {
     try {
-      uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will be read from file
-      UIManager.setLookAndFeel(uitheme);
+      if (checkOS() == 1) {
+        uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will be read from file
+        UIManager.setLookAndFeel(uitheme);
+      } else
+        return;
     } catch (Exception themeError) {
       ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
-      System.err.println("Error theming the application.");
     }
   }
 
@@ -688,17 +701,6 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
 }
 
 class RunMenuListener extends Trident implements ActionListener {
-  public final int checkOS() throws UnsupportedOperatingSystemException {
-    String operatingSystem = System.getProperty("os.name").toLowerCase();
-    if (operatingSystem.contains("windows")) {
-      return 1;
-    } else if (operatingSystem.contains("linux")) {
-      return 2;
-    } else {
-      throw new UnsupportedOperatingSystemException();
-    }
-  }
-
   public final void openTerminal(int os) throws UnsupportedOperatingSystemException {
     try {
       if (os == 1) {
@@ -768,7 +770,7 @@ class AboutMenuListener extends Trident implements ActionListener {
         JLabel icon = new JLabel(ic);
         icon.setSize(50, 50);
         JLabel l1 = new JLabel(
-            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 1.0 <br/>STABLE<br/><h4></html>");
+            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 1.1 <br/>STABLE<br/><h4></html>");
         JLabel l2 = new JLabel(
             "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:blue; border:2px solid blue; padding: 5px;}</style><h3>View Source Code - GitHub</h3></html>");
         l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
