@@ -771,21 +771,17 @@ class AboutMenuListener extends Trident implements ActionListener {
         JLabel icon = new JLabel(ic);
         icon.setSize(50, 50);
         JLabel l1 = new JLabel(
-            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 1.1 <br/>STABLE<br/><h4></html>");
+            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:blue;} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h4><br/> Version 1.2 <br/>STABLE<br/><h4></html>");
         JLabel l2 = new JLabel(
-            "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:blue; border:2px solid blue; padding: 5px;}</style><h3>View Source Code - GitHub</h3></html>");
+            "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:blue; border:2px solid blue; padding: 5px;}</style><h3>Visit Home Page</h3></html>");
         l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
         l2.addMouseListener(new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent me) {
             try {
-              Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident"));
-            } catch (Exception e) {
-              try {
-                throw e;
-              } catch (Exception e1) {
-                e1.printStackTrace();
-              }
+              Desktop.getDesktop().browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident"));
+            } catch (Exception de) {
+              ErrorDialog("DESKTOP_ERR", de);
             }
           }
         });

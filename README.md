@@ -4,33 +4,32 @@ A new classical powerful text editor made with Java Swing package and passion!
 
 ## What's new
 
-* Recompiled for older version of Java Runtime Environment
-* Fixed Theme Error on Non-Windows systems
+* All bugs associated with Linux systems are fixed, except 'Open Console'.
+* Set Nimbus as default theme for Non-Windows platforms.
+* Changes to About Section.
 
 ## Current features
 
 * Opens, edits, saves any file
-* Working Cut, Copy, Paste options on Edit menu and Working area context menu
-* Working Undo, Redo options
-* Options to View and Erase clipboard contents
-* Key Board Shortcuts and Mnemonics
-* About Section
-* File Properties
-* Improved status bar with File saved status and File type
-* A Clean and Neat User Interface
-* Improved Unsaved file confirmation on File -> New, Open and Exit
-* Line Number in the status bar
-* Responsive Undo, Redo Options
-* Error Report Interface
-* Opens Console window
-* Error Reporting
-* Compile and Run Options
+* Cut, Copy, Paste options on Edit menu and Working area context menu
+* Undo, Redo options.
+* Options to View and Erase clipboard contents.
+* Key Board Shortcuts and Mnemonics.
+* File Properties.
+* A mature status bar.
+* Unsaved file confirmation on File -> New, Open and Exit.
+* Responsive Undo, Redo Options.
+* Error Report Interface with GitHub issues integration.
+* Opens Console window [Windows Only].
+* Compile [JRE 8+] and Run Options [Only with JRE 13].
+* Try using it to discover more.
 
 ## Bugs
 
 * Stupidly opens all kinds of files
 * Meaningless Cut, Copy option when no text is selected
 * Meaningless Paste option when clipboard is empty
+* Open console on Linux
 
 ## Coming soon
 
