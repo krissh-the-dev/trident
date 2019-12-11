@@ -34,6 +34,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 // * SWING ELEMENTS
@@ -81,20 +82,46 @@ class Trident {
   public static JPopupMenu editorMenu;
 
   public static void ErrorDialog(String code, Exception e) {
-    int option = JOptionPane.showConfirmDialog(frame,
-        "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: " + code
-            + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
-        "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
-    if (option == JOptionPane.YES_OPTION) {
-      try {
-        Desktop.getDesktop().browse(java.net.URI.create(
-            "https://github.com/KrishnaMoorthy12/trident/issues/new?assignees=&labels=&template=bug_report.md&title="));
-      } catch (Exception shit) {
-        ErrorDialog("DESKTOP_UNAVAILABLE", shit);
+    try {
+      File logFile = new File("logs/log.txt");
+      logFile.createNewFile();
+      FileWriter logWriter = new FileWriter(logFile, true);
+      BufferedWriter writer = new BufferedWriter(logWriter);
+
+      writer.write(System.lineSeparator());
+      writer.write(LocalDateTime.now().toString());
+      writer.write(System.lineSeparator());
+      writer.write(code + System.lineSeparator() + e.getClass().getName() + System.lineSeparator() + e.getCause()
+          + System.lineSeparator() + e.getMessage());
+      writer.write(System.lineSeparator());
+      writer.write("------------------------------------------");
+      writer.write(System.lineSeparator());
+
+      for (StackTraceElement ste : e.getStackTrace()) {
+        writer.write("[" + code + "] ");
+        writer.write(ste.toString());
+        writer.write(System.lineSeparator());
       }
-      status1.setText("Thanks for your positive intent.");
-    } else {
-      status1.setText("Please report errors to help improve Trident.");
+      writer.write("=========================================================");
+      int option = JOptionPane.showConfirmDialog(frame,
+          "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: "
+              + code + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
+          "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
+      if (option == JOptionPane.YES_OPTION) {
+        try {
+          Desktop.getDesktop().browse(java.net.URI.create(
+              "https://github.com/KrishnaMoorthy12/trident/issues/new?assignees=&labels=&template=bug_report.md&title="));
+        } catch (Exception shit) {
+          ErrorDialog("DESKTOP_UNAVAILABLE", shit);
+        }
+        status1.setText("Thanks for your positive intent.");
+      } else {
+        status1.setText("Please report errors to help improve Trident.");
+      }
+      writer.close();
+      logWriter.close();
+    } catch (IOException ioException) {
+      // ErrorDialog("LOG_IO_ERR", ioException);
     }
   }
 
@@ -146,7 +173,7 @@ class Trident {
     textarea.setSelectedTextColor(Color.white);
     textarea.setSelectionColor(new Color(23, 135, 227));
 
-    Color statusColor = Color.LIGHT_GRAY;
+    Color statusColor = new Color(210, 210, 210);
     Color statusTextColor = Color.BLACK;
     statusBar.setBackground(statusColor);
     commentPanel.setBackground(statusColor);
@@ -799,32 +826,53 @@ class AboutMenuListener extends Trident implements ActionListener {
       case "File Properties":
         String fileName = Paths.get(path).getFileName().toString();
         JDialog aboutFileDialog = new JDialog(frame, "File Properties");
+        JPanel leftPane = new JPanel();
+        JPanel rightPane = new JPanel();
+
+        leftPane.setLayout(new GridLayout(5, 1, 2, 2));
+        rightPane.setLayout(new GridLayout(5, 1, 2, 2));
+        aboutFileDialog.setLayout(new BorderLayout());
+
+        leftPane.setBackground(new Color(230, 230, 230));
+        leftPane.setBorder(new EmptyBorder(1, 5, 1, 5));
+        rightPane.setBackground(new Color(240, 240, 240));
+        rightPane.setBorder(new EmptyBorder(1, 5, 1, 5));
+
+        File theFile = new File(path);
+        JLabel filenameLabel = new JLabel("File Name :", SwingConstants.RIGHT);
+        JLabel fileLocationLabel = new JLabel("File Location :", SwingConstants.RIGHT);
+        JLabel fileTypeLabel = new JLabel("File Type :", SwingConstants.RIGHT);
+        JLabel fileSizeLabel = new JLabel("File Size :", SwingConstants.RIGHT);
+        JLabel lastModifiedLabel = new JLabel("Last modified :", SwingConstants.RIGHT);
+
         JLabel filenameProperty = new JLabel(fileName);
         JLabel fileLocationProperty = new JLabel(path);
         JLabel fileTypeProperty = new JLabel(fileTypeParser(path));
-        JPanel leftPane = new JPanel();
-        JPanel rightPane = new JPanel();
-        leftPane.setLayout(new GridLayout(5, 1, 2, 2));
-        rightPane.setLayout(new GridLayout(5, 1, 2, 2));
-        aboutFileDialog.setLayout(new FlowLayout());
-
-        File theFile = new File(path);
         JLabel fileSizeProperty = new JLabel((theFile.length() / 1024) + "KB (" + theFile.length() + " B)");
         JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified()) + "");
 
-        leftPane.add(new JLabel("File Name   ", SwingConstants.RIGHT));
+        leftPane.add(filenameLabel);
         rightPane.add(filenameProperty);
-        leftPane.add(new JLabel("File Location   ", SwingConstants.RIGHT));
-        rightPane.add(fileLocationProperty);
-        leftPane.add(new JLabel("File Type   ", SwingConstants.RIGHT));
+
+        leftPane.add(fileLocationLabel);
+        fileLocationProperty.setBorder(new EmptyBorder(2, 5, 0, 2));
+        JScrollPane flsp = new JScrollPane(fileLocationProperty, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        rightPane.add(flsp);
+        flsp.setBorder(new EmptyBorder(-1, -1, -1, -1));
+
+        leftPane.add(fileTypeLabel);
         rightPane.add(fileTypeProperty);
-        leftPane.add(new JLabel("File Size   ", SwingConstants.RIGHT));
+
+        leftPane.add(fileSizeLabel);
         rightPane.add(fileSizeProperty);
-        leftPane.add(new JLabel("Last modified   ", SwingConstants.RIGHT));
+
+        leftPane.add(lastModifiedLabel);
         rightPane.add(lastModifiedProperty);
-        aboutFileDialog.add(leftPane);
-        aboutFileDialog.add(rightPane);
-        aboutFileDialog.setSize(450, 130);
+
+        aboutFileDialog.getContentPane().add(leftPane, BorderLayout.WEST);
+        aboutFileDialog.getContentPane().add(rightPane, BorderLayout.CENTER);
+        aboutFileDialog.setSize(450, 300);
         aboutFileDialog.setResizable(false);
         aboutFileDialog.setVisible(true);
         break;
