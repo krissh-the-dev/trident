@@ -11,7 +11,9 @@ import java.awt.Toolkit;
 import java.awt.Desktop;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
-import java.awt.image.*;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 // * CLIPBOARD ELEMENTS AND UNDO HANDLERS
 import java.awt.datatransfer.Clipboard;
@@ -222,7 +224,24 @@ class Trident {
       frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       frame.setSize(800, 550);
       frame.setResizable(true);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      WindowListener WindowCloseListener = new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+          status1.setText("Exiting Trident...");
+          if (warned) {
+            int opt = FileMenuListener.warningDialog();
+            if (opt == JOptionPane.NO_OPTION) {
+              System.exit(0);
+            } else {
+              Trident.status1.setText("Ready.");
+            }
+          } else {
+            System.exit(0);
+          }
+        }
+      };
+      frame.addWindowListener(WindowCloseListener);
+      frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       frame.setLayout(new BorderLayout());
       ImageIcon ic = new ImageIcon("raw/trident.png");
       frame.setIconImage(ic.getImage());
@@ -428,7 +447,9 @@ class Trident {
       frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
       frame.setVisible(true);
 
-    } catch (Exception e) {
+    } catch (
+
+    Exception e) {
       ErrorDialog("MAIN_THREAD_CRASH", e);
       System.err.println("Unexpected crash...");
       e.printStackTrace();
@@ -475,7 +496,7 @@ class FileMenuListener extends Trident implements ActionListener {
     }
   }
 
-  public void FileSaver(String filepath) {
+  public static void FileSaver(String filepath) {
     try {
       if (!path.equals("New File")) {
         File f1 = new File(filepath);
@@ -505,7 +526,7 @@ class FileMenuListener extends Trident implements ActionListener {
     }
   }
 
-  public void FileSaveAs() {
+  public static void FileSaveAs() {
     JFileChooser saveAsDialog = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
     int command = saveAsDialog.showSaveDialog(frame);
 
@@ -517,7 +538,7 @@ class FileMenuListener extends Trident implements ActionListener {
     }
   }
 
-  public int warningDialog() {
+  public static int warningDialog() {
     int opt = JOptionPane.showConfirmDialog(frame,
         "There are some unsaved changes in the file. Do you want to save the changes and continue?",
         "Warning: Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE,
