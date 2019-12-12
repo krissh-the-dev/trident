@@ -63,7 +63,6 @@ class EditActionsListener extends Thread implements CaretListener {
   }
 
   @Override
-
   public void caretUpdate(CaretEvent ce) {
     try {
       int offset = Trident.textarea.getCaretPosition();
