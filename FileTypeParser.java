@@ -1,4 +1,4 @@
-class FileTypeParser {
+public class FileTypeParser {
   public static String parse(String fileName) {
     String type, extension = "";
 

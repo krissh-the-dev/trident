@@ -2,13 +2,3 @@
 *                TRIDENT TEXT EDITOR              *
 *             CRASH AND ERROR LOG FILE            *
 ***************************************************
-
-2019-12-12T11:27:22.628
-EAL_FLAVOR_ERR
-java.awt.datatransfer.UnsupportedFlavorException
-null
-Unicode String
-------------------------------------------
-[EAL_FLAVOR_ERR] sun.awt.datatransfer.SunClipboard.getData(SunClipboard.java:220)
-[EAL_FLAVOR_ERR] EditActionsListener.run(EditActionsListener.java:16)
-=========================================================
