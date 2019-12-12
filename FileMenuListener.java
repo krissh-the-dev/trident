@@ -36,7 +36,7 @@ class FileMenuListener extends Trident implements ActionListener {
       textarea.setText(contents);
       status1.setText("Editing existing file.");
       status2.setText("Saved");
-      status3.setText(fileTypeParser(Paths.get(path).getFileName().toString()));
+      status3.setText(FileTypeParser.parse(Paths.get(path).getFileName().toString()));
       warned = false;
       Undo.setEnabled(false);
       Redo.setEnabled(false);
@@ -67,7 +67,7 @@ class FileMenuListener extends Trident implements ActionListener {
         frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
         status1.setText("File saved successfully.");
         status2.setText("Saved");
-        status3.setText(fileTypeParser(Paths.get(path).getFileName().toString()));
+        status3.setText(FileTypeParser.parse(Paths.get(path).getFileName().toString()));
       } else
         FileSaveAs();
       Undo.setEnabled(false);
@@ -119,7 +119,7 @@ class FileMenuListener extends Trident implements ActionListener {
         textarea.setText("");
         status1.setText("Ready.");
         status2.setText("Unsaved");
-        status3.setText(" File");
+        status3.setText("Plain File");
         frame.setTitle("Trident Text Editor - New File");
         warned = false;
         Undo.setEnabled(false);

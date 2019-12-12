@@ -131,17 +131,6 @@ class Trident {
     }
   }
 
-  public static String fileTypeParser(String fileName) {
-    String extension = "";
-
-    int i = fileName.lastIndexOf('.');
-    if (i > 0) {
-      extension = fileName.substring(i + 1);
-    }
-
-    return (extension.toUpperCase() + " File");
-  }
-
   public static void applyTheme() {
     try {
       if (checkOS() == 1) {
@@ -204,7 +193,7 @@ class Trident {
 
       // * Global variable inits
       warned = false;
-      fileType = " File";
+      fileType = "Plain File";
       textarea = new JTextArea();
       mb = new JMenuBar();
       configFilePath = "configurations.json";

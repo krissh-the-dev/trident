@@ -13,7 +13,11 @@ class AutoSaver implements DocumentListener {
       int i = Trident.path.lastIndexOf('.');
       if (i > 0)
         extension = Trident.path.substring(i + 1);
-      File file = new File(Trident.path + "-autoSaved." + extension);
+      File file;
+      if (Trident.path.equals("New File"))
+        file = new File(System.getProperty("user.home") + "/Unsaved Document.txt");
+      else
+        file = new File(Trident.path + "-autoSaved." + extension);
       file.createNewFile();
       FileWriter fw = new FileWriter(file, false);
       BufferedWriter bw = new BufferedWriter(fw);
