@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -19,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-class FormatMenuListener extends FileMenuListener implements ActionListener {
+class SettingsMenuListener extends Trident implements ActionListener, ItemListener {
   protected void SettingsEditor() {
     try {
       JDialog jsonEditor = new JDialog(frame, "Style Editor");
@@ -88,4 +91,10 @@ class FormatMenuListener extends FileMenuListener implements ActionListener {
       break;
     }
   }
+
+  public void itemStateChanged(ItemEvent ie) {
+    textarea.setLineWrap(wordWrap.isSelected());
+    AutoSave.setEnabled(autoSave.isSelected());
+  }
+
 }

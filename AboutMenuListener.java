@@ -87,7 +87,7 @@ class AboutMenuListener extends Trident implements ActionListener {
 
         JLabel filenameProperty = new JLabel(fileName);
         JLabel fileLocationProperty = new JLabel(path);
-        JLabel fileTypeProperty = new JLabel(FileTypeParser.parse(path));
+        JLabel fileTypeProperty = new JLabel(FileTypeParser.getType(path));
         JLabel fileSizeProperty = new JLabel((theFile.length() / 1024) + " KB (" + theFile.length() + " B)");
         JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified()) + "");
 
@@ -115,10 +115,6 @@ class AboutMenuListener extends Trident implements ActionListener {
         aboutFileDialog.setSize(450, 300);
         aboutFileDialog.setResizable(false);
         aboutFileDialog.setVisible(true);
-        break;
-
-      case "Visit our site":
-        Desktop.getDesktop().browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident/"));
         break;
 
       case "Help":

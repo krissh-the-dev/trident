@@ -10,7 +10,7 @@ public class TridentCompiler {
     if (Trident.checkOS() != 1) {
       throw new UnsupportedOperatingSystemException();
     }
-    String fileType = FileTypeParser.parse(filepath);
+    String fileType = FileTypeParser.getType(filepath);
     switch (fileType) {
     case "Python Source File":
       Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"echo && python " + filepath + "\"");
@@ -48,7 +48,7 @@ public class TridentCompiler {
 
     String exec;
 
-    String fileType = FileTypeParser.parse(filepath);
+    String fileType = FileTypeParser.getType(filepath);
     switch (fileType) {
     case "Python Source File":
       Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"echo && python " + filepath + "\"");

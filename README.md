@@ -1,6 +1,6 @@
 # Trident Text Editor
 
-A new classical powerful text editor made with Java Swing package and passion!
+### _A new Free and Open Source, classical and powerful text editor made with Java Swing package and passion!_
 
 ## What's new
 
@@ -20,9 +20,11 @@ A new classical powerful text editor made with Java Swing package and passion!
 	- C compiler uses C99 standards to avoid undesirable 'forbids' errors.
 	- The Trident Compiler only utilizes the existing resources of your system, so it is mandatory to have the curresonding compilers installed and their path being added to the environment variables.
 
+- **Added Auto Save and Word Wrap toggle** in Settings Menu [formorly Format]
+- Reordered Menu Bar
 - Open Console Window bug on Linux fixed
 - Undo Overflow bug fixed
-- Redefined File type parser with more appropriate file type detection
+- Redefined File type parser with more appropriate file type detection with extension parsing
 
 ## Current features
 
@@ -55,5 +57,6 @@ A new classical powerful text editor made with Java Swing package and passion!
 
 - File->Rename
 - File->Delete
-- File->Close
 - UI for Settings and other Format menu options
+
+&copy; Krishna Moorthy Athinarayanan, 2019.

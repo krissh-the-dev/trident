@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 // * UI Elements
 
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -69,10 +70,11 @@ class Trident {
   public static JMenuBar mb;
   public static JScrollPane editor;
   public static JPanel statusBar, commentPanel, othersPanel;
-  public static JMenu fileMenu, editMenu, formatMenu, runMenu, about, ClipMenu;
+  public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu;
   public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, pCopy, pCut, pPaste,
-      ShowClipboard, EraseClipboard, fontOptions, themes, settings, Compile, Run, CRun, console, AboutFile, visit, help,
+      ShowClipboard, EraseClipboard, fontOptions, themes, configs, Compile, Run, CRun, console, AboutFile, visit, help,
       AboutTrident, updates;
+  public static JCheckBox wordWrap, autoSave;
   public static UndoManager undoManager;
   public static JPopupMenu editorMenu;
 
@@ -146,7 +148,6 @@ class Trident {
   public static boolean applyConfigs() {
     // * Default configs
     // TODO: These will be configurable by the user
-    // Boolean autoSave = true;
     textarea.setLineWrap(false);
     textarea.setFont(new Font("Consolas", Font.PLAIN, 14));
     textarea.setTabSize(4);
@@ -175,9 +176,11 @@ class Trident {
     Color menuColor = Color.DARK_GRAY;
     fileMenu.setForeground(menuColor);
     editMenu.setForeground(menuColor);
-    formatMenu.setForeground(menuColor);
-    runMenu.setForeground(menuColor);
+    settingsMenu.setForeground(menuColor);
+    toolsMenu.setForeground(menuColor);
     about.setForeground(menuColor);
+
+    AutoSave.setEnabled(true);
 
     return true;
   }
@@ -187,8 +190,8 @@ class Trident {
       // * Listener Variable declarations
       FileMenuListener fml = new FileMenuListener();
       EditMenuListener eml = new EditMenuListener();
-      FormatMenuListener oml = new FormatMenuListener();
-      ToolsMenuListener rml = new ToolsMenuListener();
+      SettingsMenuListener sml = new SettingsMenuListener();
+      ToolsMenuListener tml = new ToolsMenuListener();
       AboutMenuListener aml = new AboutMenuListener();
 
       // * Global variable inits
@@ -300,45 +303,53 @@ class Trident {
 
       // < Edit Menu
 
-      // > Format Menu
-      formatMenu = new JMenu("Format");
-      formatMenu.setMnemonic(KeyEvent.VK_O);
+      // > Settings Menu
+      settingsMenu = new JMenu("Settings");
+      settingsMenu.setMnemonic(KeyEvent.VK_S);
+
+      wordWrap = new JCheckBox("Word Wrap", false);
+      wordWrap.addItemListener(sml);
+      settingsMenu.add(wordWrap);
+
+      autoSave = new JCheckBox("Auto Save", true);
+      autoSave.addItemListener(sml);
+      settingsMenu.add(autoSave);
 
       fontOptions = new JMenuItem("Fonts");
-      formatMenu.add(fontOptions);
-      fontOptions.addActionListener(oml);
+      settingsMenu.add(fontOptions);
+      fontOptions.addActionListener(sml);
 
       themes = new JMenuItem("Themes");
-      themes.addActionListener(oml);
-      formatMenu.add(themes);
+      themes.addActionListener(sml);
+      settingsMenu.add(themes);
 
-      settings = new JMenuItem("Settings");
-      settings.addActionListener(oml);
-      formatMenu.add(settings);
-      // < Format Menu
+      configs = new JMenuItem("Configurations");
+      configs.addActionListener(sml);
+      settingsMenu.add(configs);
+      // < Settings Menu
 
       // > Run Menu
-      runMenu = new JMenu("Tools");
-      runMenu.setMnemonic(KeyEvent.VK_T);
+      toolsMenu = new JMenu("Tools");
+      toolsMenu.setMnemonic(KeyEvent.VK_T);
 
       Compile = new JMenuItem("Compile");
       Compile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_DOWN_MASK));
-      runMenu.add(Compile);
-      Compile.addActionListener(rml);
+      toolsMenu.add(Compile);
+      Compile.addActionListener(tml);
 
       Run = new JMenuItem("Run");
       Run.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_DOWN_MASK));
-      runMenu.add(Run);
-      Run.addActionListener(rml);
+      toolsMenu.add(Run);
+      Run.addActionListener(tml);
 
       CRun = new JMenuItem("Compile and Run");
       CRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_DOWN_MASK));
-      runMenu.add(CRun);
-      CRun.addActionListener(rml);
+      toolsMenu.add(CRun);
+      CRun.addActionListener(tml);
 
       console = new JMenuItem("Open Console");
-      runMenu.add(console);
-      console.addActionListener(rml);
+      toolsMenu.add(console);
+      console.addActionListener(tml);
       // < Run Menu
 
       // > About Menu
@@ -347,10 +358,6 @@ class Trident {
       AboutFile = new JMenuItem("File Properties");
       AboutFile.addActionListener(aml);
       about.add(AboutFile);
-
-      visit = new JMenuItem("Visit our site");
-      visit.addActionListener(aml);
-      about.add(visit);
 
       help = new JMenuItem("Help");
       help.addActionListener(aml);
@@ -367,8 +374,8 @@ class Trident {
 
       mb.add(fileMenu);
       mb.add(editMenu);
-      mb.add(formatMenu);
-      mb.add(runMenu);
+      mb.add(toolsMenu);
+      mb.add(settingsMenu);
       mb.add(about);
       // * Menu bar setup ends here
 
@@ -396,7 +403,7 @@ class Trident {
       undoManager = new UndoManager();
       eal.start();
       textarea.getDocument().addDocumentListener(new ChangeListener());
-      textarea.getDocument().addDocumentListener(new AutoSaver());
+      textarea.getDocument().addDocumentListener(new AutoSave());
       textarea.addCaretListener(eal);
       textarea.getDocument().addUndoableEditListener(undoManager);
       Undo.setEnabled(false);

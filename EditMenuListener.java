@@ -66,12 +66,15 @@ class EditMenuListener extends Trident implements ActionListener {
         break;
 
       case "Undo":
+        // undoManager.undoTo(undoManager.editToBeUndone());
+        // TODO: To be implemented soon
         undoManager.undo();
         status1.setText("Ready.");
         Redo.setEnabled(true);
         break;
 
       case "Redo":
+        // undoManager.redoTo(undoManager.editToBeUndone());
         undoManager.redo();
         Undo.setEnabled(true);
         status1.setText("Ready.");

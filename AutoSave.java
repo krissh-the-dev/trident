@@ -6,14 +6,27 @@ import java.io.IOException;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-class AutoSaver implements DocumentListener {
+class AutoSave implements DocumentListener {
+  private static boolean Enabled = true;
+
+  private static File file;
+
+  public static void setEnabled(Boolean enable) {
+    Enabled = enable;
+    if (Enabled == false)
+      deleteSaved();
+  }
+
+  public static void deleteSaved() {
+    file.delete();
+  }
+
   private static void saveNow() {
     try {
       String extension = "";
       int i = Trident.path.lastIndexOf('.');
       if (i > 0)
         extension = Trident.path.substring(i + 1);
-      File file;
       if (Trident.path.equals("New File"))
         file = new File(System.getProperty("user.home") + "/Unsaved Document.txt");
       else
@@ -37,17 +50,19 @@ class AutoSaver implements DocumentListener {
 
   @Override
   public void changedUpdate(DocumentEvent e) {
-    saveNow();
+    if (Enabled)
+      saveNow();
   }
 
   @Override
   public void insertUpdate(DocumentEvent e) {
-    saveNow();
+    if (Enabled)
+      saveNow();
   }
 
   @Override
   public void removeUpdate(DocumentEvent e) {
-    saveNow();
+    if (Enabled)
+      saveNow();
   }
-
 }

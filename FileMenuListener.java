@@ -37,7 +37,7 @@ class FileMenuListener extends Trident implements ActionListener {
       textarea.setText(contents);
       status1.setText("Editing existing file.");
       status2.setText("Saved");
-      status3.setText(FileTypeParser.parse(Paths.get(path).getFileName().toString()));
+      status3.setText(FileTypeParser.getType(Paths.get(path).getFileName().toString()));
       warned = false;
 
       Trident.undoManager = new UndoManager();
@@ -72,7 +72,7 @@ class FileMenuListener extends Trident implements ActionListener {
         frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
         status1.setText("File saved successfully.");
         status2.setText("Saved");
-        status3.setText(FileTypeParser.parse(Paths.get(path).getFileName().toString()));
+        status3.setText(FileTypeParser.getType(Paths.get(path).getFileName().toString()));
       } else
         FileSaveAs();
     } catch (IOException ioe) {

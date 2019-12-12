@@ -1,11 +1,17 @@
 public class FileTypeParser {
-  public static String parse(String fileName) {
-    String type, extension = "";
 
+  public static String getExtension(String fileName) {
+    String extension = "file";
     int i = fileName.lastIndexOf('.');
-    if (i > 0) {
+    if (i > 0)
       extension = fileName.substring(i + 1);
-    }
+    return extension;
+  }
+
+  public static String getType(String fileName) {
+    String type;
+
+    String extension = getExtension(fileName);
 
     switch (extension.toLowerCase()) {
     case "txt":
@@ -104,7 +110,7 @@ public class FileTypeParser {
       type = "Portable Document";
       break;
 
-    case "":
+    case "file":
       type = "Plain File";
       break;
 
