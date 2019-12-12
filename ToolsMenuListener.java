@@ -1,8 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
-// * IO ELEMENTS
 import java.io.File;
 
 class ToolsMenuListener extends Trident implements ActionListener {
@@ -12,7 +10,7 @@ class ToolsMenuListener extends Trident implements ActionListener {
         String[] processArgs = new String[] { "cmd.exe", "/c", "Start" };
         Process proc = new ProcessBuilder(processArgs).start();
       } else if (os == 2) {
-        String[] processArgs = new String[] { "bash", "-c", "Start" };
+        String[] processArgs = new String[] { "/bin/bash", "-c", "Start" };
         Process proc = new ProcessBuilder(processArgs).start();
       } else
         throw new UnsupportedOperatingSystemException();
@@ -27,29 +25,27 @@ class ToolsMenuListener extends Trident implements ActionListener {
     try {
       switch (e.getActionCommand()) {
       case "Compile":
-        (new TridentCompiler(path)).compile();
+        TridentCompiler.compile(path);
         status1.setText("Compilation ended.");
         break;
 
       case "Run":
-        (new TridentCompiler(path)).execute();
-        status1.setText("Execution ended.");
+        TridentCompiler.execute(path);
+        status1.setText("Execution window deployed.");
         break;
 
       case "Compile and Run":
-        TridentCompiler compiler = (new TridentCompiler(path));
-        compiler.compile();
+        TridentCompiler.compile(path);
         status1.setText("Compilation ended.");
-        compiler.execute();
-        status1.setText("Execution ended.");
+        Thread.sleep(3000);
+        TridentCompiler.execute(path);
+        status1.setText("Execution window deployed.");
         break;
 
       case "Open Console":
         openTerminal(checkOS());
         break;
       }
-    } catch (InterruptedException interruptedException) {
-      ErrorDialog("PROCESS_BUILD_INTERRUPTED", interruptedException);
     } catch (IOException ioException) {
       ErrorDialog("PROCESS_BUILD_FILEIO", ioException);
     } catch (UnsupportedOperatingSystemException unOs) {

@@ -56,14 +56,13 @@ class EditActionsListener extends Thread implements CaretListener {
     } catch (InterruptedException inte) {
       Trident.ErrorDialog("EAL_INTERRUPTION", inte);
     } catch (UnsupportedFlavorException ufe) {
-      Trident.ErrorDialog("EAL_FLAVOR_ERR", ufe);
+      // We don't wanna throw error just while checking [Listening in this context]
     } catch (Exception some) {
       Trident.ErrorDialog("UNKNOWN_ERR_EAL", some);
     }
   }
 
   @Override
-
   public void caretUpdate(CaretEvent ce) {
     try {
       int offset = Trident.textarea.getCaretPosition();

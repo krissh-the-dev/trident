@@ -131,17 +131,6 @@ class Trident {
     }
   }
 
-  public static String fileTypeParser(String fileName) {
-    String extension = "";
-
-    int i = fileName.lastIndexOf('.');
-    if (i > 0) {
-      extension = fileName.substring(i + 1);
-    }
-
-    return (extension.toUpperCase() + " File");
-  }
-
   public static void applyTheme() {
     try {
       if (checkOS() == 1) {
@@ -157,6 +146,7 @@ class Trident {
   public static boolean applyConfigs() {
     // * Default configs
     // TODO: These will be configurable by the user
+    // Boolean autoSave = true;
     textarea.setLineWrap(false);
     textarea.setFont(new Font("Consolas", Font.PLAIN, 14));
     textarea.setTabSize(4);
@@ -203,7 +193,7 @@ class Trident {
 
       // * Global variable inits
       warned = false;
-      fileType = " File";
+      fileType = "Plain File";
       textarea = new JTextArea();
       mb = new JMenuBar();
       configFilePath = "configurations.json";
@@ -244,6 +234,7 @@ class Trident {
       // > File Menu
       fileMenu = new JMenu("File");
       fileMenu.setMnemonic(KeyEvent.VK_F);
+
       newFile = new JMenuItem("New");
       newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
       fileMenu.add(newFile);
@@ -272,6 +263,7 @@ class Trident {
       // > Edit Menu
       editMenu = new JMenu("Edit");
       editMenu.setMnemonic(KeyEvent.VK_E);
+
       Undo = new JMenuItem("Undo");
       Undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
       Undo.addActionListener(eml);
@@ -328,18 +320,22 @@ class Trident {
       // > Run Menu
       runMenu = new JMenu("Tools");
       runMenu.setMnemonic(KeyEvent.VK_T);
+
       Compile = new JMenuItem("Compile");
       Compile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_DOWN_MASK));
       runMenu.add(Compile);
       Compile.addActionListener(rml);
+
       Run = new JMenuItem("Run");
       Run.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_DOWN_MASK));
       runMenu.add(Run);
       Run.addActionListener(rml);
+
       CRun = new JMenuItem("Compile and Run");
       CRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_DOWN_MASK));
       runMenu.add(CRun);
       CRun.addActionListener(rml);
+
       console = new JMenuItem("Open Console");
       runMenu.add(console);
       console.addActionListener(rml);
@@ -347,6 +343,7 @@ class Trident {
 
       // > About Menu
       about = new JMenu("About");
+
       AboutFile = new JMenuItem("File Properties");
       AboutFile.addActionListener(aml);
       about.add(AboutFile);
@@ -388,18 +385,19 @@ class Trident {
       editorMenu.add(pCut);
       editorMenu.add(pPaste);
 
-      // * Uses Edit Menu items */
-
       // * Text Area setup
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-      textarea.getDocument().addDocumentListener(new ChangeListener());
-      textarea.setComponentPopupMenu(editorMenu);
       editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
+      textarea.setComponentPopupMenu(editorMenu);
+
+      // > Listeners for Text Area
       EditActionsListener eal = new EditActionsListener();
-      eal.start();
-      textarea.addCaretListener(eal);
       undoManager = new UndoManager();
+      eal.start();
+      textarea.getDocument().addDocumentListener(new ChangeListener());
+      textarea.getDocument().addDocumentListener(new AutoSaver());
+      textarea.addCaretListener(eal);
       textarea.getDocument().addUndoableEditListener(undoManager);
       Undo.setEnabled(false);
       Redo.setEnabled(false);
