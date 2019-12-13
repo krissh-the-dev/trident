@@ -35,6 +35,8 @@ class AboutMenuListener extends Trident implements ActionListener {
         JDialog aboutDialog = new JDialog(frame, "About Trident");
         JPanel infoPanel = new JPanel();
         ImageIcon ic = new ImageIcon("raw/trident_logo.png");
+        aboutDialog.setIconImage(ic.getImage());
+
         JLabel icon = new JLabel(ic);
         icon.setSize(50, 50);
         JLabel l1 = new JLabel(

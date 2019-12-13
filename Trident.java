@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -74,7 +75,7 @@ class Trident {
   public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo, pCopy, pCut,
       pPaste, ShowClipboard, EraseClipboard, fontOptions, themes, configs, Compile, Run, CRun, console, AboutFile,
       visit, help, AboutTrident, updates;
-  public static JCheckBox wordWrap, autoSave;
+  public static JCheckBoxMenuItem wordWrap, autoSave;
   public static UndoManager undoManager;
   public static JPopupMenu editorMenu;
 
@@ -313,11 +314,11 @@ class Trident {
       settingsMenu = new JMenu("Settings");
       settingsMenu.setMnemonic(KeyEvent.VK_S);
 
-      wordWrap = new JCheckBox("Word Wrap", false);
+      wordWrap = new JCheckBoxMenuItem("Word Wrap", false);
       wordWrap.addItemListener(sml);
       settingsMenu.add(wordWrap);
 
-      autoSave = new JCheckBox("Auto Save", true);
+      autoSave = new JCheckBoxMenuItem("Auto Save", true);
       autoSave.addItemListener(sml);
       settingsMenu.add(autoSave);
 
@@ -420,7 +421,7 @@ class Trident {
       status1 = new JLabel("Ready.");
       status2 = new JLabel("Unsaved");
       status3 = new JLabel(fileType);
-      status4 = new JLabel("Line: 1");
+      status4 = new JLabel("Line: 1 Col: 1");
       CommentPaneListener cpl = new CommentPaneListener();
       cpl.start();
 

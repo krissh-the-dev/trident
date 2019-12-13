@@ -66,8 +66,9 @@ class EditActionsListener extends Thread implements CaretListener {
   public void caretUpdate(CaretEvent ce) {
     try {
       int offset = Trident.textarea.getCaretPosition();
-      int line = Trident.textarea.getLineOfOffset(offset) + 1;
-      Trident.status4.setText("Line: " + line);
+      int line = Trident.textarea.getLineOfOffset(offset);
+      int col = offset - Trident.textarea.getLineStartOffset(line);
+      Trident.status4.setText("Line: " + (line + 1) + " Col: " + (col + 1));
     } catch (BadLocationException badexp) {
       Trident.ErrorDialog("CARET_LOCATION_ERR", badexp);
       Trident.status4.setText("Aw snap!");
