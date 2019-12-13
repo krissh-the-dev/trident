@@ -149,6 +149,7 @@ class Trident {
     // * Default configs
     // TODO: These will be configurable by the user
     textarea.setLineWrap(false);
+    textarea.setWrapStyleWord(true);
     textarea.setFont(new Font("Consolas", Font.PLAIN, 14));
     textarea.setTabSize(4);
     textarea.setBorder(new EmptyBorder(4, 4, 0, 0));
