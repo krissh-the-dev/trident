@@ -30,9 +30,9 @@ class FileMenuListener extends Trident implements ActionListener {
       JFileChooser openDialog = new JFileChooser(FileSystemView.getFileSystemView());
       openDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
       openDialog.setFileFilter(textFiles);
-      openDialog.setFileFilter(SourceFiles);
       openDialog.setFileFilter(WebFiles);
       openDialog.setFileFilter(OtherFiles);
+      openDialog.setFileFilter(SourceFiles);
       openDialog.setAcceptAllFileFilterUsed(true);
       int command = openDialog.showOpenDialog(frame);
 
