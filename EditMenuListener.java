@@ -73,15 +73,12 @@ class EditMenuListener extends Trident implements ActionListener {
         break;
 
       case "Undo":
-        // undoManager.undoTo(undoManager.editToBeUndone());
-        // TODO: To be implemented soon
         undoManager.undo();
         status1.setText("Ready.");
         Redo.setEnabled(true);
         break;
 
       case "Redo":
-        // undoManager.redoTo(undoManager.editToBeUndone());
         undoManager.redo();
         Undo.setEnabled(true);
         status1.setText("Ready.");
@@ -89,10 +86,12 @@ class EditMenuListener extends Trident implements ActionListener {
 
       case "Go To":
         JDialog Goto = new JDialog(frame, "Go To");
-        JSpinner line = new JSpinner(new SpinnerNumberModel(1, 1, textarea.getLineCount(), 1));
+
+        JSpinner lineSpinner;
+        lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, textarea.getLineCount(), 1));
         Goto.setSize(255, 90);
         JButton go = new JButton("Go");
-        line.setSize(70, 15);
+        lineSpinner.setSize(70, 15);
         go.setSize(30, 15);
 
         JLabel instruction = new JLabel("Enter the line number to set the insertion point:");
@@ -100,7 +99,7 @@ class EditMenuListener extends Trident implements ActionListener {
           @Override
           public void actionPerformed(ActionEvent e) {
             try {
-              int lineNum = Integer.parseInt(line.getValue().toString());
+              int lineNum = Integer.parseInt(lineSpinner.getValue().toString());
               textarea.setCaretPosition(textarea.getLineStartOffset(lineNum - 1));
               textarea.requestFocus();
             } catch (BadLocationException ble) {
@@ -112,7 +111,7 @@ class EditMenuListener extends Trident implements ActionListener {
         });
         Goto.setLayout(new FlowLayout());
         Goto.add(instruction);
-        Goto.add(line);
+        Goto.add(lineSpinner);
         Goto.add(go);
         Goto.setVisible(true);
         break;

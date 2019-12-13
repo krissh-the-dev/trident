@@ -12,12 +12,28 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
 
 class FileMenuListener extends Trident implements ActionListener {
   public void FileOpenener() {
     try {
+      FileNameExtensionFilter textFiles = new FileNameExtensionFilter("Text Files (*.txt, *.mf, *.md, *.rtf)", "txt",
+          "mf", "md", "rtf");
+      FileNameExtensionFilter SourceFiles = new FileNameExtensionFilter(
+          "Source Files (*.py, *.java, *.c, *.cpp, *.h, *.kt)", "py", "java", "c", "cpp", "h", "kt");
+      FileNameExtensionFilter WebFiles = new FileNameExtensionFilter(
+          "Web Files (*.html, *.htm, *.mhtml, *.css, *.less,*.js, *.php)", "html", "htm", "mhtml", "css", "less", "js",
+          "php");
+      FileNameExtensionFilter OtherFiles = new FileNameExtensionFilter("Scripts (*.json, *.config, *.bat, *.sh)",
+          "json", "config", "bat", "sh");
       JFileChooser openDialog = new JFileChooser(FileSystemView.getFileSystemView());
+      openDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
+      openDialog.setFileFilter(textFiles);
+      openDialog.setFileFilter(SourceFiles);
+      openDialog.setFileFilter(WebFiles);
+      openDialog.setFileFilter(OtherFiles);
+      openDialog.setAcceptAllFileFilterUsed(true);
       int command = openDialog.showOpenDialog(frame);
 
       if (command == JFileChooser.APPROVE_OPTION)
