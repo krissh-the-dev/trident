@@ -7,8 +7,8 @@ class ChangeListener extends Trident implements DocumentListener {
       status2.setText("Unsaved");
       warned = true;
       frame.setTitle(frame.getTitle() + " - Unsaved");
-      Undo.setEnabled(true);
     }
+    Undo.setEnabled(true);
   }
 
   public void changedUpdate(DocumentEvent e) {
