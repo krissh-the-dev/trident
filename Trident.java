@@ -138,9 +138,11 @@ class Trident {
     try {
       if (checkOS() == 1) {
         uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will be read from file
-        UIManager.setLookAndFeel(uitheme);
-      } else
-        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+      } else {
+        uitheme = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+      }
+      UIManager.setLookAndFeel(uitheme);
+
     } catch (Exception themeError) {
       ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
     }
