@@ -1,6 +1,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -11,12 +12,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.BadLocationException;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
@@ -78,6 +85,36 @@ class EditMenuListener extends Trident implements ActionListener {
         undoManager.redo();
         Undo.setEnabled(true);
         status1.setText("Ready.");
+        break;
+
+      case "Go To":
+        JDialog Goto = new JDialog(frame, "Go To");
+        JSpinner line = new JSpinner(new SpinnerNumberModel(1, 1, textarea.getLineCount(), 1));
+        Goto.setSize(255, 90);
+        JButton go = new JButton("Go");
+        line.setSize(70, 15);
+        go.setSize(30, 15);
+
+        JLabel instruction = new JLabel("Enter the line number to set the insertion point:");
+        go.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            try {
+              int lineNum = Integer.parseInt(line.getValue().toString());
+              textarea.setCaretPosition(textarea.getLineStartOffset(lineNum - 1));
+              textarea.requestFocus();
+            } catch (BadLocationException ble) {
+              ErrorDialog("GOTO_LOCATION_ERR", ble);
+            } catch (NullPointerException npe) {
+              ErrorDialog("GOTO_NULL_ERR", npe);
+            }
+          }
+        });
+        Goto.setLayout(new FlowLayout());
+        Goto.add(instruction);
+        Goto.add(line);
+        Goto.add(go);
+        Goto.setVisible(true);
         break;
       }
     } catch (CannotRedoException redoErr) {

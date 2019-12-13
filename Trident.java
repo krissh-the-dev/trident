@@ -71,9 +71,9 @@ class Trident {
   public static JScrollPane editor;
   public static JPanel statusBar, commentPanel, othersPanel;
   public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu;
-  public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, pCopy, pCut, pPaste,
-      ShowClipboard, EraseClipboard, fontOptions, themes, configs, Compile, Run, CRun, console, AboutFile, visit, help,
-      AboutTrident, updates;
+  public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo, pCopy, pCut,
+      pPaste, ShowClipboard, EraseClipboard, fontOptions, themes, configs, Compile, Run, CRun, console, AboutFile,
+      visit, help, AboutTrident, updates;
   public static JCheckBox wordWrap, autoSave;
   public static UndoManager undoManager;
   public static JPopupMenu editorMenu;
@@ -292,6 +292,11 @@ class Trident {
       Paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
       editMenu.add(Paste);
       Paste.addActionListener(eml);
+
+      goTo = new JMenuItem("Go To");
+      goTo.setMnemonic(KeyEvent.VK_G);
+      editMenu.add(goTo);
+      goTo.addActionListener(eml);
 
       ClipMenu = new JMenu("Clipboard");
       editMenu.add(ClipMenu);
