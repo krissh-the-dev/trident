@@ -8,7 +8,7 @@
 	- Saves an extra copy of your file as filename-autoSaved with appropriate extension to avoid any loss of work and to save your life!
 	- Also saves any temporary work in "New File" in your home directory as a txt file.
 	- These get deleted automatically once you close Trident
-	- They will be left befind in case of any accidental exits such as power shutdown, app crash, force close etc.
+	- They will be left behind in case of any accidental exits such as power shutdown, app crash, force close etc.
 
 - #### Redefined compiler [Windows Only]
 	- Compiles/ Runs Python, Java, C, C++
