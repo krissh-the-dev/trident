@@ -26,13 +26,13 @@ import java.nio.file.Paths;
 import java.util.Date;
 import javax.swing.SwingConstants;
 
-class AboutMenuListener extends Trident implements ActionListener {
+class AboutMenuListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     try {
       switch (e.getActionCommand()) {
       case "About Trident":
         // TODO: Add link to version.config
-        JDialog aboutDialog = new JDialog(frame, "About Trident");
+        JDialog aboutDialog = new JDialog(Trident.frame, "About Trident");
         JPanel infoPanel = new JPanel();
         ImageIcon ic = new ImageIcon("raw/trident_logo.png");
         aboutDialog.setIconImage(ic.getImage());
@@ -50,7 +50,7 @@ class AboutMenuListener extends Trident implements ActionListener {
             try {
               Desktop.getDesktop().browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident"));
             } catch (Exception de) {
-              ErrorDialog("DESKTOP_ERR", de);
+              Trident.ErrorDialog("DESKTOP_ERR", de);
             }
           }
         });
@@ -66,8 +66,8 @@ class AboutMenuListener extends Trident implements ActionListener {
         break;
 
       case "File Properties":
-        String fileName = Paths.get(path).getFileName().toString();
-        JDialog aboutFileDialog = new JDialog(frame, "File Properties");
+        String fileName = Paths.get(Trident.path).getFileName().toString();
+        JDialog aboutFileDialog = new JDialog(Trident.frame, "File Properties");
         JPanel leftPane = new JPanel();
         JPanel rightPane = new JPanel();
 
@@ -80,7 +80,7 @@ class AboutMenuListener extends Trident implements ActionListener {
         rightPane.setBackground(new Color(240, 240, 240));
         rightPane.setBorder(new EmptyBorder(1, 5, 1, 5));
 
-        File theFile = new File(path);
+        File theFile = new File(Trident.path);
         JLabel filenameLabel = new JLabel("File Name :", SwingConstants.RIGHT);
         JLabel fileLocationLabel = new JLabel("File Location :", SwingConstants.RIGHT);
         JLabel fileTypeLabel = new JLabel("File Type :", SwingConstants.RIGHT);
@@ -88,8 +88,8 @@ class AboutMenuListener extends Trident implements ActionListener {
         JLabel lastModifiedLabel = new JLabel("Last modified :", SwingConstants.RIGHT);
 
         JLabel filenameProperty = new JLabel(fileName);
-        JLabel fileLocationProperty = new JLabel(path);
-        JLabel fileTypeProperty = new JLabel(FileTypeParser.getType(path));
+        JLabel fileLocationProperty = new JLabel(Trident.path);
+        JLabel fileTypeProperty = new JLabel(FileTypeParser.getType(Trident.path));
         JLabel fileSizeProperty = new JLabel((theFile.length() / 1024) + " KB (" + theFile.length() + " B)");
         JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified()) + "");
 
@@ -128,7 +128,7 @@ class AboutMenuListener extends Trident implements ActionListener {
         break;
       }
     } catch (Exception exc) {
-      ErrorDialog("ABOUT_MENU_CRASH", exc);
+      Trident.ErrorDialog("ABOUT_MENU_CRASH", exc);
     }
   }
 }

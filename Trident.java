@@ -189,7 +189,7 @@ class Trident {
     return true;
   }
 
-  public static void main(String[] args) {
+  public Trident(String file) {
     try {
       // * Listener Variable declarations
       FileMenuListener fml = new FileMenuListener();
@@ -204,7 +204,8 @@ class Trident {
       textarea = new JTextArea();
       mb = new JMenuBar();
       configFilePath = "configurations.json";
-      path = "New File";
+
+      path = file; // ! // TODO: dv
 
       // * Themeing
       applyTheme();
@@ -458,6 +459,16 @@ class Trident {
       System.err.println("Unexpected crash...");
       e.printStackTrace();
       System.exit(0);
+    }
+  }
+
+  public static void main(String[] args) {
+    if (args.length == 0)
+      new Trident("New File");
+    else {
+      for (String x : args) {
+        new Trident(x);
+      }
     }
   }
 }

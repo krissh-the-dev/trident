@@ -22,10 +22,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-class SettingsMenuListener extends Trident implements ActionListener, ItemListener {
+class SettingsMenuListener implements ActionListener, ItemListener {
   protected void SettingsEditor() {
     try {
-      JDialog jsonEditor = new JDialog(frame, "Style Editor");
+      JDialog jsonEditor = new JDialog(Trident.frame, "Style Editor");
       jsonEditor.setSize(450, 350);
       jsonEditor.setIconImage((new ImageIcon("raw/trident.png")).getImage());
       JPanel TextViewer = new JPanel();
@@ -56,7 +56,7 @@ class SettingsMenuListener extends Trident implements ActionListener, ItemListen
             bw.write(jsonContents);
             bw.close();
           } catch (IOException fIoException) {
-            ErrorDialog("JSON_THREAD_IO", fIoException);
+            Trident.ErrorDialog("JSON_THREAD_IO", fIoException);
           }
         }
 
@@ -74,7 +74,7 @@ class SettingsMenuListener extends Trident implements ActionListener, ItemListen
       });
       jsonEditor.setVisible(true);
     } catch (Exception unknownException) {
-      ErrorDialog("UNKNOWN_JSON_ERR", unknownException);
+      Trident.ErrorDialog("UNKNOWN_JSON_ERR", unknownException);
     }
   }
 
@@ -93,8 +93,8 @@ class SettingsMenuListener extends Trident implements ActionListener, ItemListen
   }
 
   public void itemStateChanged(ItemEvent ie) {
-    textarea.setLineWrap(wordWrap.isSelected());
-    AutoSave.setEnabled(autoSave.isSelected());
+    Trident.textarea.setLineWrap(Trident.wordWrap.isSelected());
+    AutoSave.setEnabled(Trident.autoSave.isSelected());
   }
 
 }

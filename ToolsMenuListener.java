@@ -3,7 +3,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.File;
 
-class ToolsMenuListener extends Trident implements ActionListener {
+class ToolsMenuListener implements ActionListener {
   public final void openTerminal(int os) throws UnsupportedOperatingSystemException {
     try {
       if (os == 1) {
@@ -17,7 +17,7 @@ class ToolsMenuListener extends Trident implements ActionListener {
     } catch (UnsupportedOperatingSystemException unOS) {
       throw new UnsupportedOperatingSystemException();
     } catch (Exception uos) {
-      ErrorDialog("TERMINAL_ERROR", uos);
+      Trident.ErrorDialog("TERMINAL_ERROR", uos);
     }
   }
 
@@ -25,36 +25,36 @@ class ToolsMenuListener extends Trident implements ActionListener {
     try {
       switch (e.getActionCommand()) {
       case "Compile":
-        TridentCompiler.compile(path);
-        status1.setText("Compilation ended.");
+        TridentCompiler.compile(Trident.path);
+        Trident.status1.setText("Compilation ended.");
         break;
 
       case "Run":
-        TridentCompiler.execute(path);
-        status1.setText("Execution window deployed.");
+        TridentCompiler.execute(Trident.path);
+        Trident.status1.setText("Execution window deployed.");
         break;
 
       case "Compile and Run":
-        TridentCompiler.compile(path);
-        status1.setText("Compilation ended.");
+        TridentCompiler.compile(Trident.path);
+        Trident.status1.setText("Compilation ended.");
         Thread.sleep(3000);
-        TridentCompiler.execute(path);
-        status1.setText("Execution window deployed.");
+        TridentCompiler.execute(Trident.path);
+        Trident.status1.setText("Execution window deployed.");
         break;
 
       case "Open Console":
-        openTerminal(checkOS());
+        openTerminal(Trident.checkOS());
         break;
       }
     } catch (IOException ioException) {
-      ErrorDialog("PROCESS_BUILD_FILEIO", ioException);
+      Trident.ErrorDialog("PROCESS_BUILD_FILEIO", ioException);
     } catch (UnsupportedOperatingSystemException unOs) {
-      ErrorDialog("OS_UNSUPPORTED", unOs);
+      Trident.ErrorDialog("OS_UNSUPPORTED", unOs);
     } catch (UnsupportedFileException fileNS) {
-      ErrorDialog("FILE_UNSUPPORTED", fileNS);
+      Trident.ErrorDialog("FILE_UNSUPPORTED", fileNS);
     } catch (Exception unknownException) {
       unknownException.printStackTrace();
-      ErrorDialog("TOOLS_MENU_CRASH", unknownException);
+      Trident.ErrorDialog("TOOLS_MENU_CRASH", unknownException);
     }
   }
 }
