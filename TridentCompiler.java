@@ -85,4 +85,23 @@ public class TridentCompiler {
       throw new UnsupportedFileException(filepath);
     }
   }
+
+  public static void openTerminal(int os) throws UnsupportedOperatingSystemException {
+    try {
+      if (os == 1) {
+        String parent = (new File(Trident.path)).getParent();
+        Runtime.getRuntime()
+            .exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler Console && cd " + parent + "\"");
+      } else if (os == 2) {
+        String[] processArgs = new String[] { "/bin/bash", "-c", "Start" };
+        Process proc = new ProcessBuilder(processArgs).start();
+      } else
+        throw new UnsupportedOperatingSystemException();
+    } catch (UnsupportedOperatingSystemException unOS) {
+      throw new UnsupportedOperatingSystemException();
+    } catch (Exception uos) {
+      Trident.ErrorDialog("TERMINAL_ERROR", uos);
+    }
+  }
+
 }

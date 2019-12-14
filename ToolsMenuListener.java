@@ -4,23 +4,6 @@ import java.io.IOException;
 import java.io.File;
 
 class ToolsMenuListener implements ActionListener {
-  public final void openTerminal(int os) throws UnsupportedOperatingSystemException {
-    try {
-      if (os == 1) {
-        String[] processArgs = new String[] { "cmd.exe", "/c", "Start" };
-        Process proc = new ProcessBuilder(processArgs).start();
-      } else if (os == 2) {
-        String[] processArgs = new String[] { "/bin/bash", "-c", "Start" };
-        Process proc = new ProcessBuilder(processArgs).start();
-      } else
-        throw new UnsupportedOperatingSystemException();
-    } catch (UnsupportedOperatingSystemException unOS) {
-      throw new UnsupportedOperatingSystemException();
-    } catch (Exception uos) {
-      Trident.ErrorDialog("TERMINAL_ERROR", uos);
-    }
-  }
-
   public void actionPerformed(ActionEvent e) {
     try {
       switch (e.getActionCommand()) {
@@ -43,7 +26,7 @@ class ToolsMenuListener implements ActionListener {
         break;
 
       case "Open Console":
-        openTerminal(Trident.checkOS());
+        TridentCompiler.openTerminal(Trident.checkOS());
         break;
       }
     } catch (IOException ioException) {
