@@ -36,13 +36,21 @@ class FileMenuListener implements ActionListener {
       openDialog.setAcceptAllFileFilterUsed(true);
       int command = openDialog.showOpenDialog(Trident.frame);
 
-      if (command == JFileChooser.APPROVE_OPTION)
+      if (command == JFileChooser.APPROVE_OPTION) {
         Trident.path = openDialog.getSelectedFile().getAbsolutePath();
-      else if (command == JFileChooser.CANCEL_OPTION) {
+        openFile();
+      } else if (command == JFileChooser.CANCEL_OPTION) {
         Trident.status1.setText("Operation cancelled by the user.");
         return;
       }
+    } catch (Exception enr) {
+      Trident.ErrorDialog("FILE_OPENER_ERR", enr);
+      Trident.status1.setText("There was an error opening the file.");
+    }
+  }
 
+  public static void openFile() {
+    try {
       File OpenedFile = new File(Trident.path);
       FileReader fr = new FileReader(OpenedFile);
       BufferedReader br = new BufferedReader(fr);
@@ -66,9 +74,16 @@ class FileMenuListener implements ActionListener {
       fr.close();
       br.close();
       System.gc();
-    } catch (Exception ioe) {
-      Trident.ErrorDialog("FILE_OPENER", ioe);
-      Trident.status1.setText("Ready.");
+    } catch (IOException ioe) {
+      Trident.ErrorDialog("FILE_OPEN_IO_ERR", ioe);
+      Trident.status1.setText("Could not open the specified file.");
+    } catch (Exception err) {
+
+      err.printStackTrace();
+      Trident.ErrorDialog("FILE_OPEN_ERR", err);
+      Trident.status1.setText("Could not open the specified file.");
+
+      Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
     }
   }
 
@@ -157,7 +172,6 @@ class FileMenuListener implements ActionListener {
           }
         }
         FileOpenener();
-        Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
         break;
 
       case "Exit":

@@ -205,7 +205,7 @@ class Trident {
       mb = new JMenuBar();
       configFilePath = "configurations.json";
 
-      path = file; // ! // TODO: dv
+      path = file;
 
       // * Themeing
       applyTheme();
@@ -448,6 +448,12 @@ class Trident {
 
       // * Apply settings
       applyConfigs();
+
+      if (!path.equals("New File")) {
+        fml.openFile();
+        fml.FileSaver(path);
+        status1.setText("File opened.");
+      }
 
       frame.getContentPane().add(mb, BorderLayout.NORTH);
       frame.getContentPane().add(editor, BorderLayout.CENTER);
