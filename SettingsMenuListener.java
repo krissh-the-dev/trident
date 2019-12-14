@@ -80,14 +80,11 @@ class SettingsMenuListener implements ActionListener, ItemListener {
 
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
-    case "Fonts":
+    case "Style Editor":
       SettingsEditor();
       break;
-    case "Themes":
-      SettingsEditor();
-      break;
-    case "Settings":
-      SettingsEditor();
+    case "Configurations":
+      Configurations.showUI();
       break;
     }
   }

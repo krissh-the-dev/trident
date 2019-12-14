@@ -73,8 +73,8 @@ class Trident {
   public static JPanel statusBar, commentPanel, othersPanel;
   public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu;
   public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo, pCopy, pCut,
-      pPaste, ShowClipboard, EraseClipboard, fontOptions, themes, configs, Compile, Run, CRun, console, AboutFile,
-      visit, help, AboutTrident, updates;
+      pPaste, ShowClipboard, EraseClipboard, StyleEditor, configs, Compile, Run, CRun, console, AboutFile, help,
+      AboutTrident, updates;
   public static JCheckBoxMenuItem wordWrap, autoSave;
   public static UndoManager undoManager;
   public static JPopupMenu editorMenu;
@@ -134,61 +134,6 @@ class Trident {
     }
   }
 
-  public static void applyTheme() {
-    try {
-      if (checkOS() == 1) {
-        uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will be read from file
-      } else {
-        uitheme = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
-      }
-      UIManager.setLookAndFeel(uitheme);
-
-    } catch (Exception themeError) {
-      ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
-    }
-  }
-
-  public static boolean applyConfigs() {
-    // * Default configs
-    // TODO: These will be configurable by the user
-    textarea.setLineWrap(false);
-    textarea.setWrapStyleWord(true);
-    textarea.setFont(new Font("Consolas", Font.PLAIN, 14));
-    textarea.setTabSize(4);
-    textarea.setBorder(new EmptyBorder(4, 4, 0, 0));
-    editor.setBackground(Color.white);
-    textarea.setBackground(Color.white);
-    textarea.setForeground(Color.black);
-    textarea.setCaretColor(Color.black);
-    textarea.setSelectedTextColor(Color.white);
-    textarea.setSelectionColor(new Color(23, 135, 227));
-
-    Color statusColor = new Color(210, 210, 210);
-    Color statusTextColor = Color.BLACK;
-    statusBar.setBackground(statusColor);
-    commentPanel.setBackground(statusColor);
-    othersPanel.setBackground(statusColor);
-
-    status1.setForeground(statusTextColor);
-    status2.setForeground(statusTextColor);
-    status3.setForeground(statusTextColor);
-    status4.setForeground(statusTextColor);
-
-    mb.setBackground(Color.white);
-    mb.setForeground(Color.black);
-
-    Color menuColor = Color.DARK_GRAY;
-    fileMenu.setForeground(menuColor);
-    editMenu.setForeground(menuColor);
-    settingsMenu.setForeground(menuColor);
-    toolsMenu.setForeground(menuColor);
-    about.setForeground(menuColor);
-
-    AutoSave.setEnabled(true);
-
-    return true;
-  }
-
   public Trident(String file) {
     try {
       // * Listener Variable declarations
@@ -208,7 +153,7 @@ class Trident {
       path = file;
 
       // * Themeing
-      applyTheme();
+      Configurations.applyTheme();
 
       // * Frame Setup
       frame = new JFrame();
@@ -327,13 +272,9 @@ class Trident {
       autoSave.addItemListener(sml);
       settingsMenu.add(autoSave);
 
-      fontOptions = new JMenuItem("Fonts");
-      settingsMenu.add(fontOptions);
-      fontOptions.addActionListener(sml);
-
-      themes = new JMenuItem("Themes");
-      themes.addActionListener(sml);
-      settingsMenu.add(themes);
+      StyleEditor = new JMenuItem("Style Editor");
+      settingsMenu.add(StyleEditor);
+      StyleEditor.addActionListener(sml);
 
       configs = new JMenuItem("Configurations");
       configs.addActionListener(sml);
@@ -449,7 +390,7 @@ class Trident {
       // * Status bar setup ends here
 
       // * Apply settings
-      applyConfigs();
+      Configurations.applyConfigs();
 
       if (!path.equals("New File")) {
         fml.openFile();

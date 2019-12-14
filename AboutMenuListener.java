@@ -55,6 +55,9 @@ class AboutMenuListener implements ActionListener {
           }
         });
 
+        // !Not working
+        aboutDialog.setBackground(Configurations.primary);
+
         infoPanel.add(icon);
         infoPanel.add(l1);
         infoPanel.add(l2);
