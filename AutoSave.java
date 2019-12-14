@@ -15,6 +15,8 @@ class AutoSave implements DocumentListener {
     Enabled = enable;
     if (Enabled == false)
       deleteSaved();
+    else
+      saveNow();
   }
 
   public static void deleteSaved() {
