@@ -259,11 +259,13 @@ class Trident {
       SaveFile.addActionListener(fml);
 
       SaveAs = new JMenuItem("Save As");
+      SaveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+          (java.awt.event.InputEvent.CTRL_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK)));
       fileMenu.add(SaveAs);
       SaveAs.addActionListener(fml);
 
       Exit = new JMenuItem("Exit");
-      Exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      Exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
       fileMenu.add(Exit);
       Exit.addActionListener(fml);
       // > File Menu
@@ -298,7 +300,7 @@ class Trident {
       Paste.addActionListener(eml);
 
       goTo = new JMenuItem("Go To");
-      goTo.setMnemonic(KeyEvent.VK_G);
+      Paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
       editMenu.add(goTo);
       goTo.addActionListener(eml);
 
