@@ -23,6 +23,7 @@
 - Fixed some bugs with Window Title.
 - Fixed all bugs with Undo and Redo.
 - Word Wrap bug fixed.
+- Added back Column number in status bar.
 - Added Go To option under Edit Menu.
 - Added File type filters to avoid opening of unsupported files.
 - Changed Auto save and Word wrap checkboxes to cb menu items.
