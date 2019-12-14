@@ -413,7 +413,7 @@ class Trident {
       eal.start();
       textarea.getDocument().addDocumentListener(new ChangeListener());
       textarea.getDocument().addDocumentListener(new AutoSave());
-      textarea.addCaretListener(eal);
+      textarea.addCaretListener(new LineNumberListener());
       textarea.getDocument().addUndoableEditListener(undoManager);
       Undo.setEnabled(false);
       Redo.setEnabled(false);
