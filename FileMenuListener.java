@@ -70,6 +70,8 @@ class FileMenuListener implements ActionListener {
       Trident.Undo.setEnabled(false);
       Trident.Redo.setEnabled(false);
 
+      Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
+
       contents = null;
       fr.close();
       br.close();
@@ -78,12 +80,9 @@ class FileMenuListener implements ActionListener {
       Trident.ErrorDialog("FILE_OPEN_IO_ERR", ioe);
       Trident.status1.setText("Could not open the specified file.");
     } catch (Exception err) {
-
       err.printStackTrace();
       Trident.ErrorDialog("FILE_OPEN_ERR", err);
       Trident.status1.setText("Could not open the specified file.");
-
-      Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
     }
   }
 
