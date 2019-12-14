@@ -40,7 +40,7 @@ class AboutMenuListener implements ActionListener {
         JLabel icon = new JLabel(ic);
         icon.setSize(50, 50);
         JLabel l1 = new JLabel(
-            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:rgb(66,133,244);} h3 {font-family: \"Segoe UI Semilight\";} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h3> Version 2.0 <br/>STABLE</h3></html>");
+            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:rgb(66,133,244);} h3 {font-family: \"Segoe UI Semilight\";} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h3> Version 2.1 <br/>BETA</h3></html>");
         JLabel l2 = new JLabel(
             "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:rgb(66,133,244); border:2px solid rgb(66,133,244); padding: 5px;}</style><h3>Visit Home Page</h3></html>");
         l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
