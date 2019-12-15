@@ -17,8 +17,8 @@
 #### Configurations [BETA]:
 
     - Added New Configurations Option in Settings Menu.
-    	- Added Configurations Window with Several Options [Experimental].
-    	- Added partially working Dark Mode option.
+    - Added Configurations Window with Several Options [Experimental].
+    - Added partially working Dark Mode option.
 
 - Fixed some bugs with Window Title.
 - Fixed all bugs with Undo and Redo.
@@ -32,6 +32,7 @@
 - Save As shortcut key changed to Ctrl + Shift + S.
 - Resized error icon to avoid heart attacks.
 - Highly improved code base.
+- Centered Windows.
 
 ## Current features
 
@@ -69,10 +70,9 @@
 
 - #### Some Customization options [BETA]
 
-      	- Dark Mode, Light Mode toggle
-      	- Word Wrap
-
-- Try using it to discover more.
+      - Dark Mode, Light Mode toggle
+      - Word Wrap
+      - Try using it to discover more.
 
 ## Bugs
 
