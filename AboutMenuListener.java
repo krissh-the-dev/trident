@@ -64,6 +64,8 @@ class AboutMenuListener implements ActionListener {
         l2.setBounds(120, 400, 50, 10);
         aboutDialog.add(infoPanel);
         aboutDialog.setSize(350, 500);
+
+        aboutDialog.setLocationRelativeTo(null);
         aboutDialog.setResizable(false);
         aboutDialog.setVisible(true);
         break;
@@ -119,6 +121,8 @@ class AboutMenuListener implements ActionListener {
         aboutFileDialog.getContentPane().add(rightPane, BorderLayout.CENTER);
         aboutFileDialog.setSize(450, 300);
         aboutFileDialog.setResizable(false);
+
+        aboutFileDialog.setLocationRelativeTo(null);
         aboutFileDialog.setVisible(true);
         break;
 

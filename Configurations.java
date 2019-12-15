@@ -35,7 +35,7 @@ public class Configurations {
   public static JRadioButton light, dark;
   public static JComponent items[] = { themeBox, fontsBox, sizesBox, tabSizesBox, light, dark };
 
-  public static Color menuColor = Color.DARK_GRAY;
+  public static Color menuColor = Color.BLACK;
   public static Color menuBG = Color.WHITE;
   public static Color statusColor = new Color(210, 210, 210);
   public static Color statusTextColor = Color.BLACK;
@@ -46,7 +46,7 @@ public class Configurations {
   public static void colorSchemeGenerator(Color Primary, Color Secondary) {
     if (Primary.equals(Color.WHITE)) {
       statusColor = new Color(210, 210, 210);
-      menuColor = Color.DARK_GRAY;
+      menuColor = Color.BLACK;
       menuBG = Primary;
       statusTextColor = Color.BLACK;
     } else if (Primary.equals(Color.BLACK)) {
@@ -238,11 +238,14 @@ public class Configurations {
 
     ConfigWindow.setSize(360, 325);
     ConfigWindow.setResizable(false);
-    ConfigWindow.setVisible(true);
+
     ConfigWindow.setTitle("Configurations");
     ImageIcon ic = new ImageIcon("raw/trident.png");
     ConfigWindow.setIconImage(ic.getImage());
     ConfigWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+    ConfigWindow.setLocationRelativeTo(null);
+    ConfigWindow.setVisible(true);
   }
 
   public static void read() {

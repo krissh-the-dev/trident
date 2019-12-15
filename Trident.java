@@ -401,6 +401,8 @@ class Trident {
       frame.getContentPane().add(mb, BorderLayout.NORTH);
       frame.getContentPane().add(editor, BorderLayout.CENTER);
       frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
+
+      frame.setLocationRelativeTo(null);
       frame.setVisible(true);
 
     } catch (Exception e) {

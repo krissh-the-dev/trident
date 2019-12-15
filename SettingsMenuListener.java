@@ -72,6 +72,7 @@ class SettingsMenuListener implements ActionListener, ItemListener {
           saveSettings();
         }
       });
+      jsonEditor.setLocationRelativeTo(null);
       jsonEditor.setVisible(true);
     } catch (Exception unknownException) {
       Trident.ErrorDialog("UNKNOWN_JSON_ERR", unknownException);
