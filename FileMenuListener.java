@@ -51,6 +51,7 @@ class FileMenuListener implements ActionListener {
 
   public static void openFile() {
     try {
+      AutoSave.deleteSaved();
       File OpenedFile = new File(Trident.path);
       FileReader fr = new FileReader(OpenedFile);
       BufferedReader br = new BufferedReader(fr);
