@@ -66,7 +66,7 @@ class Trident {
   protected static JTextArea textarea;
   protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
-  public static String fileType, path, configFilePath;
+  public static String fileType, path;
   public static Boolean warned;
   public static JMenuBar mb;
   public static JScrollPane editor;
@@ -149,7 +149,6 @@ class Trident {
       fileType = "Plain File";
       textarea = new JTextArea();
       mb = new JMenuBar();
-      configFilePath = "configurations.json";
 
       path = file;
 

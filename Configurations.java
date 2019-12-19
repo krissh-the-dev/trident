@@ -248,7 +248,7 @@ public class Configurations {
     ConfigWindow.setResizable(false);
 
     ConfigWindow.setTitle("Configurations");
-    ImageIcon ic = new ImageIcon("raw/trident.png");
+    ImageIcon ic = new ImageIcon("raw/trident_icon.png");
     ConfigWindow.setIconImage(ic.getImage());
     ConfigWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

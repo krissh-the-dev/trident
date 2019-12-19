@@ -23,6 +23,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 class SettingsMenuListener implements ActionListener, ItemListener {
+  @Deprecated       // TODO: REMOVE
   protected void SettingsEditor() {
     try {
       JDialog jsonEditor = new JDialog(Trident.frame, "Style Editor");
