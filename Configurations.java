@@ -9,6 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.BorderFactory;
@@ -43,6 +44,12 @@ public class Configurations {
   public static Color primary = Color.WHITE;
   public static Color secondary = Color.BLACK;
 
+  public static String fontName = "Consolas";
+  public static int fontSize = 14;
+  public static int tabSize = 4;
+
+  public static String themeName;  // conflicting with Trident.uitheme
+
   public static void colorSchemeGenerator(Color Primary, Color Secondary) {
     if (Primary.equals(Color.WHITE)) {
       statusColor = new Color(210, 210, 210);
@@ -62,11 +69,11 @@ public class Configurations {
   public static void applyTheme() {
     try {
       if (Trident.checkOS() == 1) {
-        Trident.uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+        themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
       } else {
-        Trident.uitheme = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+        themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
       }
-      UIManager.setLookAndFeel(Trident.uitheme);
+      UIManager.setLookAndFeel(themeName);
       UIManager.put("MenuBar.background", primary);
       UIManager.put("Menu.background", primary);
       UIManager.put("MenuItem.background", primary);
@@ -79,8 +86,8 @@ public class Configurations {
   public static boolean applyConfigs() {
     Trident.textarea.setLineWrap(false); // will conflict with menu bar - but can be allowed
     Trident.textarea.setWrapStyleWord(true);
-    Trident.textarea.setFont(new Font("Consolas", Font.PLAIN, 14));
-    Trident.textarea.setTabSize(4);
+    Trident.textarea.setFont(new Font(fontName, Font.PLAIN, fontSize));
+    Trident.textarea.setTabSize(tabSize);
     Trident.textarea.setBorder(new EmptyBorder(4, 4, 0, 0));
     Trident.editor.setBackground(primary);
     Trident.textarea.setBackground(primary);
@@ -152,14 +159,14 @@ public class Configurations {
 
   public static void showUI() {
     try {
-      if (Trident.uitheme == null) {
+      if (themeName == null) {
         if (Trident.checkOS() == 1) {
-          Trident.uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+          themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
         } else {
-          Trident.uitheme = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+          themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
         }
       }
-      UIManager.setLookAndFeel(Trident.uitheme);
+      UIManager.setLookAndFeel(themeName);
     } catch (Exception themeError) {
       Trident.ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
     }
@@ -193,7 +200,7 @@ public class Configurations {
     ThemePanel.add(dark);
 
     JLabel fontFace = new JLabel("Font Face");
-    String[] fonts = { "Default", "Courier New", "Consolas" };
+    String[] fonts = { "Courier New", "Consolas", "Courier", "Times New Roman" };
     fontsBox = new JComboBox<String>(fonts);
 
     JLabel fontSize = new JLabel("Font Size");
@@ -253,24 +260,50 @@ public class Configurations {
     themeBox.setSelectedItem("Default");
     light.setSelected(true);
 
-    fontsBox.setSelectedItem("Consolas");
-    sizesBox.setSelectedItem(12);
-    tabSizesBox.setSelectedItem(4);
+    fontsBox.setSelectedItem(fontName);
+    sizesBox.setSelectedItem(fontSize);
+    tabSizesBox.setSelectedItem(tabSize);
   }
 
   public static void apply() {
-    Color a, b;
-    if (light.isSelected()) {
-      a = Color.WHITE;
-      b = Color.BLACK;
-    } else {
-      b = Color.WHITE;
-      a = Color.BLACK;
+    try {
+      Color a, b;
+      if (light.isSelected()) {
+        a = Color.WHITE;
+        b = Color.BLACK;
+      } else {
+        b = Color.WHITE;
+        a = Color.BLACK;
+      }
+
+      switch (themeBox.getSelectedItem().toString()) {
+        case "Windows":
+          themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+        break;
+
+        case "Nimbus":
+          themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+        break;
+
+        default:
+        if (Trident.checkOS() == 1) {
+          themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+        } else {
+          themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+        }
+      }
+      fontName = fontsBox.getSelectedItem().toString();
+      fontSize = Integer.parseInt(sizesBox.getSelectedItem().toString());
+      tabSize = Integer.parseInt(tabSizesBox.getSelectedItem().toString());
+
+      colorSchemeGenerator(a, b);
+      applyConfigs();
+      applyTheme();
+      SwingUtilities.updateComponentTreeUI(Trident.frame);
+      // applyForMe();
+    } catch (Exception exp) {
+      Trident.ErrorDialog("CONFIG_ERR", exp);
     }
-    colorSchemeGenerator(a, b);
-    applyConfigs();
-    applyTheme();
-    // applyForMe();
   }
 
   public static void write() {

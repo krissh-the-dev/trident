@@ -46,7 +46,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 // *Misc
@@ -67,7 +66,7 @@ class Trident {
   protected static JTextArea textarea;
   protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
-  public static String fileType, path, uitheme, configFilePath;
+  public static String fileType, path, configFilePath;
   public static Boolean warned;
   public static JMenuBar mb;
   public static JScrollPane editor;

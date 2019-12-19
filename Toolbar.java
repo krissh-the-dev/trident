@@ -1,7 +1,6 @@
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Box;
@@ -37,10 +36,6 @@ public class Toolbar {
                 FileMenuListener.newFile();
             }
         };
-
-        // Trident.toolBar.setBackground(Color.WHITE);
-        // Trident.toolBar.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
-        // Trident.toolBar.setLayout(new FlowLayout());
         Trident.toolBar.add(newAction);
         Trident.toolBar.add(openAction);
         Trident.toolBar.add(saveAction);
