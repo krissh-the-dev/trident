@@ -37,6 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -76,6 +77,7 @@ class Trident {
       pPaste, ShowClipboard, EraseClipboard, StyleEditor, configs, Compile, Run, CRun, console, AboutFile, help,
       AboutTrident, updates;
   public static JCheckBoxMenuItem wordWrap, autoSave;
+  public static JToolBar toolBar;
   public static UndoManager undoManager;
   public static JPopupMenu editorMenu;
 
@@ -180,7 +182,7 @@ class Trident {
       frame.addWindowListener(WindowCloseListener);
       frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       frame.setLayout(new BorderLayout());
-      ImageIcon ic = new ImageIcon("raw/trident.png");
+      ImageIcon ic = new ImageIcon("raw/trident_icon.png");
       frame.setIconImage(ic.getImage());
 
       // * Menu Bar Setup
@@ -345,6 +347,12 @@ class Trident {
       editorMenu.add(pCut);
       editorMenu.add(pPaste);
 
+      // * Tool bar
+      toolBar = new JToolBar();
+      toolBar.setFloatable(false);
+      toolBar.setVisible(true);
+
+
       // * Text Area setup
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -398,11 +406,15 @@ class Trident {
         status1.setText("File opened.");
       }
 
-      frame.getContentPane().add(mb, BorderLayout.NORTH);
+      Toolbar tbc = new Toolbar();
+
+      frame.setJMenuBar(mb);
+      frame.add(toolBar, BorderLayout.PAGE_START);
       frame.getContentPane().add(editor, BorderLayout.CENTER);
       frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 
       frame.setLocationRelativeTo(null);
+      frame.setLocationByPlatform(true);
       frame.setVisible(true);
 
     } catch (Exception e) {

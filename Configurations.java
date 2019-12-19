@@ -100,6 +100,7 @@ public class Configurations {
 
     Trident.mb.setBackground(menuBG);
     Trident.mb.setForeground(secondary);
+    // Trident.toolBar.setBackground(statusColor);
 
     JMenu menus[] = { Trident.fileMenu, Trident.editMenu, Trident.settingsMenu, Trident.toolsMenu, Trident.about };
 
