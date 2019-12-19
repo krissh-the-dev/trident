@@ -16,7 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
 
 class FileMenuListener implements ActionListener {
-  public void FileOpenener() {
+  public static void FileOpener() {
     try {
       FileNameExtensionFilter textFiles = new FileNameExtensionFilter("Text Files (*.txt, *.mf, *.md, *.rtf)", "txt",
           "mf", "md", "rtf");
@@ -138,29 +138,32 @@ class FileMenuListener implements ActionListener {
     return opt;
   }
 
+  public static void newFile() {
+    if (Trident.warned) {
+      int opt = warningDialog();
+      if (opt == JOptionPane.CANCEL_OPTION) {
+        Trident.status1.setText("Ready.");
+        return;
+      }
+    }
+    Trident.path = "New File";
+    Trident.textarea.setText("");
+    Trident.status1.setText("Ready.");
+    Trident.status2.setText("Unsaved");
+    Trident.status3.setText("Plain File");
+    Trident.frame.setTitle("Trident Text Editor - New File");
+    Trident.warned = false;
+    Trident.Undo.setEnabled(false);
+    Trident.Redo.setEnabled(false);
+    Trident.undoManager = new UndoManager();
+    Trident.textarea.getDocument().addUndoableEditListener(Trident.undoManager);
+  }
+
   public void actionPerformed(ActionEvent e) {
     try {
       switch (e.getActionCommand()) {
       case "New":
-        if (Trident.warned) {
-          int opt = warningDialog();
-          if (opt == JOptionPane.CANCEL_OPTION) {
-            Trident.status1.setText("Ready.");
-            break;
-          }
-        }
-        Trident.path = "New File";
-        Trident.textarea.setText("");
-        Trident.status1.setText("Ready.");
-        Trident.status2.setText("Unsaved");
-        Trident.status3.setText("Plain File");
-        Trident.frame.setTitle("Trident Text Editor - New File");
-        Trident.warned = false;
-        Trident.Undo.setEnabled(false);
-        Trident.Redo.setEnabled(false);
-        Trident.undoManager = new UndoManager();
-        Trident.textarea.getDocument().addUndoableEditListener(Trident.undoManager);
-
+        newFile();
         break;
 
       case "Open":
@@ -171,7 +174,7 @@ class FileMenuListener implements ActionListener {
             break;
           }
         }
-        FileOpenener();
+        FileOpener();
         break;
 
       case "Exit":

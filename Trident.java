@@ -359,6 +359,7 @@ class Trident {
       editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
       textarea.setComponentPopupMenu(editorMenu);
 
+
       // > Listeners for Text Area
       EditActionsListener eal = new EditActionsListener();
       undoManager = new UndoManager();

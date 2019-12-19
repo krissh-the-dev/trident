@@ -22,29 +22,28 @@ public class Toolbar {
         Action openAction = new AbstractAction("Open", openIcon) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // System.out.println("Open File");
+                FileMenuListener.FileOpener();
             }
         };
         Action saveAction = new AbstractAction("Save", saveIcon) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // System.out.println("Save File");
+                FileMenuListener.FileSaver(Trident.path);
             }
         };
         Action newAction = new AbstractAction("New", newIcon) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // System.out.println("New File");
+                FileMenuListener.newFile();
             }
         };
 
-        Trident.toolBar.add(Box.createHorizontalGlue());
-        // Trident.toolBar.setSize((int)(Trident.frame.getSize().getWidth()), 50);
-
-        Trident.toolBar.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
-        Trident.toolBar.setLayout(new FlowLayout());
+        // Trident.toolBar.setBackground(Color.WHITE);
+        // Trident.toolBar.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        // Trident.toolBar.setLayout(new FlowLayout());
         Trident.toolBar.add(newAction);
         Trident.toolBar.add(openAction);
         Trident.toolBar.add(saveAction);
+        // Trident.toolBar.add(Box.createHorizontalGlue());
     }
 }
