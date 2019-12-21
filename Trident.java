@@ -354,9 +354,8 @@ class Trident {
       // * Text Area setup
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-      editor.setBorder(new EmptyBorder(0, 0, 1, 0));
+      editor.setBorder(new EmptyBorder(0, 0, 1, 0)); 
       textarea.setComponentPopupMenu(editorMenu);
-
 
       // > Listeners for Text Area
       EditActionsListener eal = new EditActionsListener();
@@ -398,6 +397,7 @@ class Trident {
 
       // * Apply settings
       Configurations.applyConfigs();
+      AutoSave.setEnabled(true);
 
       if (!path.equals("New File")) {
         fml.openFile();
@@ -408,7 +408,7 @@ class Trident {
       Toolbar tbc = new Toolbar();
 
       frame.setJMenuBar(mb);
-      frame.add(toolBar, BorderLayout.PAGE_START);
+      frame.getContentPane().add(toolBar, BorderLayout.PAGE_START);
       frame.getContentPane().add(editor, BorderLayout.CENTER);
       frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 

@@ -41,6 +41,8 @@ public class Toolbar {
         Trident.toolBar.add(openAction);
         Trident.toolBar.add(saveAction);
         Trident.toolBar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.LIGHT_GRAY));
+        Trident.toolBar.setRequestFocusEnabled(false);
+        Trident.textarea.requestFocusInWindow();
         // Trident.toolBar.add(Box.createHorizontalGlue());
     }
 }

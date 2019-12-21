@@ -74,9 +74,9 @@ public class Configurations {
         themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
       }
       UIManager.setLookAndFeel(themeName);
-      UIManager.put("MenuBar.background", primary);
-      UIManager.put("Menu.background", primary);
-      UIManager.put("MenuItem.background", primary);
+      // UIManager.put("MenuBar.background", primary);
+      // UIManager.put("Menu.background", primary);
+      // UIManager.put("MenuItem.background", primary);
 
     } catch (Exception themeError) {
       Trident.ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
@@ -88,7 +88,6 @@ public class Configurations {
     Trident.textarea.setWrapStyleWord(true);
     Trident.textarea.setFont(new Font(fontName, Font.PLAIN, fontSize));
     Trident.textarea.setTabSize(tabSize);
-    Trident.textarea.setBorder(new EmptyBorder(4, 4, 0, 0));
     Trident.editor.setBackground(primary);
     Trident.textarea.setBackground(primary);
     Trident.textarea.setForeground(secondary);
@@ -104,33 +103,6 @@ public class Configurations {
     Trident.status2.setForeground(statusTextColor);
     Trident.status3.setForeground(statusTextColor);
     Trident.status4.setForeground(statusTextColor);
-
-    // Trident.mb.setBackground(primary);
-    // Trident.mb.setForeground(secondary);
-    // Trident.toolBar.setBackground(statusColor);
-
-    // JMenu menus[] = { Trident.fileMenu, Trident.editMenu, Trident.settingsMenu, Trident.toolsMenu, Trident.about };
-
-    // for (JMenu menu : menus) {
-    //   menu.setForeground(menuColor);
-    //   menu.setBackground(menuBG);
-    // }
-
-    // JMenuItem menuItems[] = { Trident.newFile, Trident.OpenFile, Trident.SaveFile, Trident.SaveAs, Trident.Exit,
-    //     Trident.Undo, Trident.Redo, Trident.Copy, Trident.Cut, Trident.Paste, Trident.goTo, Trident.pCopy, Trident.pCut,
-    //     Trident.pPaste, Trident.ShowClipboard, Trident.EraseClipboard, Trident.StyleEditor, Trident.configs,
-    //     Trident.Compile, Trident.Run, Trident.CRun, Trident.console, Trident.AboutFile, Trident.help,
-    //     Trident.AboutTrident, Trident.updates };
-
-    // for (JMenuItem menuItem : menuItems) {
-      // menuItem.setForeground(menuColor);
-    //   menuItem.setBackground(primary);
-    // }
-
-    Trident.frame.setBackground(primary);
-
-    AutoSave.setEnabled(true);
-
     return true;
   }
 
@@ -150,11 +122,6 @@ public class Configurations {
     light.setBackground(primary);
     dark.setForeground(secondary);
     dark.setBackground(primary);
-
-    // for (JComponent x : items) {
-    // x.setBackground(primary);
-    // x.setForeground(secondary);
-    // }
   }
 
   public static void showUI() {
