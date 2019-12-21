@@ -82,6 +82,7 @@ class SettingsMenuListener implements ActionListener, ItemListener {
 
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
+      // * Note: For JMenuCheckBoxes refer itemStateChanged()
     case "Style Editor":
       SettingsEditor();
       break;

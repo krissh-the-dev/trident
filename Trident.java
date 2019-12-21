@@ -354,7 +354,7 @@ class Trident {
       // * Text Area setup
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-      editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
+      editor.setBorder(new EmptyBorder(0, 0, 1, 0));
       textarea.setComponentPopupMenu(editorMenu);
 
 

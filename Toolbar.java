@@ -7,6 +7,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
+import javax.swing.BorderFactory;
 
 public class Toolbar {
 
@@ -39,6 +40,7 @@ public class Toolbar {
         Trident.toolBar.add(newAction);
         Trident.toolBar.add(openAction);
         Trident.toolBar.add(saveAction);
+        Trident.toolBar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.LIGHT_GRAY));
         // Trident.toolBar.add(Box.createHorizontalGlue());
     }
 }

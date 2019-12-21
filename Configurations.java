@@ -105,27 +105,27 @@ public class Configurations {
     Trident.status3.setForeground(statusTextColor);
     Trident.status4.setForeground(statusTextColor);
 
-    Trident.mb.setBackground(menuBG);
-    Trident.mb.setForeground(secondary);
+    // Trident.mb.setBackground(primary);
+    // Trident.mb.setForeground(secondary);
     // Trident.toolBar.setBackground(statusColor);
 
-    JMenu menus[] = { Trident.fileMenu, Trident.editMenu, Trident.settingsMenu, Trident.toolsMenu, Trident.about };
+    // JMenu menus[] = { Trident.fileMenu, Trident.editMenu, Trident.settingsMenu, Trident.toolsMenu, Trident.about };
 
-    for (JMenu menu : menus) {
-      menu.setForeground(menuColor);
-      menu.setBackground(menuBG);
-    }
+    // for (JMenu menu : menus) {
+    //   menu.setForeground(menuColor);
+    //   menu.setBackground(menuBG);
+    // }
 
-    JMenuItem menuItems[] = { Trident.newFile, Trident.OpenFile, Trident.SaveFile, Trident.SaveAs, Trident.Exit,
-        Trident.Undo, Trident.Redo, Trident.Copy, Trident.Cut, Trident.Paste, Trident.goTo, Trident.pCopy, Trident.pCut,
-        Trident.pPaste, Trident.ShowClipboard, Trident.EraseClipboard, Trident.StyleEditor, Trident.configs,
-        Trident.Compile, Trident.Run, Trident.CRun, Trident.console, Trident.AboutFile, Trident.help,
-        Trident.AboutTrident, Trident.updates };
+    // JMenuItem menuItems[] = { Trident.newFile, Trident.OpenFile, Trident.SaveFile, Trident.SaveAs, Trident.Exit,
+    //     Trident.Undo, Trident.Redo, Trident.Copy, Trident.Cut, Trident.Paste, Trident.goTo, Trident.pCopy, Trident.pCut,
+    //     Trident.pPaste, Trident.ShowClipboard, Trident.EraseClipboard, Trident.StyleEditor, Trident.configs,
+    //     Trident.Compile, Trident.Run, Trident.CRun, Trident.console, Trident.AboutFile, Trident.help,
+    //     Trident.AboutTrident, Trident.updates };
 
-    for (JMenuItem menuItem : menuItems) {
+    // for (JMenuItem menuItem : menuItems) {
       // menuItem.setForeground(menuColor);
-      menuItem.setBackground(primary);
-    }
+    //   menuItem.setBackground(primary);
+    // }
 
     Trident.frame.setBackground(primary);
 
