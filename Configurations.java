@@ -5,8 +5,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
@@ -35,9 +33,6 @@ public class Configurations {
   public static JComboBox themeBox, fontsBox, sizesBox, tabSizesBox;
   public static JRadioButton light, dark;
   public static JComponent items[] = { themeBox, fontsBox, sizesBox, tabSizesBox, light, dark };
-
-  public static Color menuColor = Color.BLACK;
-  public static Color menuBG = Color.WHITE;
   public static Color statusColor = new Color(210, 210, 210);
   public static Color statusTextColor = Color.BLACK;
 
@@ -48,18 +43,14 @@ public class Configurations {
   public static int fontSize = 14;
   public static int tabSize = 4;
 
-  public static String themeName;  // conflicting with Trident.uitheme
+  public static String themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";  
 
   public static void colorSchemeGenerator(Color Primary, Color Secondary) {
     if (Primary.equals(Color.WHITE)) {
       statusColor = new Color(210, 210, 210);
-      menuColor = Color.BLACK;
-      menuBG = Primary;
       statusTextColor = Color.BLACK;
     } else if (Primary.equals(Color.BLACK)) {
       statusColor = new Color(25, 25, 25);
-      menuColor = Secondary;
-      menuBG = statusColor; // todo
       statusTextColor = Color.WHITE;
     }
     primary = Primary;
@@ -68,11 +59,6 @@ public class Configurations {
 
   public static void applyTheme() {
     try {
-      if (Trident.checkOS() == 1) {
-        themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-      } else {
-        themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
-      }
       UIManager.setLookAndFeel(themeName);
       // UIManager.put("MenuBar.background", primary);
       // UIManager.put("Menu.background", primary);
@@ -267,6 +253,7 @@ public class Configurations {
       applyConfigs();
       applyTheme();
       SwingUtilities.updateComponentTreeUI(Trident.frame);
+      SwingUtilities.updateComponentTreeUI(ConfigWindow);
       // applyForMe();
     } catch (Exception exp) {
       Trident.ErrorDialog("CONFIG_ERR", exp);
