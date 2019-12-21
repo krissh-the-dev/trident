@@ -330,6 +330,7 @@ class Trident {
       mb.add(toolsMenu);
       mb.add(settingsMenu);
       mb.add(about);
+      mb.setBorder(new EmptyBorder(0, 0, -1, 0));
       // * Menu bar setup ends here
 
       // * Pop up menu for text area
@@ -348,13 +349,12 @@ class Trident {
       // * Tool bar
       toolBar = new JToolBar();
       toolBar.setFloatable(false);
-      toolBar.setVisible(true);
-
 
       // * Text Area setup
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-      editor.setBorder(new EmptyBorder(0, 0, 1, 0)); 
+      editor.setBorder(new EmptyBorder(0, 0, 0, 0));
+      textarea.setBorder(new EmptyBorder(2, 2, 0, 0));
       textarea.setComponentPopupMenu(editorMenu);
 
       // > Listeners for Text Area
