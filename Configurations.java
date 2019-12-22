@@ -1,4 +1,3 @@
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -27,10 +26,26 @@ import java.awt.event.WindowListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Configurations {
-  private static boolean ImOpen;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-  public static JFrame ConfigWindow;
+public class Configurations {
+  private static boolean ImOpen, EOpen;
+
+  public static JDialog ConfigWindow;
+  public static JDialog jsonEditor;
   public static JComboBox themeBox, fontsBox, sizesBox, tabSizesBox;
   public static JRadioButton light, dark;
 
@@ -148,7 +163,8 @@ public class Configurations {
     } catch (Exception thmerr) {
       Trident.ErrorDialog("THEME_ERR", thmerr);
     }
-    ConfigWindow = new JFrame("Configurations");
+    ConfigWindow = new JDialog(Trident.frame);
+    ConfigWindow.setTitle("Configurations");
     ConfigWindow.setLayout(new GridLayout(1, 1, 1, 1));
     JPanel mainPanel = new JPanel(new BorderLayout());
     JPanel ThemePanel = new JPanel(new GridLayout(5, 1, 1, 1));
@@ -223,7 +239,7 @@ public class Configurations {
     ConfigWindow.setResizable(false);
     ImageIcon ic = new ImageIcon("raw/trident_icon.png");
     ConfigWindow.setIconImage(ic.getImage());
-    ConfigWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    ConfigWindow.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
     WindowListener ConfigWindowCloseListener = new WindowAdapter() {
       @Override
@@ -238,6 +254,78 @@ public class Configurations {
     ConfigWindow.setVisible(true);
   }
 
+  @Deprecated       // TODO: REMOVE
+  protected static void showEditor() {
+    try {
+      if (EOpen) {
+        jsonEditor.requestFocus();
+        return;
+      }
+      EOpen = true;
+      
+      jsonEditor = new JDialog(Trident.frame, "Style Editor");
+      jsonEditor.setSize(450, 350);
+      jsonEditor.setIconImage((new ImageIcon("raw/trident.png")).getImage());
+      JPanel TextViewer = new JPanel();
+      File jsonFile = new File("configurations.json");
+      FileReader fr = new FileReader(jsonFile);
+      BufferedReader br = new BufferedReader(fr);
+      String jsonContents = "";
+      for (String line = br.readLine(); line != null; line = br.readLine()) {
+        jsonContents += line + System.lineSeparator();
+      }
+      fr.close();
+      br.close();
+      JTextArea jsonViewer = new JTextArea(jsonContents);
+      JScrollPane jsonScrollController = new JScrollPane(jsonViewer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+          JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+      jsonScrollController.setBorder(new EmptyBorder(-1, 0, -1, 0));
+      TextViewer.setLayout(new GridLayout(1, 1, 1, 1));
+      jsonEditor.setLayout(new BorderLayout());
+      TextViewer.add(jsonScrollController);
+      jsonEditor.getContentPane().add(TextViewer, BorderLayout.CENTER);
+      jsonViewer.getDocument().addDocumentListener(new DocumentListener() {
+        private void saveSettings() {
+          try {
+            String jsonContents = jsonViewer.getText();
+            File jsonFile = new File("configurations.json");
+            FileWriter fileWritter = new FileWriter(jsonFile, false);
+            BufferedWriter bw = new BufferedWriter(fileWritter);
+            bw.write(jsonContents);
+            bw.close();
+          } catch (IOException fIoException) {
+            Trident.ErrorDialog("JSON_THREAD_IO", fIoException);
+          }
+        }
+
+        public void changedUpdate(DocumentEvent e) {
+          saveSettings();
+        }
+
+        public void removeUpdate(DocumentEvent e) {
+          saveSettings();
+        }
+
+        public void insertUpdate(DocumentEvent e) {
+          saveSettings();
+        }
+      });
+      jsonEditor.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+      jsonEditor.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+          ImOpen = false;
+          jsonEditor.dispose();
+        }
+      });
+      jsonEditor.setLocationRelativeTo(Trident.frame);
+      jsonEditor.setVisible(true);
+    } catch (Exception unknownException) {
+      Trident.ErrorDialog("UNKNOWN_JSON_ERR", unknownException);
+    }
+  }
+  
   public static void setData() {
     themeBox.setSelectedItem(themeName);
     if (primary.equals(Color.WHITE))
