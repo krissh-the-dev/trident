@@ -1,8 +1,3 @@
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,89 +23,78 @@ import java.awt.Cursor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import java.awt.event.WindowListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 public class Configurations {
+  private static boolean ImOpen;
+
   public static JFrame ConfigWindow;
   public static JComboBox themeBox, fontsBox, sizesBox, tabSizesBox;
   public static JRadioButton light, dark;
-  public static JComponent items[] = { themeBox, fontsBox, sizesBox, tabSizesBox, light, dark };
-  public static Color statusColor = new Color(210, 210, 210);
-  public static Color statusTextColor = Color.BLACK;
 
-  public static Color primary = Color.WHITE;
-  public static Color secondary = Color.BLACK;
+  // * Configs 
+  public static Color menubg = null;
+  public static Color menufg = null;
+  public static Color statusbg = new Color(210, 210, 210);
+  public static Color statusfg = Color.BLACK;
+  public static Color selectionbg = new Color(23, 135, 227);
+  public static Color selectionfg = Color.WHITE;
+  public static Color primary = Color.WHITE, secondary = Color.BLACK;
 
+  public static String themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
   public static String fontName = "Consolas";
   public static int fontSize = 14;
   public static int tabSize = 4;
 
-  public static String themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";  
-
-  public static void colorSchemeGenerator(Color Primary, Color Secondary) {
+  public static void generateTheme(Color Primary, Color Secondary) {
     if (Primary.equals(Color.WHITE)) {
-      statusColor = new Color(210, 210, 210);
-      statusTextColor = Color.BLACK;
+      statusbg = new Color(210, 210, 210);
+      statusfg = Color.BLACK;
     } else if (Primary.equals(Color.BLACK)) {
-      statusColor = new Color(25, 25, 25);
-      statusTextColor = Color.WHITE;
+      statusbg = new Color(25, 25, 25);
+      statusfg = Color.WHITE;
     }
+
     primary = Primary;
     secondary = Secondary;
+
+    Color a, b;
+    if (light.isSelected()) {
+      a = Color.WHITE;
+      b = Color.BLACK;
+    } else {
+      b = Color.WHITE;
+      a = Color.BLACK;
+    }
+
+    switch (themeBox.getSelectedItem().toString()) {
+    case "Windows":
+      themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+      break;
+
+    case "Nimbus":
+      themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+      break;
+
+    default:
+      try {
+        if (Trident.checkOS() == 1) {
+          themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+        } else {
+          themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+        }
+      } catch (Exception ue) {
+        Trident.ErrorDialog("OS_UNSUPPORTED", ue);
+      }
+    }
+    fontName = fontsBox.getSelectedItem().toString();
+    fontSize = Integer.parseInt(sizesBox.getSelectedItem().toString());
+    tabSize = Integer.parseInt(tabSizesBox.getSelectedItem().toString());
   }
 
   public static void applyTheme() {
-    try {
-      UIManager.setLookAndFeel(themeName);
-      // UIManager.put("MenuBar.background", primary);
-      // UIManager.put("Menu.background", primary);
-      // UIManager.put("MenuItem.background", primary);
-
-    } catch (Exception themeError) {
-      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
-    }
-  }
-
-  public static boolean applyConfigs() {
-    Trident.textarea.setLineWrap(false); // will conflict with menu bar - but can be allowed
-    Trident.textarea.setWrapStyleWord(true);
-    Trident.textarea.setFont(new Font(fontName, Font.PLAIN, fontSize));
-    Trident.textarea.setTabSize(tabSize);
-    Trident.editor.setBackground(primary);
-    Trident.textarea.setBackground(primary);
-    Trident.textarea.setForeground(secondary);
-    Trident.textarea.setCaretColor(secondary);
-    Trident.textarea.setSelectedTextColor(primary);
-    Trident.textarea.setSelectionColor(new Color(23, 135, 227));
-
-    Trident.statusBar.setBackground(statusColor);
-    Trident.commentPanel.setBackground(statusColor);
-    Trident.othersPanel.setBackground(statusColor);
-
-    Trident.status1.setForeground(statusTextColor);
-    Trident.status2.setForeground(statusTextColor);
-    Trident.status3.setForeground(statusTextColor);
-    Trident.status4.setForeground(statusTextColor);
-    return true;
-  }
-
-  @Deprecated
-  public static void applyForMe() {
-    ConfigWindow.setBackground(primary);
-
-    themeBox.setForeground(secondary);
-    themeBox.setBackground(primary);
-    fontsBox.setForeground(secondary);
-    fontsBox.setBackground(primary);
-    sizesBox.setForeground(secondary);
-    sizesBox.setBackground(primary);
-    tabSizesBox.setForeground(secondary);
-    tabSizesBox.setBackground(primary);
-    light.setForeground(secondary);
-    light.setBackground(primary);
-    dark.setForeground(secondary);
-    dark.setBackground(primary);
-  }
-
-  public static void showUI() {
     try {
       if (themeName == null) {
         if (Trident.checkOS() == 1) {
@@ -120,11 +104,51 @@ public class Configurations {
         }
       }
       UIManager.setLookAndFeel(themeName);
-    } catch (Exception themeError) {
-      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
+    } catch (UnsupportedOperatingSystemException uos) {
+      Trident.ErrorDialog("OS_UNSUPPORTED_ERR", uos);
+    }catch (Exception therr) {
+      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", therr);
     }
+    SwingUtilities.updateComponentTreeUI(Trident.frame);
+    SwingUtilities.updateComponentTreeUI(ConfigWindow);
+  }
 
-    ConfigWindow = new JFrame();
+  public static void applyConfigs() {
+    // * FONT SETTINGS
+    Trident.textarea.setWrapStyleWord(true);
+    Trident.textarea.setFont(new Font(fontName, Font.PLAIN, fontSize));
+    Trident.textarea.setTabSize(tabSize);
+
+    // * COLORS
+    Trident.editor.setBackground(primary);
+    Trident.textarea.setBackground(primary);
+    Trident.textarea.setForeground(secondary);
+    Trident.textarea.setCaretColor(secondary);
+    Trident.textarea.setSelectedTextColor(selectionfg);
+    Trident.textarea.setSelectionColor(selectionbg);
+
+    Trident.statusBar.setBackground(statusbg);
+    Trident.commentPanel.setBackground(statusbg);
+    Trident.othersPanel.setBackground(statusbg);
+
+    Trident.status1.setForeground(statusfg);
+    Trident.status2.setForeground(statusfg);
+    Trident.status3.setForeground(statusfg);
+    Trident.status4.setForeground(statusfg);
+  }
+
+  public static void showUI() {
+    if (ImOpen) {
+      ConfigWindow.requestFocus();
+      return;
+    }
+    ImOpen = true;
+    try {
+      UIManager.setLookAndFeel(themeName);
+    } catch (Exception thmerr) {
+      Trident.ErrorDialog("THEME_ERR", thmerr);
+    }
+    ConfigWindow = new JFrame("Configurations");
     ConfigWindow.setLayout(new GridLayout(1, 1, 1, 1));
     JPanel mainPanel = new JPanel(new BorderLayout());
     JPanel ThemePanel = new JPanel(new GridLayout(5, 1, 1, 1));
@@ -135,7 +159,7 @@ public class Configurations {
     FontPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Font"));
 
     JLabel theme = new JLabel("UI Theme");
-    String[] themes = { "Default", "Nimbus" };
+    String[] themes = { "Default", "Nimbus", "Windows" };
     themeBox = new JComboBox<String>(themes);
 
     JLabel scheme = new JLabel("Color Scheme");
@@ -192,26 +216,34 @@ public class Configurations {
     mainPanel.add(FontPanel, BorderLayout.CENTER);
     mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
+    setData();
     ConfigWindow.add(mainPanel);
-
-    /* set selections */
-    read();
 
     ConfigWindow.setSize(360, 325);
     ConfigWindow.setResizable(false);
-
-    ConfigWindow.setTitle("Configurations");
     ImageIcon ic = new ImageIcon("raw/trident_icon.png");
     ConfigWindow.setIconImage(ic.getImage());
-    ConfigWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    ConfigWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+    WindowListener ConfigWindowCloseListener = new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        ImOpen = false;
+        ConfigWindow.dispose();
+      }
+    };
+    ConfigWindow.addWindowListener(ConfigWindowCloseListener);
 
     ConfigWindow.setLocationRelativeTo(null);
     ConfigWindow.setVisible(true);
   }
 
-  public static void read() {
-    themeBox.setSelectedItem("Default");
-    light.setSelected(true);
+  public static void setData() {
+    themeBox.setSelectedItem(themeName);
+    if (primary.equals(Color.WHITE))
+      light.setSelected(true);
+    else
+      dark.setSelected(true);
 
     fontsBox.setSelectedItem(fontName);
     sizesBox.setSelectedItem(fontSize);
@@ -220,7 +252,7 @@ public class Configurations {
 
   public static void apply() {
     try {
-      Color a, b;
+      Color a = Color.WHITE, b = Color.BLACK;
       if (light.isSelected()) {
         a = Color.WHITE;
         b = Color.BLACK;
@@ -228,44 +260,12 @@ public class Configurations {
         b = Color.WHITE;
         a = Color.BLACK;
       }
-
-      switch (themeBox.getSelectedItem().toString()) {
-        case "Windows":
-          themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-        break;
-
-        case "Nimbus":
-          themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
-        break;
-
-        default:
-        if (Trident.checkOS() == 1) {
-          themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-        } else {
-          themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
-        }
-      }
-      fontName = fontsBox.getSelectedItem().toString();
-      fontSize = Integer.parseInt(sizesBox.getSelectedItem().toString());
-      tabSize = Integer.parseInt(tabSizesBox.getSelectedItem().toString());
-
-      colorSchemeGenerator(a, b);
+      generateTheme(a, b);
       applyConfigs();
       applyTheme();
-      SwingUtilities.updateComponentTreeUI(Trident.frame);
-      SwingUtilities.updateComponentTreeUI(ConfigWindow);
-      // applyForMe();
     } catch (Exception exp) {
       Trident.ErrorDialog("CONFIG_ERR", exp);
     }
-  }
-
-  public static void write() {
-
-  }
-
-  public static void main(String[] args) {
-    showUI();
   }
 }
 

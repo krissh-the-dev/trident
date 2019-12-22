@@ -153,7 +153,12 @@ class Trident {
       path = file;
 
       // * Themeing
-      Configurations.applyTheme();
+      // Configurations.applyTheme();
+      try {
+        UIManager.setLookAndFeel(Configurations.themeName);
+      } catch (Exception e) {
+        ErrorDialog("UI_THEME_ERR", e);
+      }
 
       // * Frame Setup
       frame = new JFrame();
@@ -398,6 +403,7 @@ class Trident {
       // * Apply settings
       Configurations.applyConfigs();
       AutoSave.setEnabled(true);
+      textarea.setLineWrap(false);
 
       if (!path.equals("New File")) {
         fml.openFile();
