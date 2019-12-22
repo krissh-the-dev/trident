@@ -234,7 +234,7 @@ public class Configurations {
     };
     ConfigWindow.addWindowListener(ConfigWindowCloseListener);
 
-    ConfigWindow.setLocationRelativeTo(null);
+    ConfigWindow.setLocationRelativeTo(Trident.frame);
     ConfigWindow.setVisible(true);
   }
 

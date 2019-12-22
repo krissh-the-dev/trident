@@ -48,6 +48,7 @@ class EditMenuListener implements ActionListener {
           cbviewer.setLayout(new BorderLayout());
           TextViewer.add(spv);
           cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
+          cbviewer.setLocationRelativeTo(Trident.frame);
           cbviewer.setVisible(true);
         } catch (UnsupportedFlavorException ufe) {
           Trident.ErrorDialog("FLAVOR_ERR", ufe);
@@ -113,6 +114,7 @@ class EditMenuListener implements ActionListener {
         Goto.add(instruction);
         Goto.add(lineSpinner);
         Goto.add(go);
+        Goto.setLocationRelativeTo(Trident.frame);
         Goto.setVisible(true);
         break;
       }

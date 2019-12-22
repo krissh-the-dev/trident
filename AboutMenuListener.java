@@ -66,7 +66,7 @@ class AboutMenuListener implements ActionListener {
         aboutDialog.add(infoPanel);
         aboutDialog.setSize(350, 500);
 
-        aboutDialog.setLocationRelativeTo(null);
+        aboutDialog.setLocationRelativeTo(Trident.frame);
         aboutDialog.setResizable(false);
         aboutDialog.setVisible(true);
         break;
@@ -123,7 +123,7 @@ class AboutMenuListener implements ActionListener {
         aboutFileDialog.setSize(450, 300);
         aboutFileDialog.setResizable(false);
 
-        aboutFileDialog.setLocationRelativeTo(null);
+        aboutFileDialog.setLocationRelativeTo(Trident.frame);
         aboutFileDialog.setVisible(true);
         break;
 
