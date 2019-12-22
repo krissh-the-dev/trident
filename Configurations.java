@@ -42,7 +42,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class Configurations {
-  private static boolean ImOpen, EOpen;
+  static boolean ImOpen;
+  static boolean EOpen;
 
   public static JDialog ConfigWindow;
   public static JDialog jsonEditor;
@@ -327,6 +328,7 @@ public class Configurations {
   }
 
   public static void setData() {
+    read();
     themeBox.setSelectedItem(themeName);
     if (primary.equals(Color.WHITE))
       light.setSelected(true);
@@ -348,6 +350,7 @@ public class Configurations {
         b = Color.WHITE;
         a = Color.BLACK;
       }
+      read();
       generateTheme(a, b);
       applyConfigs();
       applyTheme();
@@ -358,14 +361,14 @@ public class Configurations {
   
   public static void write() {
     try {
-      String contents = "{" + System.lineSeparator();
+      String contents;
       File jsonFile = new File("configurations.ts");
       FileWriter fileWritter = new FileWriter(jsonFile, false);
       BufferedWriter bw = new BufferedWriter(fileWritter);
-      contents += "themeName:" + themeName + "," + System.lineSeparator();
+      contents = "themeName:" + themeName + "," + System.lineSeparator();
       contents += "colorScheme:";
       if (primary.equals(Color.WHITE)) {
-         contents += "light,";
+        contents += "light,";
       } else {
         contents += "dark,";
       }
@@ -373,12 +376,44 @@ public class Configurations {
       contents += "fontName:" + fontName + "," + System.lineSeparator();
       contents += "fontSize:" + fontSize + "," + System.lineSeparator();
       contents += "tabSize:" + tabSize + "," + System.lineSeparator();
-
-      contents += "}";
       bw.write(contents);
       bw.close();
     } catch (IOException wre) {
       Trident.ErrorDialog("SETTINGS_WRITE_ERR", wre);
+    }
+  }
+
+  public static void read() {
+    try {
+      File settingsFile = new File("configurations.ts");
+      FileReader sfr = new FileReader(settingsFile);
+      BufferedReader sbr = new BufferedReader(sfr);
+      String tsContents = "";
+      for (String setting = sbr.readLine(); setting != null; setting = sbr.readLine()) {
+        tsContents += setting + System.lineSeparator();
+      }
+      sfr.close();
+      sbr.close();
+      String settings[] = tsContents.split(",");
+      String settingSet[] = new String[5];
+      for (int i = 0; i < 5; i++) {
+        settingSet[i] = settings[i].split(":")[1];
+      }
+
+      themeName = settingSet[0];
+      String colorScheme = settingSet[1];
+      if (colorScheme.equals("light")) {
+        primary = Color.WHITE;
+        secondary = Color.BLACK;
+      } else {
+        primary = Color.BLACK;
+        secondary = Color.WHITE;
+      }
+      fontName = settingSet[2];
+      fontSize = Integer.parseInt(settingSet[3]);
+      tabSize = Integer.parseInt(settingSet[4]);
+    } catch (IOException ioe) {
+      Trident.ErrorDialog("SETTINGS_READ_ERR", ioe);
     }
   }
 }
@@ -389,6 +424,7 @@ class ConfigurationsListener implements ActionListener {
   public void actionPerformed(ActionEvent ae) {
     switch (ae.getActionCommand()) {
     case "Apply":
+      Configurations.write();
       Configurations.apply();
       break;
     case "Save":
@@ -397,6 +433,7 @@ class ConfigurationsListener implements ActionListener {
     case "Reset":
       break;
     case "Cancel":
+      Configurations.ImOpen = false;
       Configurations.ConfigWindow.dispose();
     }
   }
