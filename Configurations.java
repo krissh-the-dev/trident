@@ -121,7 +121,7 @@ public class Configurations {
       UIManager.setLookAndFeel(themeName);
     } catch (UnsupportedOperatingSystemException uos) {
       Trident.ErrorDialog("OS_UNSUPPORTED_ERR", uos);
-    }catch (Exception therr) {
+    } catch (Exception therr) {
       Trident.ErrorDialog("ERR_LOOK_AND_FEEL", therr);
     }
     SwingUtilities.updateComponentTreeUI(Trident.frame);
@@ -222,7 +222,7 @@ public class Configurations {
     buttonPanel.add(cancel);
     ConfigurationsListener cl = new ConfigurationsListener();
     apply.addActionListener(cl);
-    apply.addActionListener(cl);
+    save.addActionListener(cl);
     cancel.addActionListener(cl);
 
     buttonPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
@@ -254,7 +254,7 @@ public class Configurations {
     ConfigWindow.setVisible(true);
   }
 
-  @Deprecated       // TODO: REMOVE
+  @Deprecated // TODO: REMOVE
   protected static void showEditor() {
     try {
       if (EOpen) {
@@ -262,12 +262,12 @@ public class Configurations {
         return;
       }
       EOpen = true;
-      
+
       jsonEditor = new JDialog(Trident.frame, "Style Editor");
       jsonEditor.setSize(450, 350);
       jsonEditor.setIconImage((new ImageIcon("raw/trident.png")).getImage());
       JPanel TextViewer = new JPanel();
-      File jsonFile = new File("configurations.json");
+      File jsonFile = new File("configurations.ts");
       FileReader fr = new FileReader(jsonFile);
       BufferedReader br = new BufferedReader(fr);
       String jsonContents = "";
@@ -288,7 +288,7 @@ public class Configurations {
         private void saveSettings() {
           try {
             String jsonContents = jsonViewer.getText();
-            File jsonFile = new File("configurations.json");
+            File jsonFile = new File("configurations.ts");
             FileWriter fileWritter = new FileWriter(jsonFile, false);
             BufferedWriter bw = new BufferedWriter(fileWritter);
             bw.write(jsonContents);
@@ -315,7 +315,7 @@ public class Configurations {
       jsonEditor.addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
-          ImOpen = false;
+          EOpen = false;
           jsonEditor.dispose();
         }
       });
@@ -325,7 +325,7 @@ public class Configurations {
       Trident.ErrorDialog("UNKNOWN_JSON_ERR", unknownException);
     }
   }
-  
+
   public static void setData() {
     themeBox.setSelectedItem(themeName);
     if (primary.equals(Color.WHITE))
@@ -355,7 +355,34 @@ public class Configurations {
       Trident.ErrorDialog("CONFIG_ERR", exp);
     }
   }
+  
+  public static void write() {
+    try {
+      String contents = "{" + System.lineSeparator();
+      File jsonFile = new File("configurations.ts");
+      FileWriter fileWritter = new FileWriter(jsonFile, false);
+      BufferedWriter bw = new BufferedWriter(fileWritter);
+      contents += "themeName:" + themeName + "," + System.lineSeparator();
+      contents += "colorScheme:";
+      if (primary.equals(Color.WHITE)) {
+         contents += "light,";
+      } else {
+        contents += "dark,";
+      }
+      contents += System.lineSeparator();
+      contents += "fontName:" + fontName + "," + System.lineSeparator();
+      contents += "fontSize:" + fontSize + "," + System.lineSeparator();
+      contents += "tabSize:" + tabSize + "," + System.lineSeparator();
+
+      contents += "}";
+      bw.write(contents);
+      bw.close();
+    } catch (IOException wre) {
+      Trident.ErrorDialog("SETTINGS_WRITE_ERR", wre);
+    }
+  }
 }
+
 
 class ConfigurationsListener implements ActionListener {
   @Override
@@ -365,7 +392,7 @@ class ConfigurationsListener implements ActionListener {
       Configurations.apply();
       break;
     case "Save":
-      // TODO Yet to be writen
+      Configurations.write();
       break;
     case "Reset":
       break;
