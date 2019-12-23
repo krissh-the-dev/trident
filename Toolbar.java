@@ -14,12 +14,9 @@ import javax.swing.JComponent;
 public class Toolbar {
 
     public Toolbar() {
-        ImageIcon openIcon = new ImageIcon(
-                Toolbar.class.getResource("/raw/open.png"));
-        ImageIcon saveIcon = new ImageIcon(
-                Toolbar.class.getResource("/raw/save.png"));
-        ImageIcon newIcon = new ImageIcon(
-                Toolbar.class.getResource("/raw/new.png"));
+        ImageIcon openIcon = new ImageIcon("raw/open.png");
+        ImageIcon saveIcon = new ImageIcon("raw/save.png");
+        ImageIcon newIcon = new ImageIcon("raw/new.png");
         
         Action openAction = new AbstractAction("Open", openIcon) {
             @Override
