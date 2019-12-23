@@ -32,6 +32,6 @@ hs_err_pid*
 *.vscode
 
 # project exclusive remnants
-build.java
 output.txt
 *settings
+*res

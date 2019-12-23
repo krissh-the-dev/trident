@@ -1,19 +1,10 @@
 
 import java.awt.datatransfer.Clipboard;
-// import java.awt.Graphics;
-// import java.awt.Color;
-// import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.text.BadLocationException;
-// import javax.swing.text.DefaultHighlighter;
-// import javax.swing.text.JTextComponent;
-// import javax.swing.text.Highlighter.HighlightPainter;
 import java.awt.datatransfer.DataFlavor;
 
-class EditActionsListener extends Thread implements CaretListener {
+class EditActionsListener extends Thread {
   @Override
   public void run() {
     try {
@@ -21,7 +12,7 @@ class EditActionsListener extends Thread implements CaretListener {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         String contents = clipboard.getData(DataFlavor.stringFlavor).toString();
         try {
-          if (contents.equals("")) {
+          if (contents.equals("") || contents.equals(null)) {
             Trident.Paste.setEnabled(false);
             Trident.pPaste.setEnabled(false);
             Trident.ShowClipboard.setEnabled(false);
@@ -40,7 +31,7 @@ class EditActionsListener extends Thread implements CaretListener {
         }
 
         try {
-          if (Trident.textarea.getSelectedText().equals("")) {
+          if (Trident.textarea.getSelectedText().equals("") || Trident.textarea.getSelectedText().equals(null)) {
             Trident.Copy.setEnabled(false);
             Trident.pCopy.setEnabled(false);
             Trident.Cut.setEnabled(false);
@@ -63,29 +54,10 @@ class EditActionsListener extends Thread implements CaretListener {
       Trident.ErrorDialog("EAL_INTERRUPTION", inte);
     } catch (UnsupportedFlavorException ufe) {
       // We don't wanna throw error just while checking [Listening in this context]
+    } catch (java.lang.IllegalStateException ise) {
+      // We don't wanna throw error just while checking [Listening in this context]
     } catch (Exception some) {
       Trident.ErrorDialog("UNKNOWN_ERR_EAL", some);
-    }
-  }
-
-  @Override
-  public void caretUpdate(CaretEvent ce) {
-    try {
-      int offset = Trident.textarea.getCaretPosition();
-      int line = Trident.textarea.getLineOfOffset(offset);
-      int col = offset - Trident.textarea.getLineStartOffset(line);
-
-      Trident.status4.setText("Line: " + (line + 1) + " Col: " + (col + 1));
-
-      // HighlightPainter hp = new
-      // DefaultHighlighter.DefaultHighlightPainter(Color.LIGHT_GRAY);
-      // Trident.textarea.getHighlighter().removeHighlight(hp);
-      // Trident.textarea.getHighlighter().addHighlight(Trident.textarea.getLineStartOffset(line),
-      // Trident.textarea.getLineEndOffset(line), hp);
-
-    } catch (BadLocationException badexp) {
-      Trident.ErrorDialog("CARET_LOCATION_ERR", badexp);
-      Trident.status4.setText("Aw snap!");
     }
   }
 }

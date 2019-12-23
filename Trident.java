@@ -37,6 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -45,7 +46,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 // *Misc
@@ -66,16 +66,17 @@ class Trident {
   protected static JTextArea textarea;
   protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
-  public static String fileType, path, uitheme, configFilePath;
+  public static String fileType, path;
   public static Boolean warned;
   public static JMenuBar mb;
   public static JScrollPane editor;
   public static JPanel statusBar, commentPanel, othersPanel;
   public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu;
   public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo, pCopy, pCut,
-      pPaste, ShowClipboard, EraseClipboard, fontOptions, themes, configs, Compile, Run, CRun, console, AboutFile,
-      visit, help, AboutTrident, updates;
+      pPaste, ShowClipboard, EraseClipboard, StyleEditor, configs, Compile, Run, CRun, console, AboutFile, help,
+      AboutTrident, updates;
   public static JCheckBoxMenuItem wordWrap, autoSave;
+  public static JToolBar toolBar;
   public static UndoManager undoManager;
   public static JPopupMenu editorMenu;
 
@@ -134,60 +135,7 @@ class Trident {
     }
   }
 
-  public static void applyTheme() {
-    try {
-      if (checkOS() == 1) {
-        uitheme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"; // TODO: Will be read from file
-        UIManager.setLookAndFeel(uitheme);
-      } else
-        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-    } catch (Exception themeError) {
-      ErrorDialog("ERR_LOOK_AND_FEEL", themeError);
-    }
-  }
-
-  public static boolean applyConfigs() {
-    // * Default configs
-    // TODO: These will be configurable by the user
-    textarea.setLineWrap(false);
-    textarea.setWrapStyleWord(true);
-    textarea.setFont(new Font("Consolas", Font.PLAIN, 14));
-    textarea.setTabSize(4);
-    textarea.setBorder(new EmptyBorder(4, 4, 0, 0));
-    editor.setBackground(Color.white);
-    textarea.setBackground(Color.white);
-    textarea.setForeground(Color.black);
-    textarea.setCaretColor(Color.black);
-    textarea.setSelectedTextColor(Color.white);
-    textarea.setSelectionColor(new Color(23, 135, 227));
-
-    Color statusColor = new Color(210, 210, 210);
-    Color statusTextColor = Color.BLACK;
-    statusBar.setBackground(statusColor);
-    commentPanel.setBackground(statusColor);
-    othersPanel.setBackground(statusColor);
-
-    status1.setForeground(statusTextColor);
-    status2.setForeground(statusTextColor);
-    status3.setForeground(statusTextColor);
-    status4.setForeground(statusTextColor);
-
-    mb.setBackground(Color.white);
-    mb.setForeground(Color.black);
-
-    Color menuColor = Color.DARK_GRAY;
-    fileMenu.setForeground(menuColor);
-    editMenu.setForeground(menuColor);
-    settingsMenu.setForeground(menuColor);
-    toolsMenu.setForeground(menuColor);
-    about.setForeground(menuColor);
-
-    AutoSave.setEnabled(true);
-
-    return true;
-  }
-
-  public static void main(String[] args) {
+  public Trident(String file) {
     try {
       // * Listener Variable declarations
       FileMenuListener fml = new FileMenuListener();
@@ -201,11 +149,18 @@ class Trident {
       fileType = "Plain File";
       textarea = new JTextArea();
       mb = new JMenuBar();
-      configFilePath = "configurations.json";
-      path = "New File";
+
+      path = file;
 
       // * Themeing
-      applyTheme();
+      // Configurations.applyTheme();
+      Configurations.read();
+      // Configurations.
+      try {
+        UIManager.setLookAndFeel(Configurations.themeName);
+      } catch (Exception e) {
+        ErrorDialog("UI_THEME_ERR", e);
+      }
 
       // * Frame Setup
       frame = new JFrame();
@@ -232,7 +187,7 @@ class Trident {
       frame.addWindowListener(WindowCloseListener);
       frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       frame.setLayout(new BorderLayout());
-      ImageIcon ic = new ImageIcon("raw/trident.png");
+      ImageIcon ic = new ImageIcon("raw/trident_icon.png");
       frame.setIconImage(ic.getImage());
 
       // * Menu Bar Setup
@@ -256,11 +211,13 @@ class Trident {
       SaveFile.addActionListener(fml);
 
       SaveAs = new JMenuItem("Save As");
+      SaveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+          (java.awt.event.InputEvent.CTRL_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK)));
       fileMenu.add(SaveAs);
       SaveAs.addActionListener(fml);
 
       Exit = new JMenuItem("Exit");
-      Exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      Exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
       fileMenu.add(Exit);
       Exit.addActionListener(fml);
       // > File Menu
@@ -295,7 +252,7 @@ class Trident {
       Paste.addActionListener(eml);
 
       goTo = new JMenuItem("Go To");
-      goTo.setMnemonic(KeyEvent.VK_G);
+      Paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
       editMenu.add(goTo);
       goTo.addActionListener(eml);
 
@@ -322,13 +279,9 @@ class Trident {
       autoSave.addItemListener(sml);
       settingsMenu.add(autoSave);
 
-      fontOptions = new JMenuItem("Fonts");
-      settingsMenu.add(fontOptions);
-      fontOptions.addActionListener(sml);
-
-      themes = new JMenuItem("Themes");
-      themes.addActionListener(sml);
-      settingsMenu.add(themes);
+      StyleEditor = new JMenuItem("Style Editor");
+      settingsMenu.add(StyleEditor);
+      StyleEditor.addActionListener(sml);
 
       configs = new JMenuItem("Configurations");
       configs.addActionListener(sml);
@@ -384,6 +337,7 @@ class Trident {
       mb.add(toolsMenu);
       mb.add(settingsMenu);
       mb.add(about);
+      mb.setBorder(new EmptyBorder(0, 0, -1, 0));
       // * Menu bar setup ends here
 
       // * Pop up menu for text area
@@ -399,10 +353,15 @@ class Trident {
       editorMenu.add(pCut);
       editorMenu.add(pPaste);
 
+      // * Tool bar
+      toolBar = new JToolBar();
+      toolBar.setFloatable(false);
+
       // * Text Area setup
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-      editor.setBorder(new EmptyBorder(-1, 0, -1, 0));
+      editor.setBorder(new EmptyBorder(0, 0, 0, 0));
+      textarea.setBorder(new EmptyBorder(2, 2, 0, 0));
       textarea.setComponentPopupMenu(editorMenu);
 
       // > Listeners for Text Area
@@ -411,7 +370,7 @@ class Trident {
       eal.start();
       textarea.getDocument().addDocumentListener(new ChangeListener());
       textarea.getDocument().addDocumentListener(new AutoSave());
-      textarea.addCaretListener(eal);
+      textarea.addCaretListener(new LineNumberListener());
       textarea.getDocument().addUndoableEditListener(undoManager);
       Undo.setEnabled(false);
       Redo.setEnabled(false);
@@ -444,11 +403,26 @@ class Trident {
       // * Status bar setup ends here
 
       // * Apply settings
-      applyConfigs();
+      // Configurations.applyConfigs();
+      Configurations.raw_apply();
+      AutoSave.setEnabled(true);
+      textarea.setLineWrap(false);
 
-      frame.getContentPane().add(mb, BorderLayout.NORTH);
+      if (!path.equals("New File")) {
+        fml.openFile();
+        fml.FileSaver(path);
+        status1.setText("File opened.");
+      }
+
+      Toolbar tbc = new Toolbar();
+
+      frame.setJMenuBar(mb);
+      frame.getContentPane().add(toolBar, BorderLayout.PAGE_START);
       frame.getContentPane().add(editor, BorderLayout.CENTER);
       frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
+
+      frame.setLocationRelativeTo(null);
+      frame.setLocationByPlatform(true);
       frame.setVisible(true);
 
     } catch (Exception e) {
@@ -456,6 +430,16 @@ class Trident {
       System.err.println("Unexpected crash...");
       e.printStackTrace();
       System.exit(0);
+    }
+  }
+
+  public static void main(String[] args) {
+    if (args.length == 0)
+      new Trident("New File");
+    else {
+      for (String x : args) {
+        new Trident(x);
+      }
     }
   }
 }

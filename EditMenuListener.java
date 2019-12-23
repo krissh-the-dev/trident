@@ -28,15 +28,15 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
-class EditMenuListener extends Trident implements ActionListener {
+class EditMenuListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     try {
       switch (e.getActionCommand()) {
       case "Show Contents":
         Clipboard clipboard;
+        JDialog cbviewer = new JDialog();
         try {
           clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-          JDialog cbviewer = new JDialog();
           cbviewer.setSize(450, 350);
           cbviewer.setTitle("Clipboard Viewer");
           JPanel TextViewer = new JPanel();
@@ -48,11 +48,15 @@ class EditMenuListener extends Trident implements ActionListener {
           cbviewer.setLayout(new BorderLayout());
           TextViewer.add(spv);
           cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
+          cbviewer.setLocationRelativeTo(Trident.frame);
           cbviewer.setVisible(true);
         } catch (UnsupportedFlavorException ufe) {
-          ErrorDialog("FLAVOR_ERR", ufe);
+          // Trident.ErrorDialog("FLAVOR_ERR", ufe); // Don't throw unnecessary errors
+          Trident.status1.setText("Clipboard has some unsupported content.");
+          Thread.sleep(200);
+          cbviewer.dispose();
         } catch (IOException ioe) {
-          ErrorDialog("IOE_CLIPBOARD", ioe);
+          Trident.ErrorDialog("IOE_CLIPBOARD", ioe);
         }
         break;
 
@@ -61,34 +65,34 @@ class EditMenuListener extends Trident implements ActionListener {
         break;
 
       case "Cut":
-        textarea.cut();
+        Trident.textarea.cut();
         break;
 
       case "Copy":
-        textarea.copy();
+        Trident.textarea.copy();
         break;
 
       case "Paste":
-        textarea.paste();
+        Trident.textarea.paste();
         break;
 
       case "Undo":
-        undoManager.undo();
-        status1.setText("Ready.");
-        Redo.setEnabled(true);
+        Trident.undoManager.undo();
+        Trident.status1.setText("Ready.");
+        Trident.Redo.setEnabled(true);
         break;
 
       case "Redo":
-        undoManager.redo();
-        Undo.setEnabled(true);
-        status1.setText("Ready.");
+        Trident.undoManager.redo();
+        Trident.Undo.setEnabled(true);
+        Trident.status1.setText("Ready.");
         break;
 
       case "Go To":
-        JDialog Goto = new JDialog(frame, "Go To");
+        JDialog Goto = new JDialog(Trident.frame, "Go To");
 
         JSpinner lineSpinner;
-        lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, textarea.getLineCount(), 1));
+        lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Trident.textarea.getLineCount(), 1));
         Goto.setSize(255, 90);
         JButton go = new JButton("Go");
         lineSpinner.setSize(70, 15);
@@ -100,12 +104,12 @@ class EditMenuListener extends Trident implements ActionListener {
           public void actionPerformed(ActionEvent e) {
             try {
               int lineNum = Integer.parseInt(lineSpinner.getValue().toString());
-              textarea.setCaretPosition(textarea.getLineStartOffset(lineNum - 1));
-              textarea.requestFocus();
+              Trident.textarea.setCaretPosition(Trident.textarea.getLineStartOffset(lineNum - 1));
+              Trident.textarea.requestFocus();
             } catch (BadLocationException ble) {
-              ErrorDialog("GOTO_LOCATION_ERR", ble);
+              Trident.ErrorDialog("GOTO_LOCATION_ERR", ble);
             } catch (NullPointerException npe) {
-              ErrorDialog("GOTO_NULL_ERR", npe);
+              Trident.ErrorDialog("GOTO_NULL_ERR", npe);
             }
           }
         });
@@ -113,19 +117,20 @@ class EditMenuListener extends Trident implements ActionListener {
         Goto.add(instruction);
         Goto.add(lineSpinner);
         Goto.add(go);
+        Goto.setLocationRelativeTo(Trident.frame);
         Goto.setVisible(true);
         break;
       }
     } catch (CannotRedoException redoErr) {
-      status1.setText("No more Redos available.");
-      Redo.setEnabled(false);
+      Trident.status1.setText("No more Redos available.");
+      Trident.Redo.setEnabled(false);
     } catch (CannotUndoException undoErr) {
-      status1.setText("No more Undos available.");
-      Undo.setEnabled(false);
+      Trident.status1.setText("No more Undos available.");
+      Trident.Undo.setEnabled(false);
     } catch (HeadlessException noHead) {
-      ErrorDialog("HEADLESS_ERR", noHead);
+      Trident.ErrorDialog("HEADLESS_ERR", noHead);
     } catch (Exception oopsErr) {
-      ErrorDialog("EDIT_MENU_CRASH", oopsErr);
+      Trident.ErrorDialog("EDIT_MENU_CRASH", oopsErr);
     }
   }
 }

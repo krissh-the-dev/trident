@@ -13,27 +13,26 @@ public class TridentCompiler {
     String fileType = FileTypeParser.getType(filepath);
     switch (fileType) {
     case "Python Source File":
-      Runtime.getRuntime()
-          .exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && python " + filepath + "\"");
+      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && python \"" + filepath
+          + "\" && pause && exit \"");
       break;
 
     case "Java Source File":
-      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && javac " + filepath
-          + " && echo Compilation ended.\"");
+      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && javac \"" + filepath
+          + "\" && echo Compilation ended. && pause && exit \"");
       break;
 
     case "C Source File":
       String fileLocation = (new File(filepath)).getParent();
-      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && cd " + fileLocation
-          + " && echo && gcc " + filepath + " -std=c99 && echo Compilation ended.\"");
+      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && cd \"" + fileLocation
+          + "\" && echo && gcc \"" + filepath + "\" -std=c99 && echo Compilation ended. && pause && exit \"");
       // using C99 to avoid irritating forbidden errors
       break;
 
     case "C++ Source File":
       fileLocation = (new File(filepath)).getParent();
-      System.out.println(fileLocation);
-      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && cd " + fileLocation
-          + " && echo && g++ " + filepath + " && echo Compilation ended.\"");
+      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && cd \"" + fileLocation
+          + "\" && echo && g++ \"" + filepath + "\" && echo Compilation ended. && pause && exit \"");
       break;
 
     default:
@@ -42,18 +41,19 @@ public class TridentCompiler {
   }
 
   public static void execute(String filepath)
-      throws UnsupportedOperatingSystemException, UnsupportedFileException, IOException {
+      throws UnsupportedOperatingSystemException, UnsupportedFileException, IOException, InterruptedException {
     if (Trident.checkOS() != 1) {
       throw new UnsupportedOperatingSystemException();
     }
 
     String exec;
+    Process p = null;
 
     String fileType = FileTypeParser.getType(filepath);
     switch (fileType) {
     case "Python Source File":
-      Runtime.getRuntime()
-          .exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && python " + filepath + "\"");
+      p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && python \""
+          + filepath + "\" && pause && exit \"");
       break;
 
     case "Java Source File":
@@ -62,14 +62,15 @@ public class TridentCompiler {
       String classFile = name.getFileName().toString();
       exec = classFile.replaceFirst("[.][^.]+$", "");
       String location = new File(filepath).getParent().toString();
-      Runtime.getRuntime().exec(
-          "cmd /c start cmd.exe /K" + "\"title Trident Compiler &&  cd " + location + "&& echo && java " + exec + "\"");
+      p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler &&  cd \"" + location
+          + "\" && echo && java " + exec + " && pause && exit \"");
       break;
 
     case "C Source File":
     case "C++ Source File":
       exec = (new File(filepath)).getParent() + "/a.exe";
-      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && " + exec + "\"");
+      p = Runtime.getRuntime()
+          .exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && \"" + exec + "\" && pause && exit \"");
       break;
 
     case "HTML File":
@@ -84,5 +85,26 @@ public class TridentCompiler {
     default:
       throw new UnsupportedFileException(filepath);
     }
+    p.waitFor();
+    p.destroy();
   }
+
+  public static void openTerminal(int os) throws UnsupportedOperatingSystemException {
+    try {
+      if (os == 1) {
+        String parent = (new File(Trident.path)).getParent();
+        Runtime.getRuntime()
+            .exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler Console && cd " + parent + "\"");
+      } else if (os == 2) {
+        String[] processArgs = new String[] { "/bin/bash", "-c", "Start" };
+        Process proc = new ProcessBuilder(processArgs).start();
+      } else
+        throw new UnsupportedOperatingSystemException();
+    } catch (UnsupportedOperatingSystemException unOS) {
+      throw new UnsupportedOperatingSystemException();
+    } catch (Exception uos) {
+      Trident.ErrorDialog("TERMINAL_ERROR", uos);
+    }
+  }
+
 }
