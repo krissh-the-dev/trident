@@ -12,7 +12,7 @@ class EditActionsListener extends Thread {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         String contents = clipboard.getData(DataFlavor.stringFlavor).toString();
         try {
-          if (contents.equals("")) {
+          if (contents.equals("") || contents.equals(null)) {
             Trident.Paste.setEnabled(false);
             Trident.pPaste.setEnabled(false);
             Trident.ShowClipboard.setEnabled(false);
@@ -31,7 +31,7 @@ class EditActionsListener extends Thread {
         }
 
         try {
-          if (Trident.textarea.getSelectedText().equals("")) {
+          if (Trident.textarea.getSelectedText().equals("") || Trident.textarea.getSelectedText().equals(null)) {
             Trident.Copy.setEnabled(false);
             Trident.pCopy.setEnabled(false);
             Trident.Cut.setEnabled(false);

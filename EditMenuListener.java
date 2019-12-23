@@ -34,9 +34,9 @@ class EditMenuListener implements ActionListener {
       switch (e.getActionCommand()) {
       case "Show Contents":
         Clipboard clipboard;
+        JDialog cbviewer = new JDialog();
         try {
           clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-          JDialog cbviewer = new JDialog();
           cbviewer.setSize(450, 350);
           cbviewer.setTitle("Clipboard Viewer");
           JPanel TextViewer = new JPanel();
@@ -51,7 +51,10 @@ class EditMenuListener implements ActionListener {
           cbviewer.setLocationRelativeTo(Trident.frame);
           cbviewer.setVisible(true);
         } catch (UnsupportedFlavorException ufe) {
-          Trident.ErrorDialog("FLAVOR_ERR", ufe);
+          // Trident.ErrorDialog("FLAVOR_ERR", ufe); // Don't throw unnecessary errors
+          Trident.status1.setText("Clipboard has some unsupported content.");
+          Thread.sleep(200);
+          cbviewer.dispose();
         } catch (IOException ioe) {
           Trident.ErrorDialog("IOE_CLIPBOARD", ioe);
         }
