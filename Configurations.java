@@ -36,8 +36,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
-import javax.swing.border.EmptyBorder;
+import javax.swing.SpinnerListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.GraphicsEnvironment;
@@ -48,7 +49,8 @@ public class Configurations {
 
   public static JDialog ConfigWindow;
   public static JDialog jsonEditor;
-  public static JComboBox themeBox, fontsBox, sizesBox, tabSizesBox;
+  public static JComboBox themeBox, fontsBox;
+  public static JSpinner sizesBox, tabSizesBox;
   public static JRadioButton light, dark;
 
   // * Configs 
@@ -99,40 +101,22 @@ public class Configurations {
       break;
     case "Current Theme":
       break;
-
-    default:
-      try {
-        if (Trident.checkOS() == 1) {
-          themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-        } else {
-          themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
-        }
-      } catch (Exception ue) {
-        Trident.ErrorDialog("OS_UNSUPPORTED", ue);
-      }
     }
     fontName = fontsBox.getSelectedItem().toString();
-    fontSize = Integer.parseInt(sizesBox.getSelectedItem().toString());
-    tabSize = Integer.parseInt(tabSizesBox.getSelectedItem().toString());
+    fontSize = Integer.parseInt(sizesBox.getValue().toString());
+    tabSize = Integer.parseInt(tabSizesBox.getValue().toString());
   }
 
   public static void applyTheme() {
     try {
       if (themeName == null) {
-        if (Trident.checkOS() == 1) {
-          themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-        } else {
-          themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
-        }
+        themeName = UIManager.getSystemLookAndFeelClassName();
       }
       UIManager.setLookAndFeel(themeName);
-    } catch (UnsupportedOperatingSystemException uos) {
-      themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
     } catch (Exception therr) {
       Trident.ErrorDialog("ERR_LOOK_AND_FEEL", therr);
     }
     SwingUtilities.updateComponentTreeUI(Trident.frame);
-    if (ImOpen)
     SwingUtilities.updateComponentTreeUI(ConfigWindow);
   }
 
@@ -175,8 +159,8 @@ public class Configurations {
     ConfigWindow.setTitle("Configurations");
     ConfigWindow.setLayout(new GridLayout(1, 1, 1, 1));
     JPanel mainPanel = new JPanel(new BorderLayout());
-    JPanel ThemePanel = new JPanel(new GridLayout(5, 1, 1, 1));
-    JPanel FontPanel = new JPanel(new GridLayout(3, 2, 1, 10));
+    JPanel ThemePanel = new JPanel(new GridLayout(5, 1, 1, 0));
+    JPanel FontPanel = new JPanel(new GridLayout(3, 2, 1, 3));
     JPanel buttonPanel = new JPanel(new GridLayout(1, 4, 10, 10));
     buttonPanel.setSize(400, 100);
     ThemePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Theme"));
@@ -201,17 +185,16 @@ public class Configurations {
     ThemePanel.add(dark);
 
     JLabel fontFace = new JLabel("Font Face");
-    // String[] fonts = { "Courier New", "Consolas", "Courier", "Times New Roman" };
     String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
     fontsBox = new JComboBox<String>(fonts);
 
     JLabel fontSize = new JLabel("Font Size");
-    Integer[] sizes = { 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 56, 64, 72, 88 };
-    sizesBox = new JComboBox<Integer>(sizes);
+    Integer[] sizes = { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 28, 32, 40, 48, 56, 64, 72, 86, 100, 124, 148, 196 };
+    sizesBox = new JSpinner(new SpinnerListModel(sizes));
 
     JLabel tabSize = new JLabel("Tab size");
-    Integer[] tabSizes = { 2, 4 };
-    tabSizesBox = new JComboBox<Integer>(tabSizes);
+    Integer[] tabSizes = { 2, 4, 8 };
+    tabSizesBox = new JSpinner(new SpinnerListModel(tabSizes));
 
     FontPanel.add(fontFace);
     FontPanel.add(fontsBox);
@@ -234,7 +217,7 @@ public class Configurations {
     save.addActionListener(cl);
     cancel.addActionListener(cl);
 
-    buttonPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
+    buttonPanel.setBorder(new EmptyBorder(2, 0, 0, 0));
 
     mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
     mainPanel.add(ThemePanel, BorderLayout.NORTH);
@@ -337,15 +320,15 @@ public class Configurations {
 
   public static void setData() {
     read();
-    themeBox.setSelectedItem(themeName); // Theme name is always set to default due to string mismatch
+    themeBox.setSelectedItem(themeName);
     if (primary.equals(Color.WHITE))
       light.setSelected(true);
     else
       dark.setSelected(true);
 
     fontsBox.setSelectedItem(fontName);
-    sizesBox.setSelectedItem(fontSize);
-    tabSizesBox.setSelectedItem(tabSize);
+    sizesBox.setValue(fontSize);
+    tabSizesBox.setValue(tabSize);
   }
 
   public static void apply() {
