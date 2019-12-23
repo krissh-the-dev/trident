@@ -40,6 +40,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.GraphicsEnvironment;
 
 public class Configurations {
   static boolean ImOpen;
@@ -182,7 +183,7 @@ public class Configurations {
     FontPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Font"));
 
     JLabel theme = new JLabel("UI Theme");
-    String[] themes = { "Current Theme", "Nimbus", "Windows",  "Motif", "Metal", "Default" };
+    String[] themes = { "Current Theme", "Default", "Metal", "Motif", "Nimbus", "Windows" };
     themeBox = new JComboBox<String>(themes);
 
     JLabel scheme = new JLabel("Color Scheme");
@@ -200,7 +201,8 @@ public class Configurations {
     ThemePanel.add(dark);
 
     JLabel fontFace = new JLabel("Font Face");
-    String[] fonts = { "Courier New", "Consolas", "Courier", "Times New Roman" };
+    // String[] fonts = { "Courier New", "Consolas", "Courier", "Times New Roman" };
+    String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
     fontsBox = new JComboBox<String>(fonts);
 
     JLabel fontSize = new JLabel("Font Size");
