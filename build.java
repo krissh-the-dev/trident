@@ -7,16 +7,34 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.io.FilenameFilter;
 import java.lang.ProcessBuilder.Redirect;
 
 class Build {
+  public static File[] finder(String dirName){
+    File dir = new File(dirName);
+    return dir.listFiles(new FilenameFilter() { 
+      public boolean accept(File dir, String filename) {
+        return filename.endsWith(".java");
+      }
+    });
+  }
   public static void main(String[] args) throws IOException, InterruptedException {
+    System.out.println("Getting project files...");
+    File fileF[] = finder(".");
+    String files[] = new String[fileF.length];
+
+    for (int i = 0; i < fileF.length; i++) {
+      // if (!fileF[i].getName().equals("build.java")){
+        files[i] = fileF[i].getName();
+      // } else {
+      //   i--;
+      //   continue;
+      // }
+    }
+    
+
     System.out.println("Compiling source files...");
-    String files[] = { "UnsupportedFileException.java", "UnsupportedOperatingSystemException.java",
-        "TridentCompiler.java", "AboutMenuListener.java", "ChangeListener.java", "CommentPaneListener.java",
-        "LineNumberListener.java", "Configurations.java", "AutoSave.java", "EditActionsListener.java",
-        "EditMenuListener.java", "FileMenuListener.java", "SettingsMenuListener.java", "FileTypeParser.java",
-        "ToolsMenuListener.java", "Trident.java" };
     for (String file : files) {
       ProcessBuilder processBuilder = new ProcessBuilder("javac", file);
       File log = new File("output.txt");

@@ -1,4 +1,4 @@
-themeName:javax.swing.plaf.metal.MetalLookAndFeel,
+themeName:com.sun.java.swing.plaf.windows.WindowsLookAndFeel,
 colorScheme:light,
 fontName:Monospaced,
 fontSize:16,

@@ -6,19 +6,21 @@
 
 ## What's new
 
-#### Compiler 2.0:
+- #### Fully functional customization options:
+  - Five different themes to match your taste.
+  - Light/ Dark theme toggle.
+  - Font customization (All system fonts).
+    - Most commonly used Font sizes and tab sizes.
+  - Auto loading at startup.
+  - Editable by both Editor and UI.
+- #### Unbelievably huge number of bug fixes, improvements and additions.
+  Refer commit history: https://github.com/KrishnaMoorthy12/trident/commits
 
-    - Fixed all bugs with compiler.
-    - Addded Custom name to Compiler Window.
-    - Added Exit after done functionality.
-    - Improved process management.
-    - Now includes Console Opener [New and Improved].
+#### Configurations:
 
-#### Configurations [BETA]:
-
-    - Added New Configurations Option in Settings Menu.
-    - Added Configurations Window with Several Options [Experimental].
-    - Added partially working Dark Mode option.
+- Added New Configurations Option in Settings Menu.
+- Added Configurations Window with Several Options [Experimental].
+- Added partially working Dark Mode option.
 
 - Fixed some bugs with Window Title.
 - Fixed all bugs with Undo and Redo.
@@ -68,11 +70,13 @@
       - These get deleted automatically once you close Trident
       - They will be left behind in case of any accidental exits such as power shutdown, app crash, force close etc.
 
-- #### Some Customization options [BETA]
-
-      - Dark Mode, Light Mode toggle
-      - Word Wrap
-      - Try using it to discover more.
+- #### Fully functional customization options:
+  - Five different themes to match your taste.
+  - Light/ Dark theme toggle.
+  - Font customization (All system fonts).
+    - Most commonly used Font sizes and tab sizes.
+  - Auto loading at startup.
+  - Editable by both Editor and UI.
 
 ## Bugs
 
@@ -81,7 +85,6 @@
 ## Coming soon
 
 - Find and Replace
-- Working Configurations (Json - Source link)
 
 ### LTF
 
