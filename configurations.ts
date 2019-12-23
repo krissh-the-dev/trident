@@ -1,5 +1,5 @@
 themeName:com.sun.java.swing.plaf.windows.WindowsLookAndFeel,
-colorScheme:light,
+colorScheme:dark,
 fontName:Consolas,
-fontSize:20,
-tabSize:4,
+fontSize:40,
+tabSize:2,

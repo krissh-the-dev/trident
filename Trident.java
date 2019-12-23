@@ -154,6 +154,8 @@ class Trident {
 
       // * Themeing
       // Configurations.applyTheme();
+      Configurations.read();
+      // Configurations.
       try {
         UIManager.setLookAndFeel(Configurations.themeName);
       } catch (Exception e) {
@@ -401,7 +403,8 @@ class Trident {
       // * Status bar setup ends here
 
       // * Apply settings
-      Configurations.applyConfigs();
+      // Configurations.applyConfigs();
+      Configurations.raw_apply();
       AutoSave.setEnabled(true);
       textarea.setLineWrap(false);
 

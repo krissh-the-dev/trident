@@ -76,15 +76,6 @@ public class Configurations {
     primary = Primary;
     secondary = Secondary;
 
-    Color a, b;
-    if (light.isSelected()) {
-      a = Color.WHITE;
-      b = Color.BLACK;
-    } else {
-      b = Color.WHITE;
-      a = Color.BLACK;
-    }
-
     switch (themeBox.getSelectedItem().toString()) {
     case "Windows":
       themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
@@ -92,6 +83,20 @@ public class Configurations {
 
     case "Nimbus":
       themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+      break;
+
+    case "Motif":
+      themeName = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+      break;
+
+    case "Metal":
+      themeName = "javax.swing.plaf.metal.MetalLookAndFeel";
+      break;
+
+    case "Default":
+      themeName = UIManager.getSystemLookAndFeelClassName();
+      break;
+    case "Current Theme":
       break;
 
     default:
@@ -121,11 +126,12 @@ public class Configurations {
       }
       UIManager.setLookAndFeel(themeName);
     } catch (UnsupportedOperatingSystemException uos) {
-      Trident.ErrorDialog("OS_UNSUPPORTED_ERR", uos);
+      themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
     } catch (Exception therr) {
       Trident.ErrorDialog("ERR_LOOK_AND_FEEL", therr);
     }
     SwingUtilities.updateComponentTreeUI(Trident.frame);
+    if (ImOpen)
     SwingUtilities.updateComponentTreeUI(ConfigWindow);
   }
 
@@ -176,7 +182,7 @@ public class Configurations {
     FontPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Font"));
 
     JLabel theme = new JLabel("UI Theme");
-    String[] themes = { "Default", "Nimbus", "Windows" };
+    String[] themes = { "Current Theme", "Nimbus", "Windows",  "Motif", "Metal", "Default" };
     themeBox = new JComboBox<String>(themes);
 
     JLabel scheme = new JLabel("Color Scheme");
@@ -329,7 +335,7 @@ public class Configurations {
 
   public static void setData() {
     read();
-    themeBox.setSelectedItem(themeName);
+    themeBox.setSelectedItem(themeName); // Theme name is always set to default due to string mismatch
     if (primary.equals(Color.WHITE))
       light.setSelected(true);
     else
@@ -358,7 +364,7 @@ public class Configurations {
       Trident.ErrorDialog("CONFIG_ERR", exp);
     }
   }
-  
+
   public static void write() {
     try {
       String contents;
@@ -414,6 +420,26 @@ public class Configurations {
       tabSize = Integer.parseInt(settingSet[4]);
     } catch (IOException ioe) {
       Trident.ErrorDialog("SETTINGS_READ_ERR", ioe);
+    }
+  }
+
+  public static final void raw_apply() {
+    read();
+    try {
+      UIManager.setLookAndFeel(themeName);
+      
+      SwingUtilities.updateComponentTreeUI(Trident.frame);
+
+      if (primary.equals(Color.WHITE)) {
+        statusbg = new Color(210, 210, 210);
+        statusfg = Color.BLACK;
+      } else if (primary.equals(Color.BLACK)) {
+        statusbg = new Color(25, 25, 25);
+        statusfg = Color.WHITE;
+      }
+      applyConfigs();
+    } catch (Exception exp) {
+      Trident.ErrorDialog("APPLY_BEG_ERR", exp);
     }
   }
 }
