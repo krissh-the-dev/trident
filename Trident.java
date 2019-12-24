@@ -1,3 +1,23 @@
+/*
+ *  Trident.java
+ *  (c) Copyright, 2019 - 2020 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 // * Listeners
 
 import java.awt.event.WindowListener;
@@ -61,6 +81,11 @@ import javax.swing.undo.CannotRedoException;
 import java.awt.HeadlessException;
 import javax.swing.undo.CannotUndoException;
 import java.io.IOException;
+
+/*
+ * Trident Text Editor v3.0+
+ * @author: Krishna Moorthy
+ */
 
 class Trident {
   protected static JTextArea textarea;
@@ -149,17 +174,17 @@ class Trident {
       fileType = "Plain File";
       textarea = new JTextArea();
       mb = new JMenuBar();
-
       path = file;
 
       // * Themeing
-      // Configurations.applyTheme();
       Configurations.read();
-      // Configurations.
       try {
         UIManager.setLookAndFeel(Configurations.themeName);
       } catch (Exception e) {
         ErrorDialog("UI_THEME_ERR", e);
+        Configurations.themeName = UIManager.getSystemLookAndFeelClassName();
+        UIManager.setLookAndFeel(Configurations.themeName);
+        Configurations.write();
       }
 
       // * Frame Setup
@@ -220,7 +245,7 @@ class Trident {
       Exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
       fileMenu.add(Exit);
       Exit.addActionListener(fml);
-      // > File Menu
+      // < File Menu
 
       // > Edit Menu
       editMenu = new JMenu("Edit");
@@ -353,9 +378,10 @@ class Trident {
       editorMenu.add(pCut);
       editorMenu.add(pPaste);
 
-      // * Tool bar
+      // * Tool bar setup
       toolBar = new JToolBar();
       toolBar.setFloatable(false);
+      Toolbar tbc = new Toolbar();
 
       // * Text Area setup
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -381,10 +407,10 @@ class Trident {
       status2 = new JLabel("Unsaved");
       status3 = new JLabel(fileType);
       status4 = new JLabel("Line: 1 Col: 1");
+
       CommentPaneListener cpl = new CommentPaneListener();
       cpl.start();
 
-      statusBar.setSize(30, 2500);
       statusBar.setBorder(new EmptyBorder(2, 3, 2, 2));
       statusBar.setLayout(new GridLayout(1, 2, 2, 2));
 
@@ -403,18 +429,13 @@ class Trident {
       // * Status bar setup ends here
 
       // * Apply settings
-      // Configurations.applyConfigs();
       Configurations.raw_apply();
-      AutoSave.setEnabled(true);
-      textarea.setLineWrap(false);
 
       if (!path.equals("New File")) {
         fml.openFile();
         fml.FileSaver(path);
-        status1.setText("File opened.");
+        status1.setText("File opened using command-line.");
       }
-
-      Toolbar tbc = new Toolbar();
 
       frame.setJMenuBar(mb);
       frame.getContentPane().add(toolBar, BorderLayout.PAGE_START);

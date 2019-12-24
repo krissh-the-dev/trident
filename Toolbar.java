@@ -12,12 +12,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 
 public class Toolbar {
-
     public Toolbar() {
         ImageIcon openIcon = new ImageIcon("raw/open.png");
         ImageIcon saveIcon = new ImageIcon("raw/save.png");
         ImageIcon newIcon = new ImageIcon("raw/new.png");
-        
+
         Action openAction = new AbstractAction("Open", openIcon) {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,7 +39,7 @@ public class Toolbar {
         JButton newButton = new JButton(newAction);
         JButton openButton = new JButton(openAction);
         JButton saveButton = new JButton(saveAction);
-        
+
         newButton.setFocusable(false);
         openButton.setFocusable(false);
         saveButton.setFocusable(false);
