@@ -1,59 +1,71 @@
+/*
+ * [GPL v3] Trident > Configurations
+ * This is only a minor sub-software of Project Trident
+ * Trident Text Editor v3.0 Style Configuration Toolkit
+ * Stable since @version 3.0
+ * Introduced in @version 2.1
+ */
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import javax.swing.ImageIcon;
-import javax.swing.UIManager;
-import java.awt.BorderLayout;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Cursor;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import java.awt.event.WindowListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerListModel;
+import java.awt.GraphicsEnvironment;
+
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.BorderFactory;
+
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Cursor;
+import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+
+import java.awt.event.WindowListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.GraphicsEnvironment;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
+/*
+ * Trident Configurations Toolkit v2.4
+ * @author: Krishna Moorthy
+ */
 
 public class Configurations {
   static boolean ImOpen;
   static boolean EOpen;
 
   public static JDialog ConfigWindow;
-  public static JDialog jsonEditor;
+  public static JDialog tsEditor;
   public static JComboBox themeBox, fontsBox;
   public static JSpinner sizesBox, tabSizesBox;
   public static JRadioButton light, dark;
 
-  // * Configs 
+  // * Configs
   public static Color menubg = null;
   public static Color menufg = null;
   public static Color statusbg = new Color(210, 210, 210);
@@ -109,12 +121,24 @@ public class Configurations {
 
   public static void applyTheme() {
     try {
-      if (themeName == null) {
+      try {
+        if (themeName == null) {
+          themeName = UIManager.getSystemLookAndFeelClassName();
+        }
+        UIManager.setLookAndFeel(themeName);
+      } catch (Exception therr) {
+        Trident.ErrorDialog("ERR_LOOK_AND_FEEL", therr);
         themeName = UIManager.getSystemLookAndFeelClassName();
+        UIManager.setLookAndFeel(themeName);
       }
-      UIManager.setLookAndFeel(themeName);
-    } catch (Exception therr) {
-      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", therr);
+    } catch (ClassNotFoundException cnf) {
+      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", cnf);
+    } catch (InstantiationException inf) {
+      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", inf);
+    } catch (IllegalAccessException iae) {
+      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", iae);
+    } catch (Exception the) {
+      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", the);
     }
     SwingUtilities.updateComponentTreeUI(Trident.frame);
     SwingUtilities.updateComponentTreeUI(ConfigWindow);
@@ -246,47 +270,46 @@ public class Configurations {
     ConfigWindow.setVisible(true);
   }
 
-  @Deprecated // TODO: REMOVE
   protected static void showEditor() {
     try {
       if (EOpen) {
-        jsonEditor.requestFocus();
+        tsEditor.requestFocus();
         return;
       }
       EOpen = true;
 
-      jsonEditor = new JDialog(Trident.frame, "Style Editor");
-      jsonEditor.setSize(450, 350);
-      jsonEditor.setIconImage((new ImageIcon("raw/trident.png")).getImage());
+      tsEditor = new JDialog(Trident.frame, "Style Editor");
+      tsEditor.setSize(450, 350);
+      tsEditor.setIconImage((new ImageIcon("raw/trident.png")).getImage());
       JPanel TextViewer = new JPanel();
-      File jsonFile = new File("configurations.ts");
-      FileReader fr = new FileReader(jsonFile);
+      File tsFile = new File("configurations.ts");
+      FileReader fr = new FileReader(tsFile);
       BufferedReader br = new BufferedReader(fr);
-      String jsonContents = "";
+      String tsContents = "";
       for (String line = br.readLine(); line != null; line = br.readLine()) {
-        jsonContents += line + System.lineSeparator();
+        tsContents += line + System.lineSeparator();
       }
       fr.close();
       br.close();
-      JTextArea jsonViewer = new JTextArea(jsonContents);
-      JScrollPane jsonScrollController = new JScrollPane(jsonViewer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+      JTextArea tsViewer = new JTextArea(tsContents);
+      JScrollPane tsScrollController = new JScrollPane(tsViewer, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
           JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-      jsonScrollController.setBorder(new EmptyBorder(-1, 0, -1, 0));
+      tsScrollController.setBorder(new EmptyBorder(-1, 0, -1, 0));
       TextViewer.setLayout(new GridLayout(1, 1, 1, 1));
-      jsonEditor.setLayout(new BorderLayout());
-      TextViewer.add(jsonScrollController);
-      jsonEditor.getContentPane().add(TextViewer, BorderLayout.CENTER);
-      jsonViewer.getDocument().addDocumentListener(new DocumentListener() {
+      tsEditor.setLayout(new BorderLayout());
+      TextViewer.add(tsScrollController);
+      tsEditor.getContentPane().add(TextViewer, BorderLayout.CENTER);
+      tsViewer.getDocument().addDocumentListener(new DocumentListener() {
         private void saveSettings() {
           try {
-            String jsonContents = jsonViewer.getText();
-            File jsonFile = new File("configurations.ts");
-            FileWriter fileWritter = new FileWriter(jsonFile, false);
+            String tsContents = tsViewer.getText();
+            File tsFile = new File("configurations.ts");
+            FileWriter fileWritter = new FileWriter(tsFile, false);
             BufferedWriter bw = new BufferedWriter(fileWritter);
-            bw.write(jsonContents);
+            bw.write(tsContents);
             bw.close();
           } catch (IOException fIoException) {
-            Trident.ErrorDialog("JSON_THREAD_IO", fIoException);
+            Trident.ErrorDialog("TS_THREAD_IO", fIoException);
           }
         }
 
@@ -302,19 +325,19 @@ public class Configurations {
           saveSettings();
         }
       });
-      jsonEditor.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+      tsEditor.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
-      jsonEditor.addWindowListener(new WindowAdapter() {
+      tsEditor.addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
           EOpen = false;
-          jsonEditor.dispose();
+          tsEditor.dispose();
         }
       });
-      jsonEditor.setLocationRelativeTo(Trident.frame);
-      jsonEditor.setVisible(true);
+      tsEditor.setLocationRelativeTo(Trident.frame);
+      tsEditor.setVisible(true);
     } catch (Exception unknownException) {
-      Trident.ErrorDialog("UNKNOWN_JSON_ERR", unknownException);
+      Trident.ErrorDialog("UNKNOWN_TS_ERR", unknownException);
     }
   }
 
@@ -353,8 +376,8 @@ public class Configurations {
   public static void write() {
     try {
       String contents;
-      File jsonFile = new File("configurations.ts");
-      FileWriter fileWritter = new FileWriter(jsonFile, false);
+      File tsf = new File("./configurations.ts");
+      FileWriter fileWritter = new FileWriter(tsf, false);
       BufferedWriter bw = new BufferedWriter(fileWritter);
       contents = "themeName:" + themeName + "," + System.lineSeparator();
       contents += "colorScheme:";
@@ -411,9 +434,8 @@ public class Configurations {
   public static final void raw_apply() {
     read();
     try {
-      UIManager.setLookAndFeel(themeName);
-      
-      SwingUtilities.updateComponentTreeUI(Trident.frame);
+      // UIManager.setLookAndFeel(themeName);
+      // SwingUtilities.updateComponentTreeUI(Trident.frame);
 
       if (primary.equals(Color.WHITE)) {
         statusbg = new Color(210, 210, 210);
@@ -423,12 +445,14 @@ public class Configurations {
         statusfg = Color.WHITE;
       }
       applyConfigs();
+
+      AutoSave.setEnabled(true);
+      Trident.textarea.setLineWrap(false);
     } catch (Exception exp) {
       Trident.ErrorDialog("APPLY_BEG_ERR", exp);
     }
   }
 }
-
 
 class ConfigurationsListener implements ActionListener {
   @Override
