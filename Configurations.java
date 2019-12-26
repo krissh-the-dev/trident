@@ -482,6 +482,9 @@ class ConfigurationsListener implements ActionListener {
       }
       break;
     case "Cancel":
+      Configurations.read();
+      Configurations.setData();
+      Configurations.apply();
       Configurations.ImOpen = false;
       Configurations.ConfigWindow.dispose();
     }
