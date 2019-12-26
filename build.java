@@ -94,7 +94,7 @@ class Build {
     p.waitFor();
 
     System.out.println("Opening EXE Maker...");
-    // Add WinRAR to your path
+    // Add EXE maker to your path
     processBuilder = new ProcessBuilder("toEXE");
     processBuilder.redirectErrorStream(true);
     processBuilder.redirectOutput(Redirect.appendTo(log));
