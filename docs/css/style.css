@@ -1486,10 +1486,19 @@ input[type="text"] {
   opacity: 0; }
 
 #development {
-	padding-top: 40px;
+	padding-top: 0px;
 	font-size: 60px;
 	font-weight: lighter;
 	color: white;
+}
+
+.icon-m {
+	color: dodgerblue;
+	font-weight: lighter;
+}
+
+.side-h {
+	color: dodgerblue;
 }
 
 .code {
