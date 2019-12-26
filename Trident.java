@@ -277,7 +277,7 @@ class Trident {
       Paste.addActionListener(eml);
 
       goTo = new JMenuItem("Go To");
-      Paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      goTo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
       editMenu.add(goTo);
       goTo.addActionListener(eml);
 
