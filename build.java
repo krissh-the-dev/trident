@@ -12,7 +12,7 @@ import java.io.FilenameFilter;
 import java.lang.ProcessBuilder.Redirect;
 
 /* 
-* Trident Text Editor Build Bot
+* Trident Text Editor Build Bot v3.0
 * @author: Krishna Moorthy
 */
 
@@ -78,16 +78,32 @@ class Build {
     p = processBuilder.start();
     p.waitFor();
 
-    System.out.println("Opening Trident...");
+    System.out.println("Opening Trident Jar...");
     processBuilder = new ProcessBuilder("java", "-jar", "Trident.jar");
     processBuilder.redirectErrorStream(true);
     processBuilder.redirectOutput(Redirect.appendTo(log));
     p = processBuilder.start();
     p.waitFor();
 
+    System.out.println("Opening WinRAR...");
+    // Add WinRAR to your path
+    processBuilder = new ProcessBuilder("winrar", "trident.zip");
+    processBuilder.redirectErrorStream(true);
+    processBuilder.redirectOutput(Redirect.appendTo(log));
+    p = processBuilder.start();
+    p.waitFor();
+
+    System.out.println("Opening EXE Maker...");
+    // Add WinRAR to your path
+    processBuilder = new ProcessBuilder("toEXE");
+    processBuilder.redirectErrorStream(true);
+    processBuilder.redirectOutput(Redirect.appendTo(log));
+    p = processBuilder.start();
+    p.waitFor();
+
     System.out.println("Opening InstallForge...");
-    // The location used is system, environment dependent
-    processBuilder = new ProcessBuilder("C:/Program Files (x86)/solicus/InstallForge/InstallForge.exe");
+    // Add InstallForge to your path and place scrit with IF installed dir
+    processBuilder = new ProcessBuilder("InstallForge", "InstallScript.ifp");
     processBuilder.redirectErrorStream(true);
     processBuilder.redirectOutput(Redirect.appendTo(log));
     p = processBuilder.start();
