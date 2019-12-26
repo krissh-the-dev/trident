@@ -459,11 +459,16 @@ class ConfigurationsListener implements ActionListener {
       Configurations.apply();
       break;
     case "Save":
+      Configurations.apply();
       Configurations.write();
+      Configurations.ImOpen = false;
       Configurations.ConfigWindow.dispose();
       break;
     case "Reset":
       try {
+        Configurations.ImOpen = false;
+        Configurations.ConfigWindow.dispose();
+        Configurations.showUI();
         String defaults = "themeName:" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
         defaults += "colorScheme:light," + System.lineSeparator();
         defaults += "fontName:Monospaced," + System.lineSeparator();
@@ -482,6 +487,9 @@ class ConfigurationsListener implements ActionListener {
       }
       break;
     case "Cancel":
+      Configurations.ImOpen = false;
+      Configurations.ConfigWindow.dispose();
+      Configurations.showUI();
       Configurations.read();
       Configurations.setData();
       Configurations.apply();
