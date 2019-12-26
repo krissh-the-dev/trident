@@ -88,6 +88,14 @@ class EditMenuListener implements ActionListener {
         Trident.status1.setText("Ready.");
         break;
 
+      case "Find":
+        FindAndReplace.findUI();
+        break;
+
+      case "Replace":
+        FindAndReplace.replaceUI();
+        break;
+
       case "Go To":
         JDialog Goto = new JDialog(Trident.frame, "Go To");
 

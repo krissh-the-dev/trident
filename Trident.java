@@ -98,8 +98,8 @@ class Trident {
   public static JPanel statusBar, commentPanel, othersPanel;
   public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu;
   public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo, pCopy, pCut,
-      pPaste, ShowClipboard, EraseClipboard, StyleEditor, configs, Compile, Run, CRun, console, AboutFile, help,
-      AboutTrident, updates;
+      pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun, console,
+      AboutFile, help, AboutTrident, updates;
   public static JCheckBoxMenuItem wordWrap, autoSave;
   public static JToolBar toolBar;
   public static UndoManager undoManager;
@@ -276,8 +276,19 @@ class Trident {
       editMenu.add(Paste);
       Paste.addActionListener(eml);
 
+      Find = new JMenuItem("Find");
+      Find.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      editMenu.add(Find);
+      Find.addActionListener(eml);
+
+      Replace = new JMenuItem("Replace");
+      Replace.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,
+          java.awt.event.InputEvent.CTRL_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+      editMenu.add(Replace);
+      Replace.addActionListener(eml);
+
       goTo = new JMenuItem("Go To");
-      Paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+      goTo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
       editMenu.add(goTo);
       goTo.addActionListener(eml);
 
