@@ -229,7 +229,7 @@ public class Configurations {
 
     JButton apply = new JButton("Apply");
     JButton save = new JButton("Save");
-    JButton restore = new JButton("Restore");
+    JButton restore = new JButton("Reset");
     JButton cancel = new JButton("Cancel");
 
     buttonPanel.add(apply);
@@ -239,6 +239,7 @@ public class Configurations {
     ConfigurationsListener cl = new ConfigurationsListener();
     apply.addActionListener(cl);
     save.addActionListener(cl);
+    restore.addActionListener(cl);
     cancel.addActionListener(cl);
 
     buttonPanel.setBorder(new EmptyBorder(2, 0, 0, 0));
@@ -364,7 +365,6 @@ public class Configurations {
         b = Color.WHITE;
         a = Color.BLACK;
       }
-      read();
       generateTheme(a, b);
       applyConfigs();
       applyTheme();
@@ -434,9 +434,6 @@ public class Configurations {
   public static final void raw_apply() {
     read();
     try {
-      // UIManager.setLookAndFeel(themeName);
-      // SwingUtilities.updateComponentTreeUI(Trident.frame);
-
       if (primary.equals(Color.WHITE)) {
         statusbg = new Color(210, 210, 210);
         statusfg = Color.BLACK;
@@ -459,13 +456,30 @@ class ConfigurationsListener implements ActionListener {
   public void actionPerformed(ActionEvent ae) {
     switch (ae.getActionCommand()) {
     case "Apply":
-      Configurations.write();
       Configurations.apply();
       break;
     case "Save":
       Configurations.write();
+      Configurations.ConfigWindow.dispose();
       break;
     case "Reset":
+      try {
+        String defaults = "themeName:" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
+        defaults += "colorScheme:light," + System.lineSeparator();
+        defaults += "fontName:Monospaced," + System.lineSeparator();
+        defaults += "fontSize:14," + System.lineSeparator();
+        defaults += "tabSize:4," + System.lineSeparator();
+        File tsf = new File("./configurations.ts");
+        FileWriter fileWritter = new FileWriter(tsf, false);
+        BufferedWriter bw = new BufferedWriter(fileWritter);
+        bw.write(defaults);
+        bw.close();
+        fileWritter.close();
+        Configurations.setData();
+        Configurations.apply();
+      } catch (Exception ex) {
+        Trident.ErrorDialog("THEME_RESET_ERR", ex);
+      }
       break;
     case "Cancel":
       Configurations.ImOpen = false;
