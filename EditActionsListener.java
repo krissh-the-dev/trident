@@ -57,7 +57,7 @@ class EditActionsListener extends Thread {
     } catch (java.lang.IllegalStateException ise) {
       // We don't wanna throw error just while checking [Listening in this context]
     } catch (Exception some) {
-      Trident.ErrorDialog("UNKNOWN_ERR_EAL", some);
+      // We don't wanna throw error just while checking [Listening in this context]
     }
   }
 }
