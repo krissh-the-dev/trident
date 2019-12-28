@@ -178,17 +178,21 @@ class FindReplaceButtonsListener implements ActionListener {
   public static void find() {
     foundStarts = new ArrayList<>();
     foundEnds = new ArrayList<>();
+    foundStarts.clear();
+    foundEnds.clear();
     Pattern pattern;
     if (FindAndReplace.wholeWords.isSelected() && !FindAndReplace.matchCase.isSelected()) {
-      Trident.textarea.setCaretPosition(Trident.textarea.getCaretPosition());
-      pattern = Pattern.compile("\\b" + FindAndReplace.findField.getText() + "\\b");
-    } else if (FindAndReplace.wholeWords.isSelected() && FindAndReplace.matchCase.isSelected()) {
-      Trident.textarea.setCaretPosition(Trident.textarea.getCaretPosition());
+      Trident.textarea.setCaretPosition(0);
       pattern = Pattern.compile("\\b" + FindAndReplace.findField.getText() + "\\b", Pattern.CASE_INSENSITIVE);
+    } else if (FindAndReplace.wholeWords.isSelected() && FindAndReplace.matchCase.isSelected()) {
+      Trident.textarea.setCaretPosition(0);
+      pattern = Pattern.compile("\\b" + FindAndReplace.findField.getText() + "\\b");
     } else if (!FindAndReplace.wholeWords.isSelected() && !FindAndReplace.matchCase.isSelected()) {
       pattern = Pattern.compile(FindAndReplace.findField.getText(), Pattern.CASE_INSENSITIVE);
-    } else
+    } else if (!FindAndReplace.wholeWords.isSelected() && FindAndReplace.matchCase.isSelected())
       pattern = Pattern.compile(FindAndReplace.findField.getText());
+    else
+      return;
     Matcher matcher = pattern.matcher(Trident.textarea.getText());
     while (matcher.find()) {
       foundStarts.add(matcher.start());
