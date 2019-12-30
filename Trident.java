@@ -105,6 +105,13 @@ class Trident {
   public static UndoManager undoManager;
   public static JPopupMenu editorMenu;
 
+  // * Listener Variable declarations
+  static FileMenuListener fml = new FileMenuListener();
+  static EditMenuListener eml = new EditMenuListener();
+  static SettingsMenuListener sml = new SettingsMenuListener();
+  static ToolsMenuListener tml = new ToolsMenuListener();
+  static AboutMenuListener aml = new AboutMenuListener();
+
   public static void ErrorDialog(String code, Exception e) {
     try {
       File logFile = new File("logs/log.txt");
@@ -162,13 +169,6 @@ class Trident {
 
   public Trident(String file) {
     try {
-      // * Listener Variable declarations
-      FileMenuListener fml = new FileMenuListener();
-      EditMenuListener eml = new EditMenuListener();
-      SettingsMenuListener sml = new SettingsMenuListener();
-      ToolsMenuListener tml = new ToolsMenuListener();
-      AboutMenuListener aml = new AboutMenuListener();
-
       // * Global variable inits
       warned = false;
       fileType = "Plain File";

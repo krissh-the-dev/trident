@@ -44,7 +44,7 @@ class FindAndReplace {
 
     JLabel findLabel = new JLabel("Find ");
     findField = new JTextField(43);
-    // findField.setComponentPopupMenu(Trident.editorMenu);
+    // TODO Add copy, paste pop up
     JPanel mainPanel = new JPanel(new GridLayout(2, 1, 1, 1));
     JPanel fieldPane = new JPanel();
     fieldPane.setBorder(new EmptyBorder(5, 0, 0, 0));
@@ -124,7 +124,6 @@ class FindAndReplace {
     opsPane.setBorder(new TitledBorder(new EtchedBorder(), "Options", 0, TitledBorder.CENTER));
     opsPane.add(wholeWords);
     opsPane.add(matchCase);
-    // mainPanel.add(opsPane);
 
     findButton = new JButton("Find");
     findButton.addActionListener(frbl);
@@ -181,18 +180,21 @@ class FindReplaceButtonsListener implements ActionListener {
     foundStarts.clear();
     foundEnds.clear();
     Pattern pattern;
+    // Whole words only
     if (FindAndReplace.wholeWords.isSelected() && !FindAndReplace.matchCase.isSelected()) {
-      Trident.textarea.setCaretPosition(0);
       pattern = Pattern.compile("\\b" + FindAndReplace.findField.getText() + "\\b", Pattern.CASE_INSENSITIVE);
-    } else if (FindAndReplace.wholeWords.isSelected() && FindAndReplace.matchCase.isSelected()) {
-      Trident.textarea.setCaretPosition(0);
+    } // WW Only and Match Case
+    else if (FindAndReplace.wholeWords.isSelected() && FindAndReplace.matchCase.isSelected()) {
       pattern = Pattern.compile("\\b" + FindAndReplace.findField.getText() + "\\b");
-    } else if (!FindAndReplace.wholeWords.isSelected() && !FindAndReplace.matchCase.isSelected()) {
+    } // Not Ww, not Mc
+    else if (!FindAndReplace.wholeWords.isSelected() && !FindAndReplace.matchCase.isSelected()) {
       pattern = Pattern.compile(FindAndReplace.findField.getText(), Pattern.CASE_INSENSITIVE);
-    } else if (!FindAndReplace.wholeWords.isSelected() && FindAndReplace.matchCase.isSelected())
+    } // Match case alone
+    else if (!FindAndReplace.wholeWords.isSelected() && FindAndReplace.matchCase.isSelected())
       pattern = Pattern.compile(FindAndReplace.findField.getText());
-    else
-      return;
+    else // Exceptional cases : Taken as both selected to give accuracy
+      pattern = Pattern.compile("\\b" + FindAndReplace.findField.getText() + "\\b");
+
     Matcher matcher = pattern.matcher(Trident.textarea.getText());
     while (matcher.find()) {
       foundStarts.add(matcher.start());
@@ -210,18 +212,20 @@ class FindReplaceButtonsListener implements ActionListener {
   public static void findNext() {
     find();
     try {
+      if (i >= foundEnds.size()) {
+        i = 0;
+      }
       Trident.textarea.setSelectionStart(foundStarts.get(i));
       Trident.textarea.setSelectionEnd(foundEnds.get(i));
       i++;
-      if (i == foundEnds.size()) {
-        i = 0;
-      }
+
     } catch (IndexOutOfBoundsException iob) {
-      Trident.status1.setText("No more matchs found");
+      Trident.status1.setText("No more matches found");
     }
   }
 
   public static void replace() {
+    find();
     if (foundStarts.size() == 0)
       return;
     String replacement = FindAndReplace.replaceField.getText();
@@ -233,11 +237,9 @@ class FindReplaceButtonsListener implements ActionListener {
 
   public static void replaceAll() {
     find();
-    for (int i = 0; i < foundStarts.size(); i++) {
-      find();
+    for (int i = 0; i <= foundStarts.size(); i++) {
       replace();
     }
-    replace();
   }
 
   @Override
@@ -252,7 +254,6 @@ class FindReplaceButtonsListener implements ActionListener {
       break;
 
     case "Replace":
-      find();
       replace();
       break;
 
