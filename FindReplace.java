@@ -42,9 +42,18 @@ import java.util.regex.Pattern;
 import java.util.ArrayList;
 
 /*
- * Find and Replace v2.0
+ * The Find and Replace v2.0
+ * (GPL v3) Trident > FindReplace
  * @author: Krishna Moorthy
-*/
+ * Replaces FindAndReplace.java [Find and Replace v1]
+ * Since: v4.0
+ * Deprecates: FindAndReplace.findUI(), 
+ *                           replaceUI();
+ *           : FindReplaceButtonsListener.find(),
+ *                                        replace(),
+ *                                        replaceAll()
+ */
+
 class FindReplace {
   public static JDialog frDialog;
   public static JButton findButton, findNextButton, replaceButton, replaceAllButton, closeButton;

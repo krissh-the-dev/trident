@@ -1,3 +1,24 @@
+
+/*
+ *  FindAndReplace.java
+ *  (c) Copyright, 2019 - 2020 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -19,6 +40,16 @@ import java.awt.event.WindowEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
+
+/*
+ * The Find and Replace
+ * (GPL v3) Trident > FindAndReplace
+ * For debugging purposes only - deprecated
+ * @author: Krishna Moorthy
+ * Since: v3.1
+ * Deprecated since: v4.0
+ * Replaced by FindReplace
+ */
 
 class FindAndReplace {
   public static JDialog findDialog, replaceDialog;
@@ -171,11 +202,21 @@ class FindAndReplace {
   }
 }
 
+/*
+ * FindAndReplace Buttons Listener 
+ * (GPL v3) Trident > Find and Replace
+ * @author: Krishna Moorthy 
+ * Since: v3.1 
+ * Deprecated since: v4.0 
+ * Replaced by FRButtonsListener
+ */
+
 class FindReplaceButtonsListener implements ActionListener {
   static boolean found = false;
   static ArrayList<Integer> foundStarts;
   static ArrayList<Integer> foundEnds;
 
+  @Deprecated
   public static void find() {
     foundStarts = new ArrayList<>();
     foundEnds = new ArrayList<>();
@@ -211,6 +252,7 @@ class FindReplaceButtonsListener implements ActionListener {
 
   static int i = 0;
 
+  @Deprecated
   public static void findNext() {
     find();
     try {
@@ -226,6 +268,7 @@ class FindReplaceButtonsListener implements ActionListener {
     }
   }
 
+  @Deprecated
   public static void replace() {
     find();
     if (foundStarts.size() == 0)
@@ -237,6 +280,7 @@ class FindReplaceButtonsListener implements ActionListener {
     findNext();
   }
 
+  @Deprecated
   public static void replaceAll() {
     find();
     for (int i = 0; i <= foundStarts.size(); i++) {

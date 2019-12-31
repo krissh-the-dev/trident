@@ -1,4 +1,24 @@
 
+/*
+ *  Toolbar.java
+ *  (c) Copyright, 2019 - 2020 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
@@ -13,8 +33,13 @@ import javax.swing.JComponent;
 import javax.swing.JSeparator;
 import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
-
 import java.awt.Desktop;
+
+/*
+ * Trident ToolBar contoller v2.0
+ * (GPL v3) Trident > Toolbar
+ * @author: Krishna Moorthy
+ */
 
 public class Toolbar {
     public static JButton undoButton, redoButton;
@@ -29,18 +54,24 @@ public class Toolbar {
         ImageIcon redoIcon = new ImageIcon("raw/redo.png");
 
         Action openAction = new AbstractAction("", openIcon) {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileMenuListener.FileOpener();
             }
         };
         Action saveAction = new AbstractAction("", saveIcon) {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileMenuListener.FileSaver(Trident.path);
             }
         };
         Action newAction = new AbstractAction("", newIcon) {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileMenuListener.newFile();
@@ -48,6 +79,8 @@ public class Toolbar {
         };
 
         Action findAction = new AbstractAction("", findIcon) {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 // FindAndReplace.findUI();
@@ -56,6 +89,8 @@ public class Toolbar {
         };
 
         Action helpAction = new AbstractAction("", helpIcon) {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
