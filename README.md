@@ -36,13 +36,15 @@
 
 ## Current features
 
-- Opens, edits, saves any file
+- Opens, edits, saves any text file
 - Cut, Copy, Paste options on Edit menu and Working area context menu
 - Undo, Redo options.
+- Goto line number option
 - Options to View and Erase clipboard contents.
 - Key Board Shortcuts and Mnemonics.
 - File Properties.
 - A mature status bar.
+- Menu bar with New, Open and Save options.
 - Unsaved file confirmation on File -> New, Open and Exit.
 - Responsive Undo, Redo Options.
 - Error Report Interface with GitHub issues integration.
@@ -87,7 +89,7 @@
 
 ## Bugs
 
-  - Nothing
+- You tell!
 
 ## Coming soon
 
