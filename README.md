@@ -27,7 +27,7 @@
 - Added Reset functionality in Configurations
 - Fixed theming glitches
 - Improved UX
-- Got rid of unwated errors
+- Got rid of unwanted errors
 - Improved build bot
 - Some under the hood changes
 - Source cleanup and improvements
