@@ -269,6 +269,7 @@ class FRButtonsListener implements ActionListener {
       i++;
 
     } catch (IndexOutOfBoundsException iob) {
+      Trident.textarea.setCaretPosition(Trident.textarea.getCaretPosition());
       Trident.status1.setText("No more matches found");
     }
   }
