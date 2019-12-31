@@ -1,0 +1,12 @@
+{
+  "files.exclude": {
+    "*.class": true,
+    "*.exe": true,
+    "*.jar": true,
+    "**/.class": true,
+    "**/.classpath": true,
+    "**/.factorypath": true,
+    "**/.project": true,
+    "**/.settings": true
+  }
+}
