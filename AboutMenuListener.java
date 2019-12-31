@@ -1,3 +1,23 @@
+/*
+ *  AboutMenuListener.java
+ *  (c) Copyright, 2019 - 2020 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 // * Listeners
 
 import java.awt.event.MouseEvent;
@@ -26,6 +46,11 @@ import java.nio.file.Paths;
 import java.util.Date;
 import javax.swing.SwingConstants;
 
+/*
+ * (GPL v3) Trident > AboutMenuListener
+ * @author: Krishna Moorthy
+ */
+
 class AboutMenuListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     try {
@@ -41,7 +66,7 @@ class AboutMenuListener implements ActionListener {
         JLabel icon = new JLabel(logo);
         icon.setSize(50, 50);
         JLabel l1 = new JLabel(
-            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193);} h3 {font-family: \"Segoe UI Semilight\";} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h3> Version 3.0.1 <br/>STABLE</h3></html>");
+            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193);} h3 {font-family: \"Segoe UI Semilight\";} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h3> Version 4.0 <br/>STABLE</h3></html>");
         JLabel l2 = new JLabel(
             "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px;}</style><h3>Visit Home Page</h3></html>");
         l2.setCursor(new Cursor(Cursor.HAND_CURSOR));

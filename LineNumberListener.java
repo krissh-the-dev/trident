@@ -1,16 +1,34 @@
+
+/*
+ *  LineNumberListener.java
+ *  (c) Copyright, 2019 - 2020 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
 
 /*
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.Highlighter.HighlightPainter;
-import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.Shape;
-*/
+ * Status Bar Line number Panel Controller
+ * (GPL v3) Trident > Status Bar > LineNumberListener
+ * @author: Krishna Moorthy
+ */
 
 public class LineNumberListener implements CaretListener {
 
@@ -22,14 +40,6 @@ public class LineNumberListener implements CaretListener {
       int col = offset - Trident.textarea.getLineStartOffset(line);
 
       Trident.status4.setText("Line: " + (line + 1) + " Col: " + (col + 1));
-
-      /*
-       * HighlightPainter hp = new
-       * DefaultHighlighter.DefaultHighlightPainter(Color.LIGHT_GRAY);
-       * Trident.textarea.getHighlighter().removeHighlight(hp);
-       * Trident.textarea.getHighlighter().addHighlight(Trident.textarea.
-       * getLineStartOffset(line), Trident.textarea.getLineEndOffset(line), hp);
-       */
 
     } catch (BadLocationException badexp) {
       Trident.ErrorDialog("CARET_LOCATION_ERR", badexp);

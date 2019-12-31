@@ -1,9 +1,21 @@
 /*
- * [GPL v3] Trident > Configurations
- * This is only a minor sub-software of Project Trident
- * Trident Text Editor v3.0 Style Configuration Toolkit
- * Stable since @version 3.0
- * Introduced in @version 2.1
+ *  Configurations.java
+ *  (c) Copyright, 2019 - 2020 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 import javax.swing.JLabel;
@@ -52,6 +64,17 @@ import java.io.IOException;
 
 /*
  * Trident Configurations Toolkit v2.4
+ * @author: Krishna Moorthy
+ * 
+ * [GPL v3] Trident > Configurations
+ * This is only a minor sub-software of Project Trident
+ * Trident Text Editor v3.0 Style Configuration Toolkit
+ * Stable since @version 3.0
+ * Introduced in @version 2.1
+ */
+
+/*
+ * (GPL v3) Trident > ChangeListener
  * @author: Krishna Moorthy
  */
 
@@ -229,7 +252,7 @@ public class Configurations {
 
     JButton apply = new JButton("Apply");
     JButton save = new JButton("Save");
-    JButton restore = new JButton("Restore");
+    JButton restore = new JButton("Reset");
     JButton cancel = new JButton("Cancel");
 
     buttonPanel.add(apply);
@@ -239,6 +262,7 @@ public class Configurations {
     ConfigurationsListener cl = new ConfigurationsListener();
     apply.addActionListener(cl);
     save.addActionListener(cl);
+    restore.addActionListener(cl);
     cancel.addActionListener(cl);
 
     buttonPanel.setBorder(new EmptyBorder(2, 0, 0, 0));
@@ -364,7 +388,6 @@ public class Configurations {
         b = Color.WHITE;
         a = Color.BLACK;
       }
-      read();
       generateTheme(a, b);
       applyConfigs();
       applyTheme();
@@ -434,9 +457,6 @@ public class Configurations {
   public static final void raw_apply() {
     read();
     try {
-      // UIManager.setLookAndFeel(themeName);
-      // SwingUtilities.updateComponentTreeUI(Trident.frame);
-
       if (primary.equals(Color.WHITE)) {
         statusbg = new Color(210, 210, 210);
         statusfg = Color.BLACK;
@@ -459,15 +479,43 @@ class ConfigurationsListener implements ActionListener {
   public void actionPerformed(ActionEvent ae) {
     switch (ae.getActionCommand()) {
     case "Apply":
-      Configurations.write();
       Configurations.apply();
       break;
     case "Save":
+      Configurations.apply();
       Configurations.write();
+      Configurations.ImOpen = false;
+      Configurations.ConfigWindow.dispose();
       break;
     case "Reset":
+      try {
+        Configurations.ImOpen = false;
+        Configurations.ConfigWindow.dispose();
+        Configurations.showUI();
+        String defaults = "themeName:" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
+        defaults += "colorScheme:light," + System.lineSeparator();
+        defaults += "fontName:Monospaced," + System.lineSeparator();
+        defaults += "fontSize:14," + System.lineSeparator();
+        defaults += "tabSize:4," + System.lineSeparator();
+        File tsf = new File("./configurations.ts");
+        FileWriter fileWritter = new FileWriter(tsf, false);
+        BufferedWriter bw = new BufferedWriter(fileWritter);
+        bw.write(defaults);
+        bw.close();
+        fileWritter.close();
+        Configurations.setData();
+        Configurations.apply();
+      } catch (Exception ex) {
+        Trident.ErrorDialog("THEME_RESET_ERR", ex);
+      }
       break;
     case "Cancel":
+      Configurations.ImOpen = false;
+      Configurations.ConfigWindow.dispose();
+      Configurations.showUI();
+      Configurations.read();
+      Configurations.setData();
+      Configurations.apply();
       Configurations.ImOpen = false;
       Configurations.ConfigWindow.dispose();
     }
