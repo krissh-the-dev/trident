@@ -80,11 +80,13 @@ class EditMenuListener implements ActionListener {
         Trident.undoManager.undo();
         Trident.status1.setText("Ready.");
         Trident.Redo.setEnabled(true);
+        Toolbar.redoButton.setEnabled(true);
         break;
 
       case "Redo":
         Trident.undoManager.redo();
         Trident.Undo.setEnabled(true);
+        Toolbar.undoButton.setEnabled(true);
         Trident.status1.setText("Ready.");
         break;
 
@@ -134,9 +136,11 @@ class EditMenuListener implements ActionListener {
     } catch (CannotRedoException redoErr) {
       Trident.status1.setText("No more Redos available.");
       Trident.Redo.setEnabled(false);
+      Toolbar.redoButton.setEnabled(false);
     } catch (CannotUndoException undoErr) {
       Trident.status1.setText("No more Undos available.");
       Trident.Undo.setEnabled(false);
+      Toolbar.undoButton.setEnabled(false);
     } catch (HeadlessException noHead) {
       Trident.ErrorDialog("HEADLESS_ERR", noHead);
     } catch (Exception oopsErr) {

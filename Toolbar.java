@@ -11,11 +11,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JSeparator;
+import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 
 import java.awt.Desktop;
 
 public class Toolbar {
+    public static JButton undoButton, redoButton;
+
     public Toolbar() {
         ImageIcon openIcon = new ImageIcon("raw/open.png");
         ImageIcon saveIcon = new ImageIcon("raw/save.png");
@@ -63,11 +66,11 @@ public class Toolbar {
             }
         };
 
-        JButton undoButton = new JButton(undoIcon);
+        undoButton = new JButton(undoIcon);
         undoButton.addActionListener(Trident.eml);
         undoButton.setActionCommand("Undo");
 
-        JButton redoButton = new JButton(redoIcon);
+        redoButton = new JButton(redoIcon);
         redoButton.addActionListener(Trident.eml);
         redoButton.setActionCommand("Redo");
 
@@ -84,6 +87,14 @@ public class Toolbar {
         undoButton.setFocusable(false);
         redoButton.setFocusable(false);
         findButton.setFocusable(false);
+
+        newButton.setToolTipText("New file");
+        openButton.setToolTipText("Open file");
+        saveButton.setToolTipText("Save");
+        undoButton.setToolTipText("Undo");
+        redoButton.setToolTipText("Redo");
+        findButton.setToolTipText("Find");
+        helpButton.setToolTipText("Help");
 
         Trident.toolBar.add(newButton);
         Trident.toolBar.add(openButton);

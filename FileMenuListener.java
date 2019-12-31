@@ -69,7 +69,9 @@ class FileMenuListener implements ActionListener {
       Trident.textarea.getDocument().addUndoableEditListener(Trident.undoManager);
 
       Trident.Undo.setEnabled(false);
+      Toolbar.undoButton.setEnabled(false);
       Trident.Redo.setEnabled(false);
+      Toolbar.redoButton.setEnabled(false);
 
       Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
 
@@ -155,6 +157,8 @@ class FileMenuListener implements ActionListener {
     Trident.warned = false;
     Trident.Undo.setEnabled(false);
     Trident.Redo.setEnabled(false);
+    Toolbar.undoButton.setEnabled(false);
+    Toolbar.redoButton.setEnabled(false);
     Trident.undoManager = new UndoManager();
     Trident.textarea.getDocument().addUndoableEditListener(Trident.undoManager);
   }

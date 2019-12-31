@@ -9,6 +9,7 @@ class ChangeListener implements DocumentListener {
       Trident.frame.setTitle(Trident.frame.getTitle() + " - Unsaved");
     }
     Trident.Undo.setEnabled(true);
+    Toolbar.undoButton.setEnabled(true);
   }
 
   public void changedUpdate(DocumentEvent e) {

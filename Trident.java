@@ -410,7 +410,9 @@ class Trident {
       textarea.addCaretListener(new LineNumberListener());
       textarea.getDocument().addUndoableEditListener(undoManager);
       Undo.setEnabled(false);
+      Toolbar.undoButton.setEnabled(false);
       Redo.setEnabled(false);
+      Toolbar.redoButton.setEnabled(false);
 
       // * Status bar setup
       statusBar = new JPanel();
