@@ -28,6 +28,7 @@ class FindAndReplace {
   static boolean fimOpen, rimOpen;
   static FindReplaceButtonsListener frbl = new FindReplaceButtonsListener();
 
+  @Deprecated
   public static void findUI() {
     if (fimOpen) {
       findDialog.requestFocus();
@@ -91,6 +92,7 @@ class FindAndReplace {
     findDialog.setVisible(true);
   }
 
+  @Deprecated
   public static void replaceUI() {
     if (rimOpen) {
       replaceDialog.requestFocus();

@@ -91,13 +91,13 @@ class EditMenuListener implements ActionListener {
         break;
 
       case "Find":
-        FindAndReplace.findUI();
-        // FindReplace.showUI("Find");
+        // FindAndReplace.findUI();
+        FindReplace.showUI("Find");
         break;
 
       case "Replace":
-        FindAndReplace.replaceUI();
-        // FindReplace.showUI("Replace");
+        // FindAndReplace.replaceUI();
+        FindReplace.showUI("Replace");
         break;
 
       case "Go To":

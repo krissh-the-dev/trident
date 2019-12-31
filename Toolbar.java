@@ -50,7 +50,8 @@ public class Toolbar {
         Action findAction = new AbstractAction("", findIcon) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FindAndReplace.findUI();
+                // FindAndReplace.findUI();
+                FindReplace.showUI("Find");
             }
         };
 
