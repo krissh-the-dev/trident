@@ -133,7 +133,7 @@ class Trident {
       writer.close();
       logWriter.close();
     } catch (IOException ioException) {
-      // ErrorDialog("LOG_IO_ERR", ioException);
+      ErrorDialog("LOG_IO_ERR", ioException);
     }
   }
 

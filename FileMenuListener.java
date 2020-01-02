@@ -155,7 +155,8 @@ class FileMenuListener implements ActionListener {
 
   public static int warningDialog() {
     int opt = JOptionPane.showConfirmDialog(Trident.frame,
-        "There are some unsaved changes in the file. Do you want to save the changes and continue?",
+        "There are some unsaved changes in the file." + System.lineSeparator()
+            + "Do you want to save the changes and continue?",
         "Warning: Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE,
         (new ImageIcon("raw/warning.png")));
     if (opt == JOptionPane.YES_OPTION) {
