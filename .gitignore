@@ -1,0 +1,10 @@
+*.zip
+*.jar
+*.exe
+*.java
+*.class
+*.vscode
+*res
+*settings
+*.conig
+*output.txt
