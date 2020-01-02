@@ -3,6 +3,10 @@
     "*.class": true,
     "*.exe": true,
     "*.jar": true,
-    "*.zip": true
+    "*.zip": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
   }
 }
