@@ -26,13 +26,7 @@ import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.SwingUtilities;
-import javax.swing.border.LineBorder;
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JSeparator;
-import javax.swing.JToolTip;
-import javax.swing.SwingConstants;
 import java.awt.Desktop;
 
 /*

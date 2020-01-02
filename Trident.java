@@ -23,14 +23,7 @@
 import java.awt.event.WindowListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 // * IO ELEMENTS
 
@@ -43,10 +36,7 @@ import java.time.LocalDateTime;
 // * UI Elements
 
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -59,27 +49,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 // *Misc
 
 import javax.swing.undo.UndoManager;
-import java.net.URL;
 import java.awt.Desktop;
 
 // * Exceptions
 
-import javax.swing.text.BadLocationException;
-import javax.swing.undo.CannotRedoException;
-import java.awt.HeadlessException;
-import javax.swing.undo.CannotUndoException;
 import java.io.IOException;
 
 /*
@@ -392,7 +373,7 @@ class Trident {
       // * Tool bar setup
       toolBar = new JToolBar();
       toolBar.setFloatable(false);
-      Toolbar tbc = new Toolbar();
+      new Toolbar();
 
       // * Text Area setup
       editor = new JScrollPane(textarea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -445,8 +426,8 @@ class Trident {
       Configurations.raw_apply();
 
       if (!path.equals("New File")) {
-        fml.openFile();
-        fml.FileSaver(path);
+        FileMenuListener.openFile();
+        FileMenuListener.FileSaver(path);
         status1.setText("File opened using command-line.");
       }
 

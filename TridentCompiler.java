@@ -125,7 +125,7 @@ public class TridentCompiler {
             .exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler Console && cd " + parent + "\"");
       } else if (os == 2) {
         String[] processArgs = new String[] { "/bin/bash", "-c", "Start" };
-        Process proc = new ProcessBuilder(processArgs).start();
+        new ProcessBuilder(processArgs).start();
       } else
         throw new UnsupportedOperatingSystemException();
     } catch (UnsupportedOperatingSystemException unOS) {

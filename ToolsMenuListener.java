@@ -22,7 +22,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.File;
 
 /*
  * (GPL v3) Trident > ToolsMenuListener

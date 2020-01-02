@@ -26,6 +26,8 @@
  */
 
 public class UnsupportedOperatingSystemException extends Exception {
+  private static final long serialVersionUID = 8760547834236745475L;
+
   @Override
   public String toString() {
     return "Your Operating System is not supported.";

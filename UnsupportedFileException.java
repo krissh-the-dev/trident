@@ -25,6 +25,7 @@
  * @author: Krishna Moorthy
  */
 public final class UnsupportedFileException extends Exception {
+  private static final long serialVersionUID = -6622809143038663344L;
   String file;
 
   public UnsupportedFileException(String filepath) {

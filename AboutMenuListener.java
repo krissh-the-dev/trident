@@ -41,7 +41,6 @@ import java.awt.Cursor;
 // * Others
 import java.awt.Desktop;
 import java.io.File;
-import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Date;
 import javax.swing.SwingConstants;

@@ -26,7 +26,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
@@ -34,16 +33,13 @@ import javax.swing.SpinnerListModel;
 import java.awt.GraphicsEnvironment;
 
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.BorderFactory;
 
 import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Cursor;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
@@ -84,7 +80,7 @@ public class Configurations {
 
   public static JDialog ConfigWindow;
   public static JDialog tsEditor;
-  public static JComboBox themeBox, fontsBox;
+  public static JComboBox<String> themeBox, fontsBox;
   public static JSpinner sizesBox, tabSizesBox;
   public static JRadioButton light, dark;
 
