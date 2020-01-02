@@ -142,7 +142,7 @@ class EditMenuListener implements ActionListener {
   }
 }
 
-class GoToController implements DocumentListener {
+class GoToController {
   static JSpinner lineSpinner;
   static JDialog Goto;
 
@@ -150,7 +150,7 @@ class GoToController implements DocumentListener {
     Goto = new JDialog(Trident.frame, "Go To");
 
     lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Trident.textarea.getLineCount(), 1));
-    Goto.setSize(255, 90);
+    Goto.setSize(255, 85);
     JButton go = new JButton("Go");
     go.setSize(30, 15);
 
@@ -161,6 +161,7 @@ class GoToController implements DocumentListener {
         try {
           int lineNum = Integer.parseInt(lineSpinner.getValue().toString());
           Trident.textarea.setCaretPosition(Trident.textarea.getLineStartOffset(lineNum - 1));
+          Goto.dispose();
         } catch (BadLocationException ble) {
           Trident.ErrorDialog("GOTO_LOCATION_ERR", ble);
         } catch (NullPointerException npe) {
@@ -168,34 +169,12 @@ class GoToController implements DocumentListener {
         }
       }
     });
-    Trident.textarea.getDocument().addDocumentListener(new GoToController());
     Goto.setLayout(new FlowLayout());
     Goto.add(instruction);
     Goto.add(lineSpinner);
     Goto.add(go);
     Goto.setLocationRelativeTo(Trident.frame);
+    Goto.setResizable(false);
     Goto.setVisible(true);
-  }
-
-  private void updateWidget() {
-    lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Trident.textarea.getLineCount(), 1));
-    lineSpinner.repaint();
-    Goto.remove(lineSpinner);
-    Goto.add(lineSpinner);
-  }
-
-  @Override
-  public void insertUpdate(DocumentEvent e) {
-    updateWidget();
-  }
-
-  @Override
-  public void removeUpdate(DocumentEvent e) {
-    updateWidget();
-  }
-
-  @Override
-  public void changedUpdate(DocumentEvent e) {
-    updateWidget();
   }
 }
