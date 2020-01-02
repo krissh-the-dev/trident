@@ -30,7 +30,6 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -42,11 +41,11 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
-import javax.swing.undo.UndoManager;
 
 /*
  * (GPL v3) Trident > EditMenuListener
@@ -116,46 +115,15 @@ class EditMenuListener implements ActionListener {
         break;
 
       case "Find":
-        // FindAndReplace.findUI();
         FindReplace.showUI("Find");
         break;
 
       case "Replace":
-        // FindAndReplace.replaceUI();
         FindReplace.showUI("Replace");
         break;
 
       case "Go To":
-        JDialog Goto = new JDialog(Trident.frame, "Go To");
-
-        JSpinner lineSpinner;
-        lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Trident.textarea.getLineCount(), 1));
-        Goto.setSize(255, 90);
-        JButton go = new JButton("Go");
-        lineSpinner.setSize(70, 15);
-        go.setSize(30, 15);
-
-        JLabel instruction = new JLabel("Enter the line number to set the insertion point:");
-        go.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            try {
-              int lineNum = Integer.parseInt(lineSpinner.getValue().toString());
-              Trident.textarea.setCaretPosition(Trident.textarea.getLineStartOffset(lineNum - 1));
-              Trident.textarea.requestFocus();
-            } catch (BadLocationException ble) {
-              Trident.ErrorDialog("GOTO_LOCATION_ERR", ble);
-            } catch (NullPointerException npe) {
-              Trident.ErrorDialog("GOTO_NULL_ERR", npe);
-            }
-          }
-        });
-        Goto.setLayout(new FlowLayout());
-        Goto.add(instruction);
-        Goto.add(lineSpinner);
-        Goto.add(go);
-        Goto.setLocationRelativeTo(Trident.frame);
-        Goto.setVisible(true);
+        GoToController.go();
         break;
       }
     } catch (CannotRedoException redoErr) {
@@ -171,5 +139,63 @@ class EditMenuListener implements ActionListener {
     } catch (Exception oopsErr) {
       Trident.ErrorDialog("EDIT_MENU_CRASH", oopsErr);
     }
+  }
+}
+
+class GoToController implements DocumentListener {
+  static JSpinner lineSpinner;
+  static JDialog Goto;
+
+  static void go() {
+    Goto = new JDialog(Trident.frame, "Go To");
+
+    lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Trident.textarea.getLineCount(), 1));
+    Goto.setSize(255, 90);
+    JButton go = new JButton("Go");
+    go.setSize(30, 15);
+
+    JLabel instruction = new JLabel("Enter the line number to set the insertion point:");
+    go.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          int lineNum = Integer.parseInt(lineSpinner.getValue().toString());
+          Trident.textarea.setCaretPosition(Trident.textarea.getLineStartOffset(lineNum - 1));
+        } catch (BadLocationException ble) {
+          Trident.ErrorDialog("GOTO_LOCATION_ERR", ble);
+        } catch (NullPointerException npe) {
+          Trident.ErrorDialog("GOTO_NULL_ERR", npe);
+        }
+      }
+    });
+    Trident.textarea.getDocument().addDocumentListener(new GoToController());
+    Goto.setLayout(new FlowLayout());
+    Goto.add(instruction);
+    Goto.add(lineSpinner);
+    Goto.add(go);
+    Goto.setLocationRelativeTo(Trident.frame);
+    Goto.setVisible(true);
+  }
+
+  private void updateWidget() {
+    lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Trident.textarea.getLineCount(), 1));
+    lineSpinner.repaint();
+    Goto.remove(lineSpinner);
+    Goto.add(lineSpinner);
+  }
+
+  @Override
+  public void insertUpdate(DocumentEvent e) {
+    updateWidget();
+  }
+
+  @Override
+  public void removeUpdate(DocumentEvent e) {
+    updateWidget();
+  }
+
+  @Override
+  public void changedUpdate(DocumentEvent e) {
+    updateWidget();
   }
 }
