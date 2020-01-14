@@ -58,6 +58,9 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import mdlaf.*;
+import mdlaf.themes.*;
+
 /*
  * Trident Configurations Toolkit v2.4
  * @author: Krishna Moorthy
@@ -127,9 +130,14 @@ public class Configurations {
       themeName = "javax.swing.plaf.metal.MetalLookAndFeel";
       break;
 
+    case "Material":
+      themeName = (new MaterialLookAndFeel()).getClass().getName();
+      break;
+
     case "Default":
       themeName = UIManager.getSystemLookAndFeelClassName();
       break;
+
     case "Current Theme":
       break;
     }
@@ -145,6 +153,9 @@ public class Configurations {
           themeName = UIManager.getSystemLookAndFeelClassName();
         }
         UIManager.setLookAndFeel(themeName);
+        if (UIManager.getLookAndFeel() instanceof MaterialLookAndFeel) {
+          MaterialLookAndFeel.changeTheme(new MaterialLiteTheme());
+        }
       } catch (Exception therr) {
         Trident.ErrorDialog("ERR_LOOK_AND_FEEL", therr);
         themeName = UIManager.getSystemLookAndFeelClassName();
@@ -210,7 +221,7 @@ public class Configurations {
     FontPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Font"));
 
     JLabel theme = new JLabel("UI Theme");
-    String[] themes = { "Current Theme", "Default", "Metal", "Motif", "Nimbus", "Windows" };
+    String[] themes = { "Current Theme", "Default", "Material Light", "Metal", "Motif", "Nimbus", "Windows" };
     themeBox = new JComboBox<String>(themes);
 
     JLabel scheme = new JLabel("Color Scheme");

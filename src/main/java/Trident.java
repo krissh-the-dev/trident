@@ -18,6 +18,9 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+import mdlaf.*;
+import mdlaf.themes.*;
+
 // * Listeners
 
 import java.awt.event.WindowListener;
@@ -162,6 +165,11 @@ class Trident {
       Configurations.read();
       try {
         UIManager.setLookAndFeel(Configurations.themeName);
+        // UIManager.setLookAndFeel(new MaterialLookAndFeel());
+        // if (UIManager.getLookAndFeel() instanceof MaterialLookAndFeel) {
+        // System.out.println("Themeing...");
+        // MaterialLookAndFeel.changeTheme(new MaterialLiteTheme());
+        // }
       } catch (Exception e) {
         ErrorDialog("UI_THEME_ERR", e);
         Configurations.themeName = UIManager.getSystemLookAndFeelClassName();
