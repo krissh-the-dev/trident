@@ -1,38 +1,12 @@
 # Trident Text Editor
+## Maven Tree
 
 ### _A new Free and Open Source, classical and powerful text editor._
 
-### _Hard coded in Java, hand crafted in India_
 
 ## What's new
 
-- #### Find and Replace
-
-  - Added shortcut keybindings
-  - Two different tabs [tabbed layout]
-  - Rapid Replace [Replace all] option
-  - Fully functional
-  - Case sensitive and insensitive options
-  - Partitial and whole word searching options
-
-- More Toolbar items
-
-  - Undo, Redo [Responsive]
-  - Find
-  - Help
-
-- Removed Toolbar icon labels
-- Added Toolbar icon tooltips
-- Improved Configurations Buttons
-- Added Reset functionality in Configurations
-- Fixed theming glitches
-- Improved UX
-- Got rid of unwanted errors
-- Improved build bot
-- Some under the hood changes
-- Source cleanup and improvements
-
-  Refer commit history: https://github.com/KrishnaMoorthy12/trident/commits
+- Now in Maven Project Scheme.
 
 ## Current features
 
