@@ -76,11 +76,7 @@ class EditActionsListener extends Thread {
       }
     } catch (InterruptedException inte) {
       Trident.ErrorDialog("EAL_INTERRUPTION", inte);
-    } catch (UnsupportedFlavorException ufe) {
-      // We don't wanna throw error just while checking [Listening in this context]
-    } catch (java.lang.IllegalStateException ise) {
-      // We don't wanna throw error just while checking [Listening in this context]
-    } catch (Exception some) {
+    } catch (IllegalStateException | UnsupportedFlavorException ise) {
       // We don't wanna throw error just while checking [Listening in this context]
     }
   }

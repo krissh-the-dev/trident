@@ -6,33 +6,10 @@
 
 ## What's new
 
-- #### Find and Replace
-
-  - Added shortcut keybindings
-  - Two different tabs [tabbed layout]
-  - Rapid Replace [Replace all] option
-  - Fully functional
-  - Case sensitive and insensitive options
-  - Partitial and whole word searching options
-
-- More Toolbar items
-
-  - Undo, Redo [Responsive]
-  - Find
-  - Help
-
-- Removed Toolbar icon labels
-- Added Toolbar icon tooltips
-- Improved Configurations Buttons
-- Added Reset functionality in Configurations
-- Fixed theming glitches
-- Improved UX
-- Got rid of unwanted errors
-- Improved build bot
-- Some under the hood changes
-- Source cleanup and improvements
-
-  Refer commit history: https://github.com/KrishnaMoorthy12/trident/commits
+- **Adaptive Windows and Dialogs**.
+- **Improved UX**.
+- Removed unwanted alert messages/ errors.
+- Source cleanup.
 
 ## Current features
 
@@ -93,15 +70,15 @@
 
 ## Coming soon
 
-  - Recent items
-  - Boiler plate for new source files [powerboil integeration]
-  - Improved Linux support
-  - Patched updates
-  - Compiler install helper
+- Recent items
+- Boiler plate for new source files [powerboil integeration]
+- Improved Linux support
+- Patched updates
+- Compiler install helper
 
 ### LTF
 
-  - File->Rename
-  - File->Delete
+- File->Rename
+- File->Delete
 
 &copy; 2020 - 2021 Krishna Moorthy Athinarayanan.

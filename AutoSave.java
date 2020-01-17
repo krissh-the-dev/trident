@@ -68,11 +68,7 @@ class AutoSave implements DocumentListener {
 
       bw.close();
       fw.close();
-    } catch (IOException ioe) {
-      Trident.ErrorDialog("AUTO_SAVE_IO", ioe);
-    } catch (SecurityException se) {
-      Trident.ErrorDialog("PERMISSION_ERR", se);
-    } catch (Exception exp) {
+    } catch (IOException | SecurityException | Exception exp) {
       Trident.ErrorDialog("AUTO_SAVE_ERR", exp);
     }
   }

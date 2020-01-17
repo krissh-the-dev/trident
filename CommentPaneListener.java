@@ -31,10 +31,8 @@ class CommentPaneListener extends Thread {
         Trident.status1.setText("Ready.");
         Thread.sleep(20000);
       }
-    } catch (InterruptedException strangeException) {
-      Trident.ErrorDialog("STATUS_THREAD_KILLED", strangeException);
-    } catch (Exception died) {
-      died.printStackTrace();
+    } catch (InterruptedException died) {
+      Trident.ErrorDialog("STATUS_THREAD_KILLED", died);
     }
   }
 }

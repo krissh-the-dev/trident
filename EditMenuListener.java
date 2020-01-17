@@ -78,7 +78,7 @@ class EditMenuListener implements ActionListener {
           Thread.sleep(200);
           cbviewer.dispose();
         } catch (IOException ioe) {
-          Trident.ErrorDialog("IOE_CLIPBOARD", ioe);
+          // Trident.ErrorDialog("IOE_CLIPBOARD", ioe);  <- Avoid
         }
         break;
 
@@ -133,7 +133,7 @@ class EditMenuListener implements ActionListener {
       Trident.Undo.setEnabled(false);
       Toolbar.undoButton.setEnabled(false);
     } catch (HeadlessException noHead) {
-      Trident.ErrorDialog("HEADLESS_ERR", noHead);
+      // Trident.ErrorDialog("HEADLESS_ERR", noHead); <-Avoid
     } catch (Exception oopsErr) {
       Trident.ErrorDialog("EDIT_MENU_CRASH", oopsErr);
     }
@@ -148,11 +148,9 @@ class GoToController {
     Goto = new JDialog(Trident.frame, "Go To");
 
     lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Trident.textarea.getLineCount(), 1));
-    Goto.setSize(255, 85);
     JButton go = new JButton("Go");
-    go.setSize(30, 15);
 
-    JLabel instruction = new JLabel("Enter the line number to set the insertion point:");
+    JLabel instruction = new JLabel(" Enter the line number to set the insertion point: ");
     go.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -160,17 +158,18 @@ class GoToController {
           int lineNum = Integer.parseInt(lineSpinner.getValue().toString());
           Trident.textarea.setCaretPosition(Trident.textarea.getLineStartOffset(lineNum - 1));
           Goto.dispose();
-        } catch (BadLocationException ble) {
+        } catch (BadLocationException | NullPointerException ble) {
           Trident.ErrorDialog("GOTO_LOCATION_ERR", ble);
-        } catch (NullPointerException npe) {
-          Trident.ErrorDialog("GOTO_NULL_ERR", npe);
         }
       }
     });
-    Goto.setLayout(new FlowLayout());
-    Goto.add(instruction);
-    Goto.add(lineSpinner);
-    Goto.add(go);
+    Goto.setLayout(new BorderLayout());
+    Goto.getContentPane().add(instruction, BorderLayout.NORTH);
+    JPanel oprPane = new JPanel(new FlowLayout());
+    oprPane.add(lineSpinner);
+    oprPane.add(go);
+    Goto.getContentPane().add(oprPane, BorderLayout.CENTER);
+    Goto.pack();
     Goto.setLocationRelativeTo(Trident.frame);
     Goto.setResizable(false);
     Goto.setVisible(true);

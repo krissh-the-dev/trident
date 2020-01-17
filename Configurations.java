@@ -150,14 +150,8 @@ public class Configurations {
         themeName = UIManager.getSystemLookAndFeelClassName();
         UIManager.setLookAndFeel(themeName);
       }
-    } catch (ClassNotFoundException cnf) {
+    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException cnf) {
       Trident.ErrorDialog("ERR_LOOK_AND_FEEL", cnf);
-    } catch (InstantiationException inf) {
-      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", inf);
-    } catch (IllegalAccessException iae) {
-      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", iae);
-    } catch (Exception the) {
-      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", the);
     }
     SwingUtilities.updateComponentTreeUI(Trident.frame);
     SwingUtilities.updateComponentTreeUI(ConfigWindow);
@@ -205,7 +199,6 @@ public class Configurations {
     JPanel ThemePanel = new JPanel(new GridLayout(5, 1, 1, 0));
     JPanel FontPanel = new JPanel(new GridLayout(3, 2, 1, 3));
     JPanel buttonPanel = new JPanel(new GridLayout(1, 4, 10, 10));
-    buttonPanel.setSize(400, 100);
     ThemePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Theme"));
     FontPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Font"));
 
@@ -271,7 +264,7 @@ public class Configurations {
     setData();
     ConfigWindow.add(mainPanel);
 
-    ConfigWindow.setSize(360, 325);
+    ConfigWindow.pack();
     ConfigWindow.setResizable(false);
     ImageIcon ic = new ImageIcon("raw/trident_icon.png");
     ConfigWindow.setIconImage(ic.getImage());

@@ -179,7 +179,7 @@ class FindReplace {
     }
 
     frDialog.add(tabbedPane);
-    frDialog.setSize(400, 220);
+    frDialog.pack();
     frDialog.setLocationRelativeTo(Trident.frame);
     frDialog.setResizable(false);
     frDialog.setVisible(true);
