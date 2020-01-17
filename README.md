@@ -1,14 +1,15 @@
 # Trident Text Editor
 
-### _A new Free and Open Source, classical and powerful text editor._
+## _A light weight text editor for the modern age._
 
-### _Hard coded in Java, hand crafted in India_
+### _Hard coded in Java, hand crafted in India._
 
 ## What's new
 
 - **Adaptive Windows and Dialogs**.
 - **Improved UX**.
 - Removed unwanted alert messages/ errors.
+- License Notice updates.
 - Source cleanup.
 
 ## Current features
@@ -27,14 +28,14 @@
 - Error Report Interface with GitHub issues integration.
 - Open using Command Line arguments.
 
-- #### Find and Replace
+- **Find and Replace**
 
   - Set selection on find
   - Replace and Replace all options
   - Case sensitive and insensitive options
   - Partitial and whole word searching options
 
-- #### Buit-in compiler [Windows Only]
+- **Buit-in compiler [Windows Only]**
 
   - Compiles/ Runs Python, Java, C, C++
   - When you run a HTML file, it'll be opened in Browser
@@ -47,14 +48,14 @@
   - Exit after done functionality.
   - Includes Console Opener.
 
-- #### Auto Save
+- **Auto Save**
 
   - Saves an extra copy of your file as filename-autoSaved with appropriate extension to avoid any loss of work and to save your life!
   - Also saves any temporary work in "New File" in your home directory as a txt file.
   - These get deleted automatically once you close Trident
   - They will be left behind in case of any accidental exits such as power shutdown, app crash, force close etc.
 
-- #### Fully functional customization options:
+- **Customization**
 
   - Five different themes to match your taste.
   - Light/ Dark theme toggle.
