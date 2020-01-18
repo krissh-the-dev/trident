@@ -187,29 +187,30 @@ class FileMenuListener implements ActionListener {
     String fileType = FileTypeParser.getType(Trident.path);
     String boiler;
     switch (fileType) {
-      case "C Source File":
-        boiler = "boilers/c.c";
-        break;
+    case "C Source File":
+      boiler = "boilers/c.c";
+      break;
 
-      case "C++ Source File":
-        boiler = "boilers/c++.cpp";
-        break;
-          
-      case "Python Source File":
-        boiler = "boilers/python.py";
-        break;
+    case "C++ Source File":
+      boiler = "boilers/c++.cpp";
+      break;
 
-      case "Java Source File":
-        boiler = "boilers/c.c";
-        break;
-          
-      case "HTML File":
-        boiler = "boilers/html5.html";
-        break;
-        
-      default:
-        throw new UnsupportedFileException(Trident.path);
+    case "Python Source File":
+      boiler = "boilers/python.py";
+      break;
+
+    case "Java Source File":
+      boiler = "boilers/c.c";
+      break;
+
+    case "HTML File":
+      boiler = "boilers/html5.html";
+      break;
+
+    default:
+      throw new UnsupportedFileException(Trident.path);
     }
+
   }
 
   public void actionPerformed(ActionEvent e) {
@@ -256,6 +257,8 @@ class FileMenuListener implements ActionListener {
         FileSaveAs();
         break;
       }
+    } catch (UnsupportedFileException ufe) {
+      Trident.ErrorDialog("NOT_SOURCE_FILE", ufe);
     } catch (Exception exp) {
       Trident.ErrorDialog("FILE_MENU_CRASH", exp);
     }
