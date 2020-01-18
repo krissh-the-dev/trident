@@ -2,3 +2,51 @@
 *                TRIDENT TEXT EDITOR              *
 *             CRASH AND ERROR LOG FILE            *
 ***************************************************
+
+2020-01-18T18:35:01.983
+FILE_MENU_CRASH
+UnsupportedFileException
+null
+null
+------------------------------------------
+[FILE_MENU_CRASH] FileMenuListener.boil(FileMenuListener.java:211)
+[FILE_MENU_CRASH] FileMenuListener.actionPerformed(FileMenuListener.java:223)
+[FILE_MENU_CRASH] javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+[FILE_MENU_CRASH] javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+[FILE_MENU_CRASH] javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+[FILE_MENU_CRASH] javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+[FILE_MENU_CRASH] javax.swing.AbstractButton.doClick(Unknown Source)
+[FILE_MENU_CRASH] javax.swing.plaf.basic.BasicMenuItemUI.doClick(Unknown Source)
+[FILE_MENU_CRASH] javax.swing.plaf.basic.BasicMenuItemUI$Handler.mouseReleased(Unknown Source)
+[FILE_MENU_CRASH] java.awt.Component.processMouseEvent(Unknown Source)
+[FILE_MENU_CRASH] javax.swing.JComponent.processMouseEvent(Unknown Source)
+[FILE_MENU_CRASH] java.awt.Component.processEvent(Unknown Source)
+[FILE_MENU_CRASH] java.awt.Container.processEvent(Unknown Source)
+[FILE_MENU_CRASH] java.awt.Component.dispatchEventImpl(Unknown Source)
+[FILE_MENU_CRASH] java.awt.Container.dispatchEventImpl(Unknown Source)
+[FILE_MENU_CRASH] java.awt.Component.dispatchEvent(Unknown Source)
+[FILE_MENU_CRASH] java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+[FILE_MENU_CRASH] java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+[FILE_MENU_CRASH] java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+[FILE_MENU_CRASH] java.awt.Container.dispatchEventImpl(Unknown Source)
+[FILE_MENU_CRASH] java.awt.Window.dispatchEventImpl(Unknown Source)
+[FILE_MENU_CRASH] java.awt.Component.dispatchEvent(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventQueue.access$500(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventQueue$3.run(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventQueue$3.run(Unknown Source)
+[FILE_MENU_CRASH] java.security.AccessController.doPrivileged(Native Method)
+[FILE_MENU_CRASH] java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+[FILE_MENU_CRASH] java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventQueue$4.run(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventQueue$4.run(Unknown Source)
+[FILE_MENU_CRASH] java.security.AccessController.doPrivileged(Native Method)
+[FILE_MENU_CRASH] java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventQueue.dispatchEvent(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+[FILE_MENU_CRASH] java.awt.EventDispatchThread.run(Unknown Source)
+=========================================================

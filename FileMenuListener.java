@@ -181,11 +181,46 @@ class FileMenuListener implements ActionListener {
     Trident.textarea.getDocument().addUndoableEditListener(Trident.undoManager);
   }
 
+  protected static void boil() throws UnsupportedFileException {
+    newFile();
+    FileSaveAs();
+    String fileType = FileTypeParser.getType(Trident.path);
+    String boiler;
+    switch (fileType) {
+      case "C Source File":
+        boiler = "boilers/c.c";
+        break;
+
+      case "C++ Source File":
+        boiler = "boilers/c++.cpp";
+        break;
+          
+      case "Python Source File":
+        boiler = "boilers/python.py";
+        break;
+
+      case "Java Source File":
+        boiler = "boilers/c.c";
+        break;
+          
+      case "HTML File":
+        boiler = "boilers/html5.html";
+        break;
+        
+      default:
+        throw new UnsupportedFileException(Trident.path);
+    }
+  }
+
   public void actionPerformed(ActionEvent e) {
     try {
       switch (e.getActionCommand()) {
       case "New":
         newFile();
+        break;
+
+      case "New Source File":
+        boil();
         break;
 
       case "Open":
