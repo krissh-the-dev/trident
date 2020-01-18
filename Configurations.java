@@ -150,7 +150,7 @@ public class Configurations {
         themeName = UIManager.getSystemLookAndFeelClassName();
         UIManager.setLookAndFeel(themeName);
       }
-    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException cnf) {
+    } catch (Exception cnf) {
       Trident.ErrorDialog("ERR_LOOK_AND_FEEL", cnf);
     }
     SwingUtilities.updateComponentTreeUI(Trident.frame);

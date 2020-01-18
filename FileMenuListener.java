@@ -103,7 +103,7 @@ class FileMenuListener implements ActionListener {
       fr.close();
       br.close();
       System.gc();
-    } catch (IOException | Exception ioe) {
+    } catch (Exception ioe) {
       Trident.ErrorDialog("FILE_OPEN_ERR", ioe);
       Trident.status1.setText("Could not open the specified file.");
     }
@@ -128,7 +128,7 @@ class FileMenuListener implements ActionListener {
         Trident.status3.setText(FileTypeParser.getType(Paths.get(filepath).getFileName().toString()));
       } else
         FileSaveAs();
-    } catch (IOException | Exception ioe) {
+    } catch (Exception ioe) {
       Trident.ErrorDialog("FILE_SAVE_IO", ioe);
       Trident.status1.setText("Error saving the file.");
     }
