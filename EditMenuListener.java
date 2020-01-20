@@ -78,7 +78,6 @@ class EditMenuListener implements ActionListener {
     } catch (UnsupportedFlavorException ufe) {
       // Trident.ErrorDialog("FLAVOR_ERR", ufe); // Don't throw unnecessary errors
       Trident.status1.setText("Clipboard has some unsupported content.");
-      Thread.sleep(200);
       cbviewer.dispose();
     } catch (IOException ioe) {
       // Trident.ErrorDialog("IOE_CLIPBOARD", ioe); <- Avoid
