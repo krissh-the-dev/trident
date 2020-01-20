@@ -168,10 +168,10 @@ class FileMenuListener implements ActionListener {
         bw.write(contents);
         bw.close();
         Trident.warned = false;
-        Trident.frame.setTitle("Trident Text Editor - " + Paths.get(filepath).getFileName().toString());
+        Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
         Trident.status1.setText("File saved successfully.");
         Trident.status2.setText("Saved");
-        Trident.status3.setText(FileTypeParser.getType(Paths.get(filepath).getFileName().toString()));
+        Trident.status3.setText(FileTypeParser.getType(Paths.get(Trident.path).getFileName().toString()));
       } else
         FileSaveAs();
     } catch (Exception ioe) {
