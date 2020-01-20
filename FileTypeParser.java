@@ -26,6 +26,13 @@
 public class FileTypeParser {
 
   public static String getExtension(String fileName) {
+    /*
+     * finds the extension of a file
+     * 
+     * @param: filename or path as string
+     * 
+     * @returns: the extension of the file, without '.'
+     */
     String extension = "file";
     int i = fileName.lastIndexOf('.');
     if (i > 0)
@@ -34,6 +41,13 @@ public class FileTypeParser {
   }
 
   public static String getType(String fileName) {
+    /*
+     * Finds the type of the file based on extension
+     * 
+     * @param: file name or file path as string
+     * 
+     * @returns: the file type as string
+     */
     String type;
 
     String extension = getExtension(fileName);

@@ -51,6 +51,11 @@ import javax.swing.SwingConstants;
  */
 
 class AboutMenuListener implements ActionListener {
+  /*
+   * Action listener for the About menu
+   * 
+   * Handles chosen menu item action from the about menu
+   */
   public void actionPerformed(ActionEvent e) {
     try {
       switch (e.getActionCommand()) {
@@ -70,8 +75,12 @@ class AboutMenuListener implements ActionListener {
             "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px;} h3:hover {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px; background-color: rgb(6,113,193);} </style><h3>Visit Home Page</h3></html>");
         l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
         l2.addMouseListener(new MouseAdapter() {
+
           @Override
           public void mouseClicked(MouseEvent me) {
+            /*
+             * For the mouse click on Visit Home Page button in About Trident Dialog
+             */
             try {
               Desktop.getDesktop().browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident"));
             } catch (Exception de) {

@@ -51,35 +51,48 @@ import javax.swing.undo.CannotUndoException;
  */
 
 class EditMenuListener implements ActionListener {
+  /*
+   * Influences the behaviour of Edit Menu
+   */
+  protected void showClipboard() {
+    /*
+     * Displays a text editor that shows clipboard contents
+     */
+    Clipboard clipboard;
+    JDialog cbviewer = new JDialog();
+    try {
+      clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+      cbviewer.setSize(450, 350);
+      cbviewer.setTitle("Clipboard Viewer");
+      JPanel TextViewer = new JPanel();
+      JTextArea cta = new JTextArea(clipboard.getData(DataFlavor.stringFlavor).toString());
+      JScrollPane spv = new JScrollPane(cta, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+          JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+      spv.setBorder(new EmptyBorder(-1, 0, -1, 0));
+      TextViewer.setLayout(new GridLayout(1, 1, 1, 1));
+      cbviewer.setLayout(new BorderLayout());
+      TextViewer.add(spv);
+      cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
+      cbviewer.setLocationRelativeTo(Trident.frame);
+      cbviewer.setVisible(true);
+    } catch (UnsupportedFlavorException ufe) {
+      // Trident.ErrorDialog("FLAVOR_ERR", ufe); // Don't throw unnecessary errors
+      Trident.status1.setText("Clipboard has some unsupported content.");
+      Thread.sleep(200);
+      cbviewer.dispose();
+    } catch (IOException ioe) {
+      // Trident.ErrorDialog("IOE_CLIPBOARD", ioe); <- Avoid
+    }
+  }
+
   public void actionPerformed(ActionEvent e) {
+    /*
+     * Controls the actions of Edit Menu items
+     */
     try {
       switch (e.getActionCommand()) {
       case "Show Contents":
-        Clipboard clipboard;
-        JDialog cbviewer = new JDialog();
-        try {
-          clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-          cbviewer.setSize(450, 350);
-          cbviewer.setTitle("Clipboard Viewer");
-          JPanel TextViewer = new JPanel();
-          JTextArea cta = new JTextArea(clipboard.getData(DataFlavor.stringFlavor).toString());
-          JScrollPane spv = new JScrollPane(cta, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-              JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-          spv.setBorder(new EmptyBorder(-1, 0, -1, 0));
-          TextViewer.setLayout(new GridLayout(1, 1, 1, 1));
-          cbviewer.setLayout(new BorderLayout());
-          TextViewer.add(spv);
-          cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
-          cbviewer.setLocationRelativeTo(Trident.frame);
-          cbviewer.setVisible(true);
-        } catch (UnsupportedFlavorException ufe) {
-          // Trident.ErrorDialog("FLAVOR_ERR", ufe); // Don't throw unnecessary errors
-          Trident.status1.setText("Clipboard has some unsupported content.");
-          Thread.sleep(200);
-          cbviewer.dispose();
-        } catch (IOException ioe) {
-          // Trident.ErrorDialog("IOE_CLIPBOARD", ioe);  <- Avoid
-        }
+        showClipboard();
         break;
 
       case "Erase Contents":
@@ -145,6 +158,9 @@ class GoToController {
   static JDialog Goto;
 
   static void go() {
+    /*
+     * Displays and controls the Goto dialog
+     */
     Goto = new JDialog(Trident.frame, "Go To");
 
     lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Trident.textarea.getLineCount(), 1));

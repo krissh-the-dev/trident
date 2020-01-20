@@ -41,14 +41,22 @@ import javax.swing.undo.UndoManager;
  */
 class FileMenuListener implements ActionListener {
   public static void FileOpener() {
+    /*
+     * Opens the File Opener JFileChooser in user set Look and feel
+     */
     try {
+      // text files include plaint text, markdown, maniests, encrypt files etc.
       FileNameExtensionFilter textFiles = new FileNameExtensionFilter("Text Files (*.txt, *.mf, *.md, *.rtf)", "txt",
           "mf", "md", "rtf");
+      // Source files include major program source code files formats
       FileNameExtensionFilter SourceFiles = new FileNameExtensionFilter(
           "Source Files (*.py, *.java, *.c, *.cpp, *.h, *.kt)", "py", "java", "c", "cpp", "h", "kt");
+
+      // Web files contain files related to web pages and web apps
       FileNameExtensionFilter WebFiles = new FileNameExtensionFilter(
           "Web Files (*.html, *.htm, *.mhtml, *.css, *.less,*.js, *.php)", "html", "htm", "mhtml", "css", "less", "js",
           "php");
+      // General other categories like object notations etc.
       FileNameExtensionFilter OtherFiles = new FileNameExtensionFilter("Scripts (*.json, *.config, *.bat, *.sh)",
           "json", "config", "bat", "sh");
       JFileChooser openDialog = new JFileChooser(FileSystemView.getFileSystemView());
@@ -74,6 +82,10 @@ class FileMenuListener implements ActionListener {
   }
 
   public static void openFile() {
+    /*
+     * Opens the file in 'Trident.path' variable and places its contents in the
+     * textarea
+     */
     try {
       AutoSave.deleteSaved();
       File OpenedFile = new File(Trident.path);
@@ -110,6 +122,12 @@ class FileMenuListener implements ActionListener {
   }
 
   public static void FileSaver(String filepath) {
+    /*
+     * Saves the changes made to the file in 'filepath'
+     * 
+     * @param: path of the file to save
+     */
+    // TODO remove filepath parameter
     try {
       if (!filepath.equals("New File")) {
         File f1 = new File(filepath);
@@ -134,19 +152,56 @@ class FileMenuListener implements ActionListener {
     }
   }
 
+  public static void saveFile() {
+    /*
+     * Saves the changes made to the file in 'Trident.path' i.e current file
+     */
+    try {
+      if (!Trident.path.equals("New File")) {
+        File f1 = new File(Trident.path);
+        if (!f1.exists()) {
+          f1.createNewFile();
+        }
+        String contents = Trident.textarea.getText();
+        FileWriter fileWritter = new FileWriter(f1, false);
+        BufferedWriter bw = new BufferedWriter(fileWritter);
+        bw.write(contents);
+        bw.close();
+        Trident.warned = false;
+        Trident.frame.setTitle("Trident Text Editor - " + Paths.get(filepath).getFileName().toString());
+        Trident.status1.setText("File saved successfully.");
+        Trident.status2.setText("Saved");
+        Trident.status3.setText(FileTypeParser.getType(Paths.get(filepath).getFileName().toString()));
+      } else
+        FileSaveAs();
+    } catch (Exception ioe) {
+      Trident.ErrorDialog("FILE_SAVE_IO", ioe);
+      Trident.status1.setText("Error saving the file.");
+    }
+  }
+
   public static void FileSaveAs() {
+    /*
+     * Opens up JFileChooser Save As dialog to choose a path to save the current
+     * file
+     */
     JFileChooser saveAsDialog = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
     int command = saveAsDialog.showSaveDialog(Trident.frame);
 
     if (command == JFileChooser.APPROVE_OPTION) {
       Trident.path = (saveAsDialog.getSelectedFile().getAbsolutePath());
       FileSaver(Trident.path);
+      // saveFile();
     } else if (command == JFileChooser.CANCEL_OPTION) {
       Trident.status1.setText("File is not saved.");
     }
   }
 
   public static int warningDialog() {
+    /*
+     * Displays a warning Dialog box when user attempts to leave the current file
+     * without saving any recent changes, irrespective of autosaved copies
+     */
     int opt = JOptionPane.showConfirmDialog(Trident.frame,
         "There are some unsaved changes in the file." + System.lineSeparator()
             + "Do you want to save the changes and continue?",
@@ -154,11 +209,16 @@ class FileMenuListener implements ActionListener {
         (new ImageIcon("raw/warning.png")));
     if (opt == JOptionPane.YES_OPTION) {
       FileSaver(Trident.path);
+      // saveFile();
     }
     return opt;
   }
 
   public static void newFile() {
+    /*
+     * Creates a new temporary file in arbitrary location. Refreshes and empties all
+     * the older contents
+     */
     if (Trident.warned) {
       int opt = warningDialog();
       if (opt == JOptionPane.CANCEL_OPTION) {
@@ -182,6 +242,12 @@ class FileMenuListener implements ActionListener {
   }
 
   protected static void boil() throws UnsupportedFileException {
+    /*
+     * Adds appropriate language specific boilerplate code to a new file.
+     * 
+     * @throws: Unsupported File Exception when the selected file is not a source
+     * file, resulting in crashing of the function
+     */
     newFile();
     FileSaveAs();
     String fileType = FileTypeParser.getType(Trident.path);
@@ -210,10 +276,12 @@ class FileMenuListener implements ActionListener {
     default:
       throw new UnsupportedFileException(Trident.path);
     }
-
   }
 
   public void actionPerformed(ActionEvent e) {
+    /*
+     * Controls the actions of File Menu
+     */
     try {
       switch (e.getActionCommand()) {
       case "New":

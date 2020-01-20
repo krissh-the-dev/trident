@@ -29,6 +29,12 @@ import java.awt.datatransfer.DataFlavor;
  */
 
 class EditActionsListener extends Thread {
+  /*
+   * Influences the responsiveness of the Edit Menu items such as Copy, Paste etc.
+   * 
+   * Runs a thread in the background forever. Starts when Edit Menu is
+   * initialized.
+   */
   @Override
   public void run() {
     try {

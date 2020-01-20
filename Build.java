@@ -35,6 +35,11 @@ import java.lang.ProcessBuilder.Redirect;
 
 class Build {
   public static File[] finder(String dirName) {
+    /*
+     * @param: name of the directory as string;
+     * 
+     * returns all java files in the given directory as a File array
+     */
     File dir = new File(dirName);
     return dir.listFiles(new FilenameFilter() {
       public boolean accept(File dir, String filename) {

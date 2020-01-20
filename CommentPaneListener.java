@@ -24,6 +24,12 @@
  */
 
 class CommentPaneListener extends Thread {
+  /*
+   * This thread keeps running in the background to keep the status area 1 i.e the
+   * comment area to be meaningful
+   * 
+   * started when status bar is initialized
+   */
   @Override
   public void run() {
     try {

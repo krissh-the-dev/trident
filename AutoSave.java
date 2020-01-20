@@ -38,6 +38,13 @@ class AutoSave implements DocumentListener {
   private static File file;
 
   public static void setEnabled(Boolean enable) {
+    /*
+     * Toggles auto save feature
+     * 
+     * @param: boolean
+     * 
+     * enables auto save on true/ disables on false
+     */
     Enabled = enable;
     if (Enabled == false)
       deleteSaved();
@@ -46,10 +53,19 @@ class AutoSave implements DocumentListener {
   }
 
   public static void deleteSaved() {
+    /*
+     * Deletes the autosaved copy of current file
+     */
     file.delete();
   }
 
   private static void saveNow() {
+    /*
+     * Saves an autosaved copy of the current file with latest changes on the
+     * working directory
+     * 
+     * Part of autosave feature
+     */
     try {
       String extension = "";
       int i = Trident.path.lastIndexOf('.');

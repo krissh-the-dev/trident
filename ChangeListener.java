@@ -27,7 +27,16 @@ import javax.swing.event.DocumentListener;
  */
 
 class ChangeListener implements DocumentListener {
+  /*
+   * Listens to the changes in the document [textarea]
+   */
+
   private static void warn() {
+    /*
+     * Influences the behaviour of title bar and status bar
+     * 
+     * adds 'Unsaved' warning on title bar and status bar warning area [area 2]
+     */
     if (!Trident.warned) {
       Trident.status2.setText("Unsaved");
       Trident.warned = true;
