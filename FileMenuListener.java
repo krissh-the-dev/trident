@@ -241,7 +241,8 @@ class FileMenuListener implements ActionListener {
     Trident.textarea.getDocument().addUndoableEditListener(Trident.undoManager);
   }
 
-  protected static void boil() throws UnsupportedFileException {
+  protected static void boil()
+      throws UnsupportedFileException, UnsupportedOperatingSystemException, IOException, InterruptedException {
     /*
      * Adds appropriate language specific boilerplate code to a new file.
      * 
@@ -271,6 +272,10 @@ class FileMenuListener implements ActionListener {
 
     case "HTML File":
       boiler = "boilers/html5.html";
+      break;
+
+    case "Open Power Boil":
+      TridentCompiler.execute("boilers/powerboil/powerboil.py");
       break;
 
     default:
