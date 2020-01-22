@@ -476,7 +476,7 @@ class Trident {
 
       if (!path.equals("New File")) {
         FileMenuListener.openFile();
-        FileMenuListener.FileSaver(path);
+        FileMenuListener.saveFile();
         status1.setText("File opened using command-line.");
       }
 
