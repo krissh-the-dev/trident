@@ -128,7 +128,6 @@ class FileMenuListener implements ActionListener {
      * 
      * @param: path of the file to save
      */
-    // TODO remove filepath parameter
     try {
       if (!filepath.equals("New File")) {
         File f1 = new File(filepath);
