@@ -72,7 +72,7 @@ public class Toolbar {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                FileMenuListener.FileSaver(Trident.path);
+                FileMenuListener.saveFile();
             }
         };
         Action newAction = new AbstractAction("", newIcon) {

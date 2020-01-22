@@ -121,6 +121,7 @@ class FileMenuListener implements ActionListener {
     }
   }
 
+  @Deprecated
   public static void FileSaver(String filepath) {
     /*
      * Saves the changes made to the file in 'filepath'
@@ -190,7 +191,7 @@ class FileMenuListener implements ActionListener {
 
     if (command == JFileChooser.APPROVE_OPTION) {
       Trident.path = (saveAsDialog.getSelectedFile().getAbsolutePath());
-      FileSaver(Trident.path);
+      saveFile();
       // saveFile();
     } else if (command == JFileChooser.CANCEL_OPTION) {
       Trident.status1.setText("File is not saved.");
@@ -208,7 +209,7 @@ class FileMenuListener implements ActionListener {
         "Warning: Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE,
         (new ImageIcon("raw/warning.png")));
     if (opt == JOptionPane.YES_OPTION) {
-      FileSaver(Trident.path);
+      saveFile();
       // saveFile();
     }
     return opt;
@@ -318,7 +319,7 @@ class FileMenuListener implements ActionListener {
         }
 
       case "Save":
-        FileSaver(Trident.path);
+        saveFile();
         break;
 
       case "Save As":
