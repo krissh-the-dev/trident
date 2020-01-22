@@ -64,11 +64,19 @@ import java.awt.Desktop;
 import java.io.IOException;
 
 /*
- * Trident Text Editor v3.0+
+ * Trident Text Editor v4.0+
  * @author: Krishna Moorthy
  */
 
 class Trident {
+  /*
+   * Main Trident Application
+   * 
+   * Contains all the basic components and links all the libraries and
+   * functionalities with Trident.
+   * 
+   * Handles all the errors and writes logs
+   */
   protected static JTextArea textarea;
   protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
@@ -78,9 +86,9 @@ class Trident {
   public static JScrollPane editor;
   public static JPanel statusBar, commentPanel, othersPanel;
   public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu;
-  public static JMenuItem newFile, newSource, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo, pCopy, pCut,
-      pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun, console,
-      AboutFile, help, AboutTrident, updates;
+  public static JMenuItem newFile, newSource, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo,
+      pCopy, pCut, pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun,
+      console, AboutFile, help, AboutTrident, updates;
   public static JCheckBoxMenuItem wordWrap, autoSave;
   public static JToolBar toolBar;
   public static UndoManager undoManager;
@@ -94,6 +102,42 @@ class Trident {
   static AboutMenuListener aml = new AboutMenuListener();
 
   public static void ErrorDialog(String code, Exception e) {
+    try {
+      /*
+       * The Trident Error Handler :- * Handles Errors that occur during the runtime
+       * of Trident and writes logs whenever an error occurs. * Shows Error dialog.
+       * 
+       * @param: Error code, excpection object.
+       */
+      writeLog(code, e);
+      int option = JOptionPane.showConfirmDialog(frame,
+          "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: "
+              + code + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
+          "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
+      if (option == JOptionPane.YES_OPTION) {
+        try {
+          Desktop.getDesktop().browse(java.net.URI.create(
+              "https://github.com/KrishnaMoorthy12/trident/issues/new?assignees=&labels=&template=bug_report.md&title="));
+        } catch (Exception shit) {
+          ErrorDialog("DESKTOP_UNAVAILABLE", shit);
+        }
+        status1.setText("Thanks for your positive intent.");
+      } else {
+        status1.setText("Please report errors to help improve Trident.");
+      }
+    } catch (Exception dialogShowErr) {
+      System.err.println("Trident was terminated with an unexpected error.");
+      System.exit(-1);
+      writeLog("CRASH_ERR_DIALOG", dialogShowErr);
+    }
+  }
+
+  public static void writeLog(String code, Exception e) {
+    /*
+     * Writes error logs to %TridentPath%/logs/log.txt
+     * 
+     * @param: Error Code, Exception object
+     */
     try {
       File logFile = new File("logs/log.txt");
       logFile.createNewFile();
@@ -115,21 +159,7 @@ class Trident {
         writer.write(System.lineSeparator());
       }
       writer.write("=========================================================");
-      int option = JOptionPane.showConfirmDialog(frame,
-          "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: "
-              + code + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
-          "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
-      if (option == JOptionPane.YES_OPTION) {
-        try {
-          Desktop.getDesktop().browse(java.net.URI.create(
-              "https://github.com/KrishnaMoorthy12/trident/issues/new?assignees=&labels=&template=bug_report.md&title="));
-        } catch (Exception shit) {
-          ErrorDialog("DESKTOP_UNAVAILABLE", shit);
-        }
-        status1.setText("Thanks for your positive intent.");
-      } else {
-        status1.setText("Please report errors to help improve Trident.");
-      }
+
       writer.close();
       logWriter.close();
     } catch (IOException ioException) {
@@ -138,6 +168,13 @@ class Trident {
   }
 
   public static final int checkOS() throws UnsupportedOperatingSystemException {
+    /*
+     * Checks the Operating System and returns a OS Code
+     * 
+     * @throws: Unsupported OS Exception when OS is neither Linux, nor Windows.
+     * 
+     * @returns: Integer corresponding to the OS.
+     */
     String operatingSystem = System.getProperty("os.name").toLowerCase();
     if (operatingSystem.contains("windows")) {
       return 1;
@@ -149,6 +186,12 @@ class Trident {
   }
 
   public Trident(String file) {
+    /*
+     * Initializes the Main application Trident and all the objects. Starts all the
+     * basic processes and threads for the basic functioning of Trident.
+     * 
+     * @param: File name as string to open.
+     */
     try {
       // * Global variable inits
       warned = false;
@@ -207,7 +250,8 @@ class Trident {
       newFile.addActionListener(fml);
 
       newSource = new JMenuItem("New Source File");
-      newSource.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+      newSource.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+          java.awt.event.InputEvent.CTRL_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
       fileMenu.add(newSource);
       newSource.addActionListener(fml);
 
@@ -454,6 +498,15 @@ class Trident {
   }
 
   public static void main(String[] args) {
+    /*
+     * TRIDENT MAIN METHOD:-
+     * 
+     * Initializes Trident
+     * 
+     * Controls Command-line instructions
+     * 
+     * @param: (Optional) File name/ path to open
+     */
     if (args.length == 0)
       new Trident("New File");
     else {
