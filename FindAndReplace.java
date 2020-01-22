@@ -203,11 +203,16 @@ class FindAndReplace {
 }
 
 /*
- * FindAndReplace Buttons Listener 
+ * FindAndReplace Buttons Listener
+ * 
  * (GPL v3) Trident > Find and Replace
- * @author: Krishna Moorthy 
- * Since: v3.1 
- * Deprecated since: v4.0 
+ * 
+ * @author: Krishna Moorthy
+ * 
+ * Since: v3.1
+ * 
+ * Deprecated since: v4.0
+ * 
  * Replaced by FRButtonsListener
  */
 
@@ -218,6 +223,12 @@ class FindReplaceButtonsListener implements ActionListener {
 
   @Deprecated
   public static void find() {
+    /*
+     * Finds the given string in the trident text area, based on the settings from
+     * UI
+     * 
+     * Depricated since: v4.0
+     */
     foundStarts = new ArrayList<>();
     foundEnds = new ArrayList<>();
     foundStarts.clear();
@@ -254,6 +265,11 @@ class FindReplaceButtonsListener implements ActionListener {
 
   @Deprecated
   public static void findNext() {
+    /*
+     * Moves selection to next match in the textarea
+     * 
+     * Depricated since v4.0
+     */
     find();
     try {
       if (i >= foundEnds.size()) {
@@ -270,6 +286,11 @@ class FindReplaceButtonsListener implements ActionListener {
 
   @Deprecated
   public static void replace() {
+    /*
+     * Replaces the hightlighted text with the entered text in Replace Field in UI
+     * 
+     * Depricated since: v4.0
+     */
     find();
     if (foundStarts.size() == 0)
       return;
@@ -282,6 +303,12 @@ class FindReplaceButtonsListener implements ActionListener {
 
   @Deprecated
   public static void replaceAll() {
+    /*
+     * Replaces all the occurances of a given string with another given string
+     * 
+     * Depricated since v4.0
+     */
+
     find();
     for (int i = 0; i <= foundStarts.size(); i++) {
       replace();
@@ -290,6 +317,9 @@ class FindReplaceButtonsListener implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent ae) {
+    /*
+     * Controls button actions of Find and Replace Dialog
+     */
     switch (ae.getActionCommand()) {
     case "Find":
       find();

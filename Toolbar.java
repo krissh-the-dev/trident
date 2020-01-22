@@ -36,9 +36,15 @@ import java.awt.Desktop;
  */
 
 public class Toolbar {
+    /*
+     * Adds Toolbar items and controls actions
+     */
     public static JButton undoButton, redoButton;
 
     public Toolbar() {
+        /*
+         * Initializes Toolbar and its items and also adds functionalities
+         */
         ImageIcon openIcon = new ImageIcon("raw/open.png");
         ImageIcon saveIcon = new ImageIcon("raw/save.png");
         ImageIcon newIcon = new ImageIcon("raw/new.png");
@@ -48,6 +54,9 @@ public class Toolbar {
         ImageIcon redoIcon = new ImageIcon("raw/redo.png");
 
         Action openAction = new AbstractAction("", openIcon) {
+            /*
+             * Action for new icon in Toolbar
+             */
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -56,6 +65,9 @@ public class Toolbar {
             }
         };
         Action saveAction = new AbstractAction("", saveIcon) {
+            /*
+             * Action for save icon in Toolbar
+             */
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -64,6 +76,9 @@ public class Toolbar {
             }
         };
         Action newAction = new AbstractAction("", newIcon) {
+            /*
+             * Action for new icon in Toolbar
+             */
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -73,6 +88,9 @@ public class Toolbar {
         };
 
         Action findAction = new AbstractAction("", findIcon) {
+            /*
+             * Action for find icon in Toolbar
+             */
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -87,6 +105,9 @@ public class Toolbar {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                /*
+                 * Action for help icon in Toolbar
+                 */
                 try {
                     Desktop.getDesktop()
                             .browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/issues"));

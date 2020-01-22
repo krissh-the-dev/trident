@@ -33,8 +33,17 @@ import java.io.File;
  */
 
 public class TridentCompiler {
+  /*
+   * The Compiler and Tools of Trident Text Editor
+   */
   public static void compile(String filepath)
       throws UnsupportedOperatingSystemException, UnsupportedFileException, IOException {
+    /*
+     * Executes language specific compile commands on a system terminal.
+     * 
+     * @throws: Unsupported OS Exception, Unsupported File Exception, IOException,
+     * InterruptedException
+     */
     if (Trident.checkOS() != 1) {
       throw new UnsupportedOperatingSystemException();
     }
@@ -70,6 +79,12 @@ public class TridentCompiler {
 
   public static void execute(String filepath)
       throws UnsupportedOperatingSystemException, UnsupportedFileException, IOException, InterruptedException {
+    /*
+     * Runs any compiled output files defined for current language.
+     * 
+     * @throws: Unsupported OS Exception, Unsupported File Exception, IOException,
+     * InterruptedException
+     */
     if (Trident.checkOS() != 1) {
       throw new UnsupportedOperatingSystemException();
     }
@@ -118,6 +133,11 @@ public class TridentCompiler {
   }
 
   public static void openTerminal(int os) throws UnsupportedOperatingSystemException {
+    /*
+     * Opens System Terminal window
+     * 
+     * @throws: Unsupported OS Exception, if OS is not supported for this feature
+     */
     try {
       if (os == 1) {
         String parent = (new File(Trident.path)).getParent();

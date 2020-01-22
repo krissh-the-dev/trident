@@ -20,11 +20,14 @@
  */
 
 /*
- * Thrown when a file is not supported by Trident/ Trident Compiler
  * (GPL v3) Trident > UnsupportedFileException
  * @author: Krishna Moorthy
  */
 public final class UnsupportedFileException extends Exception {
+  /*
+   * Thrown when a file is not supported by Trident/ Trident Compiler/ Source
+   * Action
+   */
   private static final long serialVersionUID = -6622809143038663344L;
   String file;
 

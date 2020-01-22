@@ -20,12 +20,15 @@
  */
 
 /*
- * Thrown when the Trident/ Trident Compiler does not support/ not expected to work properly with user's plaftorm
  * (GPL v3) Trident > UnsupportedOperatingSystemException
  * @author: Krishna Moorthy
  */
 
 public class UnsupportedOperatingSystemException extends Exception {
+  /*
+   * Thrown when the Trident/ Trident Compiler does not support/ not expected to
+   * work properly with user's plaftorm
+   */
   private static final long serialVersionUID = 8760547834236745475L;
 
   @Override

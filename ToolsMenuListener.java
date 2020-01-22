@@ -29,7 +29,13 @@ import java.io.IOException;
  */
 
 class ToolsMenuListener implements ActionListener {
+  /*
+   * Controls the actions of Tools Menu
+   */
   public void actionPerformed(ActionEvent e) {
+    /*
+     * Controls the actions of Tools Menu items
+     */
     try {
       switch (e.getActionCommand()) {
       case "Compile":

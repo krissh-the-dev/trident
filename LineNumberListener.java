@@ -30,9 +30,15 @@ import javax.swing.text.BadLocationException;
  */
 
 public class LineNumberListener implements CaretListener {
+  /*
+   * Controls the Line number and Column Number display areas in status bar.
+   */
 
   @Override
   public void caretUpdate(CaretEvent ce) {
+    /*
+     * Updates status bar text when caret position changes
+     */
     try {
       int offset = Trident.textarea.getCaretPosition();
       int line = Trident.textarea.getLineOfOffset(offset);

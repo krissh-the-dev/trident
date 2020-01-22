@@ -30,7 +30,14 @@ import java.awt.event.ItemEvent;
  */
 
 class SettingsMenuListener implements ActionListener, ItemListener {
+  /*
+   * Controls the actions of Settings Menu
+   */
   public void actionPerformed(ActionEvent e) {
+    /*
+     * Controls actions of Settings menu items (Style editor and Configurations
+     * options)
+     */
     switch (e.getActionCommand()) {
     // Note: For JMenuCheckBoxes refer itemStateChanged()
     case "Style Editor":
@@ -43,6 +50,9 @@ class SettingsMenuListener implements ActionListener, ItemListener {
   }
 
   public void itemStateChanged(ItemEvent ie) {
+    /*
+     * Controls actions of Settings menu items (Auto save and Word Wrap options)
+     */
     Trident.textarea.setLineWrap(Trident.wordWrap.isSelected());
     AutoSave.setEnabled(Trident.autoSave.isSelected());
   }
