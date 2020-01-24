@@ -306,7 +306,9 @@ class FileMenuListener implements ActionListener {
         break;
 
       case "New Window":
-        new Trident("New File");
+        // new Trident("New File");
+        ProcessBuilder pb = new ProcessBuilder("Trident.bat");
+        Process p = pb.start();
         break;
 
       case "Open":
