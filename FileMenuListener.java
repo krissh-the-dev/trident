@@ -305,6 +305,10 @@ class FileMenuListener implements ActionListener {
         newFile();
         break;
 
+      case "New Window":
+        new Trident("New File");
+        break;
+
       case "Open":
         if (Trident.warned) {
           int opt = warningDialog();

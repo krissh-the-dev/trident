@@ -86,9 +86,9 @@ class Trident {
   public static JScrollPane editor;
   public static JPanel statusBar, commentPanel, othersPanel;
   public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu, newSource;
-  public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo, pCopy, pCut,
-      pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun, console,
-      AboutFile, help, AboutTrident, updates, pyFile, javaFile, cFile, cppFile, htmlFile, pboil;
+  public static JMenuItem newFile, newWindow, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo,
+      pCopy, pCut, pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun,
+      console, AboutFile, help, AboutTrident, updates, pyFile, javaFile, cFile, cppFile, htmlFile, pboil;
   public static JCheckBoxMenuItem wordWrap, autoSave;
   public static JToolBar toolBar;
   public static UndoManager undoManager;
@@ -248,6 +248,12 @@ class Trident {
       newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
       fileMenu.add(newFile);
       newFile.addActionListener(fml);
+
+      newWindow = new JMenuItem("New Window");
+      newWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+          java.awt.event.InputEvent.CTRL_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+      fileMenu.add(newWindow);
+      newWindow.addActionListener(fml);
 
       newSource = new JMenu("New Source File");
       newSource.setMnemonic(KeyEvent.VK_O);
