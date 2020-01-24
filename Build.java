@@ -107,17 +107,17 @@ class Build {
     p = processBuilder.start();
     p.waitFor();
 
-    System.out.println("Opening WinRAR...");
-    // Add WinRAR to your path
-    processBuilder = new ProcessBuilder("winrar", "trident.zip");
+    System.out.println("Opening EXE Maker...");
+    // Add EXE maker to your path
+    processBuilder = new ProcessBuilder("toEXE");
     processBuilder.redirectErrorStream(true);
     processBuilder.redirectOutput(Redirect.appendTo(log));
     p = processBuilder.start();
     p.waitFor();
 
-    System.out.println("Opening EXE Maker...");
-    // Add EXE maker to your path
-    processBuilder = new ProcessBuilder("toEXE");
+    System.out.println("Opening WinRAR...");
+    // Add WinRAR to your path
+    processBuilder = new ProcessBuilder("winrar", "trident.zip");
     processBuilder.redirectErrorStream(true);
     processBuilder.redirectOutput(Redirect.appendTo(log));
     p = processBuilder.start();
