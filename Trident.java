@@ -531,7 +531,12 @@ class Trident {
      */
     if (args.length == 0)
       new Trident("New File");
-    else {
+    else if (args[0].equals("-version")) {
+      System.out.println("Trident Text Editor");
+      System.out.print("Version: 4.3");
+      System.out.println("\tChannel: Beta");
+      System.out.println("(c) 2020 Krishna Moorthy Athinarayan. All rights reserved.");
+    }  else {
       for (String x : args) {
         new Trident(x);
       }
