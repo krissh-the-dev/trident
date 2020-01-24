@@ -92,6 +92,12 @@ public class TridentCompiler {
     String exec;
     Process p = null;
 
+    if (filepath.contains("powerboil")) {
+      p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident - PowerBoil Alpha && echo && python \""
+          + filepath + "\" && pause && exit \"");
+      return;
+    }
+
     String fileType = FileTypeParser.getType(filepath);
     switch (fileType) {
     case "Python Source File":

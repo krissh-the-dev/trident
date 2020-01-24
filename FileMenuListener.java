@@ -249,7 +249,6 @@ class FileMenuListener implements ActionListener {
      * @throws: Unsupported File Exception when the selected file is not a source
      * file, resulting in crashing of the function
      */
-    newFile();
     String boiler = null;
     switch (choice) {
     case "C Source File":
@@ -265,7 +264,7 @@ class FileMenuListener implements ActionListener {
       break;
 
     case "Java Source File":
-      boiler = "boilers/c.c";
+      boiler = "boilers/java.java";
       break;
 
     case "HTML File":
@@ -274,13 +273,26 @@ class FileMenuListener implements ActionListener {
 
     case "Open PowerBoil":
       TridentCompiler.execute("boilers/powerboil/powerboil.py");
-      break;
+      return;
 
     default:
       throw new UnsupportedFileException(Trident.path);
     }
-
-    System.out.println(boiler);
+    try {
+      newFile();
+      BufferedReader be = new BufferedReader(new FileReader(new File(boiler)));
+      String content = be.readLine();
+      String contents = "";
+      while (content != null) {
+        contents += content + System.lineSeparator();
+        content = be.readLine();
+      }
+      Trident.textarea.setText(contents);
+      Trident.status3.setText(choice);
+      be.close();
+    } catch (Exception e) {
+      throw e;
+    }
   }
 
   public void actionPerformed(ActionEvent e) {
