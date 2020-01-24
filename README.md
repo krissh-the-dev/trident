@@ -6,11 +6,24 @@
 
 ## What's new
 
-- **Adaptive Windows and Dialogs**.
-- **Improved UX**.
-- Removed unwanted alert messages/ errors.
-- License Notice updates.
-- Source cleanup.
+- **New Source File option under File Menu:**
+
+  - Boiler plate for C, C++, Java, Python and HTML file
+  - PowerBoil integration
+
+- New Window Option under File Menu.
+
+- Better File Save mechanism.
+- Improved crash management.
+- Improved Log writing.
+- Bug fixes.
+
+- Source side:
+
+  - Fixed Licensed headers.
+  - Detailed comments.
+  - Description for each class and each method.
+  - Some cleanups.
 
 ## Current features
 
