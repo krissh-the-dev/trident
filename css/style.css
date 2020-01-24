@@ -275,7 +275,7 @@ h1, h2, h3, h4, h5, h6, figure {
   z-index: 0; }
   @media screen and (max-width: 768px) {
     .video-hero {
-      heifght: inherit;
+      height: inherit;
       padding: 3em 0; } }
   .video-hero .overlay {
     position: absolute;
