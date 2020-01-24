@@ -1,5 +1,5 @@
 /*
- * Your License headers
+ * Your License header
  */
 
 #include "iostream"
@@ -12,5 +12,6 @@ int main(int argc, char* argv[]) {
   /* 
    * Information about your program
    */
-   // Code:::
+  // Code:::
+  return (0);
 }
