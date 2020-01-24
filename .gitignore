@@ -30,3 +30,7 @@ hs_err_pid*
 *output.txt
 *settings
 *res
+
+#python cache
+*.pyc
+*__pycache__
