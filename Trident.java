@@ -85,10 +85,10 @@ class Trident {
   public static JMenuBar mb;
   public static JScrollPane editor;
   public static JPanel statusBar, commentPanel, othersPanel;
-  public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu;
-  public static JMenuItem newFile, newSource, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo,
-      pCopy, pCut, pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun,
-      console, AboutFile, help, AboutTrident, updates;
+  public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu, newSource;
+  public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo, pCopy, pCut,
+      pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun, console,
+      AboutFile, help, AboutTrident, updates, pyFile, javaFile, cFile, cppFile, htmlFile, pboil;
   public static JCheckBoxMenuItem wordWrap, autoSave;
   public static JToolBar toolBar;
   public static UndoManager undoManager;
@@ -249,11 +249,27 @@ class Trident {
       fileMenu.add(newFile);
       newFile.addActionListener(fml);
 
-      newSource = new JMenuItem("New Source File");
-      newSource.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
-          java.awt.event.InputEvent.CTRL_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+      newSource = new JMenu("New Source File");
+      newSource.setMnemonic(KeyEvent.VK_O);
+      cFile = new JMenuItem("C Source File");
+      cFile.addActionListener(fml);
+      newSource.add(cFile);
+      cppFile = new JMenuItem("C++ Source File");
+      cppFile.addActionListener(fml);
+      newSource.add(cppFile);
+      javaFile = new JMenuItem("Java Source File");
+      javaFile.addActionListener(fml);
+      newSource.add(javaFile);
+      pyFile = new JMenuItem("Python Source File");
+      pyFile.addActionListener(fml);
+      newSource.add(pyFile);
+      htmlFile = new JMenuItem("HTML File");
+      htmlFile.addActionListener(fml);
+      newSource.add(htmlFile);
+      pboil = new JMenuItem("Open PowerBoil");
+      pboil.addActionListener(fml);
+      newSource.add(pboil);
       fileMenu.add(newSource);
-      newSource.addActionListener(fml);
 
       OpenFile = new JMenuItem("Open");
       OpenFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));

@@ -30,7 +30,10 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
@@ -241,7 +244,7 @@ class FileMenuListener implements ActionListener {
     Trident.textarea.getDocument().addUndoableEditListener(Trident.undoManager);
   }
 
-  protected static void boil()
+  protected static void boil(String choice)
       throws UnsupportedFileException, UnsupportedOperatingSystemException, IOException, InterruptedException {
     /*
      * Adds appropriate language specific boilerplate code to a new file.
@@ -250,10 +253,8 @@ class FileMenuListener implements ActionListener {
      * file, resulting in crashing of the function
      */
     newFile();
-    FileSaveAs();
-    String fileType = FileTypeParser.getType(Trident.path);
-    String boiler;
-    switch (fileType) {
+    String boiler = null;
+    switch (choice) {
     case "C Source File":
       boiler = "boilers/c.c";
       break;
@@ -274,13 +275,15 @@ class FileMenuListener implements ActionListener {
       boiler = "boilers/html5.html";
       break;
 
-    case "Open Power Boil":
+    case "Open PowerBoil":
       TridentCompiler.execute("boilers/powerboil/powerboil.py");
       break;
 
     default:
       throw new UnsupportedFileException(Trident.path);
     }
+
+    System.out.println(boiler);
   }
 
   public void actionPerformed(ActionEvent e) {
@@ -291,10 +294,6 @@ class FileMenuListener implements ActionListener {
       switch (e.getActionCommand()) {
       case "New":
         newFile();
-        break;
-
-      case "New Source File":
-        boil();
         break;
 
       case "Open":
@@ -329,9 +328,18 @@ class FileMenuListener implements ActionListener {
       case "Save As":
         FileSaveAs();
         break;
+
+      default: /* For Boilers */
+        /*
+         * JMenuItem source = (JMenuItem) e.getSource(); JPopupMenu jpm = (JPopupMenu)
+         * source.getParent(); JMenu pMenu = (JMenu) jpm.getInvoker();
+         * System.out.println(pMenu.getActionCommand());
+         */
+        boil(e.getActionCommand());
+        break;
       }
     } catch (UnsupportedFileException ufe) {
-      Trident.ErrorDialog("NOT_SOURCE_FILE", ufe);
+      Trident.ErrorDialog("SOURCE_ACTION_ERR", ufe);
     } catch (Exception exp) {
       Trident.ErrorDialog("FILE_MENU_CRASH", exp);
     }
