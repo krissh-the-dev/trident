@@ -1,7 +1,7 @@
 /*
  *  FindReplace.java
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -64,6 +64,9 @@ class FindReplace {
   static JTabbedPane tabbedPane;
 
   public static void showUI(String activeTab) {
+    /*
+     * Opens up the Find and Replace Dialog
+     */
     if (imOpen) {
       frDialog.requestFocus();
       return;
@@ -187,6 +190,9 @@ class FindReplace {
 }
 
 class FRButtonsListener implements ActionListener {
+  /*
+   * Controls the Find And Replace dialog
+   */
   static boolean found = false;
   static ArrayList<Integer> foundStarts;
   static ArrayList<Integer> foundEnds;
@@ -259,6 +265,9 @@ class FRButtonsListener implements ActionListener {
   static int i = 0;
 
   public static void findNext() {
+    /*
+     * Moves the selection and caret to next match
+     */
     find();
     try {
       if (i >= foundEnds.size()) {
@@ -275,6 +284,9 @@ class FRButtonsListener implements ActionListener {
   }
 
   public static void replace() {
+    /*
+     * Replaces highlighted text with text in replace field
+     */
     find();
     if (foundStarts.size() == 0)
       return;
@@ -286,6 +298,9 @@ class FRButtonsListener implements ActionListener {
   }
 
   public static void replaceAll() {
+    /*
+     * Replaces all the occurences of the given string.
+     */
     find();
     for (int i = 0; i <= foundStarts.size(); i++) {
       replace();
@@ -294,6 +309,9 @@ class FRButtonsListener implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent ae) {
+    /*
+     * Controls the button actions of Find and Replace Dialog
+     */
     switch (ae.getActionCommand()) {
     case "Find":
       find();

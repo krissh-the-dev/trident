@@ -1,7 +1,7 @@
 /*
  *  Configurations.java
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -75,6 +75,11 @@ import java.io.IOException;
  */
 
 public class Configurations {
+  /*
+   * Configurations Dialog for the Trident Text Editor Controls the look, feel,
+   * theme and font customization options in Tricdent with a Graphical User
+   * Interface
+   */
   static boolean ImOpen;
   static boolean EOpen;
 
@@ -130,6 +135,7 @@ public class Configurations {
     case "Default":
       themeName = UIManager.getSystemLookAndFeelClassName();
       break;
+
     case "Current Theme":
       break;
     }
@@ -139,6 +145,10 @@ public class Configurations {
   }
 
   public static void applyTheme() {
+    /*
+     * Applys the selected Look and feel by reading the value stored in public
+     * variable themeName and updates the Component Tree UI
+     */
     try {
       try {
         if (themeName == null) {
@@ -150,7 +160,7 @@ public class Configurations {
         themeName = UIManager.getSystemLookAndFeelClassName();
         UIManager.setLookAndFeel(themeName);
       }
-    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException cnf) {
+    } catch (Exception cnf) {
       Trident.ErrorDialog("ERR_LOOK_AND_FEEL", cnf);
     }
     SwingUtilities.updateComponentTreeUI(Trident.frame);
@@ -158,6 +168,9 @@ public class Configurations {
   }
 
   public static void applyConfigs() {
+    /*
+     * Applies the selected configurations such as colour scheme and font styles
+     */
     // * FONT SETTINGS
     Trident.textarea.setWrapStyleWord(true);
     Trident.textarea.setFont(new Font(fontName, Font.PLAIN, fontSize));
@@ -182,6 +195,10 @@ public class Configurations {
   }
 
   public static void showUI() {
+    /*
+     * opens up the Configurations window If already opened, Configurations window
+     * gains focus
+     */
     if (ImOpen) {
       ConfigWindow.requestFocus();
       return;
@@ -284,6 +301,11 @@ public class Configurations {
   }
 
   protected static void showEditor() {
+    /*
+     * Opens up the TS File editor that stores the current values of saved
+     * configurations If already open, then the window gains focus. Any changes made
+     * to the text is automatically saved
+     */
     try {
       if (EOpen) {
         tsEditor.requestFocus();
@@ -314,6 +336,9 @@ public class Configurations {
       tsEditor.getContentPane().add(TextViewer, BorderLayout.CENTER);
       tsViewer.getDocument().addDocumentListener(new DocumentListener() {
         private void saveSettings() {
+          /*
+           * Saves the configurations.ts open in Conig Editor window
+           */
           try {
             String tsContents = tsViewer.getText();
             File tsFile = new File("configurations.ts");
@@ -355,6 +380,10 @@ public class Configurations {
   }
 
   public static void setData() {
+    /*
+     * Reads the stored settings from configurations.ts and sets the values in the
+     * Confurations Window UI
+     */
     read();
     themeBox.setSelectedItem(themeName);
     if (primary.equals(Color.WHITE))
@@ -368,6 +397,9 @@ public class Configurations {
   }
 
   public static void apply() {
+    /*
+     * Generates theme colors for selected colour scheme and applys all the settings
+     */
     try {
       Color a = Color.WHITE, b = Color.BLACK;
       if (light.isSelected()) {
@@ -386,6 +418,9 @@ public class Configurations {
   }
 
   public static void write() {
+    /*
+     * Writes the selected settings (in Config UI) to the conigurations.ts file
+     */
     try {
       String contents;
       File tsf = new File("./configurations.ts");
@@ -410,6 +445,9 @@ public class Configurations {
   }
 
   public static void read() {
+    /*
+     * Reads the stored settings from the configurations.ts file
+     */
     try {
       File settingsFile = new File("configurations.ts");
       FileReader sfr = new FileReader(settingsFile);
@@ -444,6 +482,10 @@ public class Configurations {
   }
 
   public static final void raw_apply() {
+    /*
+     * Directly reads the configurations.ts and apply the settings (independent of
+     * Configuration Window)
+     */
     read();
     try {
       if (primary.equals(Color.WHITE)) {
@@ -464,6 +506,9 @@ public class Configurations {
 }
 
 class ConfigurationsListener implements ActionListener {
+  /*
+   * Controls the actions invoked from the Configurations Window
+   */
   @Override
   public void actionPerformed(ActionEvent ae) {
     switch (ae.getActionCommand()) {

@@ -2,7 +2,7 @@
 /*
  *  UnsupportedFileException.java
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,11 +20,14 @@
  */
 
 /*
- * Thrown when a file is not supported by Trident/ Trident Compiler
  * (GPL v3) Trident > UnsupportedFileException
  * @author: Krishna Moorthy
  */
 public final class UnsupportedFileException extends Exception {
+  /*
+   * Thrown when a file is not supported by Trident/ Trident Compiler/ Source
+   * Action
+   */
   private static final long serialVersionUID = -6622809143038663344L;
   String file;
 

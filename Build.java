@@ -1,7 +1,7 @@
 /*
  *  Build.java
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -35,6 +35,11 @@ import java.lang.ProcessBuilder.Redirect;
 
 class Build {
   public static File[] finder(String dirName) {
+    /*
+     * @param: name of the directory as string;
+     * 
+     * returns all java files in the given directory as a File array
+     */
     File dir = new File(dirName);
     return dir.listFiles(new FilenameFilter() {
       public boolean accept(File dir, String filename) {
@@ -102,17 +107,17 @@ class Build {
     p = processBuilder.start();
     p.waitFor();
 
-    System.out.println("Opening WinRAR...");
-    // Add WinRAR to your path
-    processBuilder = new ProcessBuilder("winrar", "trident.zip");
+    System.out.println("Opening EXE Maker...");
+    // Add EXE maker to your path
+    processBuilder = new ProcessBuilder("toEXE");
     processBuilder.redirectErrorStream(true);
     processBuilder.redirectOutput(Redirect.appendTo(log));
     p = processBuilder.start();
     p.waitFor();
 
-    System.out.println("Opening EXE Maker...");
-    // Add EXE maker to your path
-    processBuilder = new ProcessBuilder("toEXE");
+    System.out.println("Opening WinRAR...");
+    // Add WinRAR to your path
+    processBuilder = new ProcessBuilder("winrar", "trident.zip");
     processBuilder.redirectErrorStream(true);
     processBuilder.redirectOutput(Redirect.appendTo(log));
     p = processBuilder.start();

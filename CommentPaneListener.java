@@ -1,7 +1,7 @@
 /*
  *  CommentPaneListener.java
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,6 +24,12 @@
  */
 
 class CommentPaneListener extends Thread {
+  /*
+   * This thread keeps running in the background to keep the status area 1 i.e the
+   * comment area to be meaningful
+   * 
+   * started when status bar is initialized
+   */
   @Override
   public void run() {
     try {

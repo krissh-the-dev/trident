@@ -2,7 +2,7 @@
 /*
  *  ToolsMenuListener.java
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,7 +29,13 @@ import java.io.IOException;
  */
 
 class ToolsMenuListener implements ActionListener {
+  /*
+   * Controls the actions of Tools Menu
+   */
   public void actionPerformed(ActionEvent e) {
+    /*
+     * Controls the actions of Tools Menu items
+     */
     try {
       switch (e.getActionCommand()) {
       case "Compile":

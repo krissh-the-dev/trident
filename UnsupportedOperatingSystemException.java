@@ -2,7 +2,7 @@
 /*
  *  UnsupportedOperatingSystemException.java
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,12 +20,15 @@
  */
 
 /*
- * Thrown when the Trident/ Trident Compiler does not support/ not expected to work properly with user's plaftorm
  * (GPL v3) Trident > UnsupportedOperatingSystemException
  * @author: Krishna Moorthy
  */
 
 public class UnsupportedOperatingSystemException extends Exception {
+  /*
+   * Thrown when the Trident/ Trident Compiler does not support/ not expected to
+   * work properly with user's plaftorm
+   */
   private static final long serialVersionUID = 8760547834236745475L;
 
   @Override
