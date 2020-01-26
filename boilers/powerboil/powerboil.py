@@ -11,14 +11,11 @@ def select_dir():
  
         DIR = list(os.listdir('./'))
         print(" 1) Select the directoy you want  to  create your Project \n  2) Press '*' to create a new directory \n 3) To create in Current Directory Press #")
-        print(colors.reset)    
         for index, dirs in enumerate(DIR):
-            print(colors.purple, "{0}) {1}".format(index, dirs))
-            print(colors.reset)
+            print("{0}) {1}".format(index, dirs))
         choice = input()
         if (choice == '*'):
             directory_name = input( "Enter the name of the Directory You want to create")
-            print(colors.reset)
             os.mkdir(directory_name)
             return directory_name
             break
@@ -30,7 +27,6 @@ def select_dir():
             break
         elif int(choice) > len(DIR - 1):
             print("Enter a valid Choice \n")
-            print(colors.reset)
             continue
             
 # BoilerPlate Code for Django             
@@ -41,11 +37,11 @@ def create_django(project_name=None, dir_to_create=None,app_name=None):
     while (True):
         if(project_name ==None):
             print(" 1) Enter the Project Name \n")
-            print(colors.reset)
+            
             project_name = input()
             project_name.replace(' ', '_')
             if (project_name == ''):
-                print(colors.red,"Please Enter a valid Project Name to continue")
+                print("Please Enter a valid Project Name to continue")
                 continue
 
         project_name = project_name.strip().lower()
@@ -54,13 +50,13 @@ def create_django(project_name=None, dir_to_create=None,app_name=None):
             app_name=input()
             app_name.replace(' ', '_')
             if (app_name == ''):
-                print(colors.red,"Please Enter a valid Project Name to continue")
+                print("Please Enter a valid Project Name to continue")
                 continue
             
         app_name = app_name.strip().lower()
         try:
-            print(colors.blue, "Please Wait Creating Your Awesome Django Project... ")
-            print(colors.reset)
+            print("Please Wait Creating Your Awesome Django Project... ")
+            
             DEVNULL= open(os.devnull,'wb')
             p = subprocess.Popen(['django-admin startproject '+project_name ], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
             output=p.communicate()
@@ -83,8 +79,8 @@ def create_django(project_name=None, dir_to_create=None,app_name=None):
                    if (not choice.lower() == 'yes'):
                        sys.exit()
                    if (choice.lower() == 'yes'):
-                       print(colors.blue, "Installing Django ..")
-                       print(colors.reset)
+                       print("Installing Django ..")
+                       
                        p=subprocess.Popen(['pip3 install django'], stdout=DEVNULL, shell=True, stderr=subprocess.STDOUT)
                        output = p.communicate()
                        
@@ -93,7 +89,7 @@ def create_django(project_name=None, dir_to_create=None,app_name=None):
                            break
                        else:
                             print(colors.cyan,"Couldn't install Django please Try again")
-                            print(colors.reset)
+                            
 
                             sys.exit()
                   
@@ -105,14 +101,14 @@ def create_flutter(project_name=None, dir_to_create=None):
     while (True):
        if(project_name ==None):
             print("Enter Project Name")
-            print(colors.reset)
+            
             project_name = input()
             if project_name.isspace():
-                print( colors.red,"Please Enter a valid Project Name to continue")
+                print( "Please Enter a valid Project Name to continue")
                 continue
        try:
-            print(colors.blue, "Please Wait Creating Your Awesome Flutter  Project ..")
-            print(colors.reset)
+            print("Please Wait Creating Your Awesome Flutter  Project ..")
+            
             DEVNULL= open(os.devnull,'wb')
             p = subprocess.Popen(['flutter create '+project_name ], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
             output = p.communicate()
@@ -123,7 +119,7 @@ def create_flutter(project_name=None, dir_to_create=None):
        except subprocess.CalledProcessError  as e:
            if p.returncode != 0:
                print("Error ! Couldn't find Flutter in your system please follow this and install and continue   \n https://flutter.dev/docs/get-started/install")
-               print(colors.reset)    
+                   
                sys.exit()
 # BoilerPlate Code for React               
 def create_react(project_name=None, dir_to_create=None):
@@ -133,27 +129,27 @@ def create_react(project_name=None, dir_to_create=None):
     while (True):
         if project_name == None :
             print("Enter Project Name")
-            print(colors.reset)
+            
             project_name = input()
             project_name.replace(' ', '_')
             if (project_name == ''):
-                print(colors.red,"Please Enter a valid Project Name to continue")
+                print("Please Enter a valid Project Name to continue")
                 continue
         try:
-                print(colors.blue, "Please Wait. We're creating your Awesome React Project!! ")
+                print("Please Wait. We're creating your Awesome React Project!! ")
                 DEVNULL = open(os.devnull, 'wb')
                
                 p = subprocess.Popen(['npx create-react-app ' + project_name ], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
                 output = p.communicate()[0]
                 if p.returncode == 0:
                     print("Project Created Succesfully !!! ")
-                    print(colors.reset)
+                    
                     sys.exit()
 
         except subprocess.CalledProcessError  as e:
             if p.returncode != 0:
                print("It seems that 'Node' is not installed in your System Please follow the below link to install \n https://nodejs.org/en/download/ ")
-               print(colors.reset)
+               
                sys.exit()
             
 #Boiler Plate Code for Vue
@@ -164,21 +160,21 @@ def create_vue(project_name=None, dir_to_create=None):
     while (True):
         if project_name ==None:
             print("Enter Project Name")
-            print(colors.reset)
+            
             project_name = input()
             project_name.replace(' ', '_')
             if (project_name == ''):
-                print(colors.red,"Please Enter a valid Project Name to continue")
+                print("Please Enter a valid Project Name to continue")
                 continue
         try:
-                print(colors.blue, "Please Wait Creating Your Awesome Vue Project !! ")
+                print("Please Wait Creating Your Awesome Vue Project !! ")
                 DEVNULL = open(os.devnull, 'wb')
                
                 p = subprocess.Popen(['vue create -b  ' + project_name ], stdout=DEVNULL ,stderr=subprocess.STDOUT,shell=True,stdin=subprocess.PIPE)
                 output = p.communicate(input = b'\n')[0]
                 if p.returncode == 0:
                     print("Project Created Succesfully !!! ")
-                    print(colors.reset)
+                    
                     sys.exit()
 
         except subprocess.CalledProcessError  as e:
@@ -189,8 +185,8 @@ def create_vue(project_name=None, dir_to_create=None):
                    if (not choice.lower() == 'yes'):
                        sys.exit()
                    if (choice.lower() == 'yes'):
-                       print(colors.blue, "Installing Vue ..")
-                       print(colors.reset)
+                       print("Installing Vue ..")
+                       
                        p=subprocess.Popen(['npm install -g @vue/cli '], stdout=DEVNULL, shell=True, stderr=subprocess.STDOUT)
                        output = p.communicate()
                        
@@ -198,7 +194,7 @@ def create_vue(project_name=None, dir_to_create=None):
                            continue
                        else:
                             print("Couldn't install Vue please try again, Install it manually or make sure npm is installed, Follow the docs to install npm \n https://nodejs.org/en/download/ ")
-                            print(colors.reset)
+                            
                             sys.exit()
 #BoilerPlate Code for HTML            
 def create_html(project_name=None, dir_to_create=None):
@@ -208,15 +204,15 @@ def create_html(project_name=None, dir_to_create=None):
     while (True):
         if project_name ==None:
             print("Enter Project Name")
-            print(colors.reset)
+            
             project_name = input()
             project_name.replace(' ', '_')
             if (project_name == ''):
-                print(colors.red,"Please Enter a valid Project Name to continue")
+                print("Please Enter a valid Project Name to continue")
                 continue
         else:
-            print(colors.blue, "Creating Your Awesome HTML Project")
-            print(colors.reset)
+            print("Creating Your Awesome HTML Project")
+            
             try:
                 os.makedirs(project_name)
                 os.chdir(project_name)
@@ -239,15 +235,15 @@ def create_extension(project_name=None, dir_to_create=None):
     while (True):
         if project_name ==None:
             print("Enter Project Name")
-            print(colors.reset)
+            
             project_name = input()
             project_name.replace(' ', '_')
             if (project_name == ''):
-                print(colors.red,"Please Enter a valid Project Name to continue")
+                print("Please Enter a valid Project Name to continue")
                 continue
         else:
-            print(colors.blue, "Creating Your Awesome HTML Project")
-            print(colors.reset)
+            print("Creating Your Awesome HTML Project")
+            
             try:
                 os.makedirs(project_name)
                 os.chdir(project_name)
@@ -314,19 +310,19 @@ def main():
             print("{}) {}".format(index, frameworks))
 
      
-        choice = int(input("Enter your Choice: "))
+        choice = str(input("Enter your Choice: "))
 
-        if (choice == 0):
+        if (choice == '0'):
             create_django()
-        elif(choice == 1):
+        elif(choice == '1'):
             create_vue()
-        elif (choice == 2):
+        elif (choice == '2'):
             create_flutter()
-        elif (choice == 3):
+        elif (choice == '3'):
             create_react()
-        elif (choice == 4):
+        elif (choice == '4'):
             create_html()
-        elif (choice == 5):
+        elif (choice == '5'):
             create_extension()    
         else:
             print("Invalid Choice")
