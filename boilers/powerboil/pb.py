@@ -87,7 +87,7 @@ def create_django(project_name=None, dir_to_create=None,app_name=None):
             print(colors.bold, colors.blue, "Please Wait Creating Your Awesome Django Project... ")
             print(colors.reset)
             DEVNULL= open(os.devnull,'wb')
-            p = subprocess.Popen(['django-admin startproject '+project_name ], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
+            p = subprocess.Popen(['django-admin startproject ' + project_name ], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
             output=p.communicate()
             os.chdir(project_name)
             with open("README.md", 'a') as f:
@@ -95,7 +95,7 @@ def create_django(project_name=None, dir_to_create=None,app_name=None):
             with open('.gitignore', 'a') as f:
                 f.write(gitignore.DJANGO_GIT_IGNORE)
                   
-            pr = subprocess.Popen(['django-admin startapp '+ app_name], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
+            pr = subprocess.Popen(['django-admin startapp ' +  app_name], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
             out = pr.communicate()[0]
             if pr.returncode == 0:
                 print(colors.green, "Project Created Succesfully")
@@ -141,7 +141,7 @@ def create_flutter(project_name=None, dir_to_create=None):
             print(colors.bold, colors.blue, "Please Wait Creating Your Awesome Flutter  Project ..")
             print(colors.reset)
             DEVNULL= open(os.devnull,'wb')
-            p = subprocess.Popen(['flutter create '+project_name ], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
+            p = subprocess.Popen(['flutter create ' + project_name ], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
             output = p.communicate()
             if p.returncode == 0:
                 print(colors.bold, colors.yellow, "Project Created Succesfully !!! ")
@@ -173,7 +173,7 @@ def create_react(project_name=None, dir_to_create=None):
                 print(colors.reset)
                 DEVNULL = open(os.devnull, 'wb')
                
-                p = subprocess.Popen(['npx create-react-app ' + project_name ], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
+                p = subprocess.Popen(['npx create-react-app '  +  project_name ], stdout=DEVNULL, stderr=subprocess.STDOUT,shell=True)
                 output = p.communicate()[0]
                 if p.returncode == 0:
                     print(colors.bold, colors.yellow, "Project Created Succesfully !!! ")
@@ -206,7 +206,7 @@ def create_vue(project_name=None, dir_to_create=None):
                 print(colors.reset)
                 DEVNULL = open(os.devnull, 'wb')
                
-                p = subprocess.Popen(['vue create -b  ' + project_name ], stdout=DEVNULL ,stderr=subprocess.STDOUT,shell=True,stdin=subprocess.PIPE)
+                p = subprocess.Popen(['vue create -b  '  +  project_name ], stdout=DEVNULL ,stderr=subprocess.STDOUT,shell=True,stdin=subprocess.PIPE)
                 output = p.communicate(input = b'\n')[0]
                 if p.returncode == 0:
                     print(colors.bold, colors.yellow, "Project Created Succesfully !!! ")
@@ -262,7 +262,7 @@ def create_html(project_name=None, dir_to_create=None):
                 print(colors.reset)
                 sys.exit()
             except FileExistsError as e:
-                print(colors.bold, colors.red, project_name + " already exists please mention a different name ")
+                print(colors.bold, colors.red, project_name  +  " already exists please mention a different name ")
                 print(colors.reset)
                 break
                 
@@ -299,7 +299,7 @@ def create_extension(project_name=None, dir_to_create=None):
                 print(colors.reset)
                 sys.exit()
             except FileExistsError as e:
-                print(colors.bold, colors.red, project_name + " already exists please mention a different name ")
+                print(colors.bold, colors.red, project_name  +  " already exists please mention a different name ")
                 print(colors.reset)
  
                 break
