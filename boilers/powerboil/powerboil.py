@@ -10,16 +10,16 @@ def select_dir():
     while(True):
  
         DIR = list(os.listdir('./'))
-        print(" > Select the directoy you want  to  create your Project \n> Press 'N' to create a new directory \n> To create in Current Directory Press 'E'")
+        print(" > Select the directoy you want  to  create your Project \n> Press '*' to create a new directory \n> To create in Current Directory Press '#'")
         for index, dirs in enumerate(DIR):
             print("{0}) {1}".format(index, dirs))
         ch = str(input("Enter your choice: "))
-        if ch.equals('N'):
+        if ch == '*':
             directory_name = input("Enter the name of the Directory You want to create: ")
             os.mkdir(directory_name)
             return directory_name
             break
-        elif ch.equals('E'):
+        elif ch == '#':
             return os.getcwd()    
         elif int(ch) <= len(DIR) -1 :
             selected_dir = DIR[ int(ch)]
@@ -36,7 +36,7 @@ def create_django(project_name=None, dir_to_create=None,app_name=None):
         os.chdir(dir_to_create)
     while (True):
         if(project_name ==None):
-            print(" 1) Enter the Project Name \n")
+            print(" 1) Enter the Project Name: ")
             
             project_name = input()
             project_name.replace(' ', '_')
@@ -46,7 +46,7 @@ def create_django(project_name=None, dir_to_create=None,app_name=None):
 
         project_name = project_name.strip().lower()
         if(app_name ==None):
-            print(colors.yellow,"2) Enter the App Name")
+            print(colors.yellow,"2) Enter the App Name: ")
             app_name=input()
             app_name.replace(' ', '_')
             if (app_name == ''):
@@ -100,7 +100,7 @@ def create_flutter(project_name=None, dir_to_create=None):
         os.chdir(dir_to_create)
     while (True):
        if(project_name ==None):
-            print("Enter Project Name")
+            print("Enter Project name: ")
             project_name = input()
             if project_name.isspace():
                 print( "Please Enter a valid Project Name to continue")
@@ -127,7 +127,7 @@ def create_react(project_name=None, dir_to_create=None):
         os.chdir(dir_to_create)
     while (True):
         if project_name == None :
-            print("Enter Project Name")
+            print("Enter Project name: ")
             
             project_name = input()
             project_name.replace(' ', '_')
@@ -157,7 +157,7 @@ def create_vue(project_name=None, dir_to_create=None):
         os.chdir(dir_to_create)
     while (True):
         if project_name ==None:
-            print("Enter Project Name")
+            print("Enter Project name: ")
             
             project_name = input()
             project_name.replace(' ', '_')
@@ -201,7 +201,7 @@ def create_html(project_name=None, dir_to_create=None):
         os.chdir(dir_to_create)
     while (True):
         if project_name == None:
-            print("Enter Project Name")
+            print("Enter Project name: ")
             
             project_name = input()
             project_name.replace(' ', '_')
@@ -232,7 +232,7 @@ def create_extension(project_name=None, dir_to_create=None):
         os.chdir(dir_to_create)
     while (True):
         if project_name ==None:
-            print("Enter Project Name")
+            print("Enter Project name: ")
             
             project_name = input()
             project_name.replace(' ', '_')

@@ -63,7 +63,7 @@ def create_django(project_name=None, dir_to_create=None,app_name=None):
         os.chdir(dir_to_create)
     while (True):
         if(project_name ==None):
-            print(colors.yellow, " 1) Enter the Project Name \n")
+            print(colors.yellow, " 1) Enter the Project name: ")
             print(colors.reset)
             project_name = input()
             project_name.replace(' ', '_')
