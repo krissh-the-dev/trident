@@ -1,3 +1,4 @@
+import java.io.File;
 
 /*
  *  FileTypeParser.java
@@ -166,5 +167,18 @@ public class FileTypeParser {
       break;
     }
     return type;
+  }
+
+  public static String getName(String filePath) {
+    String fileName = "";
+
+    try {
+      String name = (new File(filePath)).getName();
+      fileName = name.replaceFirst("[.][^.]+$", "");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fileName = "";
+    }
+    return fileName;
   }
 }
