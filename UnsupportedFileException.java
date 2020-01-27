@@ -37,6 +37,6 @@ public final class UnsupportedFileException extends Exception {
 
   @Override
   public String toString() {
-    return FileTypeParser.getType(file) + " is unsupported.";
+    return FileTypeParser.getType(file)  + " is unsupported.";
   }
 }

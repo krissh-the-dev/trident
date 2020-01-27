@@ -50,26 +50,26 @@ public class TridentCompiler {
     String fileType = FileTypeParser.getType(filepath);
     switch (fileType) {
     case "Python Source File":
-      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && python \"" + filepath
-          + "\" && pause && exit \"");
+      Runtime.getRuntime().exec("cmd /c start cmd.exe /K"  + "\"title Trident Compiler && echo && python \""  + filepath
+           + "\" && pause && exit \"");
       break;
 
     case "Java Source File":
-      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && javac \"" + filepath
-          + "\" && echo Compilation ended. && pause && exit \"");
+      Runtime.getRuntime().exec("cmd /c start cmd.exe /K"  + "\"title Trident Compiler && echo && javac \""  + filepath
+           + "\" && echo Compilation ended. && pause && exit \"");
       break;
 
     case "C Source File":
       String fileLocation = (new File(filepath)).getParent();
-      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && cd \"" + fileLocation
-          + "\" && echo && gcc \"" + filepath + "\" -std=c99 && echo Compilation ended. && pause && exit \"");
+      Runtime.getRuntime().exec("cmd /c start cmd.exe /K"  + "\"title Trident Compiler && cd \""  + fileLocation
+           + "\" && echo && gcc \""  + filepath  + "\" -std=c99 && echo Compilation ended. && pause && exit \"");
       // using C99 to avoid irritating forbidden errors
       break;
 
     case "C++ Source File":
       fileLocation = (new File(filepath)).getParent();
-      Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && cd \"" + fileLocation
-          + "\" && echo && g++ \"" + filepath + "\" && echo Compilation ended. && pause && exit \"");
+      Runtime.getRuntime().exec("cmd /c start cmd.exe /K"  + "\"title Trident Compiler && cd \""  + fileLocation
+           + "\" && echo && g++ \""  + filepath  + "\" && echo Compilation ended. && pause && exit \"");
       break;
 
     default:
@@ -93,39 +93,39 @@ public class TridentCompiler {
     Process p = null;
 
     if (filepath.contains("powerboil")) {
-      p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident - PowerBoil Alpha && echo && python \""
-          + filepath + "\" && pause && exit \"");
+      p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K"  + "\"title Trident - PowerBoil Alpha && echo && python \""
+           + filepath  + "\" && pause && exit \"");
       return;
     }
 
     String fileType = FileTypeParser.getType(filepath);
     switch (fileType) {
     case "Python Source File":
-      p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && python \""
-          + filepath + "\" && pause && exit \"");
+      p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K"  + "\"title Trident Compiler && echo && python \""
+           + filepath  + "\" && pause && exit \"");
       break;
 
     case "Java Source File":
     case "Java Class File":
       Path name = Paths.get(filepath);
       String classFile = name.getFileName().toString();
-      exec = classFile.replaceFirst("[.][^.]+$", "");
+      exec = classFile.replaceFirst("[.][^.] + $", "");
       String location = new File(filepath).getParent().toString();
-      p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler &&  cd \"" + location
-          + "\" && echo && java " + exec + " && pause && exit \"");
+      p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K"  + "\"title Trident Compiler &&  cd \""  + location
+           + "\" && echo && java "  + exec  + " && pause && exit \"");
       break;
 
     case "C Source File":
     case "C++ Source File":
-      exec = (new File(filepath)).getParent() + "/a.exe";
+      exec = (new File(filepath)).getParent()  + "/a.exe";
       p = Runtime.getRuntime()
-          .exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler && echo && \"" + exec + "\" && pause && exit \"");
+          .exec("cmd /c start cmd.exe /K"  + "\"title Trident Compiler && echo && \""  + exec  + "\" && pause && exit \"");
       break;
 
     case "HTML File":
       try {
         filepath = filepath.replace('\\', '/');
-        Desktop.getDesktop().browse(java.net.URI.create("file:///" + filepath));
+        Desktop.getDesktop().browse(java.net.URI.create("file:///"  + filepath));
       } catch (IOException ioe) {
         Trident.ErrorDialog("COMPILER_BROSWER_ERR", ioe);
       }
@@ -148,7 +148,7 @@ public class TridentCompiler {
       if (os == 1) {
         String parent = (new File(Trident.path)).getParent();
         Runtime.getRuntime()
-            .exec("cmd /c start cmd.exe /K" + "\"title Trident Compiler Console && cd " + parent + "\"");
+            .exec("cmd /c start cmd.exe /K"  + "\"title Trident Compiler Console && cd "  + parent  + "\"");
       } else if (os == 2) {
         String[] processArgs = new String[] { "/bin/bash", "-c", "Start" };
         new ProcessBuilder(processArgs).start();

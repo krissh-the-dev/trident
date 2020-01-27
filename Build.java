@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.FilenameFilter;
 import java.lang.ProcessBuilder.Redirect;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /* 
  * Trident Text Editor Build Bot v3.0
@@ -34,7 +36,7 @@ import java.lang.ProcessBuilder.Redirect;
  */
 
 class Build {
-  public static File[] finder(String dirName) {
+  public static File[] finder(String dirName, String type) {
     /*
      * @param: name of the directory as string;
      * 
@@ -43,14 +45,14 @@ class Build {
     File dir = new File(dirName);
     return dir.listFiles(new FilenameFilter() {
       public boolean accept(File dir, String filename) {
-        return filename.endsWith(".java");
+        return filename.endsWith(type);
       }
     });
   }
 
   public static void main(String[] args) throws IOException, InterruptedException {
     System.out.println("Getting project files...");
-    File fileF[] = finder(".");
+    File fileF[] = finder(".", "java");
     String files[] = new String[fileF.length];
 
     for (int i = 0; i < fileF.length; i++) {
@@ -63,11 +65,22 @@ class Build {
       File log = new File("output.txt");
       processBuilder.redirectErrorStream(true);
       processBuilder.redirectOutput(Redirect.appendTo(log));
+
       Process p = processBuilder.start();
-      p.waitFor();
-      System.out.println(file + " was compiled.");
+      int res = p.waitFor();
+      if (res != 0)
+        System.err.println(file  + "compilation ended with error.");
+      else
+        System.out.println(file  + " was compiled successfully.");
     }
     System.out.println("All source files were compiled.");
+
+    System.out.println("Copying class file to /bin...");
+    String bin = "./bin";
+    File classFiles[] = finder(".", "class");
+    for (File classFile : classFiles) {
+      // move
+    }
 
     System.out.println("Opening Trident...");
     ProcessBuilder processBuilder = new ProcessBuilder("java", "Trident");

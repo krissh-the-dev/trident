@@ -64,7 +64,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 
 /*
- * Trident Text Editor v4.0+
+ * Trident Text Editor v4.0 + 
  * @author: Krishna Moorthy
  */
 
@@ -112,7 +112,7 @@ class Trident {
       writeLog(code, e);
       int option = JOptionPane.showConfirmDialog(frame,
           "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: "
-              + code + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
+               + code  + "\nERROR NAME: "  + e.getClass().getName()  + "\nERROR CAUSE: "  + e.getCause(),
           "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
       if (option == JOptionPane.YES_OPTION) {
         try {
@@ -147,14 +147,14 @@ class Trident {
       writer.write(System.lineSeparator());
       writer.write(LocalDateTime.now().toString());
       writer.write(System.lineSeparator());
-      writer.write(code + System.lineSeparator() + e.getClass().getName() + System.lineSeparator() + e.getCause()
-          + System.lineSeparator() + e.getMessage());
+      writer.write(code  + System.lineSeparator()  + e.getClass().getName()  + System.lineSeparator()  + e.getCause()
+           + System.lineSeparator()  + e.getMessage());
       writer.write(System.lineSeparator());
       writer.write("------------------------------------------");
       writer.write(System.lineSeparator());
 
       for (StackTraceElement ste : e.getStackTrace()) {
-        writer.write("[" + code + "] ");
+        writer.write("["  + code  + "] ");
         writer.write(ste.toString());
         writer.write(System.lineSeparator());
       }
@@ -213,7 +213,7 @@ class Trident {
 
       // * Frame Setup
       frame = new JFrame();
-      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
+      frame.setTitle("Trident Text Editor - "  + Paths.get(path).getFileName().toString());
       frame.setSize(800, 550);
       frame.setResizable(true);
       WindowListener WindowCloseListener = new WindowAdapter() {

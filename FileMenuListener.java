@@ -93,7 +93,7 @@ class FileMenuListener implements ActionListener {
       BufferedReader br = new BufferedReader(fr);
       String contents = "";
       for (String line = br.readLine(); line != null; line = br.readLine()) {
-        contents += line + System.lineSeparator();
+        contents  += line  + System.lineSeparator();
       }
       Trident.textarea.setText(contents);
       Trident.status1.setText("Editing existing file.");
@@ -109,7 +109,7 @@ class FileMenuListener implements ActionListener {
       Trident.Redo.setEnabled(false);
       Toolbar.redoButton.setEnabled(false);
 
-      Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
+      Trident.frame.setTitle("Trident Text Editor - "  + Paths.get(Trident.path).getFileName().toString());
 
       contents = null;
       fr.close();
@@ -140,7 +140,7 @@ class FileMenuListener implements ActionListener {
         bw.write(contents);
         bw.close();
         Trident.warned = false;
-        Trident.frame.setTitle("Trident Text Editor - " + Paths.get(filepath).getFileName().toString());
+        Trident.frame.setTitle("Trident Text Editor - "  + Paths.get(filepath).getFileName().toString());
         Trident.status1.setText("File saved successfully.");
         Trident.status2.setText("Saved");
         Trident.status3.setText(FileTypeParser.getType(Paths.get(filepath).getFileName().toString()));
@@ -168,7 +168,7 @@ class FileMenuListener implements ActionListener {
         bw.write(contents);
         bw.close();
         Trident.warned = false;
-        Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
+        Trident.frame.setTitle("Trident Text Editor - "  + Paths.get(Trident.path).getFileName().toString());
         Trident.status1.setText("File saved successfully.");
         Trident.status2.setText("Saved");
         Trident.status3.setText(FileTypeParser.getType(Paths.get(Trident.path).getFileName().toString()));
@@ -203,8 +203,8 @@ class FileMenuListener implements ActionListener {
      * without saving any recent changes, irrespective of autosaved copies
      */
     int opt = JOptionPane.showConfirmDialog(Trident.frame,
-        "There are some unsaved changes in the file." + System.lineSeparator()
-            + "Do you want to save the changes and continue?",
+        "There are some unsaved changes in the file."  + System.lineSeparator()
+             + "Do you want to save the changes and continue?",
         "Warning: Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE,
         (new ImageIcon("raw/warning.png")));
     if (opt == JOptionPane.YES_OPTION) {
@@ -284,7 +284,7 @@ class FileMenuListener implements ActionListener {
       String content = be.readLine();
       String contents = "";
       while (content != null) {
-        contents += content + System.lineSeparator();
+        contents  += content  + System.lineSeparator();
         content = be.readLine();
       }
       Trident.textarea.setText(contents);

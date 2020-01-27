@@ -40,7 +40,7 @@ class ChangeListener implements DocumentListener {
     if (!Trident.warned) {
       Trident.status2.setText("Unsaved");
       Trident.warned = true;
-      Trident.frame.setTitle(Trident.frame.getTitle() + " - Unsaved");
+      Trident.frame.setTitle(Trident.frame.getTitle()  + " - Unsaved");
     }
     Trident.Undo.setEnabled(true);
     Toolbar.undoButton.setEnabled(true);
