@@ -130,8 +130,8 @@ class AboutMenuListener implements ActionListener {
         JLabel filenameProperty = new JLabel(fileName);
         JLabel fileLocationProperty = new JLabel(Trident.path);
         JLabel fileTypeProperty = new JLabel(FileTypeParser.getType(Trident.path));
-        JLabel fileSizeProperty = new JLabel((theFile.length() / 1024) + " KB (" + theFile.length() + " B)");
-        JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified()) + "");
+        JLabel fileSizeProperty = new JLabel((theFile.length() / 1024)  + " KB ("  + theFile.length()  + " B)");
+        JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified())  + "");
 
         leftPane.add(filenameLabel);
         rightPane.add(filenameProperty);

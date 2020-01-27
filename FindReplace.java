@@ -212,10 +212,10 @@ class FRButtonsListener implements ActionListener {
         }
         // Whole words only
         if (FindReplace.wholeWords.isSelected() && !FindReplace.matchCase.isSelected()) {
-          pattern = Pattern.compile("\\b" + FindReplace.findField.getText() + "\\b", Pattern.CASE_INSENSITIVE);
+          pattern = Pattern.compile("\\b"  + FindReplace.findField.getText()  + "\\b", Pattern.CASE_INSENSITIVE);
         } // WW Only and Match Case
         else if (FindReplace.wholeWords.isSelected() && FindReplace.matchCase.isSelected()) {
-          pattern = Pattern.compile("\\b" + FindReplace.findField.getText() + "\\b");
+          pattern = Pattern.compile("\\b"  + FindReplace.findField.getText()  + "\\b");
         } // Not Ww, not Mc
         else if (!FindReplace.wholeWords.isSelected() && !FindReplace.matchCase.isSelected()) {
           pattern = Pattern.compile(FindReplace.findField.getText(), Pattern.CASE_INSENSITIVE);
@@ -223,7 +223,7 @@ class FRButtonsListener implements ActionListener {
         else if (!FindReplace.wholeWords.isSelected() && FindReplace.matchCase.isSelected())
           pattern = Pattern.compile(FindReplace.findField.getText());
         else // Exceptional cases : Taken as both selected to give accuracy
-          pattern = Pattern.compile("\\b" + FindReplace.findField.getText() + "\\b");
+          pattern = Pattern.compile("\\b"  + FindReplace.findField.getText()  + "\\b");
       } else if (FindReplace.tabbedPane.getSelectedIndex() == 1) {
         if (FindReplace.findField.getText().isEmpty()) {
           Trident.status1.setText("Find field is empty.");
@@ -231,10 +231,10 @@ class FRButtonsListener implements ActionListener {
         }
         // Whole words only
         if (FindReplace.rwholeWords.isSelected() && !FindReplace.rmatchCase.isSelected()) {
-          pattern = Pattern.compile("\\b" + FindReplace.rfindField.getText() + "\\b", Pattern.CASE_INSENSITIVE);
+          pattern = Pattern.compile("\\b"  + FindReplace.rfindField.getText()  + "\\b", Pattern.CASE_INSENSITIVE);
         } // WW Only and Match Case
         else if (FindReplace.rwholeWords.isSelected() && FindReplace.rmatchCase.isSelected()) {
-          pattern = Pattern.compile("\\b" + FindReplace.rfindField.getText() + "\\b");
+          pattern = Pattern.compile("\\b"  + FindReplace.rfindField.getText()  + "\\b");
         } // Not Ww, not Mc
         else if (!FindReplace.rwholeWords.isSelected() && !FindReplace.rmatchCase.isSelected()) {
           pattern = Pattern.compile(FindReplace.rfindField.getText(), Pattern.CASE_INSENSITIVE);
@@ -242,7 +242,7 @@ class FRButtonsListener implements ActionListener {
         else if (!FindReplace.rwholeWords.isSelected() && FindReplace.rmatchCase.isSelected())
           pattern = Pattern.compile(FindReplace.rfindField.getText());
         else // Exceptional cases : Taken as both selected to give accuracy
-          pattern = Pattern.compile("\\b" + FindReplace.rfindField.getText() + "\\b");
+          pattern = Pattern.compile("\\b"  + FindReplace.rfindField.getText()  + "\\b");
       } else
         throw new Exception("Unknown tab exception in Find and Replace");
 
@@ -250,7 +250,7 @@ class FRButtonsListener implements ActionListener {
       while (matcher.find()) {
         foundStarts.add(matcher.start());
         foundEnds.add(matcher.end());
-        Trident.status1.setText("Found " + foundStarts.size() + " matches.");
+        Trident.status1.setText("Found "  + foundStarts.size()  + " matches.");
         found = true;
       }
       if (!found) {

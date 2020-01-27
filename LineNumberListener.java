@@ -44,7 +44,7 @@ public class LineNumberListener implements CaretListener {
       int line = Trident.textarea.getLineOfOffset(offset);
       int col = offset - Trident.textarea.getLineStartOffset(line);
 
-      Trident.status4.setText("Line: " + (line + 1) + " Col: " + (col + 1));
+      Trident.status4.setText("Line: "  + (line  + 1)  + " Col: "  + (col  + 1));
 
     } catch (BadLocationException badexp) {
       Trident.ErrorDialog("CARET_LOCATION_ERR", badexp);

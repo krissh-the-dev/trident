@@ -322,7 +322,7 @@ public class Configurations {
       BufferedReader br = new BufferedReader(fr);
       String tsContents = "";
       for (String line = br.readLine(); line != null; line = br.readLine()) {
-        tsContents += line + System.lineSeparator();
+        tsContents  += line  + System.lineSeparator();
       }
       fr.close();
       br.close();
@@ -426,17 +426,17 @@ public class Configurations {
       File tsf = new File("./configurations.ts");
       FileWriter fileWritter = new FileWriter(tsf, false);
       BufferedWriter bw = new BufferedWriter(fileWritter);
-      contents = "themeName:" + themeName + "," + System.lineSeparator();
-      contents += "colorScheme:";
+      contents = "themeName:"  + themeName  + ","  + System.lineSeparator();
+      contents  += "colorScheme:";
       if (primary.equals(Color.WHITE)) {
-        contents += "light,";
+        contents  += "light,";
       } else {
-        contents += "dark,";
+        contents  += "dark,";
       }
-      contents += System.lineSeparator();
-      contents += "fontName:" + fontName + "," + System.lineSeparator();
-      contents += "fontSize:" + fontSize + "," + System.lineSeparator();
-      contents += "tabSize:" + tabSize + "," + System.lineSeparator();
+      contents  += System.lineSeparator();
+      contents  += "fontName:"  + fontName  + ","  + System.lineSeparator();
+      contents  += "fontSize:"  + fontSize  + ","  + System.lineSeparator();
+      contents  += "tabSize:"  + tabSize  + ","  + System.lineSeparator();
       bw.write(contents);
       bw.close();
     } catch (IOException wre) {
@@ -454,7 +454,7 @@ public class Configurations {
       BufferedReader sbr = new BufferedReader(sfr);
       String tsContents = "";
       for (String setting = sbr.readLine(); setting != null; setting = sbr.readLine()) {
-        tsContents += setting + System.lineSeparator();
+        tsContents  += setting  + System.lineSeparator();
       }
       sfr.close();
       sbr.close();
@@ -526,11 +526,11 @@ class ConfigurationsListener implements ActionListener {
         Configurations.ImOpen = false;
         Configurations.ConfigWindow.dispose();
         Configurations.showUI();
-        String defaults = "themeName:" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
-        defaults += "colorScheme:light," + System.lineSeparator();
-        defaults += "fontName:Monospaced," + System.lineSeparator();
-        defaults += "fontSize:14," + System.lineSeparator();
-        defaults += "tabSize:4," + System.lineSeparator();
+        String defaults = "themeName:"  + UIManager.getSystemLookAndFeelClassName()  + ','  + System.lineSeparator();
+        defaults  += "colorScheme:light,"  + System.lineSeparator();
+        defaults  += "fontName:Monospaced,"  + System.lineSeparator();
+        defaults  += "fontSize:14,"  + System.lineSeparator();
+        defaults  += "tabSize:4,"  + System.lineSeparator();
         File tsf = new File("./configurations.ts");
         FileWriter fileWritter = new FileWriter(tsf, false);
         BufferedWriter bw = new BufferedWriter(fileWritter);

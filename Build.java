@@ -69,9 +69,9 @@ class Build {
       Process p = processBuilder.start();
       int res = p.waitFor();
       if (res != 0)
-        System.err.println(file + "compilation ended with error.");
+        System.err.println(file  + "compilation ended with error.");
       else
-        System.out.println(file + " was compiled successfully.");
+        System.out.println(file  + " was compiled successfully.");
     }
     System.out.println("All source files were compiled.");
 

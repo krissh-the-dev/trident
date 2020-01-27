@@ -100,7 +100,7 @@ linearRegression ="""
 import numpy as np
 from sklearn.linearmodel import LinearRegression
 X=np.array([[1,1],[1,2],[2,3]])
-Y = np.dot(X, np.array([1, 2]))  +  3
+Y = np.dot(X, np.array([1, 2]))  + 3
 linear=LinearRegression()
 model=linear.fit(X,Y)
 print(model.score(X,Y))
