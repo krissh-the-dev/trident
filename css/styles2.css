@@ -1,0 +1,160 @@
+* {
+  font-family: "Source Sans Pro", "Segoe UI", "Roboto Sans", sans-serif;
+}
+
+.-black {
+  background-color: black;
+  color: white;
+}
+
+.-blue {
+  background-color: #126bff;
+  color: white;
+}
+
+.outline-null {
+  border: transparent;
+}
+
+.-upper {
+  text-transform: uppercase;
+}
+
+.-lower {
+  text-transform: lowercase;
+}
+
+.-cap {
+  text-transform: capitalize;
+}
+
+.-italic {
+  font-style: italic;
+}
+
+.-bold {
+  font-weight: bold;
+}
+
+.-fl {
+  float: left;
+}
+
+.-fr {
+  float: right;
+}
+
+.hover-blue:hover {
+  background-color: #126bff;
+  color: white;
+}
+
+.container-fluid .head {
+  background-color: #126bff;
+  padding: 3% 10%;
+}
+
+.navbar-brand {
+  font-family: "Roboto Slab";
+}
+
+h1 {
+  line-height: 1.5;
+}
+
+.-white {
+  color: white;
+}
+
+.description {
+  text-align: justify;
+  display: block;
+  word-wrap: break-word;
+}
+
+.image {
+  display: block;
+}
+
+.-center {
+  margin: auto;
+  text-align: center;
+}
+
+.ttl {
+  text-align: center;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.left-pane {
+  margin-bottom: 3rem;
+}
+
+.partners {
+  padding: 3% 15%;
+  margin: auto;
+}
+
+.btn-txt {
+  float: right;
+  padding-left: 2px;
+}
+.button-group .col-3 {
+  padding-left: 0px;
+}
+
+.btn .material-icons-outlined {
+  vertical-align: middle;
+  margin-top: -3px;
+  margin-right: 5px;
+}
+
+.sub {
+  width: 80%;
+  margin: auto;
+  margin-bottom: 5%;
+}
+
+.card {
+  margin-bottom: 1rem;
+}
+
+.btn {
+  margin-bottom: 1rem;
+}
+
+.orange {
+  background-color: #f89820;
+  /* border-color: black; */
+}
+
+.c-brown {
+  background-color: brown;
+  color: white;
+}
+
+.jython {
+  background-color: green;
+  color: white;
+}
+
+.python {
+  background-color: #306998;
+  color: white;
+}
+
+.text-center {
+  padding: 2rem 2rem 1rem 2rem;
+  text-align: center;
+}
+
+.copy {
+  color: rgb(207, 207, 207);
+  background-color: #131313;
+}
+
+.c-footer .row-pb-md {
+  background-color: #151515;
+  color: rgb(160, 160, 160);
+}
