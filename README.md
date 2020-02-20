@@ -6,7 +6,7 @@
 
 ## What's new
 
-- _Added Auto-Indent_
+- **Added Auto-Indent**
 
   - Maintains the indent level of previous line
 
