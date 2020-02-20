@@ -30,6 +30,8 @@ public class IndentListener extends DocumentFilter {
    * @author: Krishna Moorthy
    */
 
+  public static boolean isRunning = true;
+
   public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException {
     /*
      * Inserts the calculated amount of white spaces into the document -function

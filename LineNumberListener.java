@@ -35,6 +35,8 @@ public class LineNumberListener implements CaretListener {
    * the side line number panel
    */
 
+  public static boolean isRunning = true;
+
   @Override
   public void caretUpdate(CaretEvent ce) {
     /*

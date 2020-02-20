@@ -33,6 +33,9 @@ class SettingsMenuListener implements ActionListener, ItemListener {
   /*
    * Controls the actions of Settings Menu
    */
+
+  public static boolean isRunning = true;
+
   public void actionPerformed(ActionEvent e) {
     /*
      * Controls actions of Settings menu items (Style editor and Configurations

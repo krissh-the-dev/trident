@@ -35,6 +35,9 @@ class EditActionsListener extends Thread {
    * Runs a thread in the background forever. Starts when Edit Menu is
    * initialized.
    */
+
+  public static boolean isRunning = true;
+  
   @Override
   public void run() {
     try {

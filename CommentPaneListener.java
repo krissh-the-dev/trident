@@ -30,6 +30,9 @@ class CommentPaneListener extends Thread {
    * 
    * started when status bar is initialized
    */
+
+  public static boolean isRunning = true;
+
   @Override
   public void run() {
     try {
@@ -38,6 +41,7 @@ class CommentPaneListener extends Thread {
         Thread.sleep(20000);
       }
     } catch (InterruptedException died) {
+      isRunning = false;
       Trident.ErrorDialog("STATUS_THREAD_KILLED", died);
     }
   }

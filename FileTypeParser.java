@@ -24,6 +24,7 @@ import java.io.File;
  * (GPL v3) Trident > FileTypeParser
  * @author: Krishna Moorthy
  */
+
 public class FileTypeParser {
 
   public static String getExtension(String fileName) {
@@ -37,7 +38,7 @@ public class FileTypeParser {
     String extension = "file";
     int i = fileName.lastIndexOf('.');
     if (i > 0)
-      extension = fileName.substring(i  + 1);
+      extension = fileName.substring(i + 1);
     return extension;
   }
 
@@ -159,11 +160,11 @@ public class FileTypeParser {
     case "ico":
     case "tiff":
     case "bmp":
-      type = extension.toUpperCase()  + " Image File";
+      type = extension.toUpperCase() + " Image File";
       break;
 
     default:
-      type = extension.toUpperCase()  + " File";
+      type = extension.toUpperCase() + " File";
       break;
     }
     return type;

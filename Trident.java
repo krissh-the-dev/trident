@@ -78,6 +78,9 @@ class Trident {
    * 
    * Handles all the errors and writes logs
    */
+
+  public static boolean isRunning = true;
+
   protected static JTextArea textarea;
   protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
@@ -538,7 +541,7 @@ class Trident {
       for (String arg : args) {
         if (arg.equals("-version")) {
           System.out.println("Trident Text Editor");
-          System.out.print("Version: 4.3");
+          System.out.print("Version: 4.4");
           System.out.println("\tChannel: Beta");
           System.out.println("(c) 2020 Krishna Moorthy Athinarayan. All rights reserved.");
         } else
