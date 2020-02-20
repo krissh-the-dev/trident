@@ -51,6 +51,7 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AbstractDocument;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
@@ -77,6 +78,9 @@ class Trident {
    * 
    * Handles all the errors and writes logs
    */
+
+  public static boolean isRunning = true;
+
   protected static JTextArea textarea;
   protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
@@ -112,7 +116,7 @@ class Trident {
       writeLog(code, e);
       int option = JOptionPane.showConfirmDialog(frame,
           "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: "
-               + code  + "\nERROR NAME: "  + e.getClass().getName()  + "\nERROR CAUSE: "  + e.getCause(),
+              + code + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
           "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
       if (option == JOptionPane.YES_OPTION) {
         try {
@@ -147,14 +151,14 @@ class Trident {
       writer.write(System.lineSeparator());
       writer.write(LocalDateTime.now().toString());
       writer.write(System.lineSeparator());
-      writer.write(code  + System.lineSeparator()  + e.getClass().getName()  + System.lineSeparator()  + e.getCause()
-           + System.lineSeparator()  + e.getMessage());
+      writer.write(code + System.lineSeparator() + e.getClass().getName() + System.lineSeparator() + e.getCause()
+          + System.lineSeparator() + e.getMessage());
       writer.write(System.lineSeparator());
       writer.write("------------------------------------------");
       writer.write(System.lineSeparator());
 
       for (StackTraceElement ste : e.getStackTrace()) {
-        writer.write("["  + code  + "] ");
+        writer.write("[" + code + "] ");
         writer.write(ste.toString());
         writer.write(System.lineSeparator());
       }
@@ -213,7 +217,7 @@ class Trident {
 
       // * Frame Setup
       frame = new JFrame();
-      frame.setTitle("Trident Text Editor - "  + Paths.get(path).getFileName().toString());
+      frame.setTitle("Trident Text Editor - " + Paths.get(path).getFileName().toString());
       frame.setSize(800, 550);
       frame.setResizable(true);
       WindowListener WindowCloseListener = new WindowAdapter() {
@@ -454,6 +458,8 @@ class Trident {
       textarea.setComponentPopupMenu(editorMenu);
 
       // > Listeners for Text Area
+      AbstractDocument doc = (AbstractDocument) textarea.getDocument();
+      doc.setDocumentFilter(new IndentListener());
       EditActionsListener eal = new EditActionsListener();
       undoManager = new UndoManager();
       eal.start();
@@ -535,7 +541,7 @@ class Trident {
       for (String arg : args) {
         if (arg.equals("-version")) {
           System.out.println("Trident Text Editor");
-          System.out.print("Version: 4.3");
+          System.out.print("Version: 4.4");
           System.out.println("\tChannel: Beta");
           System.out.println("(c) 2020 Krishna Moorthy Athinarayan. All rights reserved.");
         } else

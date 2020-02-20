@@ -31,20 +31,24 @@ import javax.swing.text.BadLocationException;
 
 public class LineNumberListener implements CaretListener {
   /*
-   * Controls the Line number and Column Number display areas in status bar.
+   * Controls the Line number and Column Number display areas in status bar and
+   * the side line number panel
    */
+
+  public static boolean isRunning = true;
 
   @Override
   public void caretUpdate(CaretEvent ce) {
     /*
      * Updates status bar text when caret position changes
      */
+    // TODO : Add code to control line number panel
     try {
       int offset = Trident.textarea.getCaretPosition();
       int line = Trident.textarea.getLineOfOffset(offset);
       int col = offset - Trident.textarea.getLineStartOffset(line);
 
-      Trident.status4.setText("Line: "  + (line  + 1)  + " Col: "  + (col  + 1));
+      Trident.status4.setText("Line: " + (line + 1) + " Col: " + (col + 1));
 
     } catch (BadLocationException badexp) {
       Trident.ErrorDialog("CARET_LOCATION_ERR", badexp);

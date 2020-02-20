@@ -54,6 +54,9 @@ class EditMenuListener implements ActionListener {
   /*
    * Influences the behaviour of Edit Menu
    */
+
+  public static boolean isRunning = true;
+
   protected void showClipboard() {
     /*
      * Displays a text editor that shows clipboard contents

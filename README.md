@@ -6,27 +6,11 @@
 
 ## What's new
 
-- **New Source File option under File Menu:**
+- **Added Auto-Indent**
 
-  - Boiler plate for C, C++, Java, Python and HTML file
-  - PowerBoil integration
+  - Maintains the indent level of previous line
 
-- New Window Option under File Menu.
-- Added command line options
-
-  - Try Trident -version to see version details
-
-- Better File Save mechanism.
-- Improved crash management.
-- Improved Log writing.
-- Bug fixes.
-
-- Source side:
-
-  - Fixed Licensed headers.
-  - Detailed comments.
-  - Description for each class and each method.
-  - Some cleanups.
+- Added Running process var for development and debugging.
 
 ## Current features
 

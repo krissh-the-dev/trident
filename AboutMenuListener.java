@@ -56,6 +56,9 @@ class AboutMenuListener implements ActionListener {
    * 
    * Handles chosen menu item action from the about menu
    */
+
+  public static boolean isRunning = true;
+
   public void actionPerformed(ActionEvent e) {
     try {
       switch (e.getActionCommand()) {
@@ -70,7 +73,7 @@ class AboutMenuListener implements ActionListener {
         JLabel icon = new JLabel(logo);
         icon.setSize(50, 50);
         JLabel l1 = new JLabel(
-            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193);} h3 {font-family: \"Segoe UI Semilight\";} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h3> Version 4.3 <br/>BETA</h3></html>");
+            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193);} h3 {font-family: \"Segoe UI Semilight\";} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h3> Version 4.4 <br/>BETA</h3></html>");
         JLabel l2 = new JLabel(
             "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px;} h3:hover {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px; background-color: rgb(6,113,193);} </style><h3>Visit Home Page</h3></html>");
         l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -130,8 +133,8 @@ class AboutMenuListener implements ActionListener {
         JLabel filenameProperty = new JLabel(fileName);
         JLabel fileLocationProperty = new JLabel(Trident.path);
         JLabel fileTypeProperty = new JLabel(FileTypeParser.getType(Trident.path));
-        JLabel fileSizeProperty = new JLabel((theFile.length() / 1024)  + " KB ("  + theFile.length()  + " B)");
-        JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified())  + "");
+        JLabel fileSizeProperty = new JLabel((theFile.length() / 1024) + " KB (" + theFile.length() + " B)");
+        JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified()) + "");
 
         leftPane.add(filenameLabel);
         rightPane.add(filenameProperty);

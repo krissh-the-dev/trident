@@ -32,6 +32,9 @@ class ToolsMenuListener implements ActionListener {
   /*
    * Controls the actions of Tools Menu
    */
+
+  public static boolean isRunning = true;
+  
   public void actionPerformed(ActionEvent e) {
     /*
      * Controls the actions of Tools Menu items
