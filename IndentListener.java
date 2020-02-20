@@ -81,10 +81,10 @@ public class IndentListener extends DocumentFilter {
         } else
           break;
       }
-
       return whiteSpace.toString();
-    } catch (BadLocationException be) {
+    } catch (Exception be) {
       Trident.ErrorDialog("AUTO-INDENT_ERR", be);
+      return "";
     }
   }
 }
