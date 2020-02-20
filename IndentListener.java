@@ -32,47 +32,59 @@ public class IndentListener extends DocumentFilter {
 
   public static boolean isRunning = true;
 
-  public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException {
+  public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) {
     /*
      * Inserts the calculated amount of white spaces into the document -function
      * call is dependent on Event triggered
      */
-    if ("\n".equals(str))
-      str = addWhiteSpace(fb.getDocument(), offs);
-    super.insertString(fb, offs, str, a);
+    try {
+      if ("\n".equals(str))
+        str = addWhiteSpace(fb.getDocument(), offs);
+      super.insertString(fb, offs, str, a);
+    } catch (BadLocationException be) {
+      Trident.ErrorDialog("AUTO-INDENT_ERR", be);
+    }
   }
 
-  public void replace(FilterBypass fb, int offs, int length, String str, AttributeSet a) throws BadLocationException {
+  public void replace(FilterBypass fb, int offs, int length, String str, AttributeSet a) {
     /*
      * Inserts the calculated amount of white spaces into the document -function
      * call is dependent on Event triggered
      */
-    if ("\n".equals(str))
-      str = addWhiteSpace(fb.getDocument(), offs);
+    try {
+      if ("\n".equals(str))
+        str = addWhiteSpace(fb.getDocument(), offs);
 
-    super.replace(fb, offs, length, str, a);
+      super.replace(fb, offs, length, str, a);
+    } catch (BadLocationException be) {
+      Trident.ErrorDialog("AUTO-INDENT_ERR", be);
+    }
   }
 
-  private String addWhiteSpace(Document doc, int offset) throws BadLocationException {
+  private String addWhiteSpace(Document doc, int offset) {
     /*
      * Calculates the indent level for current line and @returns the string to be
      * inserted
      */
-    StringBuilder whiteSpace = new StringBuilder("\n");
-    Element rootElement = doc.getDefaultRootElement();
-    int line = rootElement.getElementIndex(offset);
-    int i = rootElement.getElement(line).getStartOffset();
+    try {
+      StringBuilder whiteSpace = new StringBuilder("\n");
+      Element rootElement = doc.getDefaultRootElement();
+      int line = rootElement.getElementIndex(offset);
+      int i = rootElement.getElement(line).getStartOffset();
 
-    while (true) {
-      String temp = doc.getText(i, 1);
+      while (true) {
+        String temp = doc.getText(i, 1);
 
-      if (temp.equals(" ") || temp.equals("\t")) {
-        whiteSpace.append(temp);
-        i++;
-      } else
-        break;
+        if (temp.equals(" ") || temp.equals("\t")) {
+          whiteSpace.append(temp);
+          i++;
+        } else
+          break;
+      }
+
+      return whiteSpace.toString();
+    } catch (BadLocationException be) {
+      Trident.ErrorDialog("AUTO-INDENT_ERR", be);
     }
-
-    return whiteSpace.toString();
   }
 }
