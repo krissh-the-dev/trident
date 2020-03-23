@@ -135,7 +135,7 @@ public class Configurations {
         themeName = "javax.swing.plaf.metal.MetalLookAndFeel";
         break;
 
-      case "Material":
+      case "Material Light":
         themeName = (new MaterialLookAndFeel()).getClass().getName();
         break;
 
