@@ -459,7 +459,7 @@ public class Configurations {
      * Reads the stored settings from the configurations.ts file
      */
     try {
-      File settingsFile = new File("src/main/java/configurations.ts");
+      File settingsFile = new File("configurations.ts");
       FileReader sfr = new FileReader(settingsFile);
       BufferedReader sbr = new BufferedReader(sfr);
       String tsContents = "";
