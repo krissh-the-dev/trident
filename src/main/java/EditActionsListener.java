@@ -1,7 +1,7 @@
 /*
  *  EditActionsListener.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,6 +29,15 @@ import java.awt.datatransfer.DataFlavor;
  */
 
 class EditActionsListener extends Thread {
+  /*
+   * Influences the responsiveness of the Edit Menu items such as Copy, Paste etc.
+   * 
+   * Runs a thread in the background forever. Starts when Edit Menu is
+   * initialized.
+   */
+
+  public static boolean isRunning = true;
+  
   @Override
   public void run() {
     try {
@@ -76,11 +85,7 @@ class EditActionsListener extends Thread {
       }
     } catch (InterruptedException inte) {
       Trident.ErrorDialog("EAL_INTERRUPTION", inte);
-    } catch (UnsupportedFlavorException ufe) {
-      // We don't wanna throw error just while checking [Listening in this context]
-    } catch (java.lang.IllegalStateException ise) {
-      // We don't wanna throw error just while checking [Listening in this context]
-    } catch (Exception some) {
+    } catch (java.io.IOException | IllegalStateException | UnsupportedFlavorException ise) {
       // We don't wanna throw error just while checking [Listening in this context]
     }
   }

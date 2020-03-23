@@ -1,7 +1,7 @@
 /*
  *  CommentPaneListener.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,6 +24,15 @@
  */
 
 class CommentPaneListener extends Thread {
+  /*
+   * This thread keeps running in the background to keep the status area 1 i.e the
+   * comment area to be meaningful
+   * 
+   * started when status bar is initialized
+   */
+
+  public static boolean isRunning = true;
+
   @Override
   public void run() {
     try {
@@ -31,10 +40,9 @@ class CommentPaneListener extends Thread {
         Trident.status1.setText("Ready.");
         Thread.sleep(20000);
       }
-    } catch (InterruptedException strangeException) {
-      Trident.ErrorDialog("STATUS_THREAD_KILLED", strangeException);
-    } catch (Exception died) {
-      died.printStackTrace();
+    } catch (InterruptedException died) {
+      isRunning = false;
+      Trident.ErrorDialog("STATUS_THREAD_KILLED", died);
     }
   }
 }

@@ -1,7 +1,7 @@
 /*
  *  AutoSave.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,11 +18,9 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -37,10 +35,20 @@ import javax.swing.event.DocumentListener;
 class AutoSave implements DocumentListener {
   private static boolean Enabled = true;
 
+  public static boolean isRunning = true;
+
   private static File file;
 
   public static void setEnabled(Boolean enable) {
+    /*
+     * Toggles auto save feature
+     * 
+     * @param: boolean
+     * 
+     * enables auto save on true/ disables on false
+     */
     Enabled = enable;
+    isRunning = Enabled;
     if (Enabled == false)
       deleteSaved();
     else
@@ -48,10 +56,19 @@ class AutoSave implements DocumentListener {
   }
 
   public static void deleteSaved() {
+    /*
+     * Deletes the autosaved copy of current file
+     */
     file.delete();
   }
 
   private static void saveNow() {
+    /*
+     * Saves an autosaved copy of the current file with latest changes on the
+     * working directory
+     * 
+     * Part of autosave feature
+     */
     try {
       String extension = "";
       int i = Trident.path.lastIndexOf('.');
@@ -69,10 +86,6 @@ class AutoSave implements DocumentListener {
 
       bw.close();
       fw.close();
-    } catch (IOException ioe) {
-      Trident.ErrorDialog("AUTO_SAVE_IO", ioe);
-    } catch (SecurityException se) {
-      Trident.ErrorDialog("PERMISSION_ERR", se);
     } catch (Exception exp) {
       Trident.ErrorDialog("AUTO_SAVE_ERR", exp);
     }

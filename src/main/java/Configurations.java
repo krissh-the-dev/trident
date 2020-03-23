@@ -1,7 +1,7 @@
 /*
  *  Configurations.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -78,6 +78,11 @@ import mdlaf.themes.*;
  */
 
 public class Configurations {
+  /*
+   * Configurations Dialog for the Trident Text Editor Controls the look, feel,
+   * theme and font customization options in Tricdent with a Graphical User
+   * Interface
+   */
   static boolean ImOpen;
   static boolean EOpen;
 
@@ -114,32 +119,32 @@ public class Configurations {
     secondary = Secondary;
 
     switch (themeBox.getSelectedItem().toString()) {
-    case "Windows":
-      themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-      break;
+      case "Windows":
+        themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+        break;
 
-    case "Nimbus":
-      themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
-      break;
+      case "Nimbus":
+        themeName = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+        break;
 
-    case "Motif":
-      themeName = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
-      break;
+      case "Motif":
+        themeName = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+        break;
 
-    case "Metal":
-      themeName = "javax.swing.plaf.metal.MetalLookAndFeel";
-      break;
+      case "Metal":
+        themeName = "javax.swing.plaf.metal.MetalLookAndFeel";
+        break;
 
-    case "Material":
-      themeName = (new MaterialLookAndFeel()).getClass().getName();
-      break;
+      case "Material":
+        themeName = (new MaterialLookAndFeel()).getClass().getName();
+        break;
 
-    case "Default":
-      themeName = UIManager.getSystemLookAndFeelClassName();
-      break;
+      case "Default":
+        themeName = UIManager.getSystemLookAndFeelClassName();
+        break;
 
-    case "Current Theme":
-      break;
+      case "Current Theme":
+        break;
     }
     fontName = fontsBox.getSelectedItem().toString();
     fontSize = Integer.parseInt(sizesBox.getValue().toString());
@@ -147,6 +152,10 @@ public class Configurations {
   }
 
   public static void applyTheme() {
+    /*
+     * Applys the selected Look and feel by reading the value stored in public
+     * variable themeName and updates the Component Tree UI
+     */
     try {
       try {
         if (themeName == null) {
@@ -161,20 +170,17 @@ public class Configurations {
         themeName = UIManager.getSystemLookAndFeelClassName();
         UIManager.setLookAndFeel(themeName);
       }
-    } catch (ClassNotFoundException cnf) {
+    } catch (Exception cnf) {
       Trident.ErrorDialog("ERR_LOOK_AND_FEEL", cnf);
-    } catch (InstantiationException inf) {
-      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", inf);
-    } catch (IllegalAccessException iae) {
-      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", iae);
-    } catch (Exception the) {
-      Trident.ErrorDialog("ERR_LOOK_AND_FEEL", the);
     }
     SwingUtilities.updateComponentTreeUI(Trident.frame);
     SwingUtilities.updateComponentTreeUI(ConfigWindow);
   }
 
   public static void applyConfigs() {
+    /*
+     * Applies the selected configurations such as colour scheme and font styles
+     */
     // * FONT SETTINGS
     Trident.textarea.setWrapStyleWord(true);
     Trident.textarea.setFont(new Font(fontName, Font.PLAIN, fontSize));
@@ -199,6 +205,10 @@ public class Configurations {
   }
 
   public static void showUI() {
+    /*
+     * opens up the Configurations window If already opened, Configurations window
+     * gains focus
+     */
     if (ImOpen) {
       ConfigWindow.requestFocus();
       return;
@@ -216,7 +226,6 @@ public class Configurations {
     JPanel ThemePanel = new JPanel(new GridLayout(5, 1, 1, 0));
     JPanel FontPanel = new JPanel(new GridLayout(3, 2, 1, 3));
     JPanel buttonPanel = new JPanel(new GridLayout(1, 4, 10, 10));
-    buttonPanel.setSize(400, 100);
     ThemePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Theme"));
     FontPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Font"));
 
@@ -282,7 +291,7 @@ public class Configurations {
     setData();
     ConfigWindow.add(mainPanel);
 
-    ConfigWindow.setSize(360, 325);
+    ConfigWindow.pack();
     ConfigWindow.setResizable(false);
     ImageIcon ic = new ImageIcon("raw/trident_icon.png");
     ConfigWindow.setIconImage(ic.getImage());
@@ -302,6 +311,11 @@ public class Configurations {
   }
 
   protected static void showEditor() {
+    /*
+     * Opens up the TS File editor that stores the current values of saved
+     * configurations If already open, then the window gains focus. Any changes made
+     * to the text is automatically saved
+     */
     try {
       if (EOpen) {
         tsEditor.requestFocus();
@@ -332,6 +346,9 @@ public class Configurations {
       tsEditor.getContentPane().add(TextViewer, BorderLayout.CENTER);
       tsViewer.getDocument().addDocumentListener(new DocumentListener() {
         private void saveSettings() {
+          /*
+           * Saves the configurations.ts open in Conig Editor window
+           */
           try {
             String tsContents = tsViewer.getText();
             File tsFile = new File("configurations.ts");
@@ -373,6 +390,10 @@ public class Configurations {
   }
 
   public static void setData() {
+    /*
+     * Reads the stored settings from configurations.ts and sets the values in the
+     * Confurations Window UI
+     */
     read();
     themeBox.setSelectedItem(themeName);
     if (primary.equals(Color.WHITE))
@@ -386,6 +407,9 @@ public class Configurations {
   }
 
   public static void apply() {
+    /*
+     * Generates theme colors for selected colour scheme and applys all the settings
+     */
     try {
       Color a = Color.WHITE, b = Color.BLACK;
       if (light.isSelected()) {
@@ -404,6 +428,9 @@ public class Configurations {
   }
 
   public static void write() {
+    /*
+     * Writes the selected settings (in Config UI) to the conigurations.ts file
+     */
     try {
       String contents;
       File tsf = new File("./configurations.ts");
@@ -428,8 +455,11 @@ public class Configurations {
   }
 
   public static void read() {
+    /*
+     * Reads the stored settings from the configurations.ts file
+     */
     try {
-      File settingsFile = new File("configurations.ts");
+      File settingsFile = new File("src/main/java/configurations.ts");
       FileReader sfr = new FileReader(settingsFile);
       BufferedReader sbr = new BufferedReader(sfr);
       String tsContents = "";
@@ -462,6 +492,10 @@ public class Configurations {
   }
 
   public static final void raw_apply() {
+    /*
+     * Directly reads the configurations.ts and apply the settings (independent of
+     * Configuration Window)
+     */
     read();
     try {
       if (primary.equals(Color.WHITE)) {
@@ -482,49 +516,52 @@ public class Configurations {
 }
 
 class ConfigurationsListener implements ActionListener {
+  /*
+   * Controls the actions invoked from the Configurations Window
+   */
   @Override
   public void actionPerformed(ActionEvent ae) {
     switch (ae.getActionCommand()) {
-    case "Apply":
-      Configurations.apply();
-      break;
-    case "Save":
-      Configurations.apply();
-      Configurations.write();
-      Configurations.ImOpen = false;
-      Configurations.ConfigWindow.dispose();
-      break;
-    case "Reset":
-      try {
+      case "Apply":
+        Configurations.apply();
+        break;
+      case "Save":
+        Configurations.apply();
+        Configurations.write();
+        Configurations.ImOpen = false;
+        Configurations.ConfigWindow.dispose();
+        break;
+      case "Reset":
+        try {
+          Configurations.ImOpen = false;
+          Configurations.ConfigWindow.dispose();
+          Configurations.showUI();
+          String defaults = "themeName:" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
+          defaults += "colorScheme:light," + System.lineSeparator();
+          defaults += "fontName:Monospaced," + System.lineSeparator();
+          defaults += "fontSize:14," + System.lineSeparator();
+          defaults += "tabSize:4," + System.lineSeparator();
+          File tsf = new File("./configurations.ts");
+          FileWriter fileWritter = new FileWriter(tsf, false);
+          BufferedWriter bw = new BufferedWriter(fileWritter);
+          bw.write(defaults);
+          bw.close();
+          fileWritter.close();
+          Configurations.setData();
+          Configurations.apply();
+        } catch (Exception ex) {
+          Trident.ErrorDialog("THEME_RESET_ERR", ex);
+        }
+        break;
+      case "Cancel":
         Configurations.ImOpen = false;
         Configurations.ConfigWindow.dispose();
         Configurations.showUI();
-        String defaults = "themeName:" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
-        defaults += "colorScheme:light," + System.lineSeparator();
-        defaults += "fontName:Monospaced," + System.lineSeparator();
-        defaults += "fontSize:14," + System.lineSeparator();
-        defaults += "tabSize:4," + System.lineSeparator();
-        File tsf = new File("./configurations.ts");
-        FileWriter fileWritter = new FileWriter(tsf, false);
-        BufferedWriter bw = new BufferedWriter(fileWritter);
-        bw.write(defaults);
-        bw.close();
-        fileWritter.close();
+        Configurations.read();
         Configurations.setData();
         Configurations.apply();
-      } catch (Exception ex) {
-        Trident.ErrorDialog("THEME_RESET_ERR", ex);
-      }
-      break;
-    case "Cancel":
-      Configurations.ImOpen = false;
-      Configurations.ConfigWindow.dispose();
-      Configurations.showUI();
-      Configurations.read();
-      Configurations.setData();
-      Configurations.apply();
-      Configurations.ImOpen = false;
-      Configurations.ConfigWindow.dispose();
+        Configurations.ImOpen = false;
+        Configurations.ConfigWindow.dispose();
     }
   }
 }

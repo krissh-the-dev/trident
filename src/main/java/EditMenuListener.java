@@ -1,8 +1,8 @@
 
 /*
  *  EditMenuListener.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -51,35 +51,50 @@ import javax.swing.undo.CannotUndoException;
  */
 
 class EditMenuListener implements ActionListener {
+  /*
+   * Influences the behaviour of Edit Menu
+   */
+
+  public static boolean isRunning = true;
+
+  protected void showClipboard() {
+    /*
+     * Displays a text editor that shows clipboard contents
+     */
+    Clipboard clipboard;
+    JDialog cbviewer = new JDialog();
+    try {
+      clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+      cbviewer.setSize(450, 350);
+      cbviewer.setTitle("Clipboard Viewer");
+      JPanel TextViewer = new JPanel();
+      JTextArea cta = new JTextArea(clipboard.getData(DataFlavor.stringFlavor).toString());
+      JScrollPane spv = new JScrollPane(cta, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+          JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+      spv.setBorder(new EmptyBorder(-1, 0, -1, 0));
+      TextViewer.setLayout(new GridLayout(1, 1, 1, 1));
+      cbviewer.setLayout(new BorderLayout());
+      TextViewer.add(spv);
+      cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
+      cbviewer.setLocationRelativeTo(Trident.frame);
+      cbviewer.setVisible(true);
+    } catch (UnsupportedFlavorException ufe) {
+      // Trident.ErrorDialog("FLAVOR_ERR", ufe); // Don't throw unnecessary errors
+      Trident.status1.setText("Clipboard has some unsupported content.");
+      cbviewer.dispose();
+    } catch (IOException ioe) {
+      // Trident.ErrorDialog("IOE_CLIPBOARD", ioe); <- Avoid
+    }
+  }
+
   public void actionPerformed(ActionEvent e) {
+    /*
+     * Controls the actions of Edit Menu items
+     */
     try {
       switch (e.getActionCommand()) {
       case "Show Contents":
-        Clipboard clipboard;
-        JDialog cbviewer = new JDialog();
-        try {
-          clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-          cbviewer.setSize(450, 350);
-          cbviewer.setTitle("Clipboard Viewer");
-          JPanel TextViewer = new JPanel();
-          JTextArea cta = new JTextArea(clipboard.getData(DataFlavor.stringFlavor).toString());
-          JScrollPane spv = new JScrollPane(cta, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-              JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-          spv.setBorder(new EmptyBorder(-1, 0, -1, 0));
-          TextViewer.setLayout(new GridLayout(1, 1, 1, 1));
-          cbviewer.setLayout(new BorderLayout());
-          TextViewer.add(spv);
-          cbviewer.getContentPane().add(TextViewer, BorderLayout.CENTER);
-          cbviewer.setLocationRelativeTo(Trident.frame);
-          cbviewer.setVisible(true);
-        } catch (UnsupportedFlavorException ufe) {
-          // Trident.ErrorDialog("FLAVOR_ERR", ufe); // Don't throw unnecessary errors
-          Trident.status1.setText("Clipboard has some unsupported content.");
-          Thread.sleep(200);
-          cbviewer.dispose();
-        } catch (IOException ioe) {
-          Trident.ErrorDialog("IOE_CLIPBOARD", ioe);
-        }
+        showClipboard();
         break;
 
       case "Erase Contents":
@@ -133,7 +148,7 @@ class EditMenuListener implements ActionListener {
       Trident.Undo.setEnabled(false);
       Toolbar.undoButton.setEnabled(false);
     } catch (HeadlessException noHead) {
-      Trident.ErrorDialog("HEADLESS_ERR", noHead);
+      // Trident.ErrorDialog("HEADLESS_ERR", noHead); <-Avoid
     } catch (Exception oopsErr) {
       Trident.ErrorDialog("EDIT_MENU_CRASH", oopsErr);
     }
@@ -145,14 +160,15 @@ class GoToController {
   static JDialog Goto;
 
   static void go() {
+    /*
+     * Displays and controls the Goto dialog
+     */
     Goto = new JDialog(Trident.frame, "Go To");
 
     lineSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Trident.textarea.getLineCount(), 1));
-    Goto.setSize(255, 85);
     JButton go = new JButton("Go");
-    go.setSize(30, 15);
 
-    JLabel instruction = new JLabel("Enter the line number to set the insertion point:");
+    JLabel instruction = new JLabel(" Enter the line number to set the insertion point: ");
     go.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -160,17 +176,18 @@ class GoToController {
           int lineNum = Integer.parseInt(lineSpinner.getValue().toString());
           Trident.textarea.setCaretPosition(Trident.textarea.getLineStartOffset(lineNum - 1));
           Goto.dispose();
-        } catch (BadLocationException ble) {
+        } catch (BadLocationException | NullPointerException ble) {
           Trident.ErrorDialog("GOTO_LOCATION_ERR", ble);
-        } catch (NullPointerException npe) {
-          Trident.ErrorDialog("GOTO_NULL_ERR", npe);
         }
       }
     });
-    Goto.setLayout(new FlowLayout());
-    Goto.add(instruction);
-    Goto.add(lineSpinner);
-    Goto.add(go);
+    Goto.setLayout(new BorderLayout());
+    Goto.getContentPane().add(instruction, BorderLayout.NORTH);
+    JPanel oprPane = new JPanel(new FlowLayout());
+    oprPane.add(lineSpinner);
+    oprPane.add(go);
+    Goto.getContentPane().add(oprPane, BorderLayout.CENTER);
+    Goto.pack();
     Goto.setLocationRelativeTo(Trident.frame);
     Goto.setResizable(false);
     Goto.setVisible(true);

@@ -1,7 +1,7 @@
 /*
  *  FindReplace.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -64,6 +64,9 @@ class FindReplace {
   static JTabbedPane tabbedPane;
 
   public static void showUI(String activeTab) {
+    /*
+     * Opens up the Find and Replace Dialog
+     */
     if (imOpen) {
       frDialog.requestFocus();
       return;
@@ -179,7 +182,7 @@ class FindReplace {
     }
 
     frDialog.add(tabbedPane);
-    frDialog.setSize(400, 220);
+    frDialog.pack();
     frDialog.setLocationRelativeTo(Trident.frame);
     frDialog.setResizable(false);
     frDialog.setVisible(true);
@@ -187,6 +190,9 @@ class FindReplace {
 }
 
 class FRButtonsListener implements ActionListener {
+  /*
+   * Controls the Find And Replace dialog
+   */
   static boolean found = false;
   static ArrayList<Integer> foundStarts;
   static ArrayList<Integer> foundEnds;
@@ -206,10 +212,10 @@ class FRButtonsListener implements ActionListener {
         }
         // Whole words only
         if (FindReplace.wholeWords.isSelected() && !FindReplace.matchCase.isSelected()) {
-          pattern = Pattern.compile("\\b" + FindReplace.findField.getText() + "\\b", Pattern.CASE_INSENSITIVE);
+          pattern = Pattern.compile("\\b"  + FindReplace.findField.getText()  + "\\b", Pattern.CASE_INSENSITIVE);
         } // WW Only and Match Case
         else if (FindReplace.wholeWords.isSelected() && FindReplace.matchCase.isSelected()) {
-          pattern = Pattern.compile("\\b" + FindReplace.findField.getText() + "\\b");
+          pattern = Pattern.compile("\\b"  + FindReplace.findField.getText()  + "\\b");
         } // Not Ww, not Mc
         else if (!FindReplace.wholeWords.isSelected() && !FindReplace.matchCase.isSelected()) {
           pattern = Pattern.compile(FindReplace.findField.getText(), Pattern.CASE_INSENSITIVE);
@@ -217,7 +223,7 @@ class FRButtonsListener implements ActionListener {
         else if (!FindReplace.wholeWords.isSelected() && FindReplace.matchCase.isSelected())
           pattern = Pattern.compile(FindReplace.findField.getText());
         else // Exceptional cases : Taken as both selected to give accuracy
-          pattern = Pattern.compile("\\b" + FindReplace.findField.getText() + "\\b");
+          pattern = Pattern.compile("\\b"  + FindReplace.findField.getText()  + "\\b");
       } else if (FindReplace.tabbedPane.getSelectedIndex() == 1) {
         if (FindReplace.findField.getText().isEmpty()) {
           Trident.status1.setText("Find field is empty.");
@@ -225,10 +231,10 @@ class FRButtonsListener implements ActionListener {
         }
         // Whole words only
         if (FindReplace.rwholeWords.isSelected() && !FindReplace.rmatchCase.isSelected()) {
-          pattern = Pattern.compile("\\b" + FindReplace.rfindField.getText() + "\\b", Pattern.CASE_INSENSITIVE);
+          pattern = Pattern.compile("\\b"  + FindReplace.rfindField.getText()  + "\\b", Pattern.CASE_INSENSITIVE);
         } // WW Only and Match Case
         else if (FindReplace.rwholeWords.isSelected() && FindReplace.rmatchCase.isSelected()) {
-          pattern = Pattern.compile("\\b" + FindReplace.rfindField.getText() + "\\b");
+          pattern = Pattern.compile("\\b"  + FindReplace.rfindField.getText()  + "\\b");
         } // Not Ww, not Mc
         else if (!FindReplace.rwholeWords.isSelected() && !FindReplace.rmatchCase.isSelected()) {
           pattern = Pattern.compile(FindReplace.rfindField.getText(), Pattern.CASE_INSENSITIVE);
@@ -236,7 +242,7 @@ class FRButtonsListener implements ActionListener {
         else if (!FindReplace.rwholeWords.isSelected() && FindReplace.rmatchCase.isSelected())
           pattern = Pattern.compile(FindReplace.rfindField.getText());
         else // Exceptional cases : Taken as both selected to give accuracy
-          pattern = Pattern.compile("\\b" + FindReplace.rfindField.getText() + "\\b");
+          pattern = Pattern.compile("\\b"  + FindReplace.rfindField.getText()  + "\\b");
       } else
         throw new Exception("Unknown tab exception in Find and Replace");
 
@@ -244,7 +250,7 @@ class FRButtonsListener implements ActionListener {
       while (matcher.find()) {
         foundStarts.add(matcher.start());
         foundEnds.add(matcher.end());
-        Trident.status1.setText("Found " + foundStarts.size() + " matches.");
+        Trident.status1.setText("Found "  + foundStarts.size()  + " matches.");
         found = true;
       }
       if (!found) {
@@ -259,6 +265,9 @@ class FRButtonsListener implements ActionListener {
   static int i = 0;
 
   public static void findNext() {
+    /*
+     * Moves the selection and caret to next match
+     */
     find();
     try {
       if (i >= foundEnds.size()) {
@@ -275,6 +284,9 @@ class FRButtonsListener implements ActionListener {
   }
 
   public static void replace() {
+    /*
+     * Replaces highlighted text with text in replace field
+     */
     find();
     if (foundStarts.size() == 0)
       return;
@@ -286,6 +298,9 @@ class FRButtonsListener implements ActionListener {
   }
 
   public static void replaceAll() {
+    /*
+     * Replaces all the occurences of the given string.
+     */
     find();
     for (int i = 0; i <= foundStarts.size(); i++) {
       replace();
@@ -294,6 +309,9 @@ class FRButtonsListener implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent ae) {
+    /*
+     * Controls the button actions of Find and Replace Dialog
+     */
     switch (ae.getActionCommand()) {
     case "Find":
       find();

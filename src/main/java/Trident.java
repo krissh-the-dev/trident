@@ -1,7 +1,7 @@
 /*
  *  Trident.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,9 +17,6 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-import mdlaf.*;
-import mdlaf.themes.*;
 
 // * Listeners
 
@@ -54,6 +51,7 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AbstractDocument;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
@@ -67,11 +65,22 @@ import java.awt.Desktop;
 import java.io.IOException;
 
 /*
- * Trident Text Editor v3.0+
+ * Trident Text Editor v4.0 + 
  * @author: Krishna Moorthy
  */
 
 class Trident {
+  /*
+   * Main Trident Application
+   * 
+   * Contains all the basic components and links all the libraries and
+   * functionalities with Trident.
+   * 
+   * Handles all the errors and writes logs
+   */
+
+  public static boolean isRunning = true;
+
   protected static JTextArea textarea;
   protected static JFrame frame;
   public static JLabel status1, status2, status3, status4;
@@ -80,10 +89,10 @@ class Trident {
   public static JMenuBar mb;
   public static JScrollPane editor;
   public static JPanel statusBar, commentPanel, othersPanel;
-  public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu;
-  public static JMenuItem newFile, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo, pCopy, pCut,
-      pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun, console,
-      AboutFile, help, AboutTrident, updates;
+  public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu, newSource;
+  public static JMenuItem newFile, newWindow, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo,
+      pCopy, pCut, pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun,
+      console, AboutFile, help, AboutTrident, updates, pyFile, javaFile, cFile, cppFile, htmlFile, pboil;
   public static JCheckBoxMenuItem wordWrap, autoSave;
   public static JToolBar toolBar;
   public static UndoManager undoManager;
@@ -98,7 +107,43 @@ class Trident {
 
   public static void ErrorDialog(String code, Exception e) {
     try {
-      File logFile = new File("logs/log.txt");
+      /*
+       * The Trident Error Handler :- * Handles Errors that occur during the runtime
+       * of Trident and writes logs whenever an error occurs. * Shows Error dialog.
+       * 
+       * @param: Error code, excpection object.
+       */
+      writeLog(code, e);
+      int option = JOptionPane.showConfirmDialog(frame,
+          "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: "
+              + code + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
+          "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
+      if (option == JOptionPane.YES_OPTION) {
+        try {
+          Desktop.getDesktop().browse(java.net.URI.create(
+              "https://github.com/KrishnaMoorthy12/trident/issues/new?assignees=&labels=&template=bug_report.md&title="));
+        } catch (Exception shit) {
+          ErrorDialog("DESKTOP_UNAVAILABLE", shit);
+        }
+        status1.setText("Thanks for your positive intent.");
+      } else {
+        status1.setText("Please report errors to help improve Trident.");
+      }
+    } catch (Exception dialogShowErr) {
+      System.err.println("Trident was terminated with an unexpected error.");
+      System.exit(-1);
+      writeLog("CRASH_ERR_DIALOG", dialogShowErr);
+    }
+  }
+
+  public static void writeLog(String code, Exception e) {
+    /*
+     * Writes error logs to %TridentPath%/logs/log.txt
+     * 
+     * @param: Error Code, Exception object
+     */
+    try {
+      File logFile = new File("src/main/java/logs/log.txt");
       logFile.createNewFile();
       FileWriter logWriter = new FileWriter(logFile, true);
       BufferedWriter writer = new BufferedWriter(logWriter);
@@ -118,30 +163,24 @@ class Trident {
         writer.write(System.lineSeparator());
       }
       writer.write("=========================================================");
-      int option = JOptionPane.showConfirmDialog(frame,
-          "An Unexpected error occured. \nThis may lead to a crash. Save any changes and continue. \nERROR CODE: "
-              + code + "\nERROR NAME: " + e.getClass().getName() + "\nERROR CAUSE: " + e.getCause(),
-          "Aw! Snap!", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, new ImageIcon("raw/error.png"));
-      if (option == JOptionPane.YES_OPTION) {
-        try {
-          Desktop.getDesktop().browse(java.net.URI.create(
-              "https://github.com/KrishnaMoorthy12/trident/issues/new?assignees=&labels=&template=bug_report.md&title="));
-        } catch (Exception shit) {
-          ErrorDialog("DESKTOP_UNAVAILABLE", shit);
-        }
-        status1.setText("Thanks for your positive intent.");
-      } else {
-        status1.setText("Please report errors to help improve Trident.");
-      }
+
       writer.close();
       logWriter.close();
     } catch (IOException ioException) {
       // ErrorDialog("LOG_IO_ERR", ioException);
-      // IO ERROR cannot call another io :/
+      ioException.printStackTrace();
+      // System.out.println(ioException);
     }
   }
 
   public static final int checkOS() throws UnsupportedOperatingSystemException {
+    /*
+     * Checks the Operating System and returns a OS Code
+     * 
+     * @throws: Unsupported OS Exception when OS is neither Linux, nor Windows.
+     * 
+     * @returns: Integer corresponding to the OS.
+     */
     String operatingSystem = System.getProperty("os.name").toLowerCase();
     if (operatingSystem.contains("windows")) {
       return 1;
@@ -153,6 +192,12 @@ class Trident {
   }
 
   public Trident(String file) {
+    /*
+     * Initializes the Main application Trident and all the objects. Starts all the
+     * basic processes and threads for the basic functioning of Trident.
+     * 
+     * @param: File name as string to open.
+     */
     try {
       // * Global variable inits
       warned = false;
@@ -165,11 +210,6 @@ class Trident {
       Configurations.read();
       try {
         UIManager.setLookAndFeel(Configurations.themeName);
-        // UIManager.setLookAndFeel(new MaterialLookAndFeel());
-        // if (UIManager.getLookAndFeel() instanceof MaterialLookAndFeel) {
-        // System.out.println("Themeing...");
-        // MaterialLookAndFeel.changeTheme(new MaterialLiteTheme());
-        // }
       } catch (Exception e) {
         ErrorDialog("UI_THEME_ERR", e);
         Configurations.themeName = UIManager.getSystemLookAndFeelClassName();
@@ -214,6 +254,34 @@ class Trident {
       newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
       fileMenu.add(newFile);
       newFile.addActionListener(fml);
+
+      newWindow = new JMenuItem("New Window");
+      newWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+          java.awt.event.InputEvent.CTRL_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+      fileMenu.add(newWindow);
+      newWindow.addActionListener(fml);
+
+      newSource = new JMenu("New Source File");
+      newSource.setMnemonic(KeyEvent.VK_O);
+      cFile = new JMenuItem("C Source File");
+      cFile.addActionListener(fml);
+      newSource.add(cFile);
+      cppFile = new JMenuItem("C++ Source File");
+      cppFile.addActionListener(fml);
+      newSource.add(cppFile);
+      javaFile = new JMenuItem("Java Source File");
+      javaFile.addActionListener(fml);
+      newSource.add(javaFile);
+      pyFile = new JMenuItem("Python Source File");
+      pyFile.addActionListener(fml);
+      newSource.add(pyFile);
+      htmlFile = new JMenuItem("HTML File");
+      htmlFile.addActionListener(fml);
+      newSource.add(htmlFile);
+      pboil = new JMenuItem("Open PowerBoil");
+      pboil.addActionListener(fml);
+      newSource.add(pboil);
+      fileMenu.add(newSource);
 
       OpenFile = new JMenuItem("Open");
       OpenFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -392,6 +460,8 @@ class Trident {
       textarea.setComponentPopupMenu(editorMenu);
 
       // > Listeners for Text Area
+      AbstractDocument doc = (AbstractDocument) textarea.getDocument();
+      doc.setDocumentFilter(new IndentListener());
       EditActionsListener eal = new EditActionsListener();
       undoManager = new UndoManager();
       eal.start();
@@ -436,7 +506,7 @@ class Trident {
 
       if (!path.equals("New File")) {
         FileMenuListener.openFile();
-        FileMenuListener.FileSaver(path);
+        FileMenuListener.saveFile();
         status1.setText("File opened using command-line.");
       }
 
@@ -450,7 +520,7 @@ class Trident {
       frame.setVisible(true);
 
     } catch (Exception e) {
-      // ErrorDialog("MAIN_THREAD_CRASH", e);
+      ErrorDialog("MAIN_THREAD_CRASH", e);
       System.err.println("Unexpected crash...");
       e.printStackTrace();
       System.exit(0);
@@ -458,11 +528,26 @@ class Trident {
   }
 
   public static void main(String[] args) {
+    /**
+     * TRIDENT MAIN METHOD:-
+     * 
+     * Initializes Trident
+     * 
+     * Controls Command-line instructions
+     * 
+     * @param: (Optional) File name/ path to open
+     */
     if (args.length == 0)
       new Trident("New File");
     else {
-      for (String x : args) {
-        new Trident(x);
+      for (String arg : args) {
+        if (arg.equals("-version")) {
+          System.out.println("Trident Text Editor");
+          System.out.print("Version: 4.4");
+          System.out.println("\tChannel: Beta");
+          System.out.println("(c) 2020 Krishna Moorthy Athinarayan. All rights reserved.");
+        } else
+          new Trident(arg);
       }
     }
   }

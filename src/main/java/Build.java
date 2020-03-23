@@ -1,7 +1,7 @@
 /*
  *  Build.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.FilenameFilter;
 import java.lang.ProcessBuilder.Redirect;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /* 
  * Trident Text Editor Build Bot v3.0
@@ -34,18 +36,23 @@ import java.lang.ProcessBuilder.Redirect;
  */
 
 class Build {
-  public static File[] finder(String dirName) {
+  public static File[] finder(String dirName, String type) {
+    /*
+     * @param: name of the directory as string;
+     * 
+     * returns all java files in the given directory as a File array
+     */
     File dir = new File(dirName);
     return dir.listFiles(new FilenameFilter() {
       public boolean accept(File dir, String filename) {
-        return filename.endsWith(".java");
+        return filename.endsWith(type);
       }
     });
   }
 
   public static void main(String[] args) throws IOException, InterruptedException {
     System.out.println("Getting project files...");
-    File fileF[] = finder(".");
+    File fileF[] = finder(".", "java");
     String files[] = new String[fileF.length];
 
     for (int i = 0; i < fileF.length; i++) {
@@ -58,11 +65,22 @@ class Build {
       File log = new File("output.txt");
       processBuilder.redirectErrorStream(true);
       processBuilder.redirectOutput(Redirect.appendTo(log));
+
       Process p = processBuilder.start();
-      p.waitFor();
-      System.out.println(file + " was compiled.");
+      int res = p.waitFor();
+      if (res != 0)
+        System.err.println(file  + "compilation ended with error.");
+      else
+        System.out.println(file  + " was compiled successfully.");
     }
     System.out.println("All source files were compiled.");
+
+    System.out.println("Copying class file to /bin...");
+    String bin = "./bin";
+    File classFiles[] = finder(".", "class");
+    for (File classFile : classFiles) {
+      // move
+    }
 
     System.out.println("Opening Trident...");
     ProcessBuilder processBuilder = new ProcessBuilder("java", "Trident");
@@ -102,17 +120,17 @@ class Build {
     p = processBuilder.start();
     p.waitFor();
 
-    System.out.println("Opening WinRAR...");
-    // Add WinRAR to your path
-    processBuilder = new ProcessBuilder("winrar", "trident.zip");
+    System.out.println("Opening EXE Maker...");
+    // Add EXE maker to your path
+    processBuilder = new ProcessBuilder("toEXE");
     processBuilder.redirectErrorStream(true);
     processBuilder.redirectOutput(Redirect.appendTo(log));
     p = processBuilder.start();
     p.waitFor();
 
-    System.out.println("Opening EXE Maker...");
-    // Add EXE maker to your path
-    processBuilder = new ProcessBuilder("toEXE");
+    System.out.println("Opening WinRAR...");
+    // Add WinRAR to your path
+    processBuilder = new ProcessBuilder("winrar", "trident.zip");
     processBuilder.redirectErrorStream(true);
     processBuilder.redirectOutput(Redirect.appendTo(log));
     p = processBuilder.start();

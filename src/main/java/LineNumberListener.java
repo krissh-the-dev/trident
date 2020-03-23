@@ -1,8 +1,8 @@
 
 /*
  *  LineNumberListener.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,9 +30,19 @@ import javax.swing.text.BadLocationException;
  */
 
 public class LineNumberListener implements CaretListener {
+  /*
+   * Controls the Line number and Column Number display areas in status bar and
+   * the side line number panel
+   */
+
+  public static boolean isRunning = true;
 
   @Override
   public void caretUpdate(CaretEvent ce) {
+    /*
+     * Updates status bar text when caret position changes
+     */
+    // TODO : Add code to control line number panel
     try {
       int offset = Trident.textarea.getCaretPosition();
       int line = Trident.textarea.getLineOfOffset(offset);

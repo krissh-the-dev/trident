@@ -1,8 +1,8 @@
 
 /*
  *  SettingsMenuListener.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,7 +30,17 @@ import java.awt.event.ItemEvent;
  */
 
 class SettingsMenuListener implements ActionListener, ItemListener {
+  /*
+   * Controls the actions of Settings Menu
+   */
+
+  public static boolean isRunning = true;
+
   public void actionPerformed(ActionEvent e) {
+    /*
+     * Controls actions of Settings menu items (Style editor and Configurations
+     * options)
+     */
     switch (e.getActionCommand()) {
     // Note: For JMenuCheckBoxes refer itemStateChanged()
     case "Style Editor":
@@ -43,6 +53,9 @@ class SettingsMenuListener implements ActionListener, ItemListener {
   }
 
   public void itemStateChanged(ItemEvent ie) {
+    /*
+     * Controls actions of Settings menu items (Auto save and Word Wrap options)
+     */
     Trident.textarea.setLineWrap(Trident.wordWrap.isSelected());
     AutoSave.setEnabled(Trident.autoSave.isSelected());
   }

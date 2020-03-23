@@ -1,7 +1,7 @@
 /*
  *  ChangeListener.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,18 @@ import javax.swing.event.DocumentListener;
  */
 
 class ChangeListener implements DocumentListener {
+  /*
+   * Listens to the changes in the document [textarea]
+   */
+
+  public static boolean isRunning = true;
+
   private static void warn() {
+    /*
+     * Influences the behaviour of title bar and status bar
+     * 
+     * adds 'Unsaved' warning on title bar and status bar warning area [area 2]
+     */
     if (!Trident.warned) {
       Trident.status2.setText("Unsaved");
       Trident.warned = true;

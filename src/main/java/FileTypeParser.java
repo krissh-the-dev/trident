@@ -1,8 +1,9 @@
+import java.io.File;
 
 /*
  *  FileTypeParser.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,9 +24,17 @@
  * (GPL v3) Trident > FileTypeParser
  * @author: Krishna Moorthy
  */
+
 public class FileTypeParser {
 
   public static String getExtension(String fileName) {
+    /*
+     * finds the extension of a file
+     * 
+     * @param: filename or path as string
+     * 
+     * @returns: the extension of the file, without '.'
+     */
     String extension = "file";
     int i = fileName.lastIndexOf('.');
     if (i > 0)
@@ -34,6 +43,13 @@ public class FileTypeParser {
   }
 
   public static String getType(String fileName) {
+    /*
+     * Finds the type of the file based on extension
+     * 
+     * @param: file name or file path as string
+     * 
+     * @returns: the file type as string
+     */
     String type;
 
     String extension = getExtension(fileName);
@@ -152,5 +168,18 @@ public class FileTypeParser {
       break;
     }
     return type;
+  }
+
+  public static String getName(String filePath) {
+    String fileName = "";
+
+    try {
+      String name = (new File(filePath)).getName();
+      fileName = name.replaceFirst("[.][^.] + $", "");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fileName = "";
+    }
+    return fileName;
   }
 }

@@ -1,7 +1,7 @@
 /*
  *  AboutMenuListener.java
- *  (c) Copyright, 2019 - 2020 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.io/KrishnaMoorthy12
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
  */
 
 // * Listeners
-
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
@@ -52,6 +51,14 @@ import javax.swing.SwingConstants;
  */
 
 class AboutMenuListener implements ActionListener {
+  /*
+   * Action listener for the About menu
+   * 
+   * Handles chosen menu item action from the about menu
+   */
+
+  public static boolean isRunning = true;
+
   public void actionPerformed(ActionEvent e) {
     try {
       switch (e.getActionCommand()) {
@@ -66,13 +73,17 @@ class AboutMenuListener implements ActionListener {
         JLabel icon = new JLabel(logo);
         icon.setSize(50, 50);
         JLabel l1 = new JLabel(
-            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193);} h3 {font-family: \"Segoe UI Semilight\";} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h3> Version 4.0 <br/>STABLE</h3></html>");
+            "<html><style> h1 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193);} h3 {font-family: \"Segoe UI Semilight\";} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h3> Version 4.4 <br/>BETA</h3></html>");
         JLabel l2 = new JLabel(
-            "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px;}</style><h3>Visit Home Page</h3></html>");
+            "<html><style>h3 {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px;} h3:hover {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px; background-color: rgb(6,113,193);} </style><h3>Visit Home Page</h3></html>");
         l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
         l2.addMouseListener(new MouseAdapter() {
+
           @Override
           public void mouseClicked(MouseEvent me) {
+            /*
+             * For the mouse click on Visit Home Page button in About Trident Dialog
+             */
             try {
               Desktop.getDesktop().browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident"));
             } catch (Exception de) {
@@ -90,6 +101,7 @@ class AboutMenuListener implements ActionListener {
         l2.setBounds(120, 400, 50, 10);
         aboutDialog.add(infoPanel);
         aboutDialog.setSize(350, 500);
+        // aboutDialog.pack();
 
         aboutDialog.setLocationRelativeTo(Trident.frame);
         aboutDialog.setResizable(false);
