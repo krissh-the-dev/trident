@@ -2,32 +2,3 @@
 *                TRIDENT TEXT EDITOR              *
 *             CRASH AND ERROR LOG FILE            *
 ***************************************************
-
-2020-03-23T15:19:20.090
-SETTINGS_READ_ERR
-java.io.FileNotFoundException
-null
-configurations.ts (The system cannot find the file specified)
-------------------------------------------
-[SETTINGS_READ_ERR] java.io.FileInputStream.open0(Native Method)
-[SETTINGS_READ_ERR] java.io.FileInputStream.open(FileInputStream.java:195)
-[SETTINGS_READ_ERR] java.io.FileInputStream.<init>(FileInputStream.java:138)
-[SETTINGS_READ_ERR] java.io.FileReader.<init>(FileReader.java:72)
-[SETTINGS_READ_ERR] Configurations.read(Configurations.java:463)
-[SETTINGS_READ_ERR] Trident.<init>(Trident.java:210)
-[SETTINGS_READ_ERR] Trident.main(Trident.java:541)
-=========================================================
-2020-03-23T15:19:33.950
-SETTINGS_READ_ERR
-java.io.FileNotFoundException
-null
-configurations.ts (The system cannot find the file specified)
-------------------------------------------
-[SETTINGS_READ_ERR] java.io.FileInputStream.open0(Native Method)
-[SETTINGS_READ_ERR] java.io.FileInputStream.open(FileInputStream.java:195)
-[SETTINGS_READ_ERR] java.io.FileInputStream.<init>(FileInputStream.java:138)
-[SETTINGS_READ_ERR] java.io.FileReader.<init>(FileReader.java:72)
-[SETTINGS_READ_ERR] Configurations.read(Configurations.java:463)
-[SETTINGS_READ_ERR] Trident.<init>(Trident.java:210)
-[SETTINGS_READ_ERR] Trident.main(Trident.java:541)
-=========================================================
