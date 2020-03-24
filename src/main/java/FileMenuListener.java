@@ -93,7 +93,7 @@ class FileMenuListener implements ActionListener {
       BufferedReader br = new BufferedReader(fr);
       String contents = "";
       for (String line = br.readLine(); line != null; line = br.readLine()) {
-        contents  += line  + System.lineSeparator();
+        contents += line + System.lineSeparator();
       }
       Trident.textarea.setText(contents);
       Trident.status1.setText("Editing existing file.");
@@ -109,7 +109,7 @@ class FileMenuListener implements ActionListener {
       Trident.Redo.setEnabled(false);
       Toolbar.redoButton.setEnabled(false);
 
-      Trident.frame.setTitle("Trident Text Editor - "  + Paths.get(Trident.path).getFileName().toString());
+      Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
 
       contents = null;
       fr.close();
@@ -140,7 +140,7 @@ class FileMenuListener implements ActionListener {
         bw.write(contents);
         bw.close();
         Trident.warned = false;
-        Trident.frame.setTitle("Trident Text Editor - "  + Paths.get(filepath).getFileName().toString());
+        Trident.frame.setTitle("Trident Text Editor - " + Paths.get(filepath).getFileName().toString());
         Trident.status1.setText("File saved successfully.");
         Trident.status2.setText("Saved");
         Trident.status3.setText(FileTypeParser.getType(Paths.get(filepath).getFileName().toString()));
@@ -168,7 +168,7 @@ class FileMenuListener implements ActionListener {
         bw.write(contents);
         bw.close();
         Trident.warned = false;
-        Trident.frame.setTitle("Trident Text Editor - "  + Paths.get(Trident.path).getFileName().toString());
+        Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
         Trident.status1.setText("File saved successfully.");
         Trident.status2.setText("Saved");
         Trident.status3.setText(FileTypeParser.getType(Paths.get(Trident.path).getFileName().toString()));
@@ -203,8 +203,8 @@ class FileMenuListener implements ActionListener {
      * without saving any recent changes, irrespective of autosaved copies
      */
     int opt = JOptionPane.showConfirmDialog(Trident.frame,
-        "There are some unsaved changes in the file."  + System.lineSeparator()
-             + "Do you want to save the changes and continue?",
+        "There are some unsaved changes in the file." + System.lineSeparator()
+            + "Do you want to save the changes and continue?",
         "Warning: Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE,
         (new ImageIcon("raw/warning.png")));
     if (opt == JOptionPane.YES_OPTION) {
@@ -214,7 +214,7 @@ class FileMenuListener implements ActionListener {
     return opt;
   }
 
-  public static void newFile() {
+  public static boolean newFile() {
     /*
      * Creates a new temporary file in arbitrary location. Refreshes and empties all
      * the older contents
@@ -223,7 +223,7 @@ class FileMenuListener implements ActionListener {
       int opt = warningDialog();
       if (opt == JOptionPane.CANCEL_OPTION) {
         Trident.status1.setText("Ready.");
-        return;
+        return false;
       }
     }
     Trident.path = "New File";
@@ -239,6 +239,7 @@ class FileMenuListener implements ActionListener {
     Toolbar.redoButton.setEnabled(false);
     Trident.undoManager = new UndoManager();
     Trident.textarea.getDocument().addUndoableEditListener(Trident.undoManager);
+    return true;
   }
 
   protected static void boil(String choice)
@@ -251,45 +252,48 @@ class FileMenuListener implements ActionListener {
      */
     String boiler = null;
     switch (choice) {
-    case "C Source File":
-      boiler = "boilers/c.c";
-      break;
+      case "C Source File":
+        boiler = "boilers/c.c";
+        break;
 
-    case "C++ Source File":
-      boiler = "boilers/c++.cpp";
-      break;
+      case "C++ Source File":
+        boiler = "boilers/c++.cpp";
+        break;
 
-    case "Python Source File":
-      boiler = "boilers/python.py";
-      break;
+      case "Python Source File":
+        boiler = "boilers/python.py";
+        break;
 
-    case "Java Source File":
-      boiler = "boilers/java.java";
-      break;
+      case "Java Source File":
+        boiler = "boilers/java.java";
+        break;
 
-    case "HTML File":
-      boiler = "boilers/html5.html";
-      break;
+      case "HTML File":
+        boiler = "boilers/html5.html";
+        break;
 
-    case "Open PowerBoil":
-      TridentCompiler.execute("boilers/powerboil/powerboil.py");
-      return;
+      case "Open PowerBoil":
+        TridentCompiler.execute("boilers/powerboil/powerboil.py");
+        return;
 
-    default:
-      throw new UnsupportedFileException(Trident.path);
+      default:
+        throw new UnsupportedFileException(Trident.path);
     }
     try {
-      newFile();
-      BufferedReader be = new BufferedReader(new FileReader(new File(boiler)));
-      String content = be.readLine();
-      String contents = "";
-      while (content != null) {
-        contents  += content  + System.lineSeparator();
-        content = be.readLine();
+      if (newFile()) {
+        BufferedReader be = new BufferedReader(new FileReader(new File(boiler)));
+        String content = be.readLine();
+        String contents = "";
+        while (content != null) {
+          contents += content + System.lineSeparator();
+          content = be.readLine();
+        }
+        Trident.textarea.setText(contents);
+        Trident.status3.setText(choice);
+        be.close();
+      } else {
+        Trident.status1.setText("Operation cancelled by the user.");
       }
-      Trident.textarea.setText(contents);
-      Trident.status3.setText(choice);
-      be.close();
     } catch (Exception e) {
       throw e;
     }
@@ -301,57 +305,57 @@ class FileMenuListener implements ActionListener {
      */
     try {
       switch (e.getActionCommand()) {
-      case "New":
-        newFile();
-        break;
+        case "New":
+          newFile();
+          break;
 
-      case "New Window":
-        // new Trident("New File");
-        ProcessBuilder pb = new ProcessBuilder("Trident.bat");
-        Process p = pb.start();
-        break;
+        case "New Window":
+          // new Trident("New File");
+          ProcessBuilder pb = new ProcessBuilder("Trident.bat");
+          Process p = pb.start();
+          break;
 
-      case "Open":
-        if (Trident.warned) {
-          int opt = warningDialog();
-          if (opt == JOptionPane.CANCEL_OPTION) {
-            Trident.status1.setText("Ready.");
-            break;
+        case "Open":
+          if (Trident.warned) {
+            int opt = warningDialog();
+            if (opt == JOptionPane.CANCEL_OPTION) {
+              Trident.status1.setText("Ready.");
+              break;
+            }
           }
-        }
-        FileOpener();
-        break;
+          FileOpener();
+          break;
 
-      case "Exit":
-        Trident.status1.setText("Exiting Trident...");
-        if (Trident.warned) {
-          int opt = warningDialog();
-          if (opt == JOptionPane.NO_OPTION) {
-            System.exit(0);
+        case "Exit":
+          Trident.status1.setText("Exiting Trident...");
+          if (Trident.warned) {
+            int opt = warningDialog();
+            if (opt == JOptionPane.NO_OPTION) {
+              System.exit(0);
+            } else {
+              Trident.status1.setText("Ready.");
+              break;
+            }
           } else {
-            Trident.status1.setText("Ready.");
-            break;
+            System.exit(0);
           }
-        } else {
-          System.exit(0);
-        }
 
-      case "Save":
-        saveFile();
-        break;
+        case "Save":
+          saveFile();
+          break;
 
-      case "Save As":
-        FileSaveAs();
-        break;
+        case "Save As":
+          FileSaveAs();
+          break;
 
-      default: /* For Boilers */
-        /*
-         * JMenuItem source = (JMenuItem) e.getSource(); JPopupMenu jpm = (JPopupMenu)
-         * source.getParent(); JMenu pMenu = (JMenu) jpm.getInvoker();
-         * System.out.println(pMenu.getActionCommand());
-         */
-        boil(e.getActionCommand());
-        break;
+        default: /* For Boilers */
+          /*
+           * JMenuItem source = (JMenuItem) e.getSource(); JPopupMenu jpm = (JPopupMenu)
+           * source.getParent(); JMenu pMenu = (JMenu) jpm.getInvoker();
+           * System.out.println(pMenu.getActionCommand());
+           */
+          boil(e.getActionCommand());
+          break;
       }
     } catch (UnsupportedFileException ufe) {
       Trident.ErrorDialog("SOURCE_ACTION_ERR", ufe);
