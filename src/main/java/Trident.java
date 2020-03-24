@@ -187,7 +187,8 @@ class Trident {
     } else if (operatingSystem.contains("linux")) {
       return 2;
     } else {
-      throw new UnsupportedOperatingSystemException();
+      return 3;
+      // throw new UnsupportedOperatingSystemException();
     }
   }
 
@@ -208,13 +209,23 @@ class Trident {
 
       // * Themeing
       Configurations.read();
-      try {
-        UIManager.setLookAndFeel(Configurations.themeName);
-      } catch (Exception e) {
-        ErrorDialog("UI_THEME_ERR", e);
-        Configurations.themeName = UIManager.getSystemLookAndFeelClassName();
-        UIManager.setLookAndFeel(Configurations.themeName);
-        Configurations.write();
+      if (checkOS() == 1) {
+        try {
+          UIManager.setLookAndFeel(Configurations.themeName);
+        } catch (Exception e) {
+          Configurations.themeName = UIManager.getSystemLookAndFeelClassName();
+          UIManager.setLookAndFeel(Configurations.themeName);
+          Configurations.write();
+          ErrorDialog("UI_THEME_ERR", e);
+        }
+      } else {
+        try {
+          if (Configurations.themeName.contains("windows")) {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+          }
+        } catch (Exception e) {
+          ErrorDialog("LINUX_THEME_ERR", e);
+        }
       }
 
       // * Frame Setup
