@@ -136,7 +136,7 @@ public class Configurations {
         break;
 
       case "Material Light":
-        themeName = (new MaterialLookAndFeel()).getClass().getName();
+        themeName = (new MaterialLookAndFeel()).getClass().getName(); // Dependency based
         break;
 
       case "Default":

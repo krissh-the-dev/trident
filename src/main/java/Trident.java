@@ -543,7 +543,7 @@ class Trident {
       for (String arg : args) {
         if (arg.equals("-version")) {
           System.out.println("Trident Text Editor");
-          System.out.print("Version: 4.4");
+          System.out.print("Version: 5.0");
           System.out.println("\tChannel: Beta");
           System.out.println("(c) 2020 Krishna Moorthy Athinarayan. All rights reserved.");
         } else
