@@ -95,7 +95,7 @@ public class Configurations {
   // * Configs
   public static Color menubg = null;
   public static Color menufg = null;
-  public static Color statusbg = new Color(210, 210, 210);
+  public static Color statusbg = new Color(225, 225, 225);
   public static Color statusfg = Color.BLACK;
   public static Color selectionbg = new Color(23, 135, 227);
   public static Color selectionfg = Color.WHITE;
@@ -108,7 +108,7 @@ public class Configurations {
 
   public static void generateTheme(Color Primary, Color Secondary) {
     if (Primary.equals(Color.WHITE)) {
-      statusbg = new Color(210, 210, 210);
+      statusbg = new Color(225, 225, 225);
       statusfg = Color.BLACK;
     } else if (Primary.equals(Color.BLACK)) {
       statusbg = new Color(25, 25, 25);
@@ -499,7 +499,7 @@ public class Configurations {
     read();
     try {
       if (primary.equals(Color.WHITE)) {
-        statusbg = new Color(210, 210, 210);
+        statusbg = new Color(225, 225, 225);
         statusfg = Color.BLACK;
       } else if (primary.equals(Color.BLACK)) {
         statusbg = new Color(25, 25, 25);
