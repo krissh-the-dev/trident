@@ -173,11 +173,9 @@ class Trident {
     }
   }
 
-  public static final int checkOS() throws UnsupportedOperatingSystemException {
+  public static final int checkOS() {
     /*
      * Checks the Operating System and returns a OS Code
-     * 
-     * @throws: Unsupported OS Exception when OS is neither Linux, nor Windows.
      * 
      * @returns: Integer corresponding to the OS.
      */
