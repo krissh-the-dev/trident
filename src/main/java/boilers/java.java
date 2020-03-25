@@ -9,7 +9,7 @@ import java.io.*;
 
 class YourClass {
   /*
-   * Describe about your class
+   * Describe your class
    */
   public static void main(String[] args) {
     // Code..

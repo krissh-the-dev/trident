@@ -22,6 +22,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.BufferedReader;
@@ -272,6 +273,10 @@ class FileMenuListener implements ActionListener {
         boiler = "boilers/html5.html";
         break;
 
+      case "Bootstrap":
+        boiler = "boilers/bootstrap.html";
+        break;
+
       case "Open PowerBoil":
         TridentCompiler.execute("boilers/powerboil/powerboil.py");
         return;
@@ -294,6 +299,8 @@ class FileMenuListener implements ActionListener {
       } else {
         Trident.status1.setText("Operation cancelled by the user.");
       }
+    } catch (FileNotFoundException fnf) {
+      Trident.ErrorDialog("BOILER_NOT_FOUNT", fnf);
     } catch (Exception e) {
       throw e;
     }

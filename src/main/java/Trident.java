@@ -92,7 +92,7 @@ class Trident {
   public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu, newSource;
   public static JMenuItem newFile, newWindow, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo,
       pCopy, pCut, pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun,
-      console, AboutFile, help, AboutTrident, updates, pyFile, javaFile, cFile, cppFile, htmlFile, pboil;
+      console, AboutFile, help, AboutTrident, updates, pyFile, javaFile, cFile, cppFile, htmlFile, bstrp, pboil;
   public static JCheckBoxMenuItem wordWrap, autoSave;
   public static JToolBar toolBar;
   public static UndoManager undoManager;
@@ -289,6 +289,9 @@ class Trident {
       htmlFile = new JMenuItem("HTML File");
       htmlFile.addActionListener(fml);
       newSource.add(htmlFile);
+      bstrp = new JMenuItem("Bootstrap");
+      bstrp.addActionListener(fml);
+      newSource.add(bstrp);
       pboil = new JMenuItem("Open PowerBoil");
       pboil.addActionListener(fml);
       newSource.add(pboil);
