@@ -41,11 +41,11 @@ public class TridentCompiler {
     String driver;
     switch (Trident.checkOS()) {
       case 1: // Windows
-        driver = "cmd /c start cmd.exe /K \"title Trident Compiler";
+        driver = "cmd /c start cmd.exe /K \"title Trident Compiler && ";
         break;
 
       case 2:
-        driver = "/usr/bin/gnome-terminal";
+        driver = "/usr/bin/gnome-terminal --";
         break;
 
       default:
@@ -67,24 +67,24 @@ public class TridentCompiler {
       String fileType = FileTypeParser.getType(filepath);
       switch (fileType) {
         case "Python Source File":
-          Runtime.getRuntime().exec(driver + " && echo && python \"" + filepath + "\" && pause && exit \"");
+          Runtime.getRuntime().exec(driver + "echo && python \"" + filepath + "\" && pause && exit \"");
           break;
 
         case "Java Source File":
           Runtime.getRuntime()
-              .exec(driver + " && echo && javac \"" + filepath + "\" && echo Compilation ended. && pause && exit \"");
+              .exec(driver + "echo && javac \"" + filepath + "\" && echo Compilation ended. && pause && exit \"");
           break;
 
         case "C Source File":
           String fileLocation = (new File(filepath)).getParent();
-          Runtime.getRuntime().exec(driver + " && cd \"" + fileLocation + "\" && echo && gcc \"" + filepath
+          Runtime.getRuntime().exec(driver + "cd \"" + fileLocation + "\" && echo && gcc \"" + filepath
               + "\" -std=c99 && echo Compilation ended. && pause && exit \"");
           // using C99 to avoid irritating forbidden errors
           break;
 
         case "C++ Source File":
           fileLocation = (new File(filepath)).getParent();
-          Runtime.getRuntime().exec(driver + " && cd \"" + fileLocation + "\" && echo && g++ \"" + filepath
+          Runtime.getRuntime().exec(driver + "cd \"" + fileLocation + "\" && echo && g++ \"" + filepath
               + "\" && echo Compilation ended. && pause && exit \"");
           break;
 
@@ -117,7 +117,7 @@ public class TridentCompiler {
       String fileType = FileTypeParser.getType(filepath);
       switch (fileType) {
         case "Python Source File":
-          p = Runtime.getRuntime().exec(driver + " && echo && python \"" + filepath + "\" && pause && exit \"");
+          p = Runtime.getRuntime().exec(driver + "echo && python \"" + filepath + "\" && pause && exit \"");
           break;
 
         case "Java Source File":
@@ -127,13 +127,13 @@ public class TridentCompiler {
           exec = classFile.replaceFirst("[.][^.] + $", "");
           String location = new File(filepath).getParent().toString();
           p = Runtime.getRuntime()
-              .exec(driver + " &&  cd \"" + location + "\" && echo && java " + exec + " && pause && exit \"");
+              .exec(driver + " cd \"" + location + "\" && echo && java " + exec + " && pause && exit \"");
           break;
 
         case "C Source File":
         case "C++ Source File":
           exec = (new File(filepath)).getParent() + "/a.exe";
-          p = Runtime.getRuntime().exec(driver + " && echo && \"" + exec + "\" && pause && exit \"");
+          p = Runtime.getRuntime().exec(driver + "echo && \"" + exec + "\" && pause && exit \"");
           break;
 
         case "HTML File":
@@ -168,9 +168,9 @@ public class TridentCompiler {
       String driver = loadDriver();
       String parent = (new File(Trident.path)).getParent();
       if (os == 1) {
-        Runtime.getRuntime().exec(driver + " && cd " + parent + "\"");
+        Runtime.getRuntime().exec(driver + "cd " + parent + "\"");
       } else if (os == 2) {
-        Runtime.getRuntime().exec(driver + " && cd \"" + parent + "\"");
+        Runtime.getRuntime().exec(driver + "cd \"" + parent + "\"");
       } else
         throw new UnsupportedOperatingSystemException();
     } catch (UnsupportedOperatingSystemException unOS) {
