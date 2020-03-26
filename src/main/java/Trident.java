@@ -143,7 +143,7 @@ class Trident {
      * @param: Error Code, Exception object
      */
     try {
-      File logFile = new File("logs/log.txt");
+      File logFile = new File("logs/error.log");
       logFile.createNewFile();
       FileWriter logWriter = new FileWriter(logFile, true);
       BufferedWriter writer = new BufferedWriter(logWriter);
