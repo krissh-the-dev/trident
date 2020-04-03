@@ -32,6 +32,7 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 // * UI Elements
 
@@ -89,10 +90,11 @@ class Trident {
   public static JMenuBar mb;
   public static JScrollPane editor;
   public static JPanel statusBar, commentPanel, othersPanel;
-  public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu, newSource;
+  public static JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu, newSource, openRecent;
   public static JMenuItem newFile, newWindow, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo,
       pCopy, pCut, pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun,
       console, AboutFile, help, AboutTrident, updates, pyFile, javaFile, cFile, cppFile, htmlFile, bstrp, pboil;
+  public static JMenuItem[] recentlyOpened;
   public static JCheckBoxMenuItem wordWrap, autoSave;
   public static JToolBar toolBar;
   public static UndoManager undoManager;
@@ -299,6 +301,18 @@ class Trident {
       OpenFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
       fileMenu.add(OpenFile);
       OpenFile.addActionListener(fml);
+
+      openRecent = new JMenu("Open Recent");
+      ArrayList<String> recents = RecentsTracker.getRecords();
+      int num = 0;
+      recentlyOpened = new JMenuItem[5];
+      for (String rec : recents) {
+        recentlyOpened[num] = new JMenuItem(rec);
+        recentlyOpened[num].addActionListener(fml);
+        openRecent.add(recentlyOpened[num]);
+        num++;
+      }
+      fileMenu.add(openRecent);
 
       SaveFile = new JMenuItem("Save");
       SaveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
