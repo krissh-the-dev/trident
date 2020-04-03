@@ -32,17 +32,25 @@ public class RecentsTracker {
     if (recents.size() >= 5) {
       recents.remove(0);
     }
-    recents.add(filePath);
-    try (FileOutputStream fos = new FileOutputStream("logs/recents.tcf");
-        ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-      oos.writeObject(recents);
-    } catch (Exception e) {
-      e.printStackTrace();
+    if (recents.contains(filePath))
+      return;
+    else {
+      recents.add(filePath);
+      try (FileOutputStream fos = new FileOutputStream("logs/recents.tcf");
+          ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+        oos.writeObject(recents);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 
   public static void printRecords() {
     readRecords();
+    if (recents.size() == 0) {
+      System.out.println("No records found");
+      return;
+    }
     for (String x : recents) {
       System.out.println(x);
     }
