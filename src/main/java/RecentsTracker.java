@@ -45,6 +45,11 @@ public class RecentsTracker {
     }
   }
 
+  public static ArrayList<String> getRecords() {
+    readRecords();
+    return recents;
+  }
+
   public static void printRecords() {
     readRecords();
     if (recents.size() == 0) {
