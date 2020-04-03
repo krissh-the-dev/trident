@@ -113,6 +113,7 @@ class FileMenuListener implements ActionListener {
       Trident.frame.setTitle("Trident Text Editor - " + Paths.get(Trident.path).getFileName().toString());
 
       contents = null;
+      RecentsTracker.addRecord(Trident.path);
       fr.close();
       br.close();
       System.gc();
@@ -192,7 +193,7 @@ class FileMenuListener implements ActionListener {
     if (command == JFileChooser.APPROVE_OPTION) {
       Trident.path = (saveAsDialog.getSelectedFile().getAbsolutePath());
       saveFile();
-      // saveFile();
+      RecentsTracker.addRecord(saveAsDialog.getSelectedFile().getAbsolutePath());
     } else if (command == JFileChooser.CANCEL_OPTION) {
       Trident.status1.setText("File is not saved.");
     }
