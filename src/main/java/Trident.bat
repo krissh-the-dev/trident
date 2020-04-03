@@ -4,4 +4,4 @@
 
 @echo off
 
-java Trident %1%
+java -jar Trident.jar %1%
