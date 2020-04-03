@@ -210,7 +210,6 @@ class FileMenuListener implements ActionListener {
         (new ImageIcon("raw/warning.png")));
     if (opt == JOptionPane.YES_OPTION) {
       saveFile();
-      // saveFile();
     }
     return opt;
   }
@@ -294,6 +293,9 @@ class FileMenuListener implements ActionListener {
           content = be.readLine();
         }
         Trident.textarea.setText(contents);
+        Trident.undoManager.discardAllEdits();
+        Trident.Undo.setEnabled(false);
+        Toolbar.undoButton.setEnabled(false);
         Trident.status3.setText(choice);
         be.close();
       } else {
