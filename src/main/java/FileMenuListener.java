@@ -358,13 +358,13 @@ class FileMenuListener implements ActionListener {
           FileSaveAs();
           break;
 
-        default: /* For Boilers */
-          /*
-           * JMenuItem source = (JMenuItem) e.getSource(); JPopupMenu jpm = (JPopupMenu)
-           * source.getParent(); JMenu pMenu = (JMenu) jpm.getInvoker();
-           * System.out.println(pMenu.getActionCommand());
-           */
-          boil(e.getActionCommand());
+        default:
+          if (e.getActionCommand().contains("/") | e.getActionCommand().contains("\\")) {
+            Trident.path = e.getActionCommand();
+            openFile();
+          } else {
+            boil(e.getActionCommand());
+          }
           break;
       }
     } catch (UnsupportedFileException ufe) {
