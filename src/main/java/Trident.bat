@@ -1,4 +1,4 @@
-:: Trident Launcher ::
+:: Trident Launcher - Windows ::
 :: Author: Krishna Moorthy ::
 :: LICENSE: GPL v3.0 ::
 
