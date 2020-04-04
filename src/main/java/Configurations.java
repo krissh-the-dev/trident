@@ -327,7 +327,7 @@ public class Configurations {
       tsEditor.setSize(450, 350);
       tsEditor.setIconImage((new ImageIcon("raw/trident.png")).getImage());
       JPanel TextViewer = new JPanel();
-      File tsFile = new File("configurations.ts");
+      File tsFile = new File("configurations.tcf");
       FileReader fr = new FileReader(tsFile);
       BufferedReader br = new BufferedReader(fr);
       String tsContents = "";
@@ -347,11 +347,11 @@ public class Configurations {
       tsViewer.getDocument().addDocumentListener(new DocumentListener() {
         private void saveSettings() {
           /*
-           * Saves the configurations.ts open in Conig Editor window
+           * Saves the configurations.tcf open in Conig Editor window
            */
           try {
             String tsContents = tsViewer.getText();
-            File tsFile = new File("configurations.ts");
+            File tsFile = new File("configurations.tcf");
             FileWriter fileWritter = new FileWriter(tsFile, false);
             BufferedWriter bw = new BufferedWriter(fileWritter);
             bw.write(tsContents);
@@ -391,7 +391,7 @@ public class Configurations {
 
   public static void setData() {
     /*
-     * Reads the stored settings from configurations.ts and sets the values in the
+     * Reads the stored settings from configurations.tcf and sets the values in the
      * Confurations Window UI
      */
     read();
@@ -433,7 +433,7 @@ public class Configurations {
      */
     try {
       String contents;
-      File tsf = new File("./configurations.ts");
+      File tsf = new File("./configurations.tcf");
       FileWriter fileWritter = new FileWriter(tsf, false);
       BufferedWriter bw = new BufferedWriter(fileWritter);
       contents = "themeName:" + themeName + "," + System.lineSeparator();
@@ -456,10 +456,10 @@ public class Configurations {
 
   public static void read() {
     /*
-     * Reads the stored settings from the configurations.ts file
+     * Reads the stored settings from the configurations.tcf file
      */
     try {
-      File settingsFile = new File("configurations.ts");
+      File settingsFile = new File("configurations.tcf");
       FileReader sfr = new FileReader(settingsFile);
       BufferedReader sbr = new BufferedReader(sfr);
       String tsContents = "";
@@ -493,7 +493,7 @@ public class Configurations {
 
   public static final void raw_apply() {
     /*
-     * Directly reads the configurations.ts and apply the settings (independent of
+     * Directly reads the configurations.tcf and apply the settings (independent of
      * Configuration Window)
      */
     read();
@@ -541,7 +541,7 @@ class ConfigurationsListener implements ActionListener {
           defaults += "fontName:Monospaced," + System.lineSeparator();
           defaults += "fontSize:14," + System.lineSeparator();
           defaults += "tabSize:4," + System.lineSeparator();
-          File tsf = new File("./configurations.ts");
+          File tsf = new File("./configurations.tcf");
           FileWriter fileWritter = new FileWriter(tsf, false);
           BufferedWriter bw = new BufferedWriter(fileWritter);
           bw.write(defaults);
