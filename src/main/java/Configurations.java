@@ -214,11 +214,6 @@ public class Configurations {
       return;
     }
     ImOpen = true;
-    try {
-      UIManager.setLookAndFeel(themeName);
-    } catch (Exception thmerr) {
-      Trident.ErrorDialog("THEME_ERR", thmerr);
-    }
     ConfigWindow = new JDialog(Trident.frame);
     ConfigWindow.setTitle("Configurations");
     ConfigWindow.setLayout(new GridLayout(1, 1, 1, 1));
