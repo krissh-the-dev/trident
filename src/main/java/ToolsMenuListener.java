@@ -34,34 +34,30 @@ class ToolsMenuListener implements ActionListener {
    */
 
   public static boolean isRunning = true;
-  
+
   public void actionPerformed(ActionEvent e) {
     /*
      * Controls the actions of Tools Menu items
      */
     try {
       switch (e.getActionCommand()) {
-      case "Compile":
-        TridentCompiler.compile(Trident.path);
-        Trident.status1.setText("Compilation ended.");
-        break;
+        case "Compile":
+          TridentCompiler.compile(Trident.path);
+          break;
 
-      case "Run":
-        TridentCompiler.execute(Trident.path);
-        Trident.status1.setText("Execution window deployed.");
-        break;
+        case "Run":
+          TridentCompiler.execute(Trident.path);
+          break;
 
-      case "Compile and Run":
-        TridentCompiler.compile(Trident.path);
-        Trident.status1.setText("Compilation ended.");
-        Thread.sleep(3000);
-        TridentCompiler.execute(Trident.path);
-        Trident.status1.setText("Execution window deployed.");
-        break;
+        case "Compile and Run":
+          TridentCompiler.compile(Trident.path);
+          Thread.sleep(3000);
+          TridentCompiler.execute(Trident.path);
+          break;
 
-      case "Open Console":
-        TridentCompiler.openTerminal(Trident.checkOS());
-        break;
+        case "Open Console":
+          TridentCompiler.openTerminal();
+          break;
       }
     } catch (IOException ioException) {
       Trident.ErrorDialog("PROCESS_BUILD_FILEIO", ioException);

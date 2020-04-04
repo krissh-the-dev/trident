@@ -91,8 +91,11 @@ public class TridentCompiler {
         default:
           throw new UnsupportedFileException(filepath);
       }
+      Trident.status1.setText("Compilation ended.");
     } catch (UnsupportedOperatingSystemException uos) {
       Trident.ErrorDialog("DRIVER_ERR", uos);
+    } catch (UnsupportedFileException uf) {
+      Trident.status1.setText("File could not be compiled.");
     }
   }
 
@@ -148,14 +151,17 @@ public class TridentCompiler {
         default:
           throw new UnsupportedFileException(filepath);
       }
+      Trident.status1.setText("Execution window deployed.");
       p.waitFor();
       p.destroy();
     } catch (UnsupportedOperatingSystemException uos) {
       Trident.ErrorDialog("DRIVER_ERR", uos);
+    } catch (UnsupportedFileException uf) {
+      Trident.status1.setText("File could not be executed.");
     }
   }
 
-  public static void openTerminal(int os) throws UnsupportedOperatingSystemException {
+  public static void openTerminal() throws UnsupportedOperatingSystemException {
     /**
      * Opens System Terminal window
      * 
@@ -165,6 +171,7 @@ public class TridentCompiler {
      *                      Operating Systems
      **/
     try {
+      int os = Trident.checkOS();
       String driver = loadDriver();
       String parent = (new File(Trident.path)).getParent();
       if (os == 1) {
