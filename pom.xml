@@ -75,6 +75,8 @@
                     <excludes>
                         <exclude>Build.class</exclude>
                         <exclude>Build$1.class</exclude>
+                        <exclude>Trident.sh</exclude>
+                        <exclude>Trident.bat</exclude>
                         <exclude>TridentDriver.class</exclude>
                     </excludes>
                 </configuration>
@@ -97,6 +99,8 @@
                     <excludes>
                         <exclude>Build.class</exclude>
                         <exclude>Build$1.class</exclude>
+                        <exclude>Trident.sh</exclude>
+                        <exclude>Trident.bat</exclude>
                         <exclude>TridentDriver.class</exclude>
                     </excludes>
                 </configuration>
