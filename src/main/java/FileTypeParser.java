@@ -55,117 +55,117 @@ public class FileTypeParser {
     String extension = getExtension(fileName);
 
     switch (extension.toLowerCase()) {
-    case "txt":
-      type = "Text File";
-      break;
+      case "txt":
+        type = "Text File";
+        break;
 
-    case "py":
-      type = "Python Source File";
-      break;
+      case "py":
+        type = "Python Source File";
+        break;
 
-    case "c":
-      type = "C Source File";
-      break;
+      case "c":
+        type = "C Source File";
+        break;
 
-    case "cpp":
-      type = "C++ Source File";
-      break;
+      case "cpp":
+        type = "C++ Source File";
+        break;
 
-    case "h":
-      type = "Header File";
-      break;
+      case "h":
+        type = "Header File";
+        break;
 
-    case "kt":
-      type = "Kotlin Source File";
-      break;
+      case "kt":
+        type = "Kotlin Source File";
+        break;
 
-    case "r":
-      type = "R Source File";
-      break;
+      case "r":
+        type = "R Source File";
+        break;
 
-    case "java":
-      type = "Java Source File";
-      break;
+      case "java":
+        type = "Java Source File";
+        break;
 
-    case "class":
-      type = "Java Class File";
-      break;
+      case "class":
+        type = "Java Class File";
+        break;
 
-    case "md":
-      type = "Markdown File";
-      break;
+      case "md":
+        type = "Markdown File";
+        break;
 
-    case "mf":
-      type = "Manifest File";
-      break;
+      case "mf":
+        type = "Manifest File";
+        break;
 
-    case "html":
-      type = "HTML File";
-      break;
+      case "html":
+        type = "HTML File";
+        break;
 
-    case "css":
-      type = "Cascading Style Sheet";
-      break;
+      case "css":
+        type = "Cascading Style Sheet";
+        break;
 
-    case "less":
-      type = "LESS Style Sheet";
-      break;
+      case "scss":
+        type = "SASS File";
+        break;
 
-    case "js":
-      type = "Java Script File";
-      break;
+      case "sass":
+        type = "SASS File";
+        break;
 
-    case "jar":
-      type = "Java Archive";
-      break;
+      case "less":
+        type = "LESS Style Sheet";
+        break;
 
-    case "bat":
-      type = "Windows Batch Script";
-      break;
+      case "js":
+        type = "Java Script File";
+        break;
 
-    case "sh":
-      type = "Linux Bash Script";
-      break;
+      case "ts":
+        type = "TypeScript File";
+        break;
 
-    case "rtf":
-      type = "Rich Text File";
-      break;
+      case "jar":
+        type = "Java Archive";
+        break;
 
-    case "docx":
-      type = "Word Document";
-      break;
+      case "json":
+        type = "Java Script Object";
+        break;
 
-    case "xlsx":
-      type = "Excel Spread Sheet";
-      break;
+      case "bat":
+        type = "Windows Batch Script";
+        break;
 
-    case "ppt":
-      type = "PowerPoint File";
-      break;
+      case "sh":
+        type = "Linux Bash Script";
+        break;
 
-    case "odt":
-      type = "Open Document File";
-      break;
+      case "rtf":
+        type = "Rich Text File";
+        break;
 
-    case "pdf":
-      type = "Portable Document";
-      break;
+      case "tcf":
+        type = "Trident Configuration File";
+        break;
 
-    case "file":
-      type = "Plain File";
-      break;
+      case "file":
+        type = "Plain File";
+        break;
 
-    case "jpeg":
-    case "png":
-    case "ico":
-    case "tiff":
-    case "bmp":
-      type = extension.toUpperCase() + " Image File";
-      break;
+      case "jpeg":
+      case "png":
+      case "ico":
+      case "tiff":
+      case "bmp":
+        type = extension.toUpperCase() + " Image File";
+        break;
 
-    default:
-      type = extension.toUpperCase() + " File";
-      break;
+      default:
+        type = extension.toUpperCase() + " File";
+        break;
     }
     return type;
   }
