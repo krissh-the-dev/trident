@@ -23,7 +23,8 @@ public class RecentsTracker {
       recents = (ArrayList<String>) ois.readObject();
       ois.close();
     } catch (Exception e) {
-      e.printStackTrace();
+      // e.printStackTrace(); Avoid throwing
+      recents = new ArrayList<String>();
     }
   }
 
@@ -40,7 +41,7 @@ public class RecentsTracker {
           ObjectOutputStream oos = new ObjectOutputStream(fos)) {
         oos.writeObject(recents);
       } catch (Exception e) {
-        e.printStackTrace();
+        // e.printStackTrace(); Avoid throwing
       }
     }
   }
