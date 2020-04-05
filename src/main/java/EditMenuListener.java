@@ -20,8 +20,8 @@
  */
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -93,51 +93,51 @@ class EditMenuListener implements ActionListener {
      */
     try {
       switch (e.getActionCommand()) {
-      case "Show Contents":
-        showClipboard();
-        break;
+        case "Show Contents":
+          showClipboard();
+          break;
 
-      case "Erase Contents":
-        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(""), null);
-        break;
+        case "Erase Contents":
+          Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(""), null);
+          break;
 
-      case "Cut":
-        Trident.textarea.cut();
-        break;
+        case "Cut":
+          Trident.textarea.cut();
+          break;
 
-      case "Copy":
-        Trident.textarea.copy();
-        break;
+        case "Copy":
+          Trident.textarea.copy();
+          break;
 
-      case "Paste":
-        Trident.textarea.paste();
-        break;
+        case "Paste":
+          Trident.textarea.paste();
+          break;
 
-      case "Undo":
-        Trident.undoManager.undo();
-        Trident.status1.setText("Ready.");
-        Trident.Redo.setEnabled(true);
-        Toolbar.redoButton.setEnabled(true);
-        break;
+        case "Undo":
+          Trident.undoManager.undo();
+          Trident.status1.setText("Ready.");
+          Trident.Redo.setEnabled(true);
+          Toolbar.redoButton.setEnabled(true);
+          break;
 
-      case "Redo":
-        Trident.undoManager.redo();
-        Trident.Undo.setEnabled(true);
-        Toolbar.undoButton.setEnabled(true);
-        Trident.status1.setText("Ready.");
-        break;
+        case "Redo":
+          Trident.undoManager.redo();
+          Trident.Undo.setEnabled(true);
+          Toolbar.undoButton.setEnabled(true);
+          Trident.status1.setText("Ready.");
+          break;
 
-      case "Find":
-        FindReplace.showUI("Find");
-        break;
+        case "Find":
+          FindReplace.showUI("Find");
+          break;
 
-      case "Replace":
-        FindReplace.showUI("Replace");
-        break;
+        case "Replace":
+          FindReplace.showUI("Replace");
+          break;
 
-      case "Go To":
-        GoToController.go();
-        break;
+        case "Go To":
+          GoToController.go();
+          break;
       }
     } catch (CannotRedoException redoErr) {
       Trident.status1.setText("No more Redos available.");

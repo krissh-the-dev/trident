@@ -18,10 +18,10 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-import java.awt.datatransfer.Clipboard;
 import java.awt.Toolkit;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 
 /*
  * (GPL v3) Trident > EditActionsListener
@@ -37,7 +37,7 @@ class EditActionsListener extends Thread {
    */
 
   public static boolean isRunning = true;
-  
+
   @Override
   public void run() {
     try {

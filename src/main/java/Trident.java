@@ -20,16 +20,23 @@
 
 // * Listeners
 
-import java.awt.event.WindowListener;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.WindowListener;
+import java.io.BufferedWriter;
 
 // * IO ELEMENTS
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.BufferedWriter;
+
+// * Exceptions
+
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -53,17 +60,10 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AbstractDocument;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 
 // *Misc
 
 import javax.swing.undo.UndoManager;
-import java.awt.Desktop;
-
-// * Exceptions
-
-import java.io.IOException;
 
 /*
  * Trident Text Editor v4.0 + 

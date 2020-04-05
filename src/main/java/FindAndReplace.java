@@ -19,6 +19,17 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -28,18 +39,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.ArrayList;
 
 /*
  * The Find and Replace
@@ -320,32 +319,32 @@ class FindReplaceButtonsListener implements ActionListener {
      * Controls button actions of Find and Replace Dialog
      */
     switch (ae.getActionCommand()) {
-    case "Find":
-      find();
-      break;
+      case "Find":
+        find();
+        break;
 
-    case "Find Next":
-      findNext();
-      break;
+      case "Find Next":
+        findNext();
+        break;
 
-    case "Replace":
-      replace();
-      break;
+      case "Replace":
+        replace();
+        break;
 
-    case "Replace All":
-      replaceAll();
-      break;
+      case "Replace All":
+        replaceAll();
+        break;
 
-    case "Close":
-      if (FindAndReplace.fimOpen) {
-        FindAndReplace.fimOpen = false;
-        FindAndReplace.findDialog.dispose();
-      }
-      if (FindAndReplace.rimOpen) {
-        FindAndReplace.rimOpen = false;
-        FindAndReplace.replaceDialog.dispose();
-      }
-      break;
+      case "Close":
+        if (FindAndReplace.fimOpen) {
+          FindAndReplace.fimOpen = false;
+          FindAndReplace.findDialog.dispose();
+        }
+        if (FindAndReplace.rimOpen) {
+          FindAndReplace.rimOpen = false;
+          FindAndReplace.replaceDialog.dispose();
+        }
+        break;
     }
   }
 }
