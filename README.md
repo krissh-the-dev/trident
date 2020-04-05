@@ -1,4 +1,5 @@
 # Trident Text Editor
+[![CodeFactor](https://www.codefactor.io/repository/github/krishnamoorthy12/trident/badge)](https://www.codefactor.io/repository/github/krishnamoorthy12/trident)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/) [![Github All Releases](https://img.shields.io/github/downloads/atom/atom/total.svg?style=flat)]() 
 
 ## _A light weight text editor for the modern age._
 
