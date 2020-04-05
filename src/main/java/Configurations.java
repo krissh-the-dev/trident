@@ -154,7 +154,7 @@ public class Configurations {
      */
     try {
       try {
-        if (themeName == null) {
+        if (themeName == null || themeName == "") {
           themeName = UIManager.getSystemLookAndFeelClassName();
         }
         UIManager.setLookAndFeel(themeName);
@@ -485,7 +485,7 @@ public class Configurations {
   public static final void raw_apply() {
     /*
      * Directly reads the configurations.tcf and apply the settings (independent of
-     * Configuration Window)
+     * Configuration Window); Used to apply configurations upon opening of Trident
      */
     read();
     try {
@@ -503,6 +503,20 @@ public class Configurations {
     } catch (Exception exp) {
       Trident.ErrorDialog("APPLY_BEG_ERR", exp);
     }
+  }
+
+  public static final void restoreDefaults() throws IOException {
+    String defaults = "themeName=" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
+    defaults += "colorScheme=light," + System.lineSeparator();
+    defaults += "fontName=Monospaced," + System.lineSeparator();
+    defaults += "fontSize=14," + System.lineSeparator();
+    defaults += "tabSize=4," + System.lineSeparator();
+    File tsf = new File("./configurations.tcf");
+    FileWriter fileWritter = new FileWriter(tsf, false);
+    BufferedWriter bw = new BufferedWriter(fileWritter);
+    bw.write(defaults);
+    bw.close();
+    fileWritter.close();
   }
 }
 
@@ -527,17 +541,7 @@ class ConfigurationsListener implements ActionListener {
           Configurations.ImOpen = false;
           Configurations.ConfigWindow.dispose();
           Configurations.showUI();
-          String defaults = "themeName=" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
-          defaults += "colorScheme=light," + System.lineSeparator();
-          defaults += "fontName=Monospaced," + System.lineSeparator();
-          defaults += "fontSize=14," + System.lineSeparator();
-          defaults += "tabSize=4," + System.lineSeparator();
-          File tsf = new File("./configurations.tcf");
-          FileWriter fileWritter = new FileWriter(tsf, false);
-          BufferedWriter bw = new BufferedWriter(fileWritter);
-          bw.write(defaults);
-          bw.close();
-          fileWritter.close();
+          Configurations.restoreDefaults();
           Configurations.setData();
           Configurations.apply();
         } catch (Exception ex) {
