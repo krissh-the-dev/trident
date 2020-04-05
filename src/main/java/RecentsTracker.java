@@ -48,7 +48,8 @@ public class RecentsTracker {
     try {
       if (!(new File("logs/recents.tcf")).exists()) {
         (new File("logs/recents.tcf")).createNewFile();
-        System.out.println("New file created.");
+        System.err.println("Recents object file not found.");
+        System.out.println("Created new blank tcf file.");
       }
       ObjectInputStream ois = new ObjectInputStream(new FileInputStream("logs/recents.tcf"));
       recents = (ArrayList<String>) ois.readObject();
