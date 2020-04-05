@@ -431,17 +431,17 @@ public class Configurations {
       File tsf = new File("./configurations.tcf");
       FileWriter fileWritter = new FileWriter(tsf, false);
       BufferedWriter bw = new BufferedWriter(fileWritter);
-      contents = "themeName:" + themeName + "," + System.lineSeparator();
-      contents += "colorScheme:";
+      contents = "themeName=" + themeName + "," + System.lineSeparator();
+      contents += "colorScheme=";
       if (primary.equals(Color.WHITE)) {
         contents += "light,";
       } else {
         contents += "dark,";
       }
       contents += System.lineSeparator();
-      contents += "fontName:" + fontName + "," + System.lineSeparator();
-      contents += "fontSize:" + fontSize + "," + System.lineSeparator();
-      contents += "tabSize:" + tabSize + "," + System.lineSeparator();
+      contents += "fontName=" + fontName + "," + System.lineSeparator();
+      contents += "fontSize=" + fontSize + "," + System.lineSeparator();
+      contents += "tabSize=" + tabSize + "," + System.lineSeparator();
       bw.write(contents);
       bw.close();
     } catch (IOException wre) {
@@ -466,7 +466,7 @@ public class Configurations {
       String settings[] = tsContents.split(",");
       String settingSet[] = new String[5];
       for (int i = 0; i < 5; i++) {
-        settingSet[i] = settings[i].split(":")[1];
+        settingSet[i] = settings[i].split("=")[1];
       }
 
       themeName = settingSet[0];
@@ -531,11 +531,11 @@ class ConfigurationsListener implements ActionListener {
           Configurations.ImOpen = false;
           Configurations.ConfigWindow.dispose();
           Configurations.showUI();
-          String defaults = "themeName:" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
-          defaults += "colorScheme:light," + System.lineSeparator();
-          defaults += "fontName:Monospaced," + System.lineSeparator();
-          defaults += "fontSize:14," + System.lineSeparator();
-          defaults += "tabSize:4," + System.lineSeparator();
+          String defaults = "themeName=" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
+          defaults += "colorScheme=light," + System.lineSeparator();
+          defaults += "fontName=Monospaced," + System.lineSeparator();
+          defaults += "fontSize=14," + System.lineSeparator();
+          defaults += "tabSize=4," + System.lineSeparator();
           File tsf = new File("./configurations.tcf");
           FileWriter fileWritter = new FileWriter(tsf, false);
           BufferedWriter bw = new BufferedWriter(fileWritter);
