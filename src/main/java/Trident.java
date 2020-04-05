@@ -151,10 +151,11 @@ class Trident {
       BufferedWriter writer = new BufferedWriter(logWriter);
 
       writer.write(System.lineSeparator());
-      writer.write(LocalDateTime.now().toString());
+      writer.write("TIME: " + LocalDateTime.now().toString());
       writer.write(System.lineSeparator());
-      writer.write(code + System.lineSeparator() + e.getClass().getName() + System.lineSeparator() + e.getCause()
-          + System.lineSeparator() + e.getMessage());
+      writer.write("ERR CODE: " + code + System.lineSeparator() + "Exception Class: " + e.getClass().getName()
+          + System.lineSeparator() + "Cause: " + e.getCause() + System.lineSeparator() + "Error Message: "
+          + e.getMessage());
       writer.write(System.lineSeparator());
       writer.write("------------------------------------------");
       writer.write(System.lineSeparator());
@@ -209,23 +210,13 @@ class Trident {
 
       // * Themeing
       Configurations.read();
-      if (checkOS() == 1) {
-        try {
-          UIManager.setLookAndFeel(Configurations.themeName);
-        } catch (Exception e) {
-          Configurations.themeName = UIManager.getSystemLookAndFeelClassName();
-          UIManager.setLookAndFeel(Configurations.themeName);
-          Configurations.write();
-          ErrorDialog("UI_THEME_ERR", e);
-        }
-      } else {
-        try {
-          if (Configurations.themeName.contains("windows")) {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-          }
-        } catch (Exception e) {
-          ErrorDialog("LINUX_THEME_ERR", e);
-        }
+      try {
+        UIManager.setLookAndFeel(Configurations.themeName);
+      } catch (Exception e) {
+        Configurations.themeName = UIManager.getSystemLookAndFeelClassName();
+        UIManager.setLookAndFeel(Configurations.themeName);
+        Configurations.write();
+        ErrorDialog("UI_THEME_ERR", e);
       }
 
       // * Frame Setup
@@ -566,14 +557,32 @@ class Trident {
     if (args.length == 0)
       new Trident("New File");
     else {
-      for (String arg : args) {
-        if (arg.equals("-version")) {
+      switch (args[0]) {
+        case "-version":
+        case "--version":
+        case "-v":
           System.out.println("Trident Text Editor");
           System.out.print("Version: 5.0");
           System.out.println("\tChannel: Beta");
           System.out.println("(c) 2020 Krishna Moorthy Athinarayan. All rights reserved.");
-        } else
-          new Trident(arg);
+          break;
+
+        case "-readme":
+          new Trident("readme.md");
+          break;
+
+        case "-reset":
+          System.out.println("Restoring default settings...");
+          try {
+            Configurations.restoreDefaults();
+            System.out.println("Restore successful.");
+          } catch (IOException restoreErr) {
+            System.err
+                .println("Restotation unsuccessful.\nTry manually changing the values in configurations.tcf file.");
+          }
+          break;
+        default:
+          new Trident(args[0]);
       }
     }
   }
