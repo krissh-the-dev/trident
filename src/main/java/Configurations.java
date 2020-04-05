@@ -89,13 +89,12 @@ public class Configurations {
   public static JRadioButton light, dark;
 
   // * Configs
-  public static Color menubg = null;
-  public static Color menufg = null;
   public static Color statusbg = new Color(225, 225, 225);
   public static Color statusfg = Color.BLACK;
   public static Color selectionbg = new Color(23, 135, 227);
   public static Color selectionfg = Color.WHITE;
-  public static Color primary = Color.WHITE, secondary = Color.BLACK;
+  public static Color primary = Color.WHITE;
+  public static Color secondary = Color.BLACK;
 
   public static String themeName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
   public static String fontName = "Consolas";
@@ -369,6 +368,9 @@ public class Configurations {
       tsEditor.addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
+
+          apply();
+          write();
           EOpen = false;
           tsEditor.dispose();
         }
@@ -397,20 +399,26 @@ public class Configurations {
     tabSizesBox.setValue(tabSize);
   }
 
+  public static void apply(Color dom, Color res) {
+    /*
+     * Generates theme colors for selected colour scheme and applys all the settings
+     */
+    try {
+      generateTheme(dom, res);
+      applyConfigs();
+      applyTheme();
+    } catch (Exception exp) {
+      Trident.ErrorDialog("CONFIG_ERR", exp);
+    }
+  }
+
   public static void apply() {
     /*
      * Generates theme colors for selected colour scheme and applys all the settings
      */
     try {
-      Color a = Color.WHITE, b = Color.BLACK;
-      if (light.isSelected()) {
-        a = Color.WHITE;
-        b = Color.BLACK;
-      } else {
-        b = Color.WHITE;
-        a = Color.BLACK;
-      }
-      generateTheme(a, b);
+      read();
+      generateTheme(primary, secondary);
       applyConfigs();
       applyTheme();
     } catch (Exception exp) {
@@ -528,7 +536,15 @@ class ConfigurationsListener implements ActionListener {
   public void actionPerformed(ActionEvent ae) {
     switch (ae.getActionCommand()) {
       case "Apply":
-        Configurations.apply();
+        Color a = Color.WHITE, b = Color.BLACK;
+        if (Configurations.light.isSelected()) {
+          a = Color.WHITE;
+          b = Color.BLACK;
+        } else {
+          b = Color.WHITE;
+          a = Color.BLACK;
+        }
+        Configurations.apply(a, b);
         break;
       case "Save":
         Configurations.apply();
