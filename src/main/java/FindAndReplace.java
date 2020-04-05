@@ -76,7 +76,6 @@ class FindAndReplace {
 
     JLabel findLabel = new JLabel("Find ");
     findField = new JTextField(43);
-    // TODO Add copy, paste pop up
     JPanel mainPanel = new JPanel(new GridLayout(2, 1, 1, 1));
     JPanel fieldPane = new JPanel();
     fieldPane.setBorder(new EmptyBorder(5, 0, 0, 0));
