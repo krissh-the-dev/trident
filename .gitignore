@@ -54,12 +54,16 @@ buildNumber.properties
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+# maven adoption - moved to resources - not removed for programming and testing purposes
+# src/main/java/boilers
+src/main/java/logs/*
+src/main/java/raw/*
+
 # project exclusive remnants
 *output.txt
 *settings
 *res
 
-# maven adoption - moved to resources - not removed for programming and testing purposes
-# src/main/java/boilers
-src/main/java/logs/*
-src/main/java/raw/*
+#python cache
+*.pyc
+*__pycache__
