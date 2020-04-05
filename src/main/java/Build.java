@@ -22,8 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.FilenameFilter;
 import java.lang.ProcessBuilder.Redirect;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /* 
  * Trident Text Editor Build Bot v3.0
@@ -35,6 +33,7 @@ import java.nio.file.Paths;
  * The paths used are arbitrary
  */
 
+@Deprecated
 class Build {
   public static File[] finder(String dirName, String type) {
     /*
@@ -69,18 +68,13 @@ class Build {
       Process p = processBuilder.start();
       int res = p.waitFor();
       if (res != 0)
-        System.err.println(file  + "compilation ended with error.");
+        System.err.println(file + "compilation ended with error.");
       else
-        System.out.println(file  + " was compiled successfully.");
+        System.out.println(file + " was compiled successfully.");
     }
     System.out.println("All source files were compiled.");
 
     System.out.println("Copying class file to /bin...");
-    String bin = "./bin";
-    File classFiles[] = finder(".", "class");
-    for (File classFile : classFiles) {
-      // move
-    }
 
     System.out.println("Opening Trident...");
     ProcessBuilder processBuilder = new ProcessBuilder("java", "Trident");
