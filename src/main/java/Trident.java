@@ -388,10 +388,6 @@ class Trident {
       autoSave.addItemListener(sml);
       settingsMenu.add(autoSave);
 
-      StyleEditor = new JMenuItem("Style Editor");
-      settingsMenu.add(StyleEditor);
-      StyleEditor.addActionListener(sml);
-
       configs = new JMenuItem("Configurations");
       configs.addActionListener(sml);
       settingsMenu.add(configs);

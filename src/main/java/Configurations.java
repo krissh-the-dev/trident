@@ -299,6 +299,7 @@ public class Configurations {
     ConfigWindow.setVisible(true);
   }
 
+  @Deprecated
   protected static void showEditor() {
     /*
      * Opens up the TS File editor that stores the current values of saved

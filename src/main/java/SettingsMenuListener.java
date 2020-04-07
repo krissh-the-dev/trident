@@ -39,15 +39,7 @@ class SettingsMenuListener implements ActionListener, ItemListener {
      * Controls actions of Settings menu items (Style editor and Configurations
      * options)
      */
-    switch (e.getActionCommand()) {
-      // Note: For JMenuCheckBoxes refer itemStateChanged()
-      case "Style Editor":
-        Configurations.showEditor();
-        break;
-      case "Configurations":
-        Configurations.showUI();
-        break;
-    }
+    Configurations.showUI();
   }
 
   public void itemStateChanged(ItemEvent ie) {
@@ -57,5 +49,4 @@ class SettingsMenuListener implements ActionListener, ItemListener {
     Trident.textarea.setLineWrap(Trident.wordWrap.isSelected());
     AutoSave.setEnabled(Trident.autoSave.isSelected());
   }
-
 }
