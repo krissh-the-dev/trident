@@ -1,5 +1,7 @@
 # Trident Text Editor
-[![CodeFactor](https://www.codefactor.io/repository/github/krishnamoorthy12/trident/badge)](https://www.codefactor.io/repository/github/krishnamoorthy12/trident)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/) [![Github All Releases](https://img.shields.io/github/downloads/atom/atom/total.svg?style=flat)]() 
+![GitHub All Releases](https://img.shields.io/github/downloads/KrishnaMoorthy12/trident/total?color=green&style=for-the-badge) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/KrishnaMoorthy12/trident?color=blueviolet&include_prereleases&style=for-the-badge) ![GitHub issues](https://img.shields.io/github/issues/KrishnaMoorthy12/trident?color=red&style=for-the-badge) ![GitHub](https://img.shields.io/github/license/KrishnaMoorthy12/trident?color=orange&style=for-the-badge)
+
+[![CodeFactor](https://www.codefactor.io/repository/github/krishnamoorthy12/trident/badge)](https://www.codefactor.io/repository/github/krishnamoorthy12/trident)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-Yes-blue)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![HitCount](http://hits.dwyl.com/KrishnaMoorthy12/trident.svg)](http://hits.dwyl.com/KrishnaMoorthy12/trident)
 
 ## _A light weight text editor for the modern age._
 
