@@ -43,7 +43,7 @@ public class TridentCompiler {
         break;
 
       case 2:
-        driver = "/usr/bin/gnome-terminal --";
+        driver = "/usr/bin/gnome-terminal";
         break;
 
       default:
@@ -175,7 +175,7 @@ public class TridentCompiler {
       if (os == 1) {
         Runtime.getRuntime().exec(driver + "cd " + parent + "\"");
       } else if (os == 2) {
-        Runtime.getRuntime().exec(driver + "cd \"" + parent + "\"");
+        Runtime.getRuntime().exec(driver);
       } else
         throw new UnsupportedOperatingSystemException();
     } catch (UnsupportedOperatingSystemException unOS) {
