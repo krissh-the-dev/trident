@@ -1,0 +1,5 @@
+package org.trident.util;
+
+public enum Constant {
+    LISTENER_EDIT_MENU, LISTENER_SETTIN_MENU, LISTENER_TOOLS_MENU, LISTENER_ABOUT_MENU, LISTENER_FILE_MENU
+}
