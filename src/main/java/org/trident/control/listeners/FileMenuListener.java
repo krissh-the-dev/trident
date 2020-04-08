@@ -4,19 +4,17 @@ package org.trident.control.listeners;
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
  *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import org.trident.Trident;
@@ -47,7 +45,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
 
 /*
- * (GPL v3) Trident > org.trident.control.listeners.FileMenuListener
+ * (Apache v2) Trident > org.trident.control.listeners.FileMenuListener
  * @author: Krishna Moorthy
  */
 public class FileMenuListener implements ActionListener {
@@ -56,16 +54,16 @@ public class FileMenuListener implements ActionListener {
 
         try {
             // text files include plaint text, markdown, maniests, encrypt files etc.
-            FileNameExtensionFilter textFiles = new FileNameExtensionFilter("Text Files (*.txt, *.mf, *.md, *.rtf)", "txt",
-                    "mf", "md", "rtf");
+            FileNameExtensionFilter textFiles = new FileNameExtensionFilter("Text Files (*.txt, *.mf, *.md, *.rtf)",
+                    "txt", "mf", "md", "rtf");
             // Source files include major program source code files formats
             FileNameExtensionFilter SourceFiles = new FileNameExtensionFilter(
                     "Source Files (*.py, *.java, *.c, *.cpp, *.h, *.kt)", "py", "java", "c", "cpp", "h", "kt");
 
             // Web files contain files related to web pages and web apps
             FileNameExtensionFilter WebFiles = new FileNameExtensionFilter(
-                    "Web Files (*.html, *.htm, *.mhtml, *.css, *.less,*.js, *.php)", "html", "htm", "mhtml", "css", "less", "js",
-                    "php");
+                    "Web Files (*.html, *.htm, *.mhtml, *.css, *.less,*.js, *.php)", "html", "htm", "mhtml", "css",
+                    "less", "js", "php");
             // General other categories like object notations etc.
             FileNameExtensionFilter OtherFiles = new FileNameExtensionFilter("Scripts (*.json, *.config, *.bat, *.sh)",
                     "json", "config", "bat", "sh");
@@ -94,7 +92,7 @@ public class FileMenuListener implements ActionListener {
     public void openFile() {
 
         try {
-            //AutoSave.deleteSaved(); TODO look AutoSave
+            // AutoSave.deleteSaved(); TODO look AutoSave
             File OpenedFile = new File(Trident.getInstance().getPath());
             FileReader fr = new FileReader(OpenedFile);
             BufferedReader br = new BufferedReader(fr);
@@ -105,18 +103,21 @@ public class FileMenuListener implements ActionListener {
             Trident.getInstance().getTextarea().setText(contents);
             Trident.getInstance().getStatus1().setText("Editing existing file.");
             Trident.getInstance().getStatus2().setText("Saved");
-            Trident.getInstance().getStatus3().setText(FileTypeParser.getType(Paths.get(Trident.getInstance().getPath()).getFileName().toString()));
+            Trident.getInstance().getStatus3().setText(
+                    FileTypeParser.getType(Paths.get(Trident.getInstance().getPath()).getFileName().toString()));
             Trident.getInstance().setWarned(false);
 
             Trident.getInstance().setUndoManager(new UndoManager());
-            Trident.getInstance().getTextarea().getDocument().addUndoableEditListener(Trident.getInstance().getUndoManager());
+            Trident.getInstance().getTextarea().getDocument()
+                    .addUndoableEditListener(Trident.getInstance().getUndoManager());
 
             Trident.getInstance().getUndo().setEnabled(false);
             Toolbar.undoButton.setEnabled(false);
             Trident.getInstance().getRedo().setEnabled(false);
             Toolbar.redoButton.setEnabled(false);
 
-            Trident.getInstance().getFrame().setTitle("Trident Text Editor - " + Paths.get(Trident.getInstance().getPath()).getFileName().toString());
+            Trident.getInstance().getFrame().setTitle(
+                    "Trident Text Editor - " + Paths.get(Trident.getInstance().getPath()).getFileName().toString());
 
             contents = null;
             RecentsTracker.addRecord(Trident.getInstance().getPath());
@@ -148,10 +149,12 @@ public class FileMenuListener implements ActionListener {
                 bw.write(contents);
                 bw.close();
                 Trident.getInstance().setWarned(false);
-                Trident.getInstance().getFrame().setTitle("Trident Text Editor - " + Paths.get(filepath).getFileName().toString());
+                Trident.getInstance().getFrame()
+                        .setTitle("Trident Text Editor - " + Paths.get(filepath).getFileName().toString());
                 Trident.getInstance().getStatus1().setText("File saved successfully.");
                 Trident.getInstance().getStatus2().setText("Saved");
-                Trident.getInstance().getStatus3().setText(FileTypeParser.getType(Paths.get(filepath).getFileName().toString()));
+                Trident.getInstance().getStatus3()
+                        .setText(FileTypeParser.getType(Paths.get(filepath).getFileName().toString()));
             } else
                 FileSaveAs();
         } catch (Exception ioe) {
@@ -176,10 +179,12 @@ public class FileMenuListener implements ActionListener {
                 bw.write(contents);
                 bw.close();
                 Trident.getInstance().setWarned(false);
-                Trident.getInstance().getFrame().setTitle("Trident Text Editor - " + Paths.get(Trident.getInstance().getPath()).getFileName().toString());
+                Trident.getInstance().getFrame().setTitle(
+                        "Trident Text Editor - " + Paths.get(Trident.getInstance().getPath()).getFileName().toString());
                 Trident.getInstance().getStatus1().setText("File saved successfully.");
                 Trident.getInstance().getStatus2().setText("Saved");
-                Trident.getInstance().getStatus3().setText(FileTypeParser.getType(Paths.get(Trident.getInstance().getPath()).getFileName().toString()));
+                Trident.getInstance().getStatus3().setText(
+                        FileTypeParser.getType(Paths.get(Trident.getInstance().getPath()).getFileName().toString()));
             } else
                 FileSaveAs();
         } catch (Exception ioe) {
@@ -233,27 +238,25 @@ public class FileMenuListener implements ActionListener {
                 return false;
             }
         }
-        Trident.getInstance().setPath("New File"); //TODO Why??/
+        Trident.getInstance().setPath("New File"); // TODO Why??/
         Trident.getInstance().getTextarea().setText("");
         Trident.getInstance().getStatus1().setText("Ready.");
         Trident.getInstance().getStatus2().setText("Unsaved");
         Trident.getInstance().getStatus3().setText("Plain File");
         Trident.getInstance().getFrame().setTitle("Trident Text Editor - New File");
-       // Trident.getInstance().setPath(false); //TODO I lose this
+        // Trident.getInstance().setPath(false); //TODO I lose this
         Trident.getInstance().getUndo().setEnabled(false);
         Trident.getInstance().getRedo().setEnabled(false);
         Toolbar.undoButton.setEnabled(false);
         Toolbar.redoButton.setEnabled(false);
         Trident.getInstance().setUndoManager(new UndoManager());
-        Trident.getInstance().getTextarea().getDocument().addUndoableEditListener(Trident.getInstance().getUndoManager());
+        Trident.getInstance().getTextarea().getDocument()
+                .addUndoableEditListener(Trident.getInstance().getUndoManager());
         return true;
     }
 
     protected void boil(String choice)
-            throws UnsupportedFileException,
-            UnsupportedOperatingSystemException,
-            IOException,
-            InterruptedException {
+            throws UnsupportedFileException, UnsupportedOperatingSystemException, IOException, InterruptedException {
 
         String boiler = null;
         switch (choice) {
