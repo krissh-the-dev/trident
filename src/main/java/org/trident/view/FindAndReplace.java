@@ -4,19 +4,17 @@ package org.trident.view;
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
  *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import org.trident.Trident;
@@ -45,7 +43,7 @@ import java.util.ArrayList;
 
 /*
  * The Find and Replace
- * (GPL v3) Trident > org.trident.view.FindAndReplace
+ * (Apache v2) Trident > org.trident.view.FindAndReplace
  * For debugging purposes only - deprecated
  * @author: Krishna Moorthy
  * Since: v3.1
@@ -207,7 +205,7 @@ class FindAndReplace {
 /*
  * org.trident.view.FindAndReplace Buttons Listener
  *
- * (GPL v3) Trident > Find and Replace
+ * (Apache v2) Trident > Find and Replace
  *
  * @author: Krishna Moorthy
  *
@@ -323,32 +321,32 @@ class FindReplaceButtonsListener implements ActionListener {
      * Controls button actions of Find and Replace Dialog
      */
     switch (ae.getActionCommand()) {
-    case "Find":
-      find();
-      break;
+      case "Find":
+        find();
+        break;
 
-    case "Find Next":
-      findNext();
-      break;
+      case "Find Next":
+        findNext();
+        break;
 
-    case "Replace":
-      replace();
-      break;
+      case "Replace":
+        replace();
+        break;
 
-    case "Replace All":
-      replaceAll();
-      break;
+      case "Replace All":
+        replaceAll();
+        break;
 
-    case "Close":
-      if (FindAndReplace.fimOpen) {
-        FindAndReplace.fimOpen = false;
-        FindAndReplace.findDialog.dispose();
-      }
-      if (FindAndReplace.rimOpen) {
-        FindAndReplace.rimOpen = false;
-        FindAndReplace.replaceDialog.dispose();
-      }
-      break;
+      case "Close":
+        if (FindAndReplace.fimOpen) {
+          FindAndReplace.fimOpen = false;
+          FindAndReplace.findDialog.dispose();
+        }
+        if (FindAndReplace.rimOpen) {
+          FindAndReplace.rimOpen = false;
+          FindAndReplace.replaceDialog.dispose();
+        }
+        break;
     }
   }
 }

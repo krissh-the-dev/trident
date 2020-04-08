@@ -4,19 +4,17 @@ package org.trident.model;
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
  *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import javax.swing.JLabel;
@@ -65,9 +63,8 @@ import mdlaf.themes.*;
 import org.trident.Trident;
 import org.trident.util.TridentLogger;
 
-
 /*
- * (GPL v3) Trident > ChangeListener
+ * (Apache v2) Trident > ChangeListener
  * @author: Krishna Moorthy
  */
 
@@ -104,7 +101,7 @@ public class Configurations {
     protected static int fontSize = 14;
     protected static int tabSize = 4;
 
-    //Getter and setter
+    // Getter and setter
     public static boolean isImOpen() {
         return imOpen;
     }
@@ -261,7 +258,7 @@ public class Configurations {
         fontPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Font"));
 
         JLabel theme = new JLabel("UI Theme");
-        String[] themes = {"Current Theme", "Default", "Material Light", "Metal", "Motif", "Nimbus", "Windows"};
+        String[] themes = { "Current Theme", "Default", "Material Light", "Metal", "Motif", "Nimbus", "Windows" };
         themeBox = new JComboBox<String>(themes);
 
         JLabel scheme = new JLabel("Color Scheme");
@@ -283,11 +280,12 @@ public class Configurations {
         fontsBox = new JComboBox<String>(fonts);
 
         JLabel fontSize = new JLabel("Font Size");
-        Integer[] sizes = {8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 28, 32, 40, 48, 56, 64, 72, 86, 100, 124, 148, 196};
+        Integer[] sizes = { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 28, 32, 40, 48, 56, 64, 72, 86, 100, 124, 148,
+                196 };
         sizesBox = new JSpinner(new SpinnerListModel(sizes));
 
         JLabel tabSize = new JLabel("Tab size");
-        Integer[] tabSizes = {2, 4, 8};
+        Integer[] tabSizes = { 2, 4, 8 };
         tabSizesBox = new JSpinner(new SpinnerListModel(tabSizes));
 
         fontPanel.add(fontFace);
@@ -541,7 +539,7 @@ public class Configurations {
             }
             applyConfigs();
 
-            //AutoSave.setEnabled(true); TODO refactorning autosave
+            // AutoSave.setEnabled(true); TODO refactorning autosave
             Trident.getInstance().getTextarea().setLineWrap(false);
         } catch (Exception exp) {
             TridentLogger.getInstance().error(TAG, "APPLY_BEG_ERR: " + exp);
@@ -569,7 +567,8 @@ public class Configurations {
                         setImOpen(false);
                         configWindow.dispose();
                         Configurations.getInstance().showUI();
-                        String defaults = "themeName:" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
+                        String defaults = "themeName:" + UIManager.getSystemLookAndFeelClassName() + ','
+                                + System.lineSeparator();
                         defaults += "colorScheme:light," + System.lineSeparator();
                         defaults += "fontName:Monospaced," + System.lineSeparator();
                         defaults += "fontSize:14," + System.lineSeparator();
@@ -601,4 +600,3 @@ public class Configurations {
         }
     }
 }
-

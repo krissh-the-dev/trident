@@ -1,22 +1,20 @@
 package org.trident.control.actions;/*
- *  org.trident.control.actions.AboutMenuListener.java
- *  (c) Copyright, 2020 - 2021 Krishna Moorthy
- *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
+                                    *  org.trident.control.actions.AboutMenuListener.java
+                                    *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+                                    *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
+                                    *
+                                    * Licensed under the Apache License, Version 2.0 (the "License");
+                                    * you may not use this file except in compliance with the License.
+                                    * You may obtain a copy of the License at
+                                    *
+                                    *    http://www.apache.org/licenses/LICENSE-2.0
+                                    *
+                                    * Unless required by applicable law or agreed to in writing, software
+                                    * distributed under the License is distributed on an "AS IS" BASIS,
+                                    * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+                                    * See the License for the specific language governing permissions and
+                                    * limitations under the License.
+                                    */
 
 // * Listeners
 
@@ -51,7 +49,7 @@ import java.util.Date;
 import javax.swing.SwingConstants;
 
 /*
- * (GPL v3) Trident > org.trident.control.actions.AboutMenuListener
+ * (Apache v2) Trident > org.trident.control.actions.AboutMenuListener
  * @author: Krishna Moorthy
  */
 
@@ -74,9 +72,9 @@ public class AboutMenuListener implements ActionListener {
                     JLabel icon = new JLabel(logo);
                     icon.setSize(50, 50);
                     JLabel l1 = new JLabel(
-                        "<html><style> h1 {font-family: \"Segoe UI\", 'Google Sans', 'Product Sans', 'Roboto'; color:rgb(6,113,193);} h3 {font-family: \"Segoe UI Semilight\", 'Google Sans', 'Product Sans', 'Roboto';} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h3> Version 5.0 <br/>BETA</h3></html>");
+                            "<html><style> h1 {font-family: \"Segoe UI\", 'Google Sans', 'Product Sans', 'Roboto'; color:rgb(6,113,193);} h3 {font-family: \"Segoe UI Semilight\", 'Google Sans', 'Product Sans', 'Roboto';} </style> <center><h1> <br/><i>- Trident Text Editor -</i></h1> <h3> Version 5.0 <br/>BETA</h3></html>");
                     JLabel l2 = new JLabel(
-                        "<html><style>h3 {font-family: \"Segoe UI\", 'Google Sans', 'Product Sans', 'Roboto', monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px;} h3:hover {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px; background-color: rgb(6,113,193);} </style><h3>Visit Home Page</h3></html>");
+                            "<html><style>h3 {font-family: \"Segoe UI\", 'Google Sans', 'Product Sans', 'Roboto', monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px;} h3:hover {font-family: \"Segoe UI\", monospace; color:rgb(6,113,193); border:2px solid rgb(66,133,244); padding: 5px; background-color: rgb(6,113,193);} </style><h3>Visit Home Page</h3></html>");
                     l2.setCursor(new Cursor(Cursor.HAND_CURSOR));
                     l2.addMouseListener(new MouseAdapter() {
 
@@ -86,9 +84,10 @@ public class AboutMenuListener implements ActionListener {
                              * For the mouse click on Visit Home Page button in About Trident Dialog
                              */
                             try {
-                                Desktop.getDesktop().browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident"));
+                                Desktop.getDesktop()
+                                        .browse(java.net.URI.create("https://krishnamoorthy12.github.io/trident"));
                             } catch (Exception de) {
-                                TridentLogger.getInstance().error(TAG,"DESKTOP_ERR" + de.getLocalizedMessage());
+                                TridentLogger.getInstance().error(TAG, "DESKTOP_ERR" + de.getLocalizedMessage());
                             }
                         }
                     });
@@ -135,7 +134,8 @@ public class AboutMenuListener implements ActionListener {
                     JLabel filenameProperty = new JLabel(fileName);
                     JLabel fileLocationProperty = new JLabel(path);
                     JLabel fileTypeProperty = new JLabel(FileTypeParser.getType(path));
-                    JLabel fileSizeProperty = new JLabel((theFile.length() / 1024) + " KB (" + theFile.length() + " B)");
+                    JLabel fileSizeProperty = new JLabel(
+                            (theFile.length() / 1024) + " KB (" + theFile.length() + " B)");
                     JLabel lastModifiedProperty = new JLabel(new Date(theFile.lastModified()) + "");
 
                     leftPane.add(filenameLabel);
@@ -144,7 +144,7 @@ public class AboutMenuListener implements ActionListener {
                     leftPane.add(fileLocationLabel);
                     fileLocationProperty.setBorder(new EmptyBorder(2, 5, 0, 2));
                     JScrollPane flsp = new JScrollPane(fileLocationProperty, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
                     rightPane.add(flsp);
                     flsp.setBorder(new EmptyBorder(-1, -1, -1, -1));
 
@@ -167,12 +167,13 @@ public class AboutMenuListener implements ActionListener {
                     break;
 
                 case "Help":
-                    Desktop.getDesktop().browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/issues"));
+                    Desktop.getDesktop()
+                            .browse(java.net.URI.create("https://www.github.com/KrishnaMoorthy12/trident/issues"));
                     break;
 
                 case "Updates":
                     Desktop.getDesktop()
-                        .browse(java.net.URI.create("https://github.com/KrishnaMoorthy12/trident/releases/latest"));
+                            .browse(java.net.URI.create("https://github.com/KrishnaMoorthy12/trident/releases/latest"));
                     break;
             }
         } catch (Exception exc) {
