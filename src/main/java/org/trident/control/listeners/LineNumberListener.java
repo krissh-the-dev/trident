@@ -1,0 +1,59 @@
+package org.trident.control.listeners;
+/*
+ *  org.trident.control.listeners.LineNumberListener.java
+ *  (c) Copyright, 2020 - 2021 Krishna Moorthy
+ *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+import org.trident.Trident;
+import org.trident.util.TridentLogger;
+
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
+import javax.swing.text.BadLocationException;
+
+/*
+ * Status Bar Line number Panel Controller
+ * (GPL v3) Trident > Status Bar > org.trident.control.listeners.LineNumberListener
+ * @author: Krishna Moorthy
+ */
+
+public class LineNumberListener implements CaretListener {
+    /*
+     * Controls the Line number and Column Number display areas in status bar and
+     * the side line number panel
+     */
+
+    public static boolean isRunning = true;
+
+    @Override
+    public void caretUpdate(CaretEvent ce) {
+
+        // TODO : Add code to control line number panel
+        try {
+            int offset = Trident.getInstance().getTextarea().getCaretPosition();
+            int line = Trident.getInstance().getTextarea().getLineOfOffset(offset);
+            int col = offset - Trident.getInstance().getTextarea().getLineStartOffset(line);
+
+            Trident.getInstance().getStatus4().setText("Line: " + (line + 1) + " Col: " + (col + 1));
+
+        } catch (BadLocationException badexp) {
+            TridentLogger.getInstance().error(this.getClass(), "CARET_LOCATION_ERR: " + badexp);
+            Trident.getInstance().getStatus4().setText("Aw snap!");
+        }
+    }
+}
