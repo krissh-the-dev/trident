@@ -3,38 +3,35 @@
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
  *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import java.io.File;
 import java.io.IOException;
 import java.io.FilenameFilter;
 import java.lang.ProcessBuilder.Redirect;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /* 
  * Trident Text Editor Build Bot v3.0
  * @author: Krishna Moorthy
- * [GPL v3] Trident > Build Bot
+ * [Apache v2] Trident > Build Bot
  * This is a build bot specially made for compiling, building and testing Trident Text Editor
  * Any resources/ softwares are not redistrubuted or shipped with this package
  * JarBuilder and InstallForge are Free Open Source Softwares available for commercial/ non-commercial uses
  * The paths used are arbitrary
  */
 
+@Deprecated
 class Build {
   public static File[] finder(String dirName, String type) {
     /*
@@ -69,18 +66,13 @@ class Build {
       Process p = processBuilder.start();
       int res = p.waitFor();
       if (res != 0)
-        System.err.println(file  + "compilation ended with error.");
+        System.err.println(file + "compilation ended with error.");
       else
-        System.out.println(file  + " was compiled successfully.");
+        System.out.println(file + " was compiled successfully.");
     }
     System.out.println("All source files were compiled.");
 
     System.out.println("Copying class file to /bin...");
-    String bin = "./bin";
-    File classFiles[] = finder(".", "class");
-    for (File classFile : classFiles) {
-      // move
-    }
 
     System.out.println("Opening Trident...");
     ProcessBuilder processBuilder = new ProcessBuilder("java", "Trident");

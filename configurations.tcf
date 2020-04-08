@@ -1,5 +1,0 @@
-themeName:com.sun.java.swing.plaf.windows.WindowsLookAndFeel,
-colorScheme:light,
-fontName:Monospaced,
-fontSize:14,
-tabSize:4,

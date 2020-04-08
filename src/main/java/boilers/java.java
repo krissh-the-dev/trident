@@ -4,9 +4,6 @@
 
 package boilers;
 
-import java.util.*;
-import java.io.*;
-
 class YourClass {
   /*
    * Describe your class
