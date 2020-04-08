@@ -3,38 +3,33 @@
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
  *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 // * Listeners
 
-import java.awt.BorderLayout;
-import java.awt.Desktop;
-import java.awt.GridLayout;
-import java.awt.event.KeyEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.BufferedWriter;
+import java.awt.event.KeyEvent;
 
 // * IO ELEMENTS
 
 import java.io.File;
 import java.io.FileWriter;
-
-// * Exceptions
-
-import java.io.IOException;
+import java.io.BufferedWriter;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -58,10 +53,17 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AbstractDocument;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
 // *Misc
 
 import javax.swing.undo.UndoManager;
+import java.awt.Desktop;
+
+// * Exceptions
+
+import java.io.IOException;
 
 /*
  * Trident Text Editor v4.0 + 
@@ -149,11 +151,10 @@ class Trident {
       BufferedWriter writer = new BufferedWriter(logWriter);
 
       writer.write(System.lineSeparator());
-      writer.write("TIME: " + LocalDateTime.now().toString());
+      writer.write(LocalDateTime.now().toString());
       writer.write(System.lineSeparator());
-      writer.write("ERR CODE: " + code + System.lineSeparator() + "Exception Class: " + e.getClass().getName()
-          + System.lineSeparator() + "Cause: " + e.getCause() + System.lineSeparator() + "Error Message: "
-          + e.getMessage());
+      writer.write(code + System.lineSeparator() + e.getClass().getName() + System.lineSeparator() + e.getCause()
+          + System.lineSeparator() + e.getMessage());
       writer.write(System.lineSeparator());
       writer.write("------------------------------------------");
       writer.write(System.lineSeparator());
@@ -208,13 +209,23 @@ class Trident {
 
       // * Themeing
       Configurations.read();
-      try {
-        UIManager.setLookAndFeel(Configurations.themeName);
-      } catch (Exception e) {
-        Configurations.themeName = UIManager.getSystemLookAndFeelClassName();
-        UIManager.setLookAndFeel(Configurations.themeName);
-        Configurations.write();
-        ErrorDialog("UI_THEME_ERR", e);
+      if (checkOS() == 1) {
+        try {
+          UIManager.setLookAndFeel(Configurations.themeName);
+        } catch (Exception e) {
+          Configurations.themeName = UIManager.getSystemLookAndFeelClassName();
+          UIManager.setLookAndFeel(Configurations.themeName);
+          Configurations.write();
+          ErrorDialog("UI_THEME_ERR", e);
+        }
+      } else {
+        try {
+          if (Configurations.themeName.contains("windows")) {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+          }
+        } catch (Exception e) {
+          ErrorDialog("LINUX_THEME_ERR", e);
+        }
       }
 
       // * Frame Setup
@@ -388,6 +399,10 @@ class Trident {
       autoSave.addItemListener(sml);
       settingsMenu.add(autoSave);
 
+      StyleEditor = new JMenuItem("Style Editor");
+      settingsMenu.add(StyleEditor);
+      StyleEditor.addActionListener(sml);
+
       configs = new JMenuItem("Configurations");
       configs.addActionListener(sml);
       settingsMenu.add(configs);
@@ -551,32 +566,14 @@ class Trident {
     if (args.length == 0)
       new Trident("New File");
     else {
-      switch (args[0]) {
-        case "-version":
-        case "--version":
-        case "-v":
+      for (String arg : args) {
+        if (arg.equals("-version")) {
           System.out.println("Trident Text Editor");
           System.out.print("Version: 5.0");
           System.out.println("\tChannel: Beta");
           System.out.println("(c) 2020 Krishna Moorthy Athinarayan. All rights reserved.");
-          break;
-
-        case "-readme":
-          new Trident("readme.md");
-          break;
-
-        case "-reset":
-          System.out.println("Restoring default settings...");
-          try {
-            Configurations.restoreDefaults();
-            System.out.println("Restore successful.");
-          } catch (IOException restoreErr) {
-            System.err
-                .println("Restotation unsuccessful.\nTry manually changing the values in configurations.tcf file.");
-          }
-          break;
-        default:
-          new Trident(args[0]);
+        } else
+          new Trident(arg);
       }
     }
   }

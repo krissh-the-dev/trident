@@ -3,63 +3,69 @@
  *  (c) Copyright, 2020 - 2021 Krishna Moorthy
  *  akrishnamoorthy007@gmail.com | github.com/KrishnaMoorthy12
  *  
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerListModel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import java.awt.GraphicsEnvironment;
+
 import javax.swing.border.EmptyBorder;
+import javax.swing.BorderFactory;
+
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+
+import java.awt.event.WindowListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import mdlaf.MaterialLookAndFeel;
-import mdlaf.themes.MaterialLiteTheme;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
+import mdlaf.*;
+import mdlaf.themes.*;
 
 /*
  * Trident Configurations Toolkit v2.4
  * @author: Krishna Moorthy
  * 
- * [Apache v2] Trident > Configurations
+ * [GPL v3] Trident > Configurations
  * This is only a minor sub-software of Project Trident
  * Trident Text Editor v3.0 Style Configuration Toolkit
  * Stable since @version 3.0
@@ -67,7 +73,7 @@ import mdlaf.themes.MaterialLiteTheme;
  */
 
 /*
- * (Apache v2) Trident > ChangeListener
+ * (GPL v3) Trident > ChangeListener
  * @author: Krishna Moorthy
  */
 
@@ -152,7 +158,7 @@ public class Configurations {
      */
     try {
       try {
-        if (themeName == null || themeName == "") {
+        if (themeName == null) {
           themeName = UIManager.getSystemLookAndFeelClassName();
         }
         UIManager.setLookAndFeel(themeName);
@@ -299,7 +305,6 @@ public class Configurations {
     ConfigWindow.setVisible(true);
   }
 
-  @Deprecated
   protected static void showEditor() {
     /*
      * Opens up the TS File editor that stores the current values of saved
@@ -426,17 +431,17 @@ public class Configurations {
       File tsf = new File("./configurations.tcf");
       FileWriter fileWritter = new FileWriter(tsf, false);
       BufferedWriter bw = new BufferedWriter(fileWritter);
-      contents = "themeName=" + themeName + "," + System.lineSeparator();
-      contents += "colorScheme=";
+      contents = "themeName:" + themeName + "," + System.lineSeparator();
+      contents += "colorScheme:";
       if (primary.equals(Color.WHITE)) {
         contents += "light,";
       } else {
         contents += "dark,";
       }
       contents += System.lineSeparator();
-      contents += "fontName=" + fontName + "," + System.lineSeparator();
-      contents += "fontSize=" + fontSize + "," + System.lineSeparator();
-      contents += "tabSize=" + tabSize + "," + System.lineSeparator();
+      contents += "fontName:" + fontName + "," + System.lineSeparator();
+      contents += "fontSize:" + fontSize + "," + System.lineSeparator();
+      contents += "tabSize:" + tabSize + "," + System.lineSeparator();
       bw.write(contents);
       bw.close();
     } catch (IOException wre) {
@@ -461,7 +466,7 @@ public class Configurations {
       String settings[] = tsContents.split(",");
       String settingSet[] = new String[5];
       for (int i = 0; i < 5; i++) {
-        settingSet[i] = settings[i].split("=")[1];
+        settingSet[i] = settings[i].split(":")[1];
       }
 
       themeName = settingSet[0];
@@ -484,7 +489,7 @@ public class Configurations {
   public static final void raw_apply() {
     /*
      * Directly reads the configurations.tcf and apply the settings (independent of
-     * Configuration Window); Used to apply configurations upon opening of Trident
+     * Configuration Window)
      */
     read();
     try {
@@ -502,20 +507,6 @@ public class Configurations {
     } catch (Exception exp) {
       Trident.ErrorDialog("APPLY_BEG_ERR", exp);
     }
-  }
-
-  public static final void restoreDefaults() throws IOException {
-    String defaults = "themeName=" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
-    defaults += "colorScheme=light," + System.lineSeparator();
-    defaults += "fontName=Monospaced," + System.lineSeparator();
-    defaults += "fontSize=14," + System.lineSeparator();
-    defaults += "tabSize=4," + System.lineSeparator();
-    File tsf = new File("./configurations.tcf");
-    FileWriter fileWritter = new FileWriter(tsf, false);
-    BufferedWriter bw = new BufferedWriter(fileWritter);
-    bw.write(defaults);
-    bw.close();
-    fileWritter.close();
   }
 }
 
@@ -540,7 +531,17 @@ class ConfigurationsListener implements ActionListener {
           Configurations.ImOpen = false;
           Configurations.ConfigWindow.dispose();
           Configurations.showUI();
-          Configurations.restoreDefaults();
+          String defaults = "themeName:" + UIManager.getSystemLookAndFeelClassName() + ',' + System.lineSeparator();
+          defaults += "colorScheme:light," + System.lineSeparator();
+          defaults += "fontName:Monospaced," + System.lineSeparator();
+          defaults += "fontSize:14," + System.lineSeparator();
+          defaults += "tabSize:4," + System.lineSeparator();
+          File tsf = new File("./configurations.tcf");
+          FileWriter fileWritter = new FileWriter(tsf, false);
+          BufferedWriter bw = new BufferedWriter(fileWritter);
+          bw.write(defaults);
+          bw.close();
+          fileWritter.close();
           Configurations.setData();
           Configurations.apply();
         } catch (Exception ex) {

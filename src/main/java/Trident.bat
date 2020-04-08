@@ -1,6 +1,6 @@
 :: Trident Launcher - Windows ::
 :: Author: Krishna Moorthy ::
-:: LICENSE: Apache v2.0 ::
+:: LICENSE: GPL v3.0 ::
 
 @echo off
 
