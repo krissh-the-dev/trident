@@ -1,7 +1,6 @@
 package org.trident;
 
 import org.trident.control.ActionsMediator;
-import org.trident.control.actions.AboutMenuListener;
 import org.trident.control.listeners.*;
 import org.trident.model.Configurations;
 import org.trident.model.RecentsTracker;
@@ -30,6 +29,14 @@ import java.awt.Desktop;
  * @author: Krishna Moorthy
  */
 public class Trident {
+
+
+    //
+    //TODO this comment after load should be remove
+    //This class should be the MAIN app, should be contains only the
+    //managed the class, like the frame, the mediator of the acions and nothing else.
+    //So I think I start the refactoring to move all component inside this class in different component
+    //Look also TridentApp in View package
 
     private static final Class TAG = Trident.class;
 

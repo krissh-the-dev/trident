@@ -11,6 +11,10 @@ repositories {
 dependencies {
 
     implementation("io.github.vincenzopalazzo:material-ui-swing:1.1.1_pre-release_6.1")
+    // https://mvnrepository.com/artifact/com.fifesoft/rsyntaxtextarea
+    // https://github.com/bobbylight/RSyntaxTextArea
+    implementation("com.fifesoft:rsyntaxtextarea:3.1.1")
+
 
     implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation("ch.qos.logback:logback-core:1.2.3")
