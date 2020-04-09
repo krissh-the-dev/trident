@@ -18,7 +18,6 @@ package org.trident.control.listeners;
  */
 
 import org.trident.Trident;
-import org.trident.control.listeners.AutoSave;
 import org.trident.exception.UnsupportedFileException;
 import org.trident.exception.UnsupportedOperatingSystemException;
 import org.trident.model.RecentsTracker;
