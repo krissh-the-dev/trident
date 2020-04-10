@@ -44,7 +44,7 @@ public class Trident {
 
     private JFrame frame;
     protected JTextArea textarea;
-    protected JLabel status1, status2, status3, status4;
+    protected JLabel statusText, savedStatus, fileTypeStatus, positionStatus;
     protected String fileType;
     protected String path;
     protected Boolean warned;
@@ -95,9 +95,9 @@ public class Trident {
                 } catch (Exception shit) {
                     ErrorDialog("DESKTOP_UNAVAILABLE", shit);
                 }
-                status1.setText("Thanks for your positive intent.");
+                statusText.setText("Thanks for your positive intent.");
             } else {
-                status1.setText("Please report errors to help improve Trident.");
+                statusText.setText("Please report errors to help improve Trident.");
             }
         } catch (Exception dialogShowErr) {
             System.err.println("Trident was terminated with an unexpected error.");
@@ -191,13 +191,13 @@ public class Trident {
             WindowListener WindowCloseListener = new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    status1.setText("Exiting Trident...");
+                    statusText.setText("Exiting Trident...");
                     if (warned) {
                         int opt = fml.warningDialog();
                         if (opt == JOptionPane.NO_OPTION) {
                             System.exit(0);
                         } else {
-                            Trident.getInstance().getStatus1().setText("Ready.");
+                            Trident.getInstance().getstatusText().setText("Ready.");
                         }
                     } else {
                         System.exit(0);
@@ -458,10 +458,10 @@ public class Trident {
 
             // * Status bar setup
             statusBar = new JPanel();
-            status1 = new JLabel("Ready.");
-            status2 = new JLabel("Unsaved");
-            status3 = new JLabel(fileType);
-            status4 = new JLabel("Line: 1 Col: 1");
+            statusText = new JLabel("Ready.");
+            savedStatus = new JLabel("Unsaved");
+            fileTypeStatus = new JLabel(fileType);
+            positionStatus = new JLabel("Line: 1 Col: 1");
 
             CommentPaneListener cpl = new CommentPaneListener();
             cpl.start();
@@ -474,10 +474,10 @@ public class Trident {
             commentPanel.setLayout(new GridLayout(1, 1, 0, 0));
             othersPanel.setLayout(new GridLayout(1, 3, 0, 0));
 
-            commentPanel.add(status1);
-            othersPanel.add(status2);
-            othersPanel.add(status3);
-            othersPanel.add(status4);
+            commentPanel.add(statusText);
+            othersPanel.add(savedStatus);
+            othersPanel.add(fileTypeStatus);
+            othersPanel.add(positionStatus);
 
             statusBar.add(commentPanel);
             statusBar.add(othersPanel);
@@ -489,7 +489,7 @@ public class Trident {
             if (!path.equals("New File")) {
                 fml.openFile();
                 fml.saveFile();
-                status1.setText("File opened using command-line.");
+                statusText.setText("File opened using command-line.");
             }
 
             frame.setJMenuBar(mb);
@@ -534,8 +534,8 @@ public class Trident {
         return commentPanel;
     }
 
-    public JLabel getStatus1() {
-        return status1;
+    public JLabel getstatusText() {
+        return statusText;
     }
 
     public void setToolBar(JToolBar toolBar) {
@@ -543,15 +543,15 @@ public class Trident {
     }
 
     public JLabel getStatus2() {
-        return status2;
+        return savedStatus;
     }
 
     public JLabel getStatus3() {
-        return status3;
+        return fileTypeStatus;
     }
 
     public JLabel getStatus4() {
-        return status4;
+        return positionStatus;
     }
 
     public JPanel getOthersPanel() {

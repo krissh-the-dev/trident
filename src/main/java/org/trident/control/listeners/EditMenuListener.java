@@ -83,7 +83,7 @@ public class EditMenuListener implements ActionListener {
       cbviewer.setVisible(true);
     } catch (UnsupportedFlavorException ufe) {
       // Trident.ErrorDialog("FLAVOR_ERR", ufe); // Don't throw unnecessary errors
-      Trident.getInstance().getStatus1().setText("Clipboard has some unsupported content.");
+      Trident.getInstance().getstatusText().setText("Clipboard has some unsupported content.");
       cbviewer.dispose();
     } catch (IOException ioe) {
       // Trident.ErrorDialog("IOE_CLIPBOARD", ioe); <- Avoid
@@ -118,7 +118,7 @@ public class EditMenuListener implements ActionListener {
 
         case "Undo":
           Trident.getInstance().getUndoManager().undo();
-          Trident.getInstance().getStatus1().setText("Ready.");
+          Trident.getInstance().getstatusText().setText("Ready.");
           Trident.getInstance().getRedo().setEnabled(true);
           Toolbar.redoButton.setEnabled(true);
           break;
@@ -127,7 +127,7 @@ public class EditMenuListener implements ActionListener {
           Trident.getInstance().getUndoManager().redo();
           Trident.getInstance().getUndo().setEnabled(true);
           Toolbar.undoButton.setEnabled(true);
-          Trident.getInstance().getStatus1().setText("Ready.");
+          Trident.getInstance().getstatusText().setText("Ready.");
           break;
 
         case "Find":
@@ -143,11 +143,11 @@ public class EditMenuListener implements ActionListener {
           break;
       }
     } catch (CannotRedoException redoErr) {
-      Trident.getInstance().getStatus1().setText("No more Redos available.");
+      Trident.getInstance().getstatusText().setText("No more Redos available.");
       Trident.getInstance().getRedo().setEnabled(false);
       Toolbar.redoButton.setEnabled(false);
     } catch (CannotUndoException undoErr) {
-      Trident.getInstance().getStatus1().setText("No more Undos available.");
+      Trident.getInstance().getstatusText().setText("No more Undos available.");
       Trident.getInstance().getUndo().setEnabled(false);
       Toolbar.undoButton.setEnabled(false);
     } catch (HeadlessException noHead) {

@@ -79,12 +79,12 @@ public class FileMenuListener implements ActionListener {
                 Trident.getInstance().setPath(openDialog.getSelectedFile().getAbsolutePath());
                 openFile();
             } else if (command == JFileChooser.CANCEL_OPTION) {
-                Trident.getInstance().getStatus1().setText("Operation cancelled by the user.");
+                Trident.getInstance().getstatusText().setText("Operation cancelled by the user.");
                 return;
             }
         } catch (Exception enr) {
             TridentLogger.getInstance().error(this.getClass(), "FILE_OPENER_ERR: " + enr.getLocalizedMessage());
-            Trident.getInstance().getStatus1().setText("There was an error opening the file.");
+            Trident.getInstance().getstatusText().setText("There was an error opening the file.");
         }
     }
 
@@ -100,7 +100,7 @@ public class FileMenuListener implements ActionListener {
                 contents += line + System.lineSeparator();
             }
             Trident.getInstance().getTextarea().setText(contents);
-            Trident.getInstance().getStatus1().setText("Editing existing file.");
+            Trident.getInstance().getstatusText().setText("Editing existing file.");
             Trident.getInstance().getStatus2().setText("Saved");
             Trident.getInstance().getStatus3().setText(
                     FileTypeParser.getType(Paths.get(Trident.getInstance().getPath()).getFileName().toString()));
@@ -125,7 +125,7 @@ public class FileMenuListener implements ActionListener {
             System.gc();
         } catch (Exception ioe) {
             TridentLogger.getInstance().error(this.getClass(), "FILE_OPEN_ERR: " + ioe);
-            Trident.getInstance().getStatus1().setText("Could not open the specified file.");
+            Trident.getInstance().getstatusText().setText("Could not open the specified file.");
         }
     }
 
@@ -150,7 +150,7 @@ public class FileMenuListener implements ActionListener {
                 Trident.getInstance().setWarned(false);
                 Trident.getInstance().getFrame()
                         .setTitle("Trident Text Editor - " + Paths.get(filepath).getFileName().toString());
-                Trident.getInstance().getStatus1().setText("File saved successfully.");
+                Trident.getInstance().getstatusText().setText("File saved successfully.");
                 Trident.getInstance().getStatus2().setText("Saved");
                 Trident.getInstance().getStatus3()
                         .setText(FileTypeParser.getType(Paths.get(filepath).getFileName().toString()));
@@ -158,7 +158,7 @@ public class FileMenuListener implements ActionListener {
                 FileSaveAs();
         } catch (Exception ioe) {
             TridentLogger.getInstance().error(this.getClass(), "FILE_SAVE_IO:" + ioe.getLocalizedMessage());
-            Trident.getInstance().getStatus1().setText("Error saving the file.");
+            Trident.getInstance().getstatusText().setText("Error saving the file.");
         }
     }
 
@@ -180,7 +180,7 @@ public class FileMenuListener implements ActionListener {
                 Trident.getInstance().setWarned(false);
                 Trident.getInstance().getFrame().setTitle(
                         "Trident Text Editor - " + Paths.get(Trident.getInstance().getPath()).getFileName().toString());
-                Trident.getInstance().getStatus1().setText("File saved successfully.");
+                Trident.getInstance().getstatusText().setText("File saved successfully.");
                 Trident.getInstance().getStatus2().setText("Saved");
                 Trident.getInstance().getStatus3().setText(
                         FileTypeParser.getType(Paths.get(Trident.getInstance().getPath()).getFileName().toString()));
@@ -188,7 +188,7 @@ public class FileMenuListener implements ActionListener {
                 FileSaveAs();
         } catch (Exception ioe) {
             TridentLogger.getInstance().error(this.getClass(), "FILE_SAVE_IO: " + ioe);
-            Trident.getInstance().getStatus1().setText("Error saving the file.");
+            Trident.getInstance().getstatusText().setText("Error saving the file.");
         }
     }
 
@@ -205,7 +205,7 @@ public class FileMenuListener implements ActionListener {
             saveFile();
             RecentsTracker.addRecord(saveAsDialog.getSelectedFile().getAbsolutePath());
         } else if (command == JFileChooser.CANCEL_OPTION) {
-            Trident.getInstance().getStatus1().setText("File is not saved.");
+            Trident.getInstance().getstatusText().setText("File is not saved.");
         }
     }
 
@@ -233,13 +233,13 @@ public class FileMenuListener implements ActionListener {
         if (Trident.getInstance().getWarned()) {
             int opt = warningDialog();
             if (opt == JOptionPane.CANCEL_OPTION) {
-                Trident.getInstance().getStatus1().setText("Ready.");
+                Trident.getInstance().getstatusText().setText("Ready.");
                 return false;
             }
         }
         Trident.getInstance().setPath("New File"); // TODO Why??/
         Trident.getInstance().getTextarea().setText("");
-        Trident.getInstance().getStatus1().setText("Ready.");
+        Trident.getInstance().getstatusText().setText("Ready.");
         Trident.getInstance().getStatus2().setText("Unsaved");
         Trident.getInstance().getStatus3().setText("Plain File");
         Trident.getInstance().getFrame().setTitle("Trident Text Editor - New File");
@@ -306,7 +306,7 @@ public class FileMenuListener implements ActionListener {
                 Trident.getInstance().getStatus3().setText(choice);
                 be.close();
             } else {
-                Trident.getInstance().getStatus1().setText("Operation cancelled by the user.");
+                Trident.getInstance().getstatusText().setText("Operation cancelled by the user.");
             }
         } catch (FileNotFoundException fnf) {
             TridentLogger.getInstance().error(this.getClass(), "BOILER_NOT_FOUNT: " + fnf);
@@ -335,7 +335,7 @@ public class FileMenuListener implements ActionListener {
                     if (Trident.getInstance().getWarned()) {
                         int opt = warningDialog();
                         if (opt == JOptionPane.CANCEL_OPTION) {
-                            Trident.getInstance().getStatus1().setText("Ready.");
+                            Trident.getInstance().getstatusText().setText("Ready.");
                             break;
                         }
                     }
@@ -343,13 +343,13 @@ public class FileMenuListener implements ActionListener {
                     break;
 
                 case "Exit":
-                    Trident.getInstance().getStatus1().setText("Exiting Trident...");
+                    Trident.getInstance().getstatusText().setText("Exiting Trident...");
                     if (Trident.getInstance().getWarned()) {
                         int opt = warningDialog();
                         if (opt == JOptionPane.NO_OPTION) {
                             System.exit(0);
                         } else {
-                            Trident.getInstance().getStatus1().setText("Ready.");
+                            Trident.getInstance().getstatusText().setText("Ready.");
                             break;
                         }
                     } else {

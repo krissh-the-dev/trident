@@ -15,13 +15,13 @@ public class TridentMainPanel extends JPanel implements ITridentComponentView {
 
     private RSyntaxTextArea codeEditorText;
     private RTextScrollPane textScrollPane;
-    private JLabel status1; //TODO give the correct name at the label what is mean status1? give an name like, labelStatusFile
-    private JLabel status2;
-    private JLabel status3;
-    private JLabel status4;
+    private JLabel statusText;
+    private JLabel savedStatus;
+    private JLabel fileTypeStatus;
+    private JLabel positionStatus;
 
     public TridentMainPanel() {
-        initView(); //TODO Remember this, if you don't call this here, you don't see nothing
+        initView(); //TODO Remember this, if you don't call this here, you don't see nothing -- > I see!
     }
 
     @Override

@@ -234,7 +234,7 @@ public class Configurations {
         Trident.getInstance().getCommentPanel().setBackground(statusbg);
         Trident.getInstance().getOthersPanel().setBackground(statusbg);
 
-        Trident.getInstance().getStatus1().setForeground(statusfg);
+        Trident.getInstance().getstatusText().setForeground(statusfg);
         Trident.getInstance().getStatus2().setForeground(statusfg);
         Trident.getInstance().getStatus3().setForeground(statusfg);
         Trident.getInstance().getStatus4().setForeground(statusfg);
