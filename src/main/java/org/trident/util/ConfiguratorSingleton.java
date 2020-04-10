@@ -22,10 +22,10 @@ public class ConfiguratorSingleton {
     private Properties config;
 
     private ConfiguratorSingleton() {
-        loadPropieties();
+        loadProperties();
     }
 
-    private void loadPropieties() {
+    private void loadProperties() {
         //Do nothing for moment
     }
 

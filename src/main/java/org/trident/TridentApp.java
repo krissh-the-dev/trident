@@ -41,21 +41,21 @@ public class TridentApp extends JFrame implements ITridentComponentView {
     private JMenu settingsMenu;
     private JMenu toolsMenu;
     private JMenu about;
-    private JMenu ClipMenu;
+    private JMenu clipMenu;
     private JMenu newSource;
     private JMenu openRecent;
     private JMenuBar tridentMenuBar; //TODO write the comprensible name
     private JMenuItem newFile;
     private JMenuItem newWindow;
-    private JMenuItem OpenFile;
-    private JMenuItem SaveFile;
-    private JMenuItem SaveAs;
+    private JMenuItem openFile;
+    private JMenuItem saveFile;
+    private JMenuItem saveAs;
     private JMenuItem exit;
-    private JMenuItem Undo;
-    private JMenuItem Redo;
-    private JMenuItem Copy;
-    private JMenuItem Cut;
-    private JMenuItem Paste;
+    private JMenuItem undo;
+    private JMenuItem redo;
+    private JMenuItem copy;
+    private JMenuItem cut;
+    private JMenuItem paste;
     private JMenuItem goTo;
     private JMenuItem pCopy;
     private JMenuItem pCut;
@@ -67,8 +67,8 @@ public class TridentApp extends JFrame implements ITridentComponentView {
     private JMenuItem styleEditor;
     private JMenuItem configs;
     private JMenuItem compile;
-    private JMenuItem Run;
-    private JMenuItem cRun;
+    private JMenuItem run;
+    private JMenuItem compileAndRun;
     private JMenuItem console;
     private JMenuItem aboutFile;
     private JMenuItem help;
@@ -153,8 +153,8 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         newSource.add(pboil);
         fileMenu.add(newSource);
 
-        OpenFile = new JMenuItem("Open");
-        fileMenu.add(OpenFile);
+        openFile = new JMenuItem("Open");
+        fileMenu.add(openFile);
 
         openRecent = new JMenu("Open Recent");
         ArrayList<String> recents = RecentsTracker.getRecords();
@@ -167,11 +167,11 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         }
         fileMenu.add(openRecent);
 
-        SaveFile = new JMenuItem("Save");
-        fileMenu.add(SaveFile);
+        saveFile = new JMenuItem("Save");
+        fileMenu.add(saveFile);
 
-        SaveAs = new JMenuItem("Save As");
-        fileMenu.add(SaveAs);
+        saveAs = new JMenuItem("Save As");
+        fileMenu.add(saveAs);
 
         exit = new JMenuItem("Exit");
         fileMenu.add(exit);
@@ -180,20 +180,20 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         // > Edit Menu
         editMenu = new JMenu("Edit");
 
-        Undo = new JMenuItem("Undo");
-        editMenu.add(Undo);
+        undo = new JMenuItem("Undo");
+        editMenu.add(undo);
 
-        Redo = new JMenuItem("Redo");
-        editMenu.add(Redo);
+        redo = new JMenuItem("Redo");
+        editMenu.add(redo);
 
-        Copy = new JMenuItem("Copy");
-        editMenu.add(Copy);
+        copy = new JMenuItem("Copy");
+        editMenu.add(copy);
 
-        Cut = new JMenuItem("Cut");
-        editMenu.add(Cut);
+        cut = new JMenuItem("Cut");
+        editMenu.add(cut);
 
-        Paste = new JMenuItem("Paste");
-        editMenu.add(Paste);
+        paste = new JMenuItem("Paste");
+        editMenu.add(paste);
 
         find = new JMenuItem("Find");
         editMenu.add(find);
@@ -204,14 +204,14 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         goTo = new JMenuItem("Go To");
         editMenu.add(goTo);
 
-        ClipMenu = new JMenu("Clipboard");
-        editMenu.add(ClipMenu);
+        clipMenu = new JMenu("Clipboard");
+        editMenu.add(clipMenu);
 
         showClipboard = new JMenuItem("Show Contents");
-        ClipMenu.add(showClipboard);
+        clipMenu.add(showClipboard);
 
         eraseClipboard = new JMenuItem("Erase Contents");
-        ClipMenu.add(eraseClipboard);
+        clipMenu.add(eraseClipboard);
 
         // < Edit Menu
 
@@ -237,18 +237,10 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         compile = new JMenuItem("Compile");
         toolsMenu.add(compile);
 
-        Run = new JMenuItem("Run");
-        toolsMenu.add(Run);
+        run = new JMenuItem("Run");
+        toolsMenu.add(run);
 
-        cRun = new JMenuItem("Compile and Run");
-        toolsMenu.add(cRun);
-
-        console = new JMenuItem("Open Console");
-        toolsMenu.add(console);
-        // < Run Menu
-
-        // > About Menu
-        about = new JMenu("About");
+        compileAndRun = new JMenuItem("Compile and Run");
 
         aboutFile = new JMenuItem("File Properties");
         about.add(aboutFile);
