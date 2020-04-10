@@ -3,10 +3,14 @@ package org.trident.view.mainpanel;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import org.trident.control.ActionsMediator;
+import org.trident.control.listeners.FileMenuListener;
+import org.trident.util.Constant;
 import org.trident.view.ITridentComponentView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * @author https://github.com/vincenzopalazzo

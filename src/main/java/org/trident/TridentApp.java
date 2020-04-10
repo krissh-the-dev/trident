@@ -1,9 +1,12 @@
 package org.trident;
 
 import mdlaf.MaterialLookAndFeel;
+import org.trident.control.listeners.FileMenuListener;
 import org.trident.model.RecentsTracker;
+import org.trident.util.Constant;
 import org.trident.view.ITridentComponentView;
 import org.trident.view.mainpanel.TridentMainPanel;
+import org.trident.control.ActionsMediator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -40,7 +43,7 @@ public class TridentApp extends JFrame implements ITridentComponentView {
     private JMenu editMenu;
     private JMenu settingsMenu;
     private JMenu toolsMenu;
-    private JMenu about;
+    private JMenu aboutMenu;
     private JMenu clipMenu;
     private JMenu newSource;
     private JMenu openRecent;
@@ -242,17 +245,19 @@ public class TridentApp extends JFrame implements ITridentComponentView {
 
         compileAndRun = new JMenuItem("Compile and Run");
 
+        // > About Menu
+        aboutMenu = new JMenu("About");
         aboutFile = new JMenuItem("File Properties");
-        about.add(aboutFile);
+        aboutMenu.add(aboutFile);
 
         help = new JMenuItem("Help");
-        about.add(help);
+        aboutMenu.add(help);
 
         aboutTrident = new JMenuItem("About Trident");
-        about.add(aboutTrident);
+        aboutMenu.add(aboutTrident);
 
         updates = new JMenuItem("Updates");
-        about.add(updates);
+        aboutMenu.add(updates);
         // < About Menu
 
         tridentMenuBar = new JMenuBar();
@@ -260,7 +265,7 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         tridentMenuBar.add(editMenu);
         tridentMenuBar.add(toolsMenu);
         tridentMenuBar.add(settingsMenu);
-        tridentMenuBar.add(about);
+        tridentMenuBar.add(aboutMenu);
         tridentMenuBar.setBorder(new EmptyBorder(0, 0, 0, 0));
 
         //if you call an father method (in this cases JFrame) add every time the world super.method

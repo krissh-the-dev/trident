@@ -52,7 +52,7 @@ public class FileMenuListener implements ActionListener {
     public void FileOpener() {
 
         try {
-            // text files include plaint text, markdown, maniests, encrypt files etc.
+            // text files include plaint text, markdown, manifests, encrypt files etc.
             FileNameExtensionFilter textFiles = new FileNameExtensionFilter("Text Files (*.txt, *.mf, *.md, *.rtf)",
                     "txt", "mf", "md", "rtf");
             // Source files include major program source code files formats
