@@ -4,6 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FileTypeMaps {
+
+  /**
+   * - package wrong
+   * - have a sens this class but before we neet to build de structure of the text editor
+   * I don't see the code this class, we should be work in the strucure because at this problem will think after refactoring of class
+   */
   private static Map<String, String> sourceFileType = new HashMap<>();
   private static Map<String, String> sourceFileLang = new HashMap<>();
 
@@ -73,6 +79,13 @@ public class FileTypeMaps {
     }
     return SINGLETON;
   }
+
+  /**
+   * In the SINGLETON only method of getInstance is static, the following method
+   * should be NO static.
+   * @param extension
+   * @return
+   */
 
   public static Map getFileDetailsMap(String extension) {
     Map<String, String> details = new HashMap<>();
