@@ -44,17 +44,17 @@ public class Trident {
 
     private JFrame frame;
     protected JTextArea textarea;
-    protected JLabel status1, status2, status3, status4;
+    protected JLabel statusText, savedStatus, fileTypeStatus, positionStatus;
     protected String fileType;
     protected String path;
     protected Boolean warned;
     protected JMenuBar mb;
     protected JScrollPane editor;
     protected JPanel statusBar, commentPanel, othersPanel;
-    protected JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, ClipMenu, newSource, openRecent;
-    protected JMenuItem newFile, newWindow, OpenFile, SaveFile, SaveAs, Exit, Undo, Redo, Copy, Cut, Paste, goTo,
-            pCopy, pCut, pPaste, ShowClipboard, EraseClipboard, Find, Replace, StyleEditor, configs, Compile, Run, CRun,
-            console, AboutFile, help, AboutTrident, updates, pyFile, javaFile, cFile, cppFile, htmlFile, bstrp, pboil;
+    protected JMenu fileMenu, editMenu, settingsMenu, toolsMenu, about, clipMenu, newSource, openRecent;
+    protected JMenuItem newFile, newWindow, openFile, saveFile, saveAs, exit, undo, redo, copy, cut, paste, goTo,
+            pCopy, pCut, pPaste, showClipboard, eraseClipboard, find, replace, styleEditor, configs, compile, run, compileAndRun,
+            console, aboutFile, help, aboutTrident, updates, pyFile, javaFile, cFile, cppFile, htmlFile, bstrp, pboil;
     protected JMenuItem[] recentlyOpened;
     protected JCheckBoxMenuItem wordWrap, autoSave;
     protected JToolBar toolBar;
@@ -64,7 +64,7 @@ public class Trident {
     // * Listener Variable declarations
     private FileMenuListener fml = (FileMenuListener) ActionsMediator.getInstance().getAction(Constant.LISTENER_FILE_MENU);
     private ActionListener eml = ActionsMediator.getInstance().getAction(Constant.LISTENER_EDIT_MENU);
-    private ActionListener sml = ActionsMediator.getInstance().getAction(Constant.LISTENER_SETTIN_MENU);
+    private ActionListener sml = ActionsMediator.getInstance().getAction(Constant.LISTENER_SETTING_MENU);
     private ActionListener tml = ActionsMediator.getInstance().getAction(Constant.LISTENER_TOOLS_MENU);
     private ActionListener aml = ActionsMediator.getInstance().getAction(Constant.LISTENER_ABOUT_MENU);
 
@@ -95,9 +95,9 @@ public class Trident {
                 } catch (Exception shit) {
                     ErrorDialog("DESKTOP_UNAVAILABLE", shit);
                 }
-                status1.setText("Thanks for your positive intent.");
+                statusText.setText("Thanks for your positive intent.");
             } else {
-                status1.setText("Please report errors to help improve Trident.");
+                statusText.setText("Please report errors to help improve Trident.");
             }
         } catch (Exception dialogShowErr) {
             System.err.println("Trident was terminated with an unexpected error.");
@@ -169,7 +169,6 @@ public class Trident {
                     UIManager.setLookAndFeel(Configurations.getInstance().getThemeName());
                 } catch (Exception e) {
                     Configurations.getInstance().setThemeName(UIManager.getSystemLookAndFeelClassName());
-                    ;
                     UIManager.setLookAndFeel(Configurations.getInstance().getThemeName());
                     Configurations.getInstance().write();
                     ErrorDialog("UI_THEME_ERR", e);
@@ -192,13 +191,13 @@ public class Trident {
             WindowListener WindowCloseListener = new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    status1.setText("Exiting Trident...");
+                    statusText.setText("Exiting Trident...");
                     if (warned) {
                         int opt = fml.warningDialog();
                         if (opt == JOptionPane.NO_OPTION) {
                             System.exit(0);
                         } else {
-                            Trident.getInstance().getStatus1().setText("Ready.");
+                            Trident.getInstance().getstatusText().setText("Ready.");
                         }
                     } else {
                         System.exit(0);
@@ -253,10 +252,10 @@ public class Trident {
             newSource.add(pboil);
             fileMenu.add(newSource);
 
-            OpenFile = new JMenuItem("Open");
-            OpenFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-            fileMenu.add(OpenFile);
-            OpenFile.addActionListener(fml);
+            openFile = new JMenuItem("Open");
+            openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+            fileMenu.add(openFile);
+            openFile.addActionListener(fml);
 
             openRecent = new JMenu("Open Recent");
             ArrayList<String> recents = RecentsTracker.getRecords();
@@ -270,76 +269,76 @@ public class Trident {
             }
             fileMenu.add(openRecent);
 
-            SaveFile = new JMenuItem("Save");
-            SaveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-            fileMenu.add(SaveFile);
-            SaveFile.addActionListener(fml);
+            saveFile = new JMenuItem("Save");
+            saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+            fileMenu.add(saveFile);
+            saveFile.addActionListener(fml);
 
-            SaveAs = new JMenuItem("Save As");
-            SaveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+            saveAs = new JMenuItem("Save As");
+            saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
                     (java.awt.event.InputEvent.CTRL_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK)));
-            fileMenu.add(SaveAs);
-            SaveAs.addActionListener(fml);
+            fileMenu.add(saveAs);
+            saveAs.addActionListener(fml);
 
-            Exit = new JMenuItem("Exit");
-            Exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
-            fileMenu.add(Exit);
-            Exit.addActionListener(fml);
+            exit = new JMenuItem("Exit");
+            exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
+            fileMenu.add(exit);
+            exit.addActionListener(fml);
             // < File Menu
 
             // > Edit Menu
             editMenu = new JMenu("Edit");
             editMenu.setMnemonic(KeyEvent.VK_E);
 
-            Undo = new JMenuItem("Undo");
-            Undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-            Undo.addActionListener(eml);
-            editMenu.add(Undo);
+            undo = new JMenuItem("Undo");
+            undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+            undo.addActionListener(eml);
+            editMenu.add(undo);
 
-            Redo = new JMenuItem("Redo");
-            Redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-            Redo.addActionListener(eml);
-            editMenu.add(Redo);
+            redo = new JMenuItem("Redo");
+            redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+            redo.addActionListener(eml);
+            editMenu.add(redo);
 
-            Copy = new JMenuItem("Copy");
-            Copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-            Copy.addActionListener(eml);
-            editMenu.add(Copy);
+            copy = new JMenuItem("Copy");
+            copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+            copy.addActionListener(eml);
+            editMenu.add(copy);
 
-            Cut = new JMenuItem("Cut");
-            Cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-            Cut.addActionListener(eml);
-            editMenu.add(Cut);
+            cut = new JMenuItem("Cut");
+            cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+            cut.addActionListener(eml);
+            editMenu.add(cut);
 
-            Paste = new JMenuItem("Paste");
-            Paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-            editMenu.add(Paste);
-            Paste.addActionListener(eml);
+            paste = new JMenuItem("Paste");
+            paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+            editMenu.add(paste);
+            paste.addActionListener(eml);
 
-            Find = new JMenuItem("Find");
-            Find.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-            editMenu.add(Find);
-            Find.addActionListener(eml);
+            find = new JMenuItem("Find");
+            find.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+            editMenu.add(find);
+            find.addActionListener(eml);
 
-            Replace = new JMenuItem("Replace");
-            Replace.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,
+            replace = new JMenuItem("Replace");
+            replace.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,
                     java.awt.event.InputEvent.CTRL_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-            editMenu.add(Replace);
-            Replace.addActionListener(eml);
+            editMenu.add(replace);
+            replace.addActionListener(eml);
 
             goTo = new JMenuItem("Go To");
             goTo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_DOWN_MASK));
             editMenu.add(goTo);
             goTo.addActionListener(eml);
 
-            ClipMenu = new JMenu("Clipboard");
-            editMenu.add(ClipMenu);
-            ShowClipboard = new JMenuItem("Show Contents");
-            ClipMenu.add(ShowClipboard);
-            ShowClipboard.addActionListener(eml);
-            EraseClipboard = new JMenuItem("Erase Contents");
-            ClipMenu.add(EraseClipboard);
-            EraseClipboard.addActionListener(eml);
+            clipMenu = new JMenu("Clipboard");
+            editMenu.add(clipMenu);
+            showClipboard = new JMenuItem("Show Contents");
+            clipMenu.add(showClipboard);
+            showClipboard.addActionListener(eml);
+            eraseClipboard = new JMenuItem("Erase Contents");
+            clipMenu.add(eraseClipboard);
+            eraseClipboard.addActionListener(eml);
 
             // < Edit Menu
 
@@ -355,9 +354,9 @@ public class Trident {
             autoSave.addItemListener((ItemListener) sml);
             settingsMenu.add(autoSave);
 
-            StyleEditor = new JMenuItem("Style Editor");
-            settingsMenu.add(StyleEditor);
-            StyleEditor.addActionListener(sml);
+            styleEditor = new JMenuItem("Style Editor");
+            settingsMenu.add(styleEditor);
+            styleEditor.addActionListener(sml);
 
             configs = new JMenuItem("org.trident.model.Configurations");
             configs.addActionListener(sml);
@@ -368,20 +367,20 @@ public class Trident {
             toolsMenu = new JMenu("Tools");
             toolsMenu.setMnemonic(KeyEvent.VK_T);
 
-            Compile = new JMenuItem("Compile");
-            Compile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_DOWN_MASK));
-            toolsMenu.add(Compile);
-            Compile.addActionListener(tml);
+            compile = new JMenuItem("Compile");
+            compile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, java.awt.event.InputEvent.ALT_DOWN_MASK));
+            toolsMenu.add(compile);
+            compile.addActionListener(tml);
 
-            Run = new JMenuItem("Run");
-            Run.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_DOWN_MASK));
-            toolsMenu.add(Run);
-            Run.addActionListener(tml);
+            run = new JMenuItem("Run");
+            run.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, java.awt.event.InputEvent.ALT_DOWN_MASK));
+            toolsMenu.add(run);
+            run.addActionListener(tml);
 
-            CRun = new JMenuItem("Compile and Run");
-            CRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_DOWN_MASK));
-            toolsMenu.add(CRun);
-            CRun.addActionListener(tml);
+            compileAndRun = new JMenuItem("Compile and Run");
+            compileAndRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_DOWN_MASK));
+            toolsMenu.add(compileAndRun);
+            compileAndRun.addActionListener(tml);
 
             console = new JMenuItem("Open Console");
             toolsMenu.add(console);
@@ -391,17 +390,17 @@ public class Trident {
             // > About Menu
             about = new JMenu("About");
 
-            AboutFile = new JMenuItem("File Properties");
-            AboutFile.addActionListener(aml);
-            about.add(AboutFile);
+            aboutFile = new JMenuItem("File Properties");
+            aboutFile.addActionListener(aml);
+            about.add(aboutFile);
 
             help = new JMenuItem("Help");
             help.addActionListener(aml);
             about.add(help);
 
-            AboutTrident = new JMenuItem("About Trident");
-            about.add(AboutTrident);
-            AboutTrident.addActionListener(aml);
+            aboutTrident = new JMenuItem("About Trident");
+            about.add(aboutTrident);
+            aboutTrident.addActionListener(aml);
 
             updates = new JMenuItem("Updates");
             about.add(updates);
@@ -450,19 +449,19 @@ public class Trident {
             textarea.getDocument().addDocumentListener(new AutoSave());
             textarea.addCaretListener(new LineNumberListener());
             textarea.getDocument().addUndoableEditListener(undoManager);
-            Undo.setEnabled(false);
+            undo.setEnabled(false);
             if (Toolbar.undoButton != null) {
                 Toolbar.undoButton.setEnabled(false);
-                Redo.setEnabled(false);
+                redo.setEnabled(false);
                 Toolbar.redoButton.setEnabled(false);
             }
 
             // * Status bar setup
             statusBar = new JPanel();
-            status1 = new JLabel("Ready.");
-            status2 = new JLabel("Unsaved");
-            status3 = new JLabel(fileType);
-            status4 = new JLabel("Line: 1 Col: 1");
+            statusText = new JLabel("Ready.");
+            savedStatus = new JLabel("Unsaved");
+            fileTypeStatus = new JLabel(fileType);
+            positionStatus = new JLabel("Line: 1 Col: 1");
 
             CommentPaneListener cpl = new CommentPaneListener();
             cpl.start();
@@ -475,10 +474,10 @@ public class Trident {
             commentPanel.setLayout(new GridLayout(1, 1, 0, 0));
             othersPanel.setLayout(new GridLayout(1, 3, 0, 0));
 
-            commentPanel.add(status1);
-            othersPanel.add(status2);
-            othersPanel.add(status3);
-            othersPanel.add(status4);
+            commentPanel.add(statusText);
+            othersPanel.add(savedStatus);
+            othersPanel.add(fileTypeStatus);
+            othersPanel.add(positionStatus);
 
             statusBar.add(commentPanel);
             statusBar.add(othersPanel);
@@ -490,7 +489,7 @@ public class Trident {
             if (!path.equals("New File")) {
                 fml.openFile();
                 fml.saveFile();
-                status1.setText("File opened using command-line.");
+                statusText.setText("File opened using command-line.");
             }
 
             frame.setJMenuBar(mb);
@@ -535,8 +534,8 @@ public class Trident {
         return commentPanel;
     }
 
-    public JLabel getStatus1() {
-        return status1;
+    public JLabel getstatusText() {
+        return statusText;
     }
 
     public void setToolBar(JToolBar toolBar) {
@@ -544,15 +543,15 @@ public class Trident {
     }
 
     public JLabel getStatus2() {
-        return status2;
+        return savedStatus;
     }
 
     public JLabel getStatus3() {
-        return status3;
+        return fileTypeStatus;
     }
 
     public JLabel getStatus4() {
-        return status4;
+        return positionStatus;
     }
 
     public JPanel getOthersPanel() {
@@ -604,7 +603,7 @@ public class Trident {
     }
 
     public JMenu getClipMenu() {
-        return ClipMenu;
+        return clipMenu;
     }
 
     public JMenu getNewSource() {
@@ -623,44 +622,44 @@ public class Trident {
         return newWindow;
     }
 
-    public JMenuItem getOpenFile() {
-        return OpenFile;
+    public JMenuItem getopenFile() {
+        return openFile;
     }
 
-    public JMenuItem getSaveFile() {
-        return SaveFile;
+    public JMenuItem getsaveFile() {
+        return saveFile;
     }
 
     public void setUndoManager(UndoManager undoManager) {
         this.undoManager = undoManager;
     }
 
-    public JMenuItem getSaveAs() {
-        return SaveAs;
+    public JMenuItem getsaveAs() {
+        return saveAs;
     }
 
     public JMenuItem getExit() {
-        return Exit;
+        return exit;
     }
 
     public JMenuItem getUndo() {
-        return Undo;
+        return undo;
     }
 
     public JMenuItem getRedo() {
-        return Redo;
+        return redo;
     }
 
     public JMenuItem getCopy() {
-        return Copy;
+        return copy;
     }
 
     public JMenuItem getCut() {
-        return Cut;
+        return cut;
     }
 
     public JMenuItem getPaste() {
-        return Paste;
+        return paste;
     }
 
     public JMenuItem getGoTo() {
@@ -680,23 +679,23 @@ public class Trident {
     }
 
     public JMenuItem getShowClipboard() {
-        return ShowClipboard;
+        return showClipboard;
     }
 
     public JMenuItem getEraseClipboard() {
-        return EraseClipboard;
+        return eraseClipboard;
     }
 
     public JMenuItem getFind() {
-        return Find;
+        return find;
     }
 
     public JMenuItem getReplace() {
-        return Replace;
+        return replace;
     }
 
     public JMenuItem getStyleEditor() {
-        return StyleEditor;
+        return styleEditor;
     }
 
     public JMenuItem getConfigs() {
@@ -704,15 +703,15 @@ public class Trident {
     }
 
     public JMenuItem getCompile() {
-        return Compile;
+        return compile;
     }
 
     public JMenuItem getRun() {
-        return Run;
+        return run;
     }
 
     public JMenuItem getCRun() {
-        return CRun;
+        return compileAndRun;
     }
 
     public JMenuItem getConsole() {
@@ -720,7 +719,7 @@ public class Trident {
     }
 
     public JMenuItem getAboutFile() {
-        return AboutFile;
+        return aboutFile;
     }
 
     public JMenuItem getHelp() {
@@ -728,7 +727,7 @@ public class Trident {
     }
 
     public JMenuItem getAboutTrident() {
-        return AboutTrident;
+        return aboutTrident;
     }
 
     public JMenuItem getUpdates() {

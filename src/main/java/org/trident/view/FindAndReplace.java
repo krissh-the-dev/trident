@@ -253,11 +253,11 @@ class FindReplaceButtonsListener implements ActionListener {
     while (matcher.find()) {
       foundStarts.add(matcher.start());
       foundEnds.add(matcher.end());
-      Trident.getInstance().getStatus1().setText("Found " + foundStarts.size() + " matches.");
+      Trident.getInstance().getstatusText().setText("Found " + foundStarts.size() + " matches.");
       found = true;
     }
     if (!found) {
-      Trident.getInstance().getStatus1().setText("No match found.");
+      Trident.getInstance().getstatusText().setText("No match found.");
     }
   }
 
@@ -280,7 +280,7 @@ class FindReplaceButtonsListener implements ActionListener {
       i++;
 
     } catch (IndexOutOfBoundsException iob) {
-      Trident.getInstance().getStatus1().setText("No more matches found");
+      Trident.getInstance().getstatusText().setText("No more matches found");
     }
   }
 
@@ -296,7 +296,7 @@ class FindReplaceButtonsListener implements ActionListener {
       return;
     String replacement = FindAndReplace.replaceField.getText();
     Trident.getInstance().getTextarea().replaceSelection(replacement);
-    Trident.getInstance().getStatus1().setText("One occurance was replaced.");
+    Trident.getInstance().getstatusText().setText("One occurance was replaced.");
     find();
     findNext();
   }

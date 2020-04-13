@@ -1,5 +1,7 @@
 # gradle files
 build
+*.lock
+*.bin
 
 #IDEs FILE
 .idea

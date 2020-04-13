@@ -3,10 +3,14 @@ package org.trident.view.mainpanel;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import org.trident.control.ActionsMediator;
+import org.trident.control.listeners.FileMenuListener;
+import org.trident.util.Constant;
 import org.trident.view.ITridentComponentView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * @author https://github.com/vincenzopalazzo
@@ -15,13 +19,13 @@ public class TridentMainPanel extends JPanel implements ITridentComponentView {
 
     private RSyntaxTextArea codeEditorText;
     private RTextScrollPane textScrollPane;
-    private JLabel status1; //TODO give the correct name at the label what is mean status1? give an name like, labelStatusFile
-    private JLabel status2;
-    private JLabel status3;
-    private JLabel status4;
+    private JLabel statusText;
+    private JLabel savedStatus;
+    private JLabel fileTypeStatus;
+    private JLabel positionStatus;
 
     public TridentMainPanel() {
-        initView(); //TODO Remember this, if you don't call this here, you don't see nothing
+        initView(); //TODO Remember this, if you don't call this here, you don't see nothing -- > I see!
     }
 
     @Override

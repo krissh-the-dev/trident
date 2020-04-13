@@ -1,12 +1,16 @@
 package org.trident;
 
 import mdlaf.MaterialLookAndFeel;
+import org.trident.control.listeners.FileMenuListener;
 import org.trident.model.RecentsTracker;
+import org.trident.util.Constant;
 import org.trident.view.ITridentComponentView;
 import org.trident.view.mainpanel.TridentMainPanel;
+import org.trident.control.ActionsMediator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -28,34 +32,34 @@ public class TridentApp extends JFrame implements ITridentComponentView {
     //This value is only for log
     private static final Class TAG = TridentApp.class;
 
-    public TridentApp getInstance(){
+    public TridentApp getInstance() {
         return SINGLETON;
     }
 
     /**
      * This class should be contains only the JMenu and the action about the JMenu
      */
-    // TODO rename the propriety name the first letter with lower cases, like correctName
+
     private JMenu fileMenu;
     private JMenu editMenu;
     private JMenu settingsMenu;
     private JMenu toolsMenu;
-    private JMenu about;
-    private JMenu ClipMenu;
+    private JMenu aboutMenu;
+    private JMenu clipMenu;
     private JMenu newSource;
     private JMenu openRecent;
-    private JMenuBar tridentMenuBar; //TODO write the comprensible name
+    private JMenuBar tridentMenuBar;
     private JMenuItem newFile;
     private JMenuItem newWindow;
-    private JMenuItem OpenFile;
-    private JMenuItem SaveFile;
-    private JMenuItem SaveAs;
+    private JMenuItem openFile;
+    private JMenuItem saveFile;
+    private JMenuItem saveAs;
     private JMenuItem exit;
-    private JMenuItem Undo;
-    private JMenuItem Redo;
-    private JMenuItem Copy;
-    private JMenuItem Cut;
-    private JMenuItem Paste;
+    private JMenuItem undo;
+    private JMenuItem redo;
+    private JMenuItem copy;
+    private JMenuItem cut;
+    private JMenuItem paste;
     private JMenuItem goTo;
     private JMenuItem pCopy;
     private JMenuItem pCut;
@@ -67,8 +71,8 @@ public class TridentApp extends JFrame implements ITridentComponentView {
     private JMenuItem styleEditor;
     private JMenuItem configs;
     private JMenuItem compile;
-    private JMenuItem Run;
-    private JMenuItem cRun;
+    private JMenuItem run;
+    private JMenuItem compileAndRun;
     private JMenuItem console;
     private JMenuItem aboutFile;
     private JMenuItem help;
@@ -82,10 +86,12 @@ public class TridentApp extends JFrame implements ITridentComponentView {
     private JMenuItem bstrp;
     private JMenuItem pboil;
     private JMenuItem[] recentlyOpened;
-    private JCheckBoxMenuItem wordWrap, autoSave;
+    private JCheckBoxMenuItem wordWrap;
+    private JCheckBoxMenuItem autoSave;
 
     //MainPanel propriety, add this inside the frame
     private TridentMainPanel mainPanel;
+
 
     @Override
     public void initView() {
@@ -116,10 +122,12 @@ public class TridentApp extends JFrame implements ITridentComponentView {
 
     @Override
     public void initActions() {
-
+        //Very simple :) and very professional
+        Action exist = (Action) ActionsMediator.getInstance().getAction(Constant.ACTION_EXIT);
+        exit.setAction(exist);
     }
 
-    private void initMenu(){
+    private void initMenu() {
         // * Menu Bar Setup
         // > File Menu
         fileMenu = new JMenu("File");
@@ -153,8 +161,8 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         newSource.add(pboil);
         fileMenu.add(newSource);
 
-        OpenFile = new JMenuItem("Open");
-        fileMenu.add(OpenFile);
+        openFile = new JMenuItem("Open");
+        fileMenu.add(openFile);
 
         openRecent = new JMenu("Open Recent");
         ArrayList<String> recents = RecentsTracker.getRecords();
@@ -167,11 +175,11 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         }
         fileMenu.add(openRecent);
 
-        SaveFile = new JMenuItem("Save");
-        fileMenu.add(SaveFile);
+        saveFile = new JMenuItem("Save");
+        fileMenu.add(saveFile);
 
-        SaveAs = new JMenuItem("Save As");
-        fileMenu.add(SaveAs);
+        saveAs = new JMenuItem("Save As");
+        fileMenu.add(saveAs);
 
         exit = new JMenuItem("Exit");
         fileMenu.add(exit);
@@ -180,20 +188,20 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         // > Edit Menu
         editMenu = new JMenu("Edit");
 
-        Undo = new JMenuItem("Undo");
-        editMenu.add(Undo);
+        undo = new JMenuItem("Undo");
+        editMenu.add(undo);
 
-        Redo = new JMenuItem("Redo");
-        editMenu.add(Redo);
+        redo = new JMenuItem("Redo");
+        editMenu.add(redo);
 
-        Copy = new JMenuItem("Copy");
-        editMenu.add(Copy);
+        copy = new JMenuItem("Copy");
+        editMenu.add(copy);
 
-        Cut = new JMenuItem("Cut");
-        editMenu.add(Cut);
+        cut = new JMenuItem("Cut");
+        editMenu.add(cut);
 
-        Paste = new JMenuItem("Paste");
-        editMenu.add(Paste);
+        paste = new JMenuItem("Paste");
+        editMenu.add(paste);
 
         find = new JMenuItem("Find");
         editMenu.add(find);
@@ -204,14 +212,14 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         goTo = new JMenuItem("Go To");
         editMenu.add(goTo);
 
-        ClipMenu = new JMenu("Clipboard");
-        editMenu.add(ClipMenu);
+        clipMenu = new JMenu("Clipboard");
+        editMenu.add(clipMenu);
 
         showClipboard = new JMenuItem("Show Contents");
-        ClipMenu.add(showClipboard);
+        clipMenu.add(showClipboard);
 
         eraseClipboard = new JMenuItem("Erase Contents");
-        ClipMenu.add(eraseClipboard);
+        clipMenu.add(eraseClipboard);
 
         // < Edit Menu
 
@@ -237,30 +245,24 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         compile = new JMenuItem("Compile");
         toolsMenu.add(compile);
 
-        Run = new JMenuItem("Run");
-        toolsMenu.add(Run);
+        run = new JMenuItem("Run");
+        toolsMenu.add(run);
 
-        cRun = new JMenuItem("Compile and Run");
-        toolsMenu.add(cRun);
-
-        console = new JMenuItem("Open Console");
-        toolsMenu.add(console);
-        // < Run Menu
+        compileAndRun = new JMenuItem("Compile and Run");
 
         // > About Menu
-        about = new JMenu("About");
-
+        aboutMenu = new JMenu("About");
         aboutFile = new JMenuItem("File Properties");
-        about.add(aboutFile);
+        aboutMenu.add(aboutFile);
 
         help = new JMenuItem("Help");
-        about.add(help);
+        aboutMenu.add(help);
 
         aboutTrident = new JMenuItem("About Trident");
-        about.add(aboutTrident);
+        aboutMenu.add(aboutTrident);
 
         updates = new JMenuItem("Updates");
-        about.add(updates);
+        aboutMenu.add(updates);
         // < About Menu
 
         tridentMenuBar = new JMenuBar();
@@ -268,7 +270,7 @@ public class TridentApp extends JFrame implements ITridentComponentView {
         tridentMenuBar.add(editMenu);
         tridentMenuBar.add(toolsMenu);
         tridentMenuBar.add(settingsMenu);
-        tridentMenuBar.add(about);
+        tridentMenuBar.add(aboutMenu);
         tridentMenuBar.setBorder(new EmptyBorder(0, 0, 0, 0));
 
         //if you call an father method (in this cases JFrame) add every time the world super.method

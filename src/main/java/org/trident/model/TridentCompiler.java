@@ -95,11 +95,11 @@ public class TridentCompiler {
                 default:
                     throw new UnsupportedFileException(filepath);
             }
-            Trident.getInstance().getStatus1().setText("Compilation ended.");
+            Trident.getInstance().getstatusText().setText("Compilation ended.");
         } catch (UnsupportedOperatingSystemException uos) {
             TridentLogger.getInstance().error(TridentCompiler.class, "DRIVER_ERR: " + uos);
         } catch (UnsupportedFileException uf) {
-            Trident.getInstance().getStatus1().setText("File could not be compiled.");
+            Trident.getInstance().getstatusText().setText("File could not be compiled.");
         }
     }
 
@@ -156,13 +156,13 @@ public class TridentCompiler {
                 default:
                     throw new UnsupportedFileException(filepath);
             }
-            Trident.getInstance().getStatus1().setText("Execution window deployed.");
+            Trident.getInstance().getstatusText().setText("Execution window deployed.");
             p.waitFor();
             p.destroy();
         } catch (UnsupportedOperatingSystemException uos) {
             TridentLogger.getInstance().error(TridentCompiler.class, "DRIVER_ERR: " + uos);
         } catch (UnsupportedFileException uf) {
-            Trident.getInstance().getStatus1().setText("File could not be executed.");
+            Trident.getInstance().getstatusText().setText("File could not be executed.");
         }
     }
 

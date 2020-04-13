@@ -207,7 +207,7 @@ class FRButtonsListener implements ActionListener {
 
       if (FindReplace.tabbedPane.getSelectedIndex() == 0) {
         if (FindReplace.findField.getText().isEmpty()) {
-          Trident.getInstance().getStatus1().setText("Find field is empty.");
+          Trident.getInstance().getstatusText().setText("Find field is empty.");
           return;
         }
         // Whole words only
@@ -226,7 +226,7 @@ class FRButtonsListener implements ActionListener {
           pattern = Pattern.compile("\\b" + FindReplace.findField.getText() + "\\b");
       } else if (FindReplace.tabbedPane.getSelectedIndex() == 1) {
         if (FindReplace.findField.getText().isEmpty()) {
-          Trident.getInstance().getStatus1().setText("Find field is empty.");
+          Trident.getInstance().getstatusText().setText("Find field is empty.");
           return;
         }
         // Whole words only
@@ -250,12 +250,12 @@ class FRButtonsListener implements ActionListener {
       while (matcher.find()) {
         foundStarts.add(matcher.start());
         foundEnds.add(matcher.end());
-        Trident.getInstance().getStatus1().setText("Found " + foundStarts.size() + " matches.");
+        Trident.getInstance().getstatusText().setText("Found " + foundStarts.size() + " matches.");
         found = true;
       }
       if (!found) {
         Trident.getInstance().getTextarea().setCaretPosition(Trident.getInstance().getTextarea().getCaretPosition());
-        Trident.getInstance().getStatus1().setText("No match found.");
+        Trident.getInstance().getstatusText().setText("No match found.");
       }
     } catch (Exception ez) {
       // Trident.ErrorDialog("FNR_ERR", ez);
@@ -281,7 +281,7 @@ class FRButtonsListener implements ActionListener {
 
     } catch (IndexOutOfBoundsException iob) {
       Trident.getInstance().getTextarea().setCaretPosition(Trident.getInstance().getTextarea().getCaretPosition());
-      Trident.getInstance().getStatus1().setText("No more matches found");
+      Trident.getInstance().getstatusText().setText("No more matches found");
     }
   }
 
@@ -294,7 +294,7 @@ class FRButtonsListener implements ActionListener {
       return;
     String replacement = FindReplace.replaceField.getText();
     Trident.getInstance().getTextarea().replaceSelection(replacement);
-    Trident.getInstance().getStatus1().setText("One occurance was replaced.");
+    Trident.getInstance().getstatusText().setText("One occurance was replaced.");
     find();
     findNext();
   }

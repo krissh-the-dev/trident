@@ -32,8 +32,8 @@ public class CommentPaneListener extends Thread {
     public void run() {
         try {
             while (true) {
-                if (Trident.getInstance().getStatus1() != null) {
-                    Trident.getInstance().getStatus1().setText("Ready.");
+                if (Trident.getInstance().getstatusText() != null) {
+                    Trident.getInstance().getstatusText().setText("Ready.");
                     Thread.sleep(20000);
                 }
             }
