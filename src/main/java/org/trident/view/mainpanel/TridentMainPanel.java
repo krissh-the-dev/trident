@@ -1,8 +1,5 @@
 package org.trident.view.mainpanel;
 
-import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
-import mdlaf.utils.MaterialColors;
-import mdlaf.utils.MaterialImageFactory;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
