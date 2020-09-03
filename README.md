@@ -1,9 +1,12 @@
 # Trident Text Editor
 
-## This branch contains the new trident text editor version.
- 
- We are refactoring the old version with a new System architecture
+[![GitHub All Releases](https://img.shields.io/github/downloads/KrishnaMoorthy12/trident/total?color=green&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/releases/) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/KrishnaMoorthy12/trident?color=blueviolet&include_prereleases&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/releases/latest) [![GitHub issues](https://img.shields.io/github/issues/KrishnaMoorthy12/trident?color=red&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/issues) [![GitHub](https://img.shields.io/github/license/KrishnaMoorthy12/trident?color=orange&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/blob/maven-master/LICENSE)
 
+[![CodeFactor](https://www.codefactor.io/repository/github/krishnamoorthy12/trident/badge)](https://www.codefactor.io/repository/github/krishnamoorthy12/trident)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-No-red)](https://GitHub.com/KrishnaMoorthy12/trident) [![HitCount](http://hits.dwyl.com/KrishnaMoorthy12/trident.svg)](http://hits.dwyl.com/KrishnaMoorthy12/trident)
+
+## _A light weight text editor for the modern age._
+
+### _Hard coded in Java, hand crafted in India._
 ## Actual mockup
 
 ![](https://i.ibb.co/NpQmd7T/Selection-050.png)
@@ -14,22 +17,19 @@
  2. [Vincent Palazzo](https://github.com/vincenzopalazzo) (Architecture designer)
  3. [Kumaran](https://github.com/Kumaran1508) (Logo designer)
 
-## License:
-Licensed under [Apache v2.0](LICENSE).
-
-&copy; 2020 - 2021 Krishna Moorthy Athinarayanan, Vincent Palazzo vincenzopalazzodev@gmail.com.
-=======
-# Trident Text Editor
-
-[![GitHub All Releases](https://img.shields.io/github/downloads/KrishnaMoorthy12/trident/total?color=green&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/releases/) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/KrishnaMoorthy12/trident?color=blueviolet&include_prereleases&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/releases/latest) [![GitHub issues](https://img.shields.io/github/issues/KrishnaMoorthy12/trident?color=red&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/issues) [![GitHub](https://img.shields.io/github/license/KrishnaMoorthy12/trident?color=orange&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/blob/maven-master/LICENSE)
-
-[![CodeFactor](https://www.codefactor.io/repository/github/krishnamoorthy12/trident/badge)](https://www.codefactor.io/repository/github/krishnamoorthy12/trident)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-No-red)](https://GitHub.com/KrishnaMoorthy12/trident) [![HitCount](http://hits.dwyl.com/KrishnaMoorthy12/trident.svg)](http://hits.dwyl.com/KrishnaMoorthy12/trident)
-
-## _A light weight text editor for the modern age._
-
-### _Hard coded in Java, hand crafted in India._
-
 ## What's new
+
+- Line Number
+
+- Current Line highlighting
+
+- Syntax coloring
+
+- Improved UI
+
+- Block hiding controls
+
+- Bracket Pair higlighting
 
 - _Added Auto-Indent_
 
@@ -114,4 +114,4 @@ Licensed under [Apache v2.0](LICENSE).
 - File->Rename
 - File->Delete
 
-&copy; 2020 - 2021 Krishna Moorthy Athinarayanan.
+&copy; 2020 - 2021 Krishna Moorthy akrishnamoorthy007@gmail.com, Vincent Palazzo vincenzopalazzodev@gmail.com
