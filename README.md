@@ -6,7 +6,6 @@
 
 ## _A light weight text editor for the modern age._
 
-### _Hard coded in Java, hand crafted in India._
 ## Actual mockup
 
 ![](https://i.ibb.co/NpQmd7T/Selection-050.png)
