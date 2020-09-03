@@ -1,5 +1,26 @@
 # Trident Text Editor
 
+## This branch contains the new trident text editor version.
+ 
+ We are refactoring the old version with a new System architecture
+
+## Actual mockup
+
+![](https://i.ibb.co/NpQmd7T/Selection-050.png)
+
+## Contributers:
+
+ 1. [Krishna Moorthy](https://github.com/KrishnaMoorthy12)
+ 2. [Vincent Palazzo](https://github.com/vincenzopalazzo) (Architecture designer)
+ 3. [Kumaran](https://github.com/Kumaran1508) (Logo designer)
+
+## License:
+Licensed under [Apache v2.0](LICENSE).
+
+&copy; 2020 - 2021 Krishna Moorthy Athinarayanan, Vincent Palazzo vincenzopalazzodev@gmail.com.
+=======
+# Trident Text Editor
+
 [![GitHub All Releases](https://img.shields.io/github/downloads/KrishnaMoorthy12/trident/total?color=green&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/releases/) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/KrishnaMoorthy12/trident?color=blueviolet&include_prereleases&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/releases/latest) [![GitHub issues](https://img.shields.io/github/issues/KrishnaMoorthy12/trident?color=red&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/issues) [![GitHub](https://img.shields.io/github/license/KrishnaMoorthy12/trident?color=orange&style=for-the-badge)](https://github.com/KrishnaMoorthy12/trident/blob/maven-master/LICENSE)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/krishnamoorthy12/trident/badge)](https://www.codefactor.io/repository/github/krishnamoorthy12/trident)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-No-red)](https://GitHub.com/KrishnaMoorthy12/trident) [![HitCount](http://hits.dwyl.com/KrishnaMoorthy12/trident.svg)](http://hits.dwyl.com/KrishnaMoorthy12/trident)
